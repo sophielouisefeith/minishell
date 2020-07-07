@@ -1,25 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_lstnew_bonus.c                                  :+:    :+:            */
+/*   ft_list_push_front.c                               :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: msiemons <marvin@codam.nl>                   +#+                     */
+/*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/11/13 19:34:19 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/07 12:49:22 by Maran         ########   odam.nl         */
+/*   Created: 2020/07/07 12:12:45 by Maran         #+#    #+#                 */
+/*   Updated: 2020/07/07 14:00:35 by Maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-t_list	*ft_lstnew(void *content)
+static t_parse	*ll_new_node(void *content)
 {
-	t_list	*new;
+	t_parse	*new;
 
 	new = malloc(sizeof(t_list));
 	if (!new)
 		return (0);
-	new->content = content;
+	new->str = content;
 	new->next = NULL;
 	return (new);
+}
+
+void		ll_list_push_front(t_parse **begin_list, void *data)
+{
+	t_parse		*tmp;
+
+	if (begin_list == NULL)
+		*begin_list = ll_new_node(data);
+	else
+	{
+		tmp = ll_new_node(data);
+		tmp->next = *begin_list;
+		*begin_list = tmp;
+	}
 }

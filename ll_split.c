@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_split_ll.c                                      :+:    :+:            */
+/*   ll_split.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: msiemons <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/12 10:08:48 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/06 18:29:59 by Maran         ########   odam.nl         */
+/*   Updated: 2020/07/07 14:05:06 by Maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,10 @@ static	int		ft_end(const char *s, char c, int i)
 	return (len);
 }
 
-static	char	**ft_execute(char const *s, char c, char **array, int count)
+t_parse				*ll_split(char const *s, char c)
 {
+	int		count;
+	t_parse	*head;
 	int		i;
 	int		y;
 	size_t	len;
@@ -66,40 +68,15 @@ static	char	**ft_execute(char const *s, char c, char **array, int count)
 	i = 0;
 	y = 0;
 	len = 0;
+	if (!s)
+		return (NULL);
+	count = ft_count(s, c);
 	while (y < count)
 	{
 		i = ft_start(s, c, i, len);
 		len = ft_end(s, c, i);
-		array[y] = ft_substr(s, i, len);
-		if (array[y] == NULL)
-		{
-			while (y > 0)
-			{
-				y--;
-				free(array[y]);
-			}
-			free(array);
-			return (NULL);
-		}
+		ll_list_push_front(&head, ft_substr(s, i, len));
 		y++;
 	}
-	return (array);
-}
-
-char			**ft_split(char const *s, char c)
-{
-	// char	**array;
-	int		count;
-	t_parse	*head;
-
-	if (!s)
-		return (NULL);
-	count = ft_count(s, c);
-	array = (char **)malloc((count + 1) * sizeof(char *));
-	if (array == NULL)
-		return (NULL);
-	array = ft_execute(s, c, array, count);
-	if (array)
-		array[count] = 0;
-	return (array);
+	return (head);
 }

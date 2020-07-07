@@ -6,41 +6,28 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 16:18:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/06 17:26:20 by Maran         ########   odam.nl         */
+/*   Updated: 2020/07/07 14:02:18 by Maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line/get_next_line.h"
-#include <stdio.h>
-#include <fcntl.h>
-#include <sys/errno.h>
+#include "minishell.h"
 
-#include "libft/libft.h"
-#include <stdio.h>
 extern int errno;
 
-typedef struct s_parseinfo {
-	
-
-}				t_parseinfo;
-
-void		parse(char *line)
+static void		parse(char *line)
 {
 	int i;
 	int y;
-	char **array;
+	// char **array;
+	t_parse	*head;
+	
 	
 	i = 0;
 	y = 0;
 	printf("----In parse----\n");
-	// while (line[i] == ' ' || line[i] == '\t')
-	// 	i++;
-	array = ft_split(line, ' ');
-	while (array[y])
-	{
-		printf("printf [%s]\n", array[y]);
-		y++;
-	}
+	head = ll_split(line, ' ');
+	printf("[%s] [%s] [%s]- ", head->str, head->next->str, head->next->next->str);
+	
 	printf("----End parse----\n");
 	
 }
