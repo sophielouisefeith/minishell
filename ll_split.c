@@ -6,7 +6,7 @@
 /*   By: msiemons <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/12 10:08:48 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/07 16:24:14 by Maran         ########   odam.nl         */
+/*   Updated: 2020/07/07 19:21:39 by Maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,24 +57,28 @@ static int			end(const char *s, char c, int i)
 	return (len);
 }
 
-t_parse				*ll_split(char const *s, char c)
+void				ll_split(t_parse **head, char const *s, char c)
 {
-	t_parse	*head;
-	int		count;
-	size_t	len;
-	int		i;
-
+	int			count;
+	size_t		len;
+	int			i;
+	t_parse		*tmp;
+	
 	i = 0;
 	len = 0;
 	if (!s)
-		return (NULL);
+		return ;
 	count = count_splits(s, c);
 	while (count > 0)
 	{
 		i = start(s, c, i, len);
 		len = end(s, c, i);
-		ll_list_push_front(&head, ft_substr(s, i, len));
+		tmp = ll_new_node(ft_substr(s, i, len));
+		// ll_add_back(head, ft_substr(s, i, len));
+		ft_lstadd_back1(head, tmp);
 		count--;
 	}
-	return (head);
+	// return (head);
 }
+
+	
