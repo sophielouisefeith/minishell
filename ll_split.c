@@ -6,17 +6,17 @@
 /*   By: msiemons <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/12 10:08:48 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/07 14:05:06 by Maran         ########   odam.nl         */
+/*   Updated: 2020/07/07 16:24:14 by Maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-static	int		ft_count(const char *s, char c)
+static int			count_splits(const char *s, char c)
 {
-	int i;
-	int count;
+	int 	i;
+	int 	count;
 
 	i = 0;
 	count = 0;
@@ -36,7 +36,7 @@ static	int		ft_count(const char *s, char c)
 	return (count);
 }
 
-static	int		ft_start(const char *s, char c, int i, size_t len)
+static int			start(const char *s, char c, int i, size_t len)
 {
 	i = i + len;
 	while (s[i] == c)
@@ -44,9 +44,9 @@ static	int		ft_start(const char *s, char c, int i, size_t len)
 	return (i);
 }
 
-static	int		ft_end(const char *s, char c, int i)
+static int			end(const char *s, char c, int i)
 {
-	size_t len;
+	size_t 	len;
 
 	len = 0;
 	while (s[i] && s[i] != c)
@@ -59,24 +59,22 @@ static	int		ft_end(const char *s, char c, int i)
 
 t_parse				*ll_split(char const *s, char c)
 {
-	int		count;
 	t_parse	*head;
-	int		i;
-	int		y;
+	int		count;
 	size_t	len;
+	int		i;
 
 	i = 0;
-	y = 0;
 	len = 0;
 	if (!s)
 		return (NULL);
-	count = ft_count(s, c);
-	while (y < count)
+	count = count_splits(s, c);
+	while (count > 0)
 	{
-		i = ft_start(s, c, i, len);
-		len = ft_end(s, c, i);
+		i = start(s, c, i, len);
+		len = end(s, c, i);
 		ll_list_push_front(&head, ft_substr(s, i, len));
-		y++;
+		count--;
 	}
 	return (head);
 }

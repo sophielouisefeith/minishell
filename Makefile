@@ -6,7 +6,7 @@
 #    By: Maran <Maran@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/06 17:19:34 by Maran         #+#    #+#                  #
-#    Updated: 2020/07/07 14:06:34 by Maran         ########   odam.nl          #
+#    Updated: 2020/07/07 16:05:27 by Maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LIB = minishell.a
 
 LIBFT = libft
 
-SRC =  parser.c\
+SRC =  main.c parser.c\
 		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
 		ll_split.c ll_list_push_front.c\
 

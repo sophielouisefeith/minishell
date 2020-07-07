@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ll_list_push_front.c                               :+:    :+:            */
+/*   main.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/07/07 12:12:45 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/07 16:26:25 by Maran         ########   odam.nl         */
+/*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
+/*   Updated: 2020/07/07 16:05:02 by Maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_parse	*ll_new_node(void *content)
+int			main(int argc, char **argv)
 {
-	t_parse		*new;
+	int		fd;
+	char	*line;
+	int		ret;
+	int		i;
 
-	new = malloc(sizeof(t_list));
-	if (!new)
-		return (0);
-	new->str = content;
-	new->next = NULL;
-	return (new);
-}
-
-void			ll_list_push_front(t_parse **begin_list, void *data)
-{
-	t_parse		*tmp;
-
-	if (begin_list == NULL)
-		*begin_list = ll_new_node(data);
-	else
+	i = 1;
+	ret = 1;
+	if (argc > 1)
+		fd = open(argv[1], O_RDONLY);
+	while (ret > 0)
 	{
-		tmp = ll_new_node(data);
-		tmp->next = *begin_list;
-		*begin_list = tmp;
+		write(1, "% ", 2);
+		ret = get_next_line(fd, &line);
+		printf("Return:[%i] - line[%i] = [%s]\n", ret, i, line);
+		parse(line);
+		i++;
+		free(line);
 	}
 }
