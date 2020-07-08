@@ -6,7 +6,7 @@
 /*   By: msiemons <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/12 10:08:48 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/07 19:21:39 by Maran         ########   odam.nl         */
+/*   Updated: 2020/07/08 14:08:46 by Maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ static int			count_splits(const char *s, char c)
 
 	i = 0;
 	count = 0;
-	if (c == '\0' && s[i] != '\0')
-		return (1);
 	while (s[i] != '\0')
 	{
 		if (s[i] != c)
@@ -59,8 +57,8 @@ static int			end(const char *s, char c, int i)
 
 void				ll_split(t_parse **head, char const *s, char c)
 {
-	int			count;
 	size_t		len;
+	int			count;
 	int			i;
 	t_parse		*tmp;
 	
@@ -74,11 +72,7 @@ void				ll_split(t_parse **head, char const *s, char c)
 		i = start(s, c, i, len);
 		len = end(s, c, i);
 		tmp = ll_new_node(ft_substr(s, i, len));
-		// ll_add_back(head, ft_substr(s, i, len));
-		ft_lstadd_back1(head, tmp);
+		ll_lstadd_back(head, tmp);
 		count--;
 	}
-	// return (head);
 }
-
-	

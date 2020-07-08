@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/07 19:22:19 by Maran         ########   odam.nl         */
+/*   Updated: 2020/07/08 13:58:06 by Maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ typedef struct			s_parse {
 	struct		s_parse *next;
 }						t_parse;
 
-void				parse(char *line);
+void				parser(char *line);
 void				ll_split(t_parse **head, char const *s, char c);
 // void				ll_list_push_front(t_parse **begin_list, void *data);
 t_parse				*ll_new_node(void *content);
-void				ft_lstadd_back1(t_parse **alst, t_parse *new);
+void				ll_lstadd_back(t_parse **alst, t_parse *new);
 
 
 void				ll_add_back(t_parse **begin_list, void *data);

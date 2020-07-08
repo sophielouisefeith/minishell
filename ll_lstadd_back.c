@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ll_add_back.c                                      :+:    :+:            */
+/*   ll_lstadd_back.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 12:12:45 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/07 19:24:50 by Maran         ########   odam.nl         */
+/*   Updated: 2020/07/08 11:22:36 by Maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_parse	*ll_new_node(void *content)
+t_parse			*ll_new_node(void *content)
 {
 	t_parse		*new;
 
@@ -22,6 +22,27 @@ t_parse	*ll_new_node(void *content)
 	new->str = content;
 	new->next = NULL;
 	return (new);
+}
+
+static void		ll_lstadd_front(t_parse **alst, t_parse *new)
+{
+	new->next = *alst;
+	*alst = new;
+}
+
+void			ll_lstadd_back(t_parse **alst, t_parse *new)
+{
+	t_parse		*list;
+
+	list = *alst;
+	if (list)
+	{
+		while (list->next)
+			list = list->next;
+		list->next = new;
+	}
+	else
+		ll_lstadd_front(alst, new);
 }
 
 // void			ll_list_push_front(t_parse **begin_list, void *data)
@@ -37,24 +58,3 @@ t_parse	*ll_new_node(void *content)
 // 		*begin_list = tmp;
 // 	}
 // }
-
-static void	ft_lstadd_front1(t_parse **alst, t_parse *new)
-{
-	new->next = *alst;
-	*alst = new;
-}
-
-void		ft_lstadd_back1(t_parse **alst, t_parse *new)
-{
-	t_parse	*list;
-
-	list = *alst;
-	if (list)
-	{
-		while (list->next)
-			list = list->next;
-		list->next = new;
-	}
-	else
-		ft_lstadd_front1(alst, new);
-}
