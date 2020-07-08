@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 16:18:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/08 15:11:31 by Maran         ########   odam.nl         */
+/*   Updated: 2020/07/08 15:51:09 by Maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,27 @@
 /*
 ** return >0 als echo fout.
 ** checken return van write?
-*/
+*/		
+
+static void				write_echo(t_parse *head)
+{
+	int space;
+
+	space = 0;
+	while (head)
+	{
+		if (space != 0)
+			write(1, " ", 1);
+		write(1, head->str, ft_strlen(head->str));
+		head = head->next;
+		space++;
+	}
+}
 
 static int			echo(t_parse *head)
 {
-	int i;
 	int flag_n;
 
-	i = 0;
 	flag_n = 0;
 	if (head->next)
 		head = head->next;
@@ -37,14 +50,7 @@ static int			echo(t_parse *head)
 		flag_n = 1;
 		head = head->next;
 	}
-	while (head)
-	{
-		if (i != 0)
-			write(1, " ", 1);
-		write(1, head->str, ft_strlen(head->str));
-		head = head->next;
-		i++;
-	}
+	write_echo(head);
 	if (!flag_n)
 		write(1, "\n", 1);
 	return (0);
