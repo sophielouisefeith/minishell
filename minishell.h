@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/08 13:58:06 by Maran         ########   odam.nl         */
+/*   Updated: 2020/07/09 11:40:12 by Maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 # define MINISHELL_H
 
 #include "get_next_line/get_next_line.h"
+#include "libft/libft.h"
+#include <errno.h>
+#include <string.h>
+
 #include <stdio.h>
 #include <fcntl.h>
-#include <sys/errno.h>
-
-#include "libft/libft.h"
-
 #include <stdlib.h>
 
 typedef struct			s_parse {

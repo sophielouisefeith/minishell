@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 16:18:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/08 15:51:09 by Maran         ########   odam.nl         */
+/*   Updated: 2020/07/09 11:24:17 by Maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /*
 ** return >0 als echo fout.
-** checken return van write?
+** write functie protecten?
 */		
 
 static void				write_echo(t_parse *head)
@@ -62,6 +62,7 @@ void			parser(char *line)
 	
 	head = NULL;
 	ll_split(&head, line, ' ');
+	
 	// printf("Parse [%s] [%s] [%s]-\n", head->str, head->next->str, head->next->next->str);
 	if (!ft_strcmp(head->str, "echo"))
 		echo(head);
