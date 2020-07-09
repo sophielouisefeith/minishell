@@ -6,7 +6,7 @@
 /*   By: msiemons <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/12 10:08:48 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/09 11:37:56 by Maran         ########   odam.nl         */
+/*   Updated: 2020/07/09 16:14:37 by Maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,24 @@ void				ll_split(t_parse **head, char const *s, char c)
 	int			count;
 	int			i;
 	t_parse		*tmp;
+	char 		*str;
 	
 	i = 0;
 	len = 0;
 	if (!s)
-		return ;
+		error();
 	count = count_splits(s, c);
 	while (count > 0)
 	{
 		i = start(s, c, i, len);
 		len = end(s, c, i);
-		tmp = ll_new_node(ft_substr(s, i, len));
-		// if (tmp == 0)
-		// 	strerror()
+		str = ft_substr(s, i, len);
+		if (str == 0)
+			error();
+		tmp = ll_new_node(str);
+		free (str);
+		if (tmp == 0)
+			error();
 		ll_lstadd_back(head, tmp);
 		count--;
 	}

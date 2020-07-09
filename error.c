@@ -6,13 +6,14 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/09 11:27:00 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/09 11:32:20 by Maran         ########   odam.nl         */
+/*   Updated: 2020/07/09 15:23:44 by Maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error()
+void	error(void)
 {
-	
+	write(1, strerror(errno), ft_strlen(strerror(errno)));
+	exit(1);
 }

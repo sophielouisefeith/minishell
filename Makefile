@@ -6,7 +6,7 @@
 #    By: Maran <Maran@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/06 17:19:34 by Maran         #+#    #+#                  #
-#    Updated: 2020/07/08 11:22:53 by Maran         ########   odam.nl          #
+#    Updated: 2020/07/09 15:50:58 by Maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ LIB = minishell.a
 
 LIBFT = libft
 
-SRC =  main.c parser.c ft_strcmp.c\
+SRC =  main.c error.c parser.c ll_delete.c ft_strcmp.c\
+		echo.c\
 		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
 		ll_split.c ll_lstadd_back.c\
 
