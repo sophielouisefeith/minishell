@@ -6,11 +6,10 @@
 /*   By: msiemons <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/12 10:08:48 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/09 16:14:37 by Maran         ########   odam.nl         */
+/*   Updated: 2020/07/13 20:27:49 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "minishell.h"
 
 static int			count_splits(const char *s, char c)
@@ -55,14 +54,21 @@ static int			end(const char *s, char c, int i)
 	return (len);
 }
 
+/*
+** name	 value	adress
+** ----- ----- -----
+** head | x970| ....| From here on I pass the value of the initial head (==address that will point to first node).
+** Receive as a pointer pointer, so if the head is pointing to somewhat else the head in the parser function wil change aswell.
+*/
+
 void				ll_split(t_parse **head, char const *s, char c)
 {
+	t_parse		*tmp;
 	size_t		len;
+	char 		*str;
 	int			count;
 	int			i;
-	t_parse		*tmp;
-	char 		*str;
-	
+
 	i = 0;
 	len = 0;
 	if (!s)
@@ -76,7 +82,6 @@ void				ll_split(t_parse **head, char const *s, char c)
 		if (str == 0)
 			error();
 		tmp = ll_new_node(str);
-		free (str);
 		if (tmp == 0)
 			error();
 		ll_lstadd_back(head, tmp);

@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 12:12:45 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/09 14:59:53 by Maran         ########   odam.nl         */
+/*   Updated: 2020/07/13 20:22:57 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,26 @@ t_parse			*ll_new_node(void *content)
 	return (new);
 }
 
-static void		ll_lstadd_front(t_parse **alst, t_parse *new)
+
+static void		ll_lstadd_front(t_parse **head, t_parse *new)
 {
-	new->next = *alst;
-	*alst = new;
+	
+	// new->next = *head; 			//is dit niet overbodig?
+	*head = new;
 }
 
-void			ll_lstadd_back(t_parse **alst, t_parse *new)
+/*
+** if (list): check if there is already an existing node/list
+** 		loop to the back of the list. And set last node->next to the new node
+**	No list yet. Set head to the new node.
+** We have to make a copy of **head, to not change where the initial head is pointing to: the first node of the list.
+*/
+
+void			ll_lstadd_back(t_parse **head, t_parse *new)
 {
 	t_parse		*list;
 
-	list = *alst;
+	list = *head;
 	if (list)
 	{
 		while (list->next)
@@ -42,19 +51,5 @@ void			ll_lstadd_back(t_parse **alst, t_parse *new)
 		list->next = new;
 	}
 	else
-		ll_lstadd_front(alst, new);
+		ll_lstadd_front(head, new);
 }
-
-// void			ll_list_push_front(t_parse **begin_list, void *data)
-// {
-// 	t_parse		*tmp;
-
-// 	if (begin_list == NULL)
-// 		*begin_list = ll_new_node(data);
-// 	else
-// 	{
-// 		tmp = ll_new_node(data);
-// 		tmp->next = *begin_list;
-// 		*begin_list = tmp;
-// 	}
-// }

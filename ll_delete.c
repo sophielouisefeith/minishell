@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/09 15:49:28 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/09 15:59:07 by Maran         ########   odam.nl         */
+/*   Updated: 2020/07/10 10:33:16 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void			ll_lstdelone(t_parse *lst)
 {
 	if (!lst)
 		return ;
+	free(lst->str);
 	lst->str = NULL;
 	free(lst);
 	lst = NULL;
