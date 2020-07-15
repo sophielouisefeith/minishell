@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/13 20:33:08 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/15 23:36:21 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 
 typedef struct				s_parse {
 	char 					*str;
+	int						type;
 	struct		s_parse 	*next;
 }							t_parse;
 
@@ -40,6 +41,8 @@ t_parse						*ll_new_node(void *content);
 void						ll_split(t_parse **head, char const *s, char c);
 void						ll_lstadd_back(t_parse **head, t_parse *new);
 void						ll_lstclear(t_parse **lst);
+
+// int	                		lexer(char *str);
 
 /*
 ** redirections and pipe pas later naar kijken

@@ -6,7 +6,7 @@
 #    By: Maran <Maran@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/06 17:19:34 by Maran         #+#    #+#                  #
-#    Updated: 2020/07/13 20:23:28 by maran         ########   odam.nl          #
+#    Updated: 2020/07/15 23:35:41 by maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC =  main.c error.c parser.c ll_delete.c ft_strcmp.c\
 		echo.c\
 		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
 		ll_split.c ll_make_list.c\
+	#	lexer.c\
 	#	redirection.c\
 
 OBJ = $(SRC:.c=.o)

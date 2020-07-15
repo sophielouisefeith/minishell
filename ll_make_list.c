@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ll_lstadd_back.c                                   :+:    :+:            */
+/*   ll_make_list.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 12:12:45 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/13 20:22:57 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/15 23:35:55 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ void			ll_lstadd_back(t_parse **head, t_parse *new)
 		list->next = new;
 	}
 	else
-		ll_lstadd_front(head, new);
+		*head = new;
 }
