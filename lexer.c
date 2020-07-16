@@ -3,90 +3,124 @@
 /*                                                        ::::::::            */
 /*   lexer.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: maran <maran@student.codam.nl>               +#+                     */
+/*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/07/15 17:04:54 by maran         #+#    #+#                 */
-/*   Updated: 2020/07/15 22:43:43 by maran         ########   odam.nl         */
+/*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
+/*   Updated: 2020/07/16 18:23:23 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-# define echo 0
-# define cd 1 
-# define pwd 2
-# define export 3
-# define unset 4
-# define env 5
-# define exit 6
-*/
-// # define builtin 1
-
-
-static int                check_redirection(char *str)
+static void						save_general(char *line, int *i, int type, t_lexer **head)
 {
-    char    redirection[3][2] = {"<", ">", ">>"};
-    int     re_type;
-    int     i;
+	char		*str;
+	int 		start;
+	int 		len;
+	t_lexer		*tmp;
 
-    re_type = -1;
-    i = 0;
-    while (i < 3 && re_type == -1)
-    {
-        if(!ft_strcmp(redirection[i], str))
-            re_type = i;
-        i++;
-    }
-    return (re_type);
+	start = *i;
+	(*i)++;
+	while (((get_token_type(line, i)) == token_general) && line[*i])
+		(*i)++;
+	len = *i - start;
+	str = ft_substr(line, start, len);
+	// printf("substr = [%s]\n", str);
+	// if (str == 0)
+	// 	error();
+	tmp = ll_new_node(str, type);
+	// if (tmp == 0)
+	// 	error();
+	ll_lstadd_back(head, tmp);
 }
 
-static int                check_builtin(char *str)
+static void						save_quotation(char *line, int *i, int type, t_lexer **head)
 {
-    char    builtin[7][6] = {"echo", "cd", "pwd", "export", "unset", "env",
-                                "exit"};
-    int     type;
-    int     i;
+	char		*str;
+	int 		start;
+	int 		len;
+	t_lexer		*tmp;
 
-    type = -1;
-    i = 0;
-    while (i < 7 && type == -1)
-    {
-        if(!ft_strcmp(builtin[i], str))
-            type = i;
-        i++;
-    }
-    return (type);
+	start = *i;
+	(*i)++;
+	while (line[start] != line[*i])
+		(*i)++;
+	if (line[start] == line[*i])
+	{
+		len = (*i - start) + 1;
+		str = ft_substr(line, start, len);
+		// if (str == 0)
+		// 	error();
+		tmp = ll_new_node(str, type);
+		// if (tmp == 0)
+		// 	error();
+		ll_lstadd_back(head, tmp);
+	}
 }
 
-int                lexer(char *str)
+static void						save_operator(char *line, int *i, int type, t_lexer **head)
 {
-    int type;
-    int semicolon;
-    int pipe;
-    int re_type;
-    
-    
-    type = -1;
-    semicolon = -1;
-    pipe = -1;
-    re_type = -1;
-    
-    type = check_builtin(str);
-    re_type = check_redirection(str);
-    if (!ft_strcmp(";", str));
-        semicolon = 1;
-    if (!ft_strcmp("|", str))
-        pipe = 1;
-    if ()
-    
+	t_lexer		*tmp;
+	char 		str[2];
 
-    
-    
-    
-    printf("type = %d\n", type);
-    
-    // char **tokens;
-    // tokens = {BUILTIN, {ARGUMENT}, QUOTING, OPERATOR, REDIRECTION, $};
-   
+	if (type == token_redirection_greater && line[*i + 1] == '>')
+	{
+		(*i)++;
+		type = token_redirection_dgreater;
+		tmp = ll_new_node(">>", type);
+	}
+	else
+	{
+		str[0] = line[*i];
+		str[1] = '\0';
+		tmp = ll_new_node(str, type);
+		ll_lstadd_back(head, tmp);
+	}
+}
+
+int				get_token_type(char *line, int *i)
+{
+	int		ret;
+
+	if (is_whitespace(line[*i]))
+		return (token_whitespace);
+	if (is_single_quote(line[*i]))
+		return (token_quote);
+	else if (is_double_quote(line[*i]))
+		return (token_dquote);
+	else if (is_operator(line[*i]))
+		return (is_operator(line[*i]));
+	else
+		return (token_general);
+}
+
+void					lexer(char *line)
+{
+	t_lexer		*head;
+	int 		type;
+	int 		i;
+
+	head = NULL;
+	i = 0;
+	while (line[i])
+	{
+		while (is_whitespace(line[i]))
+			i++;
+		type = get_token_type(line, &i);
+		// printf("1: type = [%d], i = [%d]\n", type, i);
+		if (type == token_quote || type == token_dquote)
+			save_quotation(line, &i, type, &head);
+		if (type >= token_pipe &&  type <= token_redirection_lesser)
+			save_operator(line, &i, type, &head);
+		if (type == token_general)
+			save_general(line, &i, type, &head);
+		type = 0;
+		i++;
+		// printf("2: type = [%d], i = [%d]\n", type, i);
+	}
+	while (head)
+	{
+		printf("node-str = [%s]\n", head->str);
+		head = head->next;	
+	}
 }

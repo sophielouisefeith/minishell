@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/15 23:36:21 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/16 18:23:28 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,61 @@
 // #include <fcntl.h>
 // #include <stdlib.h>
 
+// enum	token_type{
+// 	token_general = -1,
+// 	token_null = '\0', 
+// 	token_whitespace = ' ',
+// 	token_quote = '\'',
+// 	token_dquote = '\"', 
+// 	token_newline = '\n',
+// 	token_tab = '\t', 
+// 	token_char_pipe = '|',
+// 	token_semicolon = ';',
+// 	token_redirection_greater = '>',
+// 	token_redirection_lesser = '<',
+// 	token_dollar = '$',
+// };
 
-typedef struct				s_parse {
+enum	token_type{
+	token_null = 0,
+	token_general,
+	token_whitespace,
+	token_quote,
+	token_dquote, 
+	token_pipe,
+	token_semicolon,
+	token_redirection_greater,
+	token_redirection_lesser,
+	token_redirection_dgreater,
+	token_dollar,
+};
+
+enum	builtin{
+	builtin_echo,
+	builtin_cd,
+	builtin_pwd,
+	builtin_export,
+	builtin_unset,
+	builtin_env,
+	builtin_exit
+};
+
+typedef struct				s_lexer {
 	char 					*str;
 	int						type;
-	struct		s_parse 	*next;
-}							t_parse;
+	struct		s_lexer 	*next;
+}							t_lexer;
 
-int							ft_strcmp(const char *s1, const char *s2);
-void						error(void);
-void						parser(char *line);
-int							echo(t_parse **head);
 
-t_parse						*ll_new_node(void *content);
-void						ll_split(t_parse **head, char const *s, char c);
-void						ll_lstadd_back(t_parse **head, t_parse *new);
-void						ll_lstclear(t_parse **lst);
+void						lexer(char *line);
+int							get_token_type(char *line, int *i);
 
-// int	                		lexer(char *str);
+int							is_single_quote(char c);
+int							is_double_quote(char c);
+int							is_whitespace(char c);
+int							is_operator(char c);
 
-/*
-** redirections and pipe pas later naar kijken
-*/
-// int        					check_redirection(t_parse *list, char **file_name);
-// void         				redirection(t_parse *list, int flag_redirection, int flag_n, char *file_name);
+t_lexer						*ll_new_node(void *content, int type);
+void						ll_lstadd_back(t_lexer **head, t_lexer *new);
 
 #endif

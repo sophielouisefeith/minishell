@@ -6,7 +6,7 @@
 #    By: Maran <Maran@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/06 17:19:34 by Maran         #+#    #+#                  #
-#    Updated: 2020/07/16 17:40:53 by msiemons      ########   odam.nl          #
+#    Updated: 2020/07/15 23:35:41 by maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,12 @@ LIB = minishell.a
 
 LIBFT = libft
 
-SRC =  main.c lexer.c lexer_utils.c\
+SRC =  main.c error.c parser.c ll_delete.c ft_strcmp.c\
+		echo.c\
 		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
-		ll_make_list.c\
+		ll_split.c ll_make_list.c\
+	#	lexer.c\
+	#	redirection.c\
 
 OBJ = $(SRC:.c=.o)
 

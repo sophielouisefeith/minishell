@@ -6,7 +6,7 @@
 /*   By: msiemons <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/12 10:08:48 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/16 16:45:17 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/07/15 23:35:33 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ static int			end(const char *s, char c, int i)
 ** Receive as a pointer pointer, so if the head is pointing to somewhat else the head in the parser function wil change aswell.
 */
 
-
-
 void				ll_split(t_parse **head, char const *s, char c)
 {
 	t_parse		*tmp;
@@ -75,10 +73,7 @@ void				ll_split(t_parse **head, char const *s, char c)
 	len = 0;
 	if (!s)
 		error();
-	// count = count_splits(s, c);
-
-
-	
+	count = count_splits(s, c);
 	while (count > 0)
 	{
 		i = start(s, c, i, len);
