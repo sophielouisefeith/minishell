@@ -6,82 +6,14 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/16 18:23:23 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/07/20 16:17:31 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void						save_general(char *line, int *i, int type, t_lexer **head)
+static int			get_token_type(char *line, int *i)
 {
-	char		*str;
-	int 		start;
-	int 		len;
-	t_lexer		*tmp;
-
-	start = *i;
-	(*i)++;
-	while (((get_token_type(line, i)) == token_general) && line[*i])
-		(*i)++;
-	len = *i - start;
-	str = ft_substr(line, start, len);
-	// printf("substr = [%s]\n", str);
-	// if (str == 0)
-	// 	error();
-	tmp = ll_new_node(str, type);
-	// if (tmp == 0)
-	// 	error();
-	ll_lstadd_back(head, tmp);
-}
-
-static void						save_quotation(char *line, int *i, int type, t_lexer **head)
-{
-	char		*str;
-	int 		start;
-	int 		len;
-	t_lexer		*tmp;
-
-	start = *i;
-	(*i)++;
-	while (line[start] != line[*i])
-		(*i)++;
-	if (line[start] == line[*i])
-	{
-		len = (*i - start) + 1;
-		str = ft_substr(line, start, len);
-		// if (str == 0)
-		// 	error();
-		tmp = ll_new_node(str, type);
-		// if (tmp == 0)
-		// 	error();
-		ll_lstadd_back(head, tmp);
-	}
-}
-
-static void						save_operator(char *line, int *i, int type, t_lexer **head)
-{
-	t_lexer		*tmp;
-	char 		str[2];
-
-	if (type == token_redirection_greater && line[*i + 1] == '>')
-	{
-		(*i)++;
-		type = token_redirection_dgreater;
-		tmp = ll_new_node(">>", type);
-	}
-	else
-	{
-		str[0] = line[*i];
-		str[1] = '\0';
-		tmp = ll_new_node(str, type);
-		ll_lstadd_back(head, tmp);
-	}
-}
-
-int				get_token_type(char *line, int *i)
-{
-	int		ret;
-
 	if (is_whitespace(line[*i]))
 		return (token_whitespace);
 	if (is_single_quote(line[*i]))
@@ -94,9 +26,79 @@ int				get_token_type(char *line, int *i)
 		return (token_general);
 }
 
-void					lexer(char *line)
+static void			save_general(char *line, int *i, int type, t_lexer **head)
+{
+	t_lexer		*tmp;
+	char		*str;
+	int 		start;
+	int 		len;
+
+	start = *i;
+	(*i)++;
+	while (((get_token_type(line, i)) == token_general) && line[*i])
+		(*i)++;
+	len = *i - start;
+	
+	str = ft_substr(line, start, len);
+	// if (str == 0)
+	// 	error();
+	tmp = ll_new_node(str, type);
+	// if (tmp == 0)
+	// 	error();
+	ll_lstadd_back(head, tmp);
+	(*i)--;
+}
+
+static void			save_quotation(char *line, int *i, int type, t_lexer **head)
+{
+	t_lexer		*tmp;
+	char		*str;
+	int 		start;
+	int 		len;
+
+	start = *i;
+	(*i)++;
+	while (line[start] != line[*i] && line[*i])
+		(*i)++;
+	if (line[start] == line[*i])
+	{
+		len = (*i - start) + 1;
+		str = ft_substr(line, start, len);
+		// if (str == 0)
+		// 	error();
+		tmp = ll_new_node(str, type);
+		// if (tmp == 0)
+		// 	error();
+		ll_lstadd_back(head, tmp);
+	}
+	else
+	{
+		printf("[Multiple line command is not part of the subject\n]");
+		exit(1);
+	}
+}
+
+static void			save_operator(char *line, int *i, int type, t_lexer **head)
+{
+	t_lexer		*tmp;
+	char 		*str;
+
+	if (type == token_redirection_greater && line[*i + 1] == '>')
+	{
+		(*i)++;
+		type = token_redirection_dgreater;
+		str = str_redirection_dgreater();					//FREE!
+	}
+	else
+		str = str_from_char(line[*i]);						//FREE!
+	tmp = ll_new_node(str, type);
+	ll_lstadd_back(head, tmp);
+}
+
+void				lexer(char *line)
 {
 	t_lexer		*head;
+	t_lexer		*list;
 	int 		type;
 	int 		i;
 
@@ -107,20 +109,23 @@ void					lexer(char *line)
 		while (is_whitespace(line[i]))
 			i++;
 		type = get_token_type(line, &i);
-		// printf("1: type = [%d], i = [%d]\n", type, i);
 		if (type == token_quote || type == token_dquote)
 			save_quotation(line, &i, type, &head);
-		if (type >= token_pipe &&  type <= token_redirection_lesser)
+		if (type >= token_pipe && type <= token_redirection_lesser)
 			save_operator(line, &i, type, &head);
 		if (type == token_general)
 			save_general(line, &i, type, &head);
 		type = 0;
 		i++;
-		// printf("2: type = [%d], i = [%d]\n", type, i);
 	}
-	while (head)
+
+///
+	list = head;
+	printf("EIND RESULTAAT:\n");
+	while (list)
 	{
-		printf("node-str = [%s]\n", head->str);
-		head = head->next;	
+		printf("node-str = [%s], type[%d]\n", list->str, list->type);
+		list = list->next;	
 	}
+///
 }

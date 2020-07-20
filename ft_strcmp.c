@@ -1,39 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_strcmp.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/20 15:49:32 by maran         ########   odam.nl         */
+/*   Created: 2020/07/07 16:43:28 by Maran         #+#    #+#                 */
+/*   Updated: 2020/07/08 11:46:49 by Maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-** Spaces before commands or returns are allowed.
-** Return key: prompt on a new line
-*/
-
-int				main(int argc, char **argv)
+int		ft_strcmp(const char *s1, const char *s2)
 {
-	char	*line;
-	int		ret;
-	int 	i;
+	size_t i;
 
-	ret = 1;
-	while (ret > 0)
-	{
-		i = 0;
-		write(1, "$ ", 2);
-		ret = get_next_line(0, &line);
-		// if (ret == -1)
-		// 	error();
-		if (line[i] != '\0')
-			lexer(line);
-		free(line);
-		line = NULL;
-	}
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] && s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

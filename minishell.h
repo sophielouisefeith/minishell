@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/16 18:23:28 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/07/20 16:16:32 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,10 @@ typedef struct				s_lexer {
 
 
 void						lexer(char *line);
-int							get_token_type(char *line, int *i);
+
+int							ft_strcmp(const char *s1, const char *s2);
+char 						*str_from_char(char c);
+char 						*str_redirection_dgreater(void);
 
 int							is_single_quote(char c);
 int							is_double_quote(char c);
