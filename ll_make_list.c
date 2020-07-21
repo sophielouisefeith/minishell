@@ -6,13 +6,13 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 12:12:45 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/21 13:17:31 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/21 15:17:38 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lexer			*ll_new_node(void *content)
+t_lexer			*ll_new_node(void *content, int *token)
 {
 	t_lexer		*new;
 
@@ -20,7 +20,7 @@ t_lexer			*ll_new_node(void *content)
 	if (!new)
 		return (0);
 	new->str = content;
-	// new->type = type;
+	new->token = token;
 	new->next = NULL;
 	return (new);
 }

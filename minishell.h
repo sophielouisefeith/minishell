@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/21 13:33:54 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/21 16:30:24 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,19 @@ enum	token_type{
 	token_dollar,
 };
 
-enum	builtin{
-	builtin_echo,
-	builtin_cd,
-	builtin_pwd,
-	builtin_export,
-	builtin_unset,
-	builtin_env,
-	builtin_exit
-};
+// enum	builtin{
+// 	builtin_echo,
+// 	builtin_cd,
+// 	builtin_pwd,
+// 	builtin_export,
+// 	builtin_unset,
+// 	builtin_env,
+// 	builtin_exit
+// };
 
 typedef struct				s_lexer {
 	char 					*str;
-	int						type;
+	int						*token;
 	struct		s_lexer 	*next;
 }							t_lexer;
 
@@ -66,11 +66,9 @@ int							is_single_quote(char c);
 int							is_double_quote(char c);
 int							is_whitespace(char c);
 int							is_operator(char c);
-
-int							is_general(char c);
 int							is_metachar(char c);
 
-t_lexer						*ll_new_node(void *content);
+t_lexer						*ll_new_node(void *content, int *token);
 void						ll_lstadd_back(t_lexer **head, t_lexer *new);
 
 #endif
