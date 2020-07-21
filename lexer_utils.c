@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 15:51:41 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/20 16:16:22 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/21 10:52:09 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,21 @@ int				is_whitespace(char c)
 		return (1);
 	return (0);
 }
+
+// ; | > <  >> niet general
+	// $ wel general ' '
+
+int				is_general(char c) //kan ik dit voor meer gebruiken?
+{
+	if (c >= 35 && c < 127 && c!= 59 && c!= 60 && c!= 62 && c!= 124)
+		return (1);
+	return (0);
+}
+
+// int				is_splitting_char(char c)
+// {
+// 	if (c = )
+// }
 
 int				is_operator(char c)
 {

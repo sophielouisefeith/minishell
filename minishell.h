@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/20 16:16:32 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/20 17:31:08 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int							is_single_quote(char c);
 int							is_double_quote(char c);
 int							is_whitespace(char c);
 int							is_operator(char c);
+
+int							is_general(char c);
 
 t_lexer						*ll_new_node(void *content, int type);
 void						ll_lstadd_back(t_lexer **head, t_lexer *new);

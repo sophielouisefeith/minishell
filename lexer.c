@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/20 16:17:31 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/21 10:53:50 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,16 @@ static void			save_quotation(char *line, int *i, int type, t_lexer **head)
 
 	start = *i;
 	(*i)++;
-	while (line[start] != line[*i] && line[*i])
+	while (line[start] != line[*i] && line[*i])			//Check of " " compleet is
 		(*i)++;
 	if (line[start] == line[*i])
 	{
+		if (is_general(line[*i + 1]))					// check of teken na " een splitting char is (white space of opertar)
+		{
+			(*i)++;
+			while (is_general(line[*i]))
+				(*i)++;
+		}
 		len = (*i - start) + 1;
 		str = ft_substr(line, start, len);
 		// if (str == 0)
