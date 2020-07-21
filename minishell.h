@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/20 17:31:08 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/21 13:33:54 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,6 @@
 #include <stdio.h>
 // #include <fcntl.h>
 // #include <stdlib.h>
-
-// enum	token_type{
-// 	token_general = -1,
-// 	token_null = '\0', 
-// 	token_whitespace = ' ',
-// 	token_quote = '\'',
-// 	token_dquote = '\"', 
-// 	token_newline = '\n',
-// 	token_tab = '\t', 
-// 	token_char_pipe = '|',
-// 	token_semicolon = ';',
-// 	token_redirection_greater = '>',
-// 	token_redirection_lesser = '<',
-// 	token_dollar = '$',
-// };
 
 enum	token_type{
 	token_null = 0,
@@ -83,8 +68,9 @@ int							is_whitespace(char c);
 int							is_operator(char c);
 
 int							is_general(char c);
+int							is_metachar(char c);
 
-t_lexer						*ll_new_node(void *content, int type);
+t_lexer						*ll_new_node(void *content);
 void						ll_lstadd_back(t_lexer **head, t_lexer *new);
 
 #endif

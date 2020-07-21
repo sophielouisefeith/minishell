@@ -6,17 +6,22 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/21 10:53:50 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/21 14:52:05 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+
+/*
+** Misschien ook mogelijk alleen te splitten op words vs operator. Later naar kijken.
+*/
+
 static int			get_token_type(char *line, int *i)
 {
 	if (is_whitespace(line[*i]))
 		return (token_whitespace);
-	if (is_single_quote(line[*i]))
+	else if (is_single_quote(line[*i]))
 		return (token_quote);
 	else if (is_double_quote(line[*i]))
 		return (token_dquote);
@@ -26,63 +31,69 @@ static int			get_token_type(char *line, int *i)
 		return (token_general);
 }
 
-static void			save_general(char *line, int *i, int type, t_lexer **head)
+static int			check_quotation_complete(char quote, char *line, int *i)
 {
-	t_lexer		*tmp;
-	char		*str;
-	int 		start;
-	int 		len;
-
-	start = *i;
 	(*i)++;
-	while (((get_token_type(line, i)) == token_general) && line[*i])
+	while (line[*i] != quote && line[*i])
 		(*i)++;
-	len = *i - start;
-	
-	str = ft_substr(line, start, len);
-	// if (str == 0)
-	// 	error();
-	tmp = ll_new_node(str, type);
-	// if (tmp == 0)
-	// 	error();
-	ll_lstadd_back(head, tmp);
-	(*i)--;
-}
-
-static void			save_quotation(char *line, int *i, int type, t_lexer **head)
-{
-	t_lexer		*tmp;
-	char		*str;
-	int 		start;
-	int 		len;
-
-	start = *i;
-	(*i)++;
-	while (line[start] != line[*i] && line[*i])			//Check of " " compleet is
-		(*i)++;
-	if (line[start] == line[*i])
-	{
-		if (is_general(line[*i + 1]))					// check of teken na " een splitting char is (white space of opertar)
-		{
-			(*i)++;
-			while (is_general(line[*i]))
-				(*i)++;
-		}
-		len = (*i - start) + 1;
-		str = ft_substr(line, start, len);
-		// if (str == 0)
-		// 	error();
-		tmp = ll_new_node(str, type);
-		// if (tmp == 0)
-		// 	error();
-		ll_lstadd_back(head, tmp);
-	}
+	if (line[*i] == quote)
+		return(0);
 	else
 	{
 		printf("[Multiple line command is not part of the subject\n]");
 		exit(1);
-	}
+	}	
 }
+
+static int		check_meta_and_quote(char *line, int *i)
+{
+	while (!is_metachar(line[*i]) && line[*i])
+	{
+		if (is_single_quote(line[*i]) || is_double_quote(line[*i]))
+			check_quotation_complete(line[*i], line, i);
+		(*i)++;
+	}
+	return (0);
+}
+
+// static int			*init_token()
+// {
+// 	int 	*token;
+// 	// int 	i;
+	
+// 	token = (int *)malloc(sizeof(int) * 12);
+// 	ft_bzero(token, 12 * sizeof(int));
+
+// 	return (token);
+
+// 	// i = 0;
+// 	// while (i < 12)
+// 	// {
+// 	// 	printf("token str = [%d]\n", token[i]);
+// 	// 	i++;
+// 	// }
+// }
+
+static void			save_word(char *line, int *i, t_lexer **head)
+{
+	t_lexer		*tmp;
+	char		*str;
+	int 		start;
+	int 		len;
+	int			*token;
+
+	start = *i;
+	// token = init_token();
+	check_meta_and_quote(line, i);
+	len = *i - start;
+	str = ft_substr(line, start, len);
+	tmp = ll_new_node(str);
+	ll_lstadd_back(head, tmp);
+}
+
+/*
+** Later kijken of deze type herdefiniering nog nodig is (afhankelijk van parsing)
+*/
 
 static void			save_operator(char *line, int *i, int type, t_lexer **head)
 {
@@ -97,8 +108,9 @@ static void			save_operator(char *line, int *i, int type, t_lexer **head)
 	}
 	else
 		str = str_from_char(line[*i]);						//FREE!
-	tmp = ll_new_node(str, type);
+	tmp = ll_new_node(str);
 	ll_lstadd_back(head, tmp);
+	(*i)++;
 }
 
 void				lexer(char *line)
@@ -107,6 +119,9 @@ void				lexer(char *line)
 	t_lexer		*list;
 	int 		type;
 	int 		i;
+	
+	init_lexer();
+
 
 	head = NULL;
 	i = 0;
@@ -115,23 +130,20 @@ void				lexer(char *line)
 		while (is_whitespace(line[i]))
 			i++;
 		type = get_token_type(line, &i);
-		if (type == token_quote || type == token_dquote)
-			save_quotation(line, &i, type, &head);
+		if (type == token_quote || type == token_dquote || type == token_general)
+			save_word(line, &i, &head);
 		if (type >= token_pipe && type <= token_redirection_lesser)
 			save_operator(line, &i, type, &head);
-		if (type == token_general)
-			save_general(line, &i, type, &head);
 		type = 0;
-		i++;
 	}
 
-///
+/// TESTER
 	list = head;
 	printf("EIND RESULTAAT:\n");
 	while (list)
 	{
-		printf("node-str = [%s], type[%d]\n", list->str, list->type);
+		printf("node-str = [%s]\n", list->str);
 		list = list->next;	
 	}
-///
+/// END TESTER
 }
