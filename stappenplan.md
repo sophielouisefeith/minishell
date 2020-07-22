@@ -3,10 +3,10 @@
 
 0. THE HEAD:
 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>IF THE HEAD {NODE 0} != BUILTING
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>with a      		whitespace					result
+IF THE HEAD {NODE 0} != BUILTING
+
+
+with a      		whitespace					result
 •••••••••••••••••••••••••••••••••••••••••••••••••••• echo	
 bash-3.2$         echo hallo																		*works normal			
 hallo
@@ -29,7 +29,7 @@ bash-3.2$
 bash-3.2$          exit																				*works normal
 exit
 ➜  maranshell git:(parser) ✗ 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>with a ' '  		s qoute
+with a ' '  		s qoute
 •••••••••••••••••••••••••••••••••••••••••••••••••••• echo	
 bash-3.2$ ' ' echo hallo																			<command not found>
 bash:  : command not found
@@ -74,23 +74,23 @@ exit
 
 
 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>with a " "  		d qoute
+with a " "  		d qoute
 
 
 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>with a | or ; 		pipe or semicolom
+with a | or ; 		pipe or semicolom
 <note> a head node never can be a | or ;
 the result always will be 
 
 <bash: syntax error near unexpected token `|'>
 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>with a >  			greater
+with a >  			greater
 
 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>with a >> d 		greater
+with a >> d 		greater
 
 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>with a <    		lesser
+with a <    		lesser
 
 
 
@@ -99,17 +99,17 @@ the result always will be
 
 • if the head is not a builtin then check if it the head is a | pipe or ; semicolum. 
 if yes 
->>ten return : <bash: syntax error near unexpected token `|'>  or  <bash: syntax error near unexpected token `;'>
+ten return : <bash: syntax error near unexpected token `|'>  or  <bash: syntax error near unexpected token `;'>
 
 • if the head is not a builtin and is not a | pipe or  semicolum ;
 then check if head->next == | ||  head->next == ;
->> if not then return <bash:   : command not found>
+if not then return <bash:   : command not found>
 
 
 
 
->> input
->> output 
+input
+output 
 
 get_nextlin_ standard output 
 
@@ -131,11 +131,11 @@ command line output >
 
 1. | PIPE 
 
->> How does the pipe works  
->> Definition of the pipe, Connecting the input and output of several commands. this depends on the builtin. 
->> if head ==  (cd || env || pwd || env || unset || exit) and head->next == | 
+How does the pipe works  
+Definition of the pipe, Connecting the input and output of several commands. this depends on the builtin. 
+if head ==  (cd || env || pwd || env || unset || exit) and head->next == | 
 then only take the head->next[3] node but if head->next[4] == | then  go to head->next[5]
->> Combination of  cd | pwd then works both. 
+Combination of  cd | pwd then works both. 
 
 
 
@@ -153,22 +153,17 @@ then only take the head->next[3] node but if head->next[4] == | then  go to head
 
 
 <h1> INPUT </h1>
-||| When we say Input, it means to feed some data into a program. An input can be given in the form of a 
-||| file or from the command line. C programming provides a set of built-in functions to read the given input and feed it to the program as per requirement.
+<h2>When we say Input, it means to feed some data into a program. An input can be given in the form of a 
+file or from the command line. C programming provides a set of built-in functions to read the given input and feed it to the program as per requirement</h2>
+
+<h1> OUTPUT </h1>
+<h2>When we say Output, it means to display some data on screen, printer, or in any file. </h2>
 
 
-When we say Output, it means to display some data on screen, printer, or in any file. 
-
-
-C programming provides a set of built-in functions to output the data on the computer 
+<p>C programming provides a set of built-in functions to output the data on the computer 
 screen as well as to save it in text or binary files.
 The Standard Files C programming treats all the devices as files. 
 So devices such as the display are addressed in the same way as files 
-and the following three files are automatically opened when a program executes to provide access to the keyboard and screen.
-````
-hallo
-```
-
-> hallo
+and the following three files are automatically opened when a program executes to provide access to the keyboard and screen.</h2>
 
 
