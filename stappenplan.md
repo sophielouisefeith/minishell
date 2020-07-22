@@ -146,3 +146,22 @@ then only take the head->next[3] node but if head->next[4] == | then  go to head
 5. >>
 6. >
 7. < >
+
+
+1.2 standart input and output.
+
+
+
+<h1> INPUT <h1>
+||| When we say Input, it means to feed some data into a program. An input can be given in the form of a 
+||| file or from the command line. C programming provides a set of built-in functions to read the given input and feed it to the program as per requirement.
+
+
+When we say Output, it means to display some data on screen, printer, or in any file. 
+
+
+C programming provides a set of built-in functions to output the data on the computer 
+screen as well as to save it in text or binary files.
+The Standard Files C programming treats all the devices as files. 
+So devices such as the display are addressed in the same way as files 
+and the following three files are automatically opened when a program executes to provide access to the keyboard and screen.
