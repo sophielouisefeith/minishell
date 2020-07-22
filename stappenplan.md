@@ -148,16 +148,16 @@ Combination of  cd | pwd then works both.
 7. < >
 
 
-1.2 standart input and output.
+<h1>standart input and output.</h1>
 
 
 
-<h1> INPUT </h1>
-<h2>When we say Input, it means to feed some data into a program. An input can be given in the form of a 
-file or from the command line. C programming provides a set of built-in functions to read the given input and feed it to the program as per requirement</h2>
+<h2> INPUT </h2>
+<h4>When we say Input, it means to feed some data into a program. An input can be given in the form of a 
+file or from the command line. C programming provides a set of built-in functions to read the given input and feed it to the program as per requirement</h4>
 
-<h1> OUTPUT </h1>
-<h2>When we say Output, it means to display some data on screen, printer, or in any file. </h2>
+<h2> OUTPUT </h2>
+<h4>When we say Output, it means to display some data on screen, printer, or in any file. </h4>
 
 
 <p>C programming provides a set of built-in functions to output the data on the computer 
@@ -167,3 +167,16 @@ So devices such as the display are addressed in the same way as files
 and the following three files are automatically opened when a program executes to provide access to the keyboard and screen.</h2>
 
 
+In the following descriptions, if the file descriptor number is omitted, and the first character of the redirection operator is ‘<’, 
+the redirection refers to the standard input (file descriptor 0). If the first character of the redirection operator is ‘>’, 
+the redirection refers to the standard output (file descriptor 1).
+
+if you have > you get the output from the input -- shows the input
+if you have < you get the input from the output ->> to the output. 
+
+
+
+pwd cd 
+
+na | geen output 
+van de input >
