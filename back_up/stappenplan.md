@@ -155,3 +155,15 @@ You can view all environment variables set on your system with the env command.
 
 ◦ exit without any options
 
+#what does the parser do
+• the parser reads whats in the link list and calls to action 
+The Parser
+The Parser is the software component that reads the command line such as “ls ­al” and puts it 
+into a data structure called Command Table that will store the commands that will be 
+executed.   
+
+read what is in the link list and then add it to the command table 
+
+A parser is divided into two parts: a Lexical Analyzer or Lexer takes the input characters and 
+puts the characters together into words called tokens, and a Parser that processes the 
+tokens according to a grammar and build the command table. 

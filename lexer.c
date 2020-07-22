@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/21 16:43:33 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/22 10:32:04 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ static int			check_quotation_complete(char quote, char *line, int *i, int *token
 		(*i)++;
 	}
 	if (line[*i] == quote)
-		return(0);
+		return (0);
 	else
 	{
 		printf("[Multiple line command is not part of the subject\n]");
 		exit(1);
-	}	
+	}
 }
 
 static int		check_meta_and_quote(char *line, int *i, int *token)
@@ -79,7 +79,7 @@ static int		check_meta_and_quote(char *line, int *i, int *token)
 static int			*init_token()
 {
 	int 	*token;
-	
+
 	token = (int *)malloc(sizeof(int) * 11);
 	ft_bzero(token, 11 * sizeof(int));
 
