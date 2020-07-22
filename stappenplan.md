@@ -152,7 +152,7 @@ then only take the head->next[3] node but if head->next[4] == | then  go to head
 
 
 
-<h1> INPUT <h1>
+<h1> INPUT </h1>
 ||| When we say Input, it means to feed some data into a program. An input can be given in the form of a 
 ||| file or from the command line. C programming provides a set of built-in functions to read the given input and feed it to the program as per requirement.
 
