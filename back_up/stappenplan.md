@@ -241,3 +241,49 @@ cd .. | pwd ; echo hallo daar
 |**Command struct**								| Hele input lijn. Dus in totaal 1 command struct. 
 | - 3 simple commands							|
 | - struct simplecommand	array[3]			| wss beter linked list omdat je nog niet weet hoeveel commands in 1 line
+
+
+
+# Redirections
+
+By default, the standard output of a program is sent to the screen,
+
+fd 0		standard input	[keyboard]		<
+fd 1		standard output	[screen]		> 
+
+
+redirect output van ls:
+ls -la > test								//in file test zit heel de lijst
+
+
+$ echo 'goot tay!' > output.txt				// standaard ouput van echo naar file
+$ tr < output.txt t d						// stuur inhoud van .txt naar standaard input van tr
+good day!
+
+
+Using the pipe operator | we can chain multiple commands together,
+so that the stdout of the command at the left of the operator is passed to the stdin of the command at the right of it.
+
+[ goot tay is standard output] 		[goot tay is nu standard input voor tr functie]
+$ echo 'goot day!'				|	tr t d
+good day!
+
+
+# Oftewel:
+standard input --->[Command]---> Standard ouput
+
+
+standard input --->[Command]---> Standard ouput | standard ouput == standard input --->[Command]---> Standard ouput
+
+
+Dit werkt niet want echo does not read stdin!
+echo < output.txt			//kennelijk gebruikt echo geen standard input??
+
+
+NIET VAN STDIN:
+echo
+cd
+pwd
+export
+unset
+
