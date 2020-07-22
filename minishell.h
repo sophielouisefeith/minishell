@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/21 16:30:24 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/22 11:11:36 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,7 @@ int							is_metachar(char c);
 
 t_lexer						*ll_new_node(void *content, int *token);
 void						ll_lstadd_back(t_lexer **head, t_lexer *new);
+
+int							this_is_a_test(int c);
 
 #endif
