@@ -148,11 +148,11 @@ Combination of  cd | pwd then works both.
 7. < >
 
 
-<h1>standart input and output.</h1>
+<h1>Input and Output.</h1>
 
 
 
-<h2> INPUT </h2>
+<h2> <b>INPUT</b> </h2>
 <h4>When we say Input, it means to feed some data into a program. An input can be given in the form of a 
 file or from the command line. C programming provides a set of built-in functions to read the given input and feed it to the program as per requirement</h4>
 
