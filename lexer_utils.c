@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 15:51:41 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/21 13:13:44 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/22 12:24:25 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int				is_double_quote(char c)
 }
 
 // & en quotes kunnen wel in words
+// \n nog toevoegen?
 int				is_operator(char c)
 {
 	if (c == ';')

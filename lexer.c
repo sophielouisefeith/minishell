@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/22 10:32:04 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/07/22 17:11:02 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static int			check_quotation_complete(char quote, char *line, int *i, int *token
 	{
 		if (line[*i] == '$')
 			token[token_dollar] = 1;
+		if (line[*i] == 92 && line[(*i)++] == '\"')
+			(*i)++;
 		(*i)++;
 	}
 	if (line[*i] == quote)
@@ -96,7 +98,7 @@ static void			save_word(char *line, int *i, t_lexer **head)
 
 	start = *i;
 	token = init_token();
-	token[token_general] = 1;
+	token[token_general] = 1;															// wat doe je hier? - sophie// maak je 
 	check_meta_and_quote(line, i, token);
 	len = *i - start;
 	str = ft_substr(line, start, len);

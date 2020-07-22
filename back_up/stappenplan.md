@@ -167,3 +167,77 @@ read what is in the link list and then add it to the command table
 A parser is divided into two parts: a Lexical Analyzer or Lexer takes the input characters and 
 puts the characters together into words called tokens, and a Parser that processes the 
 tokens according to a grammar and build the command table. 
+
+
+
+
+
+
+
+# Parser
+
+struct		simplecommand{
+	int		number_of_available_arguments;
+	int		number_of_arguments;
+	char	**arguments;
+}
+
+	SimpleCommand();							// constructs a simple empty command
+	void insertArgument(char *argument);		// ​inserts a new argument into the SimpleCommand and enlarges the _arguments 													array if necessary
+
+struct		command{
+	int _numberOfAvailableSimpleCommands;
+	int _numberOfSimpleCommands;
+	SimpleCommand ** _simpleCommands;			// point naar simplecommand struct
+	
+	char * _outFile;			//redirec
+	char * _inputFile;			//redirec
+	char * _errFile;			//redirec
+	int _background;
+
+	void prompt(); 
+	void print(); 
+	void execute(); 
+	void clear();
+
+}
+
+
+	Command();								//constructs and empty command that will be populated with the insertSimpleCommand
+	
+	void insertSimpleCommand( SimpleCommand * simpleCommand );	//
+	static Command 			_currentCommand;
+	static SimpleCommand 	*_currentSimpleCommand;
+
+
+Bijv.
+cd .. | pwd ; echo hallo daar
+
+|**Simple command struct 1**	|
+|								|
+|2D array met arguments	{cd}	|
+|						{..}	|
+|						{NULL}	|
+
+
+
+|**Simple command struct 2**	|
+|								|
+|2D array met arguments	{pwd}	|
+|						{NULL}	|
+|								|
+
+
+
+|**Simple command struct 3**	|
+|								|
+|2D array met arguments	{echo}	|
+|						{hallo}	|
+|						{daar}	|
+|						{NULL}	|
+
+
+
+|**Command struct**								| Hele input lijn. Dus in totaal 1 command struct. 
+| - 3 simple commands							|
+| - struct simplecommand	array[3]			| wss beter linked list omdat je nog niet weet hoeveel commands in 1 line
