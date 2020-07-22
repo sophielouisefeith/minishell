@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/22 11:07:48 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/07/22 11:13:52 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/07/22 11:16:08 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,3 @@ int			this_is_a_test(int c)
 {
 	printf("hallo daar[%d]", c);
 }
-/*   Updated: 2020/07/22 11:10:38 by msiemons      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
-HALLO SOPHIE WERK DIT? :) 
