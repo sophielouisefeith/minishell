@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/22 17:11:02 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/07/22 17:54:51 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,13 @@ static void			save_word(char *line, int *i, t_lexer **head)
 {
 	t_lexer		*tmp;
 	char		*str;
-	int 		start;
-	int 		len;
+	int			start;
+	int			len;
 	int			*token;
 
 	start = *i;
 	token = init_token();
-	token[token_general] = 1;															// wat doe je hier? - sophie// maak je 
+	token[token_general] = 1;
 	check_meta_and_quote(line, i, token);
 	len = *i - start;
 	str = ft_substr(line, start, len);
@@ -113,7 +113,7 @@ static void			save_word(char *line, int *i, t_lexer **head)
 static void			save_operator(char *line, int *i, int type, t_lexer **head)
 {
 	t_lexer		*tmp;
-	char 		*str;
+	char		*str;
 	int			*token;
 
 	token = init_token();
