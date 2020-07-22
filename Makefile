@@ -6,7 +6,7 @@
 #    By: Maran <Maran@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/06 17:19:34 by Maran         #+#    #+#                  #
-#    Updated: 2020/07/22 11:17:58 by sfeith        ########   odam.nl          #
+#    Updated: 2020/07/22 11:21:55 by sfeith        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ LIBFT = libft
 
 SRC =  main.c lexer.c lexer_utils.c ft_strcmp.c\
 		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
+		ll_make_list.c\
 		parser.c
 
 OBJ = $(SRC:.c=.o)
