@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/23 15:23:29 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/07/23 16:35:22 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct				s_lexer{
 // }							t_parser;
 
 typedef struct				s_command {
-	struct s_list			output;    // dit is dus een link list voor alle outputs 
+	struct s_list			output;    // dit is dus een link list voor alle outputs // moeten we hier dan * van maken 
 	struct s_list			input;     // dit is dus een link list voor de input
 	struct s_list 			output_modus; // trunk append
 	int						pipe_before;

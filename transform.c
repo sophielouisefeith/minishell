@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/23 12:07:41 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/07/23 15:31:04 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/07/23 16:35:34 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,54 @@ void				transform(t_lexer *list)
 	//t_lexer		token;
 
 	//printf("node-trans = [%s]\n", list->str);
-	printf("token = [%d]\n", list->token[0]);
+	//printf("token = [%d]\n", list->token[0]);
 	//if(&token[1] == 1)
 	/* een node komt binnen die moeten we gaan controleren  en weer terug geven als een str*/
+	t_command *command;
+	int n;
+	int i;
+	int len;
+	char *newstr;
 
-
-
-
+	len = ft_strlen(list->str);
+	n = 0;
+	printf("node-str = [%s]\n", list->str);
+	if(list->token[3]  || list->token[4])
+	{
+		printf("he je bent een quote\n");
+		len = len - 2;
+		newstr= ft_substr(list->str, 1, len);
+		printf("parser-str[%s]\n", newstr );
+	}
+	// if(list->token[5])
+	// {
+	// 	printf("je bent een pipeline\n");
+	// 	if(list->next == )
+	// 	command->pipe_before = 
+	// 	command->pipe_after =
+	// }
+	// if(list->token[6])
+	// {
+	// 	printf("je bent een semicoln\n");
+	// 	if(list->next == )
+	// 	command->pipe_before = 
+	// 	command->pipe_after =
+	// }
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/* hier komt 1 node per keer binnen want deze functie word aangeroepen in de lexer vanuit een while loop  
 	dus nu hebben we de eerste node */
