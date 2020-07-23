@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/22 17:54:51 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/07/23 12:03:43 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ void				lexer(char *line)
 	int n;
 	while (list)
 	{
+
 		printf("node-str = [%s]\n", list->str);
 		// n = 0;
 		// while (n < 11)

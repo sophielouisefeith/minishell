@@ -185,5 +185,37 @@ van de input >
 
 
 <h1> pipeline</h1>
-<h2> a pipeline is a mechanism for inter-process communication using message passing</h2>
+<h2> pipeline is a mechanism for inter-process communication using message passing.></h2>
 
+Command is entered and if length is non-null, keep it in history.
+Parsing : Parsing is the breaking up of commands into individual words and strings
+Checking for special characters like pipes, etc is done
+Checking if built-in commands are asked for.
+If pipes are present, handling pipes.
+Executing system commands and libraries by forking a child and calling execvp.
+Printing current directory name and asking for next input.
+
+The parser then, concerns itself with the context in which each token appears, which is a way of saying it cares about whether or not the sequence and combination of tokens actually detected fits the expected grammar.
+
+echo leest niet van de stinp
+
+
+
+SYNOPSIS
+     #include <unistd.h>
+
+     int
+     execve(const char *path, char *const argv[], char *const envp[]);
+
+DESCRIPTION
+     execve() transforms the calling process into a new process.  The new process is constructed from an ordinary file, whose name is pointed to by path, called the new process file.  This file is either an executable object file,
+     or a file of data for an interpreter.  An executable object file consists of an identifying header, followed by pages of data representing the initial program (text) and initialized data pages.  Additional pages may be speci-
+     fied by the header to be initialized with zero data;  see a.out(5).
+
+     An interpreter file begins with a line of the form:
+
+           #! interpreter [arg ...]
+
+     When an interpreter file is execve()'d, the system runs the specified interpreter.  If any optional args are specified, they become the first (second, ...) argument to the interpreter. The name of the originally execve()'d
+     file becomes the subsequent argument; otherwise, the name of the originally execve()'d file is the first argument.  The original arguments to the invocation of the interpreter are shifted over to become the final arguments.
+     The zeroth argument, normally the name of the execve()'d file, is left unchanged.
