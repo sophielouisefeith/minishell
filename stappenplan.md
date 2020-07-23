@@ -129,13 +129,13 @@ command line output >
 
 
 
-1. | PIPE 
+1. <h1> | PIPE </h1> 
 
-How does the pipe works  
-Definition of the pipe, Connecting the input and output of several commands. this depends on the builtin. 
+<h2>How does the pipe works </h2>
+<p>Definition of the pipe, Connecting the input and output of several commands. this depends on the builtin. 
 if head ==  (cd || env || pwd || env || unset || exit) and head->next == | 
 then only take the head->next[3] node but if head->next[4] == | then  go to head->next[5]
-Combination of  cd | pwd then works both. 
+Combination of  cd | pwd then works both. </p>
 
 
 
@@ -180,3 +180,10 @@ pwd cd
 
 na | geen output 
 van de input >
+
+
+
+
+<h1> pipeline</h1>
+<h2> a pipeline is a mechanism for inter-process communication using message passing</h2>
+
