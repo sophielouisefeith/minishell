@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/23 12:03:43 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/07/23 15:06:24 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void				lexer(char *line)
 	int n;
 	while (list)
 	{
-
+		transform(list);										// this is the expiriment with transform ffrom sophie 
 		printf("node-str = [%s]\n", list->str);
 		// n = 0;
 		// while (n < 11)

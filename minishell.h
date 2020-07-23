@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/22 11:11:36 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/07/23 15:23:29 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,26 @@ enum	token_type{
 // 	builtin_exit
 // };
 
-typedef struct				s_lexer {
+typedef struct				s_lexer{
 	char 					*str;
 	int						*token;
 	struct		s_lexer 	*next;
 }							t_lexer;
+
+// typedef struct				s_parser {
+// 	char 					*str;
+// 	int						*token;
+// 	struct		s_lexer 	*next;
+// }							t_parser;
+
+typedef struct				s_command {
+	struct s_list			output;    // dit is dus een link list voor alle outputs 
+	struct s_list			input;     // dit is dus een link list voor de input
+	struct s_list 			output_modus; // trunk append
+	int						pipe_before;
+	int						pipe_after;
+
+}							t_command;
 
 
 void						lexer(char *line);
@@ -72,5 +87,8 @@ t_lexer						*ll_new_node(void *content, int *token);
 void						ll_lstadd_back(t_lexer **head, t_lexer *new);
 
 int							this_is_a_test(int c);
+
+/*transform */
+void							transform(t_lexer *list);
 
 #endif
