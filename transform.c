@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/23 12:07:41 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/07/24 16:28:23 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/24 16:44:54 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@
 // }
 
 /* notes regarding this function for maran and sophie  */
+
+
+
 
 void				transform(t_lexer *head)
 {
@@ -77,75 +80,44 @@ void				transform(t_lexer *head)
 		count_node = count_node->next;
 	}
 	array = (char **)malloc((i + 1) * sizeof(char *));
-
-		
-		// m = 0;
-		// while (m < 11)
-		// {
-		// 	printf("%d=[%d]  ", m, head->token[m]);
-		// 	m++;
-		// }
-		// printf("\n");
-	// if(head->token[token_general])
-	// 	printf("TRUE\n");
-
-	// if(head->token[token_general])
-	// {
-	// 	//printf("halo\n");
-	// 	if(head->token[token_quote]  || head->token[token_dquote])
-	// 		newstr = trunc_quotes(head, head->str);
-	// 	//printf("newstr= [%s]\n", newstr);
-	// 	array[y] = newstr;
-	// 	y++;
-	// 	//printf("array =  [%s]\n", array[0]);
-	// 	type_built = get_builtin_type(head->str);
-	// 	//tmp = ll_new_node_command(newstr, type_built);
-	// 	head = head->next;
-	// }
-	while(head && head->token[token_general])
+	if (array == NULL)
+		printf("Malloc failed\n");
+	if(head->token[token_general])
 	{
-		if(y == 0 )
-		{
-			//printf("halo\n");
-			if(head->token[token_quote]  || head->token[token_dquote])
-				newstr = trunc_quotes(head, head->str);
-		printf("newstr= [%s]\n", newstr);
-			array[y] = newstr;
-			y++;
-		//printf("array =  [%s]\n", array[0]);
-			type_built = get_builtin_type(head->str);
-		//tmp = ll_new_node_command(newstr, type_built);
-			head = head->next;
-			
-		}
-		if(head->token[token_quote] || head->token[token_dquote])
+		if(head->token[token_quote]  || head->token[token_dquote])
 		{
 			newstr = trunc_quotes(head, head->str);
-			printf("newstr= [%s]\n", newstr);
 			array[y] = newstr;
-			//printf("array2 =  [%s]\n", array[1]);
 		}
 		else
 			array[y] = head->str;
-		// printf("array2 =  [%s]\n", array[y]);
+		y++;
+		// type_built = get_builtin_type(head->str);
+		//tmp = ll_new_node_command(newstr, type_built);
+		head = head->next;
+	}
+	while(head && head->token[token_general])
+	{
+		if(head->token[token_quote] || head->token[token_dquote])
+		{
+			newstr = trunc_quotes(head, head->str);
+			array[y] = newstr;
+		}
+		else
+			array[y] = head->str;
 		y++;
 		head = head->next;
 		
 	}
+	if(array)
+		array[y]= 0;
 
-	//printf("newstr= [%s]\n", newstr);
-	// if(array)
-	// array[y]= 0;
-	// printf("dubbel array 1[%s]\n", array[0]);
-	// printf("dubbel array 1[%s]\n", array[1]);
-	// printf("dubbel array 1[%s]\n", array[2]);
-	
-	// y = 0;
-	// while(array[y])
-	// {
-	// 	printf("dubbel array[%s]\n", array[y]);
-	// 	y++;
-	// }
+	y = 0;
+	while(array[y])
+	{
+		printf("dubbel array[%s]\n", array[y]);
+		y++;
+	}
 	// if(head->token[token_pipe])
 	// 	printf("je bent een pipeline\n");
 	// if(head->token[token_semicolon])
