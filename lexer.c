@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/23 15:54:15 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/07/24 15:03:36 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,14 @@ static int		check_meta_and_quote(char *line, int *i, int *token)
 	return (0);
 }
 
-static int			*init_token()
+int				*intspace(int i)
 {
-	int 	*token;
+	int 	*size_type;
 
-	token = (int *)malloc(sizeof(int) * 11);
-	ft_bzero(token, 11 * sizeof(int));
+	size_type = (int *)malloc(sizeof(int) * i);
+	ft_bzero(size_type, 11 * sizeof(int));
 
-	return (token);
+	return (size_type);
 }
 
 static void			save_word(char *line, int *i, t_lexer **head)
@@ -97,7 +97,7 @@ static void			save_word(char *line, int *i, t_lexer **head)
 	int			*token;
 
 	start = *i;
-	token = init_token();
+	token = intspace(11);
 	token[token_general] = 1;
 	check_meta_and_quote(line, i, token);
 	len = *i - start;
@@ -116,7 +116,7 @@ static void			save_operator(char *line, int *i, int type, t_lexer **head)
 	char		*str;
 	int			*token;
 
-	token = init_token();
+	token = intspace(11);
 	if (type == token_redirection_greater && line[*i + 1] == '>')
 	{
 		(*i)++;
@@ -158,9 +158,10 @@ void				lexer(char *line)
 	list = head;
 	printf("EIND RESULTAAT:\n");
 	int n;
+	transform(head);
 	while (list)
 	{
-		transform(list);										// this is the expiriment with transform ffrom sophie 
+		//transform(list);										// this is the expiriment with transform ffrom sophie 
 		// printf("node-str = [%s]\n", list->str);
 		// n = 0;
 		// while (n < 11)
