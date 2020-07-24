@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/23 16:35:22 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/07/24 16:09:59 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,16 @@ enum	token_type{
 	token_dollar,
 };
 
-// enum	builtin{
-// 	builtin_echo,
-// 	builtin_cd,
-// 	builtin_pwd,
-// 	builtin_export,
-// 	builtin_unset,
-// 	builtin_env,
-// 	builtin_exit
-// };
+enum	builtin_type{
+	builtin_no,
+	builtin_echo,
+	builtin_cd,
+	builtin_pwd,
+	builtin_export,
+	builtin_unset,
+	builtin_env,
+	builtin_exit
+};
 
 typedef struct				s_lexer{
 	char 					*str;
@@ -62,16 +63,20 @@ typedef struct				s_lexer{
 // }							t_parser;
 
 typedef struct				s_command {
+	char					**str;
 	struct s_list			output;    // dit is dus een link list voor alle outputs // moeten we hier dan * van maken 
 	struct s_list			input;     // dit is dus een link list voor de input
 	struct s_list 			output_modus; // trunk append
 	int						pipe_before;
 	int						pipe_after;
+	int						*builtin;
+	
 
 }							t_command;
 
 
 void						lexer(char *line);
+int							*intspace(int i);
 
 int							ft_strcmp(const char *s1, const char *s2);
 char 						*str_from_char(char c);
@@ -90,5 +95,6 @@ int							this_is_a_test(int c);
 
 /*transform */
 void							transform(t_lexer *list);
-
+int         					get_builtin_type(char *str);
+char            				*trunc_quotes(t_lexer *list,char *str);
 #endif

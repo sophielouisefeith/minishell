@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/20 15:49:32 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/24 15:03:11 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int				main(int argc, char **argv)
 	char	*line;
 	int		ret;
 	int 	i;
-
+	
 	ret = 1;
 	while (ret > 0)
 	{
