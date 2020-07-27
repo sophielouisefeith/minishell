@@ -6,11 +6,12 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/07/24 16:11:32 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/27 10:18:17 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 char           *trunc_quotes(t_lexer *list,char *str)
 {
