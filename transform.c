@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/23 12:07:41 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/07/27 13:55:35 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/27 14:04:18 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,23 +110,25 @@ void				transform(t_lexer *head)
 	}
 	if(array)
 		array[y]= 0;
+	
+	printf("head->str = [%s]\n", head->str);
 
-	tmp = ll_new_node_command(array, type_built);
-	ll_lstadd_back_command(&command, tmp);
-	
-	command = command->next;
-	
-	// if(head->token[token_pipe])
-	if(command && head->token[token_pipe])
+	if(head && head->token[token_pipe])
 	{
 		printf("kom er maar in\n");
 		
-		if(head->token[token_pipe])
-		// pipe()
-			printf("je bent een pipeline\n");
-		if(head->token[token_semicolon])
-			printf("je bent een semicoln\n");
+		// if(head->token[token_pipe])
+		// // pipe()
+		// 	printf("je bent een pipeline\n");
+		// if(head->token[token_semicolon])
+		// 	printf("je bent een semicoln\n");
 	}
+	
+	// tmp = ll_new_node_command(array, type_built);
+	// ll_lstadd_back_command(&command, tmp);
+	
+	// command = command->next;
+	
 		
 
 //// Tester
@@ -138,18 +140,18 @@ void				transform(t_lexer *head)
 	// 	y++;
 	// }
 //		Linked list 2d array printer
-	t_command		*list;
-	int n;
+	// t_command		*list;
+	// int n;
 	
-	n = 0;
-	list = command;
-	printf("EIND RESULTAAT TRANSFORM:\n");
-	printf("node-builtin = [%d]\n", list->builtin);
-	while (list->array[n])
-	{
-		printf("node-str[%d] = [%s]\n", n, list->array[n]);
-		n++;
-	}
+	// n = 0;
+	// list = command;
+	// printf("EIND RESULTAAT TRANSFORM:\n");
+	// printf("node-builtin = [%d]\n", list->builtin);
+	// while (list->array[n])
+	// {
+	// 	printf("node-str[%d] = [%s]\n", n, list->array[n]);
+	// 	n++;
+	// }
 //// Einde Tester
 }
 
