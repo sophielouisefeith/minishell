@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/23 12:07:41 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/07/24 16:49:31 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/24 16:53:02 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@
 // }
 
 /* notes regarding this function for maran and sophie  */
+
+
+
 
 void				transform(t_lexer *head)
 {
@@ -71,16 +74,20 @@ void				transform(t_lexer *head)
 	count_node = head;
 	i = node_count(count_node, i);
 	array = (char **)malloc((i + 1) * sizeof(char *));
+	if (array == NULL)
+		printf("Malloc failed\n");
 	if(head->token[token_general])
 	{
 		if(head->token[token_quote]  || head->token[token_dquote])
 		{
 			newstr = trunc_quotes(head, head->str);
-			printf("newstr= [%s]\n", newstr);
+			array[y] = newstr;
 		}
 		else
-			array[y] = newstr;
+			array[y] = head->str;
 		y++;
+		// type_built = get_builtin_type(head->str);
+		//tmp = ll_new_node_command(newstr, type_built);
 		head = head->next;
 	}
 	while(head && head->token[token_general])
@@ -88,7 +95,6 @@ void				transform(t_lexer *head)
 		if(head->token[token_quote] || head->token[token_dquote])
 		{
 			newstr = trunc_quotes(head, head->str);
-			printf("newstr= [%s]\n", newstr);
 			array[y] = newstr;
 		}
 		else
@@ -97,6 +103,9 @@ void				transform(t_lexer *head)
 		head = head->next;
 		
 	}
+	if(array)
+		array[y]= 0;
+
 	y = 0;
 	while(array[y])
 	{
