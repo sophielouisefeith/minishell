@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/27 13:00:46 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/27 16:59:15 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,9 @@ void							transform(t_lexer *list);
 int         					get_builtin_type(char *str);
 char            				*trunc_quotes(t_lexer *list,char *str);
 int								check_builtin_node(t_lexer **head);
+
+/*execute*/
+int             				execute(void);
+int								execute_cd();
+int          					execute_pwd(void);
 #endif

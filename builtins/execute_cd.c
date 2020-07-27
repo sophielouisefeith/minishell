@@ -6,24 +6,17 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/27 13:31:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/07/27 13:55:58 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/27 17:17:29 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include <stdio.h>
 #include <unistd.h>
+#include "../minishell.h"
 
 int             execute_cd()
 {
-    char s[100]; 
-  
-    // printing current working directory 
-    printf("%s\n", getcwd(s, 100)); 
-    // using the command 
-    chdir(".."); 
-    // printing current working directory 
-    printf("%s\n", getcwd(s, 100)); 
-    // after chdir is executed 
+    chdir("..");
     return 0;
 }

@@ -6,7 +6,7 @@
 #    By: Maran <Maran@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/06 17:19:34 by Maran         #+#    #+#                  #
-#    Updated: 2020/07/24 14:33:40 by SophieLouis   ########   odam.nl          #
+#    Updated: 2020/07/27 17:19:32 by maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIBFT = libft
 SRC =  main.c lexer.c lexer_utils.c ft_strcmp.c\
 		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
 		ll_make_list.c transform.c builtin.c transform_check.c\
-	#	parser.c
+		builtins/execute.c builtins/execute_cd.c builtins/execute_pwd.c\
 
 OBJ = $(SRC:.c=.o)
 

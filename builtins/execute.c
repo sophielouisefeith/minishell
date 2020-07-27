@@ -6,15 +6,16 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/27 13:01:30 by maran         #+#    #+#                 */
-/*   Updated: 2020/07/27 13:48:09 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/27 17:19:04 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <../minishell.h>
+#include "../minishell.h"
 
-int             main(void)
+int             execute(void)
 {
     int builtin;
+    int builtin2;
     // Tel aantal nodes. Aantal nodes is aantal processen
     int num_nodes = 3;
 
@@ -23,6 +24,11 @@ int             main(void)
     // >
 
     builtin = builtin_cd;
+    builtin2 = builtin_pwd;
     if (builtin == builtin_cd)
         execute_cd();
+    if (builtin2 == builtin_pwd)
+        execute_pwd();
+
+    return (0);
 }
