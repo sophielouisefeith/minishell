@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/24 16:46:53 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/27 13:00:46 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,15 @@ typedef struct				s_lexer{
 // }							t_parser;
 
 typedef struct				s_command {
-	char					**str;
+	char					**array;
+	int						builtin;
+
 	struct s_list			output;    // dit is dus een link list voor alle outputs // moeten we hier dan * van maken 
 	struct s_list			input;     // dit is dus een link list voor de input
 	struct s_list 			output_modus; // trunk append
 	int						pipe_before;
 	int						pipe_after;
-	int						*builtin;
-	
-
+	struct		s_command 	*next;
 }							t_command;
 
 
@@ -97,5 +97,5 @@ int							this_is_a_test(int c);
 void							transform(t_lexer *list);
 int         					get_builtin_type(char *str);
 char            				*trunc_quotes(t_lexer *list,char *str);
-int         					node_count(t_lexer *count_node, int i);
+int								check_builtin_node(t_lexer **head);
 #endif

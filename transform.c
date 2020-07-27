@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/23 12:07:41 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/07/24 16:53:02 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/27 13:55:35 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,103 +20,50 @@
 ** 
 */
 
-
-
-
-// t_command			*ll_new_node_command(void *content, int *token, int len)
-// {
-// 	t_lexer		*new;
-
-// 	new = (t_lexer *)malloc(sizeof(t_lexer));
-// 	if (!new)
-// 		return (0);
-// 	new->str = content;
-// 	new->token = token;
-// 	new->next = NULL;
-// 	return (new);
-// }
-
-/* notes regarding this function for maran and sophie  */
-
-
-
-
-void				transform(t_lexer *head)
+static int				count_node(t_lexer *head)
 {
-
-	//t_lexer *lexer;
-	//t_parser    *commandlist;
-	//pid_t		pid;
-	//t_lexer		token;
-
-	//printf("node-trans = [%s]\n", list->str);
-	//printf("token = [%d]\n", list->token[0]);
-	//if(&token[1] == 1)
-	/* een node komt binnen die moeten we gaan controleren  en weer terug geven als een str*/
-	t_command *command;
-	t_command *tmp;
 	t_lexer   *count_node;
-	int n;
-	int i;
-	//int len;
-	char *newstr;
-	int	 *builtin;
-	int type_built;
-	char **array;
-	int y;
-	int m;
+	int 				i;
 
-	// len = ft_strlen(head->str);
-	n = 0;
-	builtin = intspace(8);
 	i = 0;
-	y = 0;
 	count_node = head;
-	i = node_count(count_node, i);
-	array = (char **)malloc((i + 1) * sizeof(char *));
-	if (array == NULL)
-		printf("Malloc failed\n");
-	if(head->token[token_general])
+	while(count_node && count_node->token[token_general])
 	{
-		if(head->token[token_quote]  || head->token[token_dquote])
-		{
-			newstr = trunc_quotes(head, head->str);
-			array[y] = newstr;
-		}
-		else
-			array[y] = head->str;
-		y++;
-		// type_built = get_builtin_type(head->str);
-		//tmp = ll_new_node_command(newstr, type_built);
-		head = head->next;
+		i++;
+		count_node = count_node->next;
 	}
-	while(head && head->token[token_general])
-	{
-		if(head->token[token_quote] || head->token[token_dquote])
-		{
-			newstr = trunc_quotes(head, head->str);
-			array[y] = newstr;
-		}
-		else
-			array[y] = head->str;
-		y++;
-		head = head->next;
-		
-	}
-	if(array)
-		array[y]= 0;
+	return (i);
+}
 
-	y = 0;
-	while(array[y])
+
+
+t_command			*ll_new_node_command(void *content, int builtin)
+{
+	t_command		*new;
+
+	new = (t_command *)malloc(sizeof(t_command));
+	if (!new)
+		return (0);
+	new->array = content;
+	new->builtin = builtin;
+	new->next = NULL;
+	return (new);
+}
+
+
+void			ll_lstadd_back_command(t_command **head, t_command *new)
+{
+	t_command		*list;
+
+	list = *head;
+	if (list)
 	{
-		printf("dubbel array[%s]\n", array[y]);
-		y++;
+		while (list->next)
+			list = list->next;
+		list->next = new;
 	}
-	// if(head->token[token_pipe])
-	// 	printf("je bent een pipeline\n");
-	// if(head->token[token_semicolon])
-	// 	printf("je bent een semicoln\n");
-	
+	else
+		*head = new;
 }
 
 
@@ -124,13 +71,93 @@ void				transform(t_lexer *head)
 
 
 
+void				transform(t_lexer *head)
+{
+	char 		**array;
+	char 		*newstr;
+	int 		type_built;
+	int 		num_nodes;
+	int 		y;
+	t_command 	*command; //command head
+	t_command 	*tmp;
 
 
+	int	 *builtin;
+	builtin = intspace(8);
+	
+	y = 0;
+	command = NULL;
+	
+	num_nodes = count_node(head);
+	printf("num nodes = %d \n", num_nodes);
+	
+	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
+	if (array == NULL)
+		printf("Malloc failed\n");
+	type_built = check_builtin_node(&head);
+
+	while (head && head->token[token_general])
+	{
+		if (head->token[token_quote] || head->token[token_dquote])
+		{
+			newstr = trunc_quotes(head, head->str);
+			array[y] = newstr;
+		}
+		else
+			array[y] = head->str;
+		y++;
+		head = head->next;
+	}
+	if(array)
+		array[y]= 0;
+
+	tmp = ll_new_node_command(array, type_built);
+	ll_lstadd_back_command(&command, tmp);
+	
+	command = command->next;
+	
+	// if(head->token[token_pipe])
+	if(command && head->token[token_pipe])
+	{
+		printf("kom er maar in\n");
+		
+		if(head->token[token_pipe])
+		// pipe()
+			printf("je bent een pipeline\n");
+		if(head->token[token_semicolon])
+			printf("je bent een semicoln\n");
+	}
+		
+
+//// Tester
+// 		2d array printer:
+	// y = 0;
+	// while(array[y])
+	// {
+	// 	printf("dubbel array[%s]\n", array[y]);
+	// 	y++;
+	// }
+//		Linked list 2d array printer
+	t_command		*list;
+	int n;
+	
+	n = 0;
+	list = command;
+	printf("EIND RESULTAAT TRANSFORM:\n");
+	printf("node-builtin = [%d]\n", list->builtin);
+	while (list->array[n])
+	{
+		printf("node-str[%d] = [%s]\n", n, list->array[n]);
+		n++;
+	}
+//// Einde Tester
+}
 
 
-
-
-
+	// if(head->token[token_pipe])
+	// 	printf("je bent een pipeline\n");
+	// if(head->token[token_semicolon])
+	// 	printf("je bent een semicoln\n");
 
 	/* hier komt 1 node per keer binnen want deze functie word aangeroepen in de lexer vanuit een while loop  
 	dus nu hebben we de eerste node */

@@ -6,11 +6,12 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/07/24 16:46:45 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/27 13:29:39 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 char           *trunc_quotes(t_lexer *list,char *str)
 {
@@ -33,3 +34,4 @@ int         node_count(t_lexer *count_node, int i)
 	}
     return(i);
 }
+
