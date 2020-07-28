@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/27 16:59:15 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/28 15:10:04 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,12 @@ typedef struct				s_command {
 	struct		s_command 	*next;
 }							t_command;
 
+typedef struct				s_env{
+	char 					*name;
+	char					*value;
+	struct		s_env   	*next;
+}							t_env;
+
 
 void						lexer(char *line);
 int							*intspace(int i);
@@ -101,6 +107,10 @@ int								check_builtin_node(t_lexer **head);
 
 /*execute*/
 int             				execute(void);
-int								execute_cd();
+int								execute_cd(void);
 int          					execute_pwd(void);
+t_env                 			*save_env();
+void        					execute_env(t_env **env);
+void            				execute_export(t_env **env);
+
 #endif
