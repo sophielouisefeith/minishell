@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/23 12:07:41 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/07/29 14:42:17 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/29 15:14:19 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,9 @@ static void		out_in_put(t_lexer *head, int i)
 
 	output = NULL;
 	input = NULL;
-	printf("pipeafter out_int [%d]\n", pipe_after);
+	// printf("pipeafter out_int [%d]\n", pipe_after);
+	// printf ("int i = [%d]\n", i);
+
 	// if(pipe_after)
 	// {
 	// 	printf("array[%s]\n", *command.array); // dit doet het dus wel 

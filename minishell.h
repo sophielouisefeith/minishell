@@ -6,11 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-<<<<<<< HEAD
-/*   Updated: 2020/07/29 14:37:15 by SophieLouis   ########   odam.nl         */
-=======
-/*   Updated: 2020/07/28 18:12:25 by maran         ########   odam.nl         */
->>>>>>> d9eb0b42c936f68905e7c08aced428aa018ab1b6
+/*   Updated: 2020/07/29 19:24:08 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +131,8 @@ int          					execute_pwd(void);
 t_env                 			*save_env();
 void			    			ll_lstadd_back_env(t_env **head, t_env *new);
 t_env			    			*ll_new_node_env(char *name, char *value);
-void        					execute_env(t_env **env);
+void        					execute_env(t_env *env);
 int	            				execute_export(t_env **env);
+void        					execute_unset(t_env **env);
 
 #endif
