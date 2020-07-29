@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/27 13:00:46 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/29 14:37:15 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,40 @@ typedef struct				s_lexer{
 	struct		s_lexer 	*next;
 }							t_lexer;
 
-// typedef struct				s_parser {
-// 	char 					*str;
-// 	int						*token;
-// 	struct		s_lexer 	*next;
-// }							t_parser;
+typedef struct				s_output{
+	//char					*str;
+	char 					**array_output;
+
+	struct		s_lexer 	*next;
+}							t_output;
+
+typedef struct				s_input{
+	//char					*str;
+	char 					**array_input;
+
+	struct		s_lexer 	*next;
+}							t_input;
+					
+	typedef struct			s_output_modus{
+	//char					*str;
+	char 					**array_modus;
+	struct		s_lexer 	*next;
+}							t_output_modus;
 
 typedef struct				s_command {
 	char					**array;
 	int						builtin;
-
+	
 	struct s_list			output;    // dit is dus een link list voor alle outputs // moeten we hier dan * van maken 
 	struct s_list			input;     // dit is dus een link list voor de input
 	struct s_list 			output_modus; // trunk append
 	int						pipe_before;
 	int						pipe_after;
+	int						sem_after;
+	int						sem_before;
+	int						redirection_greater;
+	int						redirection_lesser;
+	int						redirection_dgreater;
 	struct		s_command 	*next;
 }							t_command;
 

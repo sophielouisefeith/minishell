@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/07/27 13:29:39 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/28 14:04:26 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 char           *trunc_quotes(t_lexer *list,char *str)
 {
     int     len;
-    // t_command **commandstr;
+   // t_command **commandstr;
     char       *newstr;
     len = ft_strlen(str);
     
