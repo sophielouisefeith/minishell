@@ -6,23 +6,40 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/27 13:01:30 by maran         #+#    #+#                 */
-/*   Updated: 2020/07/27 13:48:09 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/28 18:41:25 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <../minishell.h>
+#include "../minishell.h"
 
-int             main(void)
+/*
+** Tel aantal nodes. Aantal nodes is aantal processen
+** ; --> dan moeten alle processen los van elkaar worden uitgevoerd van links --> rechts
+** | tussen processen dan moet proces 1 writen naar fd[1] en proces 2 readen van fd[0]
+** > 
+**
+** TO DO:
+** Opnieuw uitzoeken waarom ** ipv * (zucht)
+*/
+
+int             execute(void)
 {
     int builtin;
-    // Tel aantal nodes. Aantal nodes is aantal processen
-    int num_nodes = 3;
+    t_env *env;                         //kopie head
 
-    // ; --> dan moeten alle processen los van elkaar worden uitgevoerd van links --> rechts
-    // | tussen processen dan moet proces 1 writen naar fd[1] en proces 2 readen van fd[0]
-    // >
-
-    builtin = builtin_cd;
+    env = save_env();
+    
+    builtin = builtin_export;
     if (builtin == builtin_cd)
         execute_cd();
+    if (builtin == builtin_pwd)
+        execute_pwd();
+    if (builtin == builtin_env)
+        execute_env(&env);
+    if (builtin == builtin_export)
+    {
+        execute_export(&env);
+        // execute_env(&env);           //tester
+    }
+    return (0);
 }

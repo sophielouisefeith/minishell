@@ -6,7 +6,11 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
+<<<<<<< HEAD
 /*   Updated: 2020/07/29 14:37:15 by SophieLouis   ########   odam.nl         */
+=======
+/*   Updated: 2020/07/28 18:12:25 by maran         ########   odam.nl         */
+>>>>>>> d9eb0b42c936f68905e7c08aced428aa018ab1b6
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +97,12 @@ typedef struct				s_command {
 	struct		s_command 	*next;
 }							t_command;
 
+typedef struct				s_env{
+	char 					*name;
+	char					*value;
+	struct		s_env   	*next;
+}							t_env;
+
 
 void						lexer(char *line);
 int							*intspace(int i);
@@ -117,4 +127,15 @@ void							transform(t_lexer *list);
 int         					get_builtin_type(char *str);
 char            				*trunc_quotes(t_lexer *list,char *str);
 int								check_builtin_node(t_lexer **head);
+
+/*execute*/
+int             				execute(void);
+int								execute_cd(void);
+int          					execute_pwd(void);
+t_env                 			*save_env();
+void			    			ll_lstadd_back_env(t_env **head, t_env *new);
+t_env			    			*ll_new_node_env(char *name, char *value);
+void        					execute_env(t_env **env);
+int	            				execute_export(t_env **env);
+
 #endif
