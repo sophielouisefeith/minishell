@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 10:31:32 by maran         #+#    #+#                 */
-/*   Updated: 2020/07/29 18:46:23 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/30 15:38:49 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ t_env                 *save_env()
         array = NULL;
         i++;
     }
-    printf("env = [%p]\n", env);
+   // printf("env = [%p]\n", env);
     return (env);
 }

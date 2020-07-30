@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/27 13:01:30 by maran         #+#    #+#                 */
-/*   Updated: 2020/07/29 19:33:59 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/30 15:39:55 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int             execute(void)
 
     env = save_env();
 
-    printf("env = [%p]\n", env);
+  //  printf("env = [%p]\n", env);
 
-    printf("--------ENV BEFORE---------\n");
+    //printf("--------ENV BEFORE---------\n");
     execute_env(env);
     
     builtin = builtin_export;
@@ -46,7 +46,7 @@ int             execute(void)
     if (builtin == builtin_unset)
         execute_unset(&env);
 
-    printf("--------ENV AFTER---------\n");
+   // printf("--------ENV AFTER---------\n");
     execute_env(env);
 
     return (0);
