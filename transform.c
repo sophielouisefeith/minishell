@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/23 12:07:41 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/07/30 15:50:21 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/30 16:43:12 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 // | is het allemaal input
 // stapt 1 of redirections in de eerste node zettendus in de de eerste **char
 // 
-
 strategie lijst sophie
 redirections geven een ander beeld
  |  ; is het allemaal input /// dus hiervan alleen maar de pipes en semicolum opslaan dat is check  
@@ -45,7 +44,7 @@ static int				count_node(t_lexer *head)
 
 	i = 0;
 	count_node = head;
-	while(count_node && count_node->token[token_general])
+	while(count_node && (count_node->token[token_general]||count_node->token[7|8|9]))
 	{
 		i++;
 		count_node = count_node->next;
@@ -84,32 +83,34 @@ void			ll_lstadd_back_command(t_command **head, t_command *new)
 		*head = new;
 }
 
-static int	redirection(t_lexer *head, t_command *command)
+static void	redirection(t_lexer *head, char **array, int *y)
 {
 	int						redirection_greater;
 	int						redirection_lesser;
 	int						redirection_dgreater;
-	
-	if((head && head->token[7]))
+	char					*newstr;
+
+	newstr = head->str;
+	while((head && (head->token[7]|| head->token[8]| head->token[9])))
 	{
-		//redirection_greater = 1;
-		return(redirection_greater = 1);
+		array[*y] = newstr;
+		printf("array[%s]\n ", array[*y]);
+		head = head->next;
+		*y++;
 	}
-	if(head && head->token[8])
+	head = head->next;
+	//newstr = NULL;
+	newstr = head->str;
+	printf("waar zijn we nu in de node[%s]\n", head->str);
+	while(head && (head->token[token_general]))
 	{
-		//redirection_lesser = 1;
-		return(redirection_lesser = 1);
+		array[*y] = newstr;
+		head = head->next;
+		printf("array[%s]\n ", array[*y]);
+	 	*y++;
 	}
-	if(head && head->token[9])
-	{
-		//redirection_dgreater = 1;
-		return(redirection_dgreater = 1);
-	}
-	return(0);
-	printf("ik ben een redirection\n");
-	// hier moeten we nog meer meer bepalen wat de input en output is
-	
 }
+
 static void		out_in_put(t_lexer *head, int i)
 {
 	t_command		command;
@@ -181,9 +182,9 @@ static int		fill_operator(t_lexer *head)
 		// misschien zouden we hier al wel input en output kunnen doen // hier zouden we gelijk naar input_output functie kunnen gaan
 	if(head && head->token[token_semicolon])
 		return(sem_after = 1);
-	if((head && head->token[7])||(head && head->token[8])\
-	|| (head && head->token[9]))
-		return(redirection(head, &command));
+	// if((head && head->token[7])||(head && head->token[8])\
+	// || (head && head->token[9]))
+	// 	return(redirection(head, &command));
 	return(0);
 }
 
@@ -216,7 +217,7 @@ static int			command_next(t_command *command, t_lexer *head)
 	if((redirection_greater || redirection_dgreater || redirection_lesser) && command)
 	{
 		command = command->next;
-		return(redirection(head, command));
+		
 	}
 		
 	// nu hebben we de input en output ook gevuld van de eerste node van de command struct nu gaa we naar de tweede node en doen 
@@ -238,7 +239,7 @@ void				transform(t_lexer *head)
 	t_command 	*command; //command head
 	t_command 	*tmp;
 
-
+	printf("kom je in transform\n");
 	int	 *builtin;
 
 	printf("HALLO TRANSORM\n");
@@ -267,6 +268,11 @@ void				transform(t_lexer *head)
 	}
 	if(array)
 		array[y]= 0;
+	printf("waar zijn we nu in de node[%s]\n", head->str);
+	if((head && head->token[7])||(head && head->token[8])\
+	|| (head && head->token[9]))
+		redirection(head, array, &y);
+	
 	//printf("head->str = [%s]\n", head->str);
 	tmp = ll_new_node_command(array, type_built);
 	ll_lstadd_back_command(&command, tmp);
@@ -277,37 +283,29 @@ void				transform(t_lexer *head)
 	operator = command_next(command, head);
 	transform(head);
 	//out_in_put(&command, operator);
-	
-	
-
-	
-
-	
-
-	
 		
 
 //// Tester
 // 		2d array printer:
-// 	y = 0;
-// 	while(array[y])
-// 	{
-// 		printf("dubbel array[%s]\n", array[y]);
-// 		y++;
-// 	}
-// //Linked list 2d array printer
-// 	t_command		*list;
-// 	int n;
+	y = 0;
+	while(array[y])
+	{
+		printf("dubbel array[%s]\n", array[y]);
+		y++;
+	}
+//Linked list 2d array printer
+	t_command		*list;
+	int n;
 	
-// 	n = 0;
-// 	list = command;
-// 	printf("EIND RESULTAAT TRANSFORM:\n");
-// 	printf("node-builtin = [%d]\n", list->builtin);
-// 	while (list->array[n])
-// 	{
-// 		printf("node-str[%d] = [%s]\n", n, list->array[n]);
-// 		n++;
-// 	}
+	n = 0;
+	list = command;
+	printf("EIND RESULTAAT TRANSFORM:\n");
+	printf("node-builtin = [%d]\n", list->builtin);
+	while (list->array[n])
+	{
+		printf("node-str[%d] = [%s]\n", n, list->array[n]);
+		n++;
+	}
 //// Einde Tester
 }
 
