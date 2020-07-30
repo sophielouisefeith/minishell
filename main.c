@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/30 14:33:52 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/30 15:48:41 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int				main(int argc, char **argv)
 		ret = get_next_line(0, &line);
 		// if (ret == -1)
 		// 	error();
-		// if (line[i] != '\0')
-		// 	lexer(line);
-		execute();
+		if (line[i] != '\0')
+			lexer(line);
+		// execute();
 		free(line);
 		line = NULL;
 	}

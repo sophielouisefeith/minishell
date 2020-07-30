@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/23 12:07:41 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/07/29 15:14:19 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/30 15:50:21 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,24 @@
 ** 2. save if ; | before after. remove '  ""
 ** 3. place the nodes in a new struct the command struct 
 ** 
+*/
+
+
+/* strategie lijst sophie 
+// redirections geven een ander beeld 
+// | is het allemaal input
+// stapt 1 of redirections in de eerste node zettendus in de de eerste **char
+// 
+
+strategie lijst sophie
+redirections geven een ander beeld
+ |  ; is het allemaal input /// dus hiervan alleen maar de pipes en semicolum opslaan dat is check  
+ stapt 1 of redirections in de eerste node zetten dus in de de eerste **char // want deze moeten meegelezen worden in de executor.
+ hier schrijf ik een if statement voor if redirection dan sla op **char  
+ alle input and output arrays moeten gemalloced worden ( hoe weten we van te voren hoe groot die zijn . 
+ bij redicrection echo hallo > file 1 >> file2 // hier worde de 1 dus geplaats als input in file2 hoe ga ik dit opslaan // eerst even met maran overleggen over de tactiek
+checkken of er iets na de semicolum of pipe komt zo ja dan worden de pipes_after worden pipes_before
+
 */
 
 static int				count_node(t_lexer *head)
@@ -135,7 +153,7 @@ static void		out_in_put(t_lexer *head, int i)
 	if(pipe_before)
 	{
 		printf("array[%s]\n", *command.array); // dit doet het dus wel 
-			array_input[y] = *command.array;
+			array_input[y] = *command.array; // dit moet output zin 
 			*command.array = *command.array++;
 	}
 	
@@ -222,6 +240,8 @@ void				transform(t_lexer *head)
 
 
 	int	 *builtin;
+
+	printf("HALLO TRANSORM\n");
 	builtin = intspace(8);
 	y = 0;
 	command = NULL;
