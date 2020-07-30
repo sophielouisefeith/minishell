@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 10:31:32 by maran         #+#    #+#                 */
-/*   Updated: 2020/07/28 18:37:42 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/29 18:46:23 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,18 @@ void			    ll_lstadd_back_env(t_env **head, t_env *new)
 		*head = new;
 }
 
-void        execute_env(t_env **env)
+void        execute_env(t_env *env)
 {
-    while(*env)                                          //misschien beter om eigen printf te gebruiken?
+    t_env   *list;
+
+    list = env;
+    while (list)                                          //misschien beter om eigen printf te gebruiken?
     {
-        write(1, (*env)->name, ft_strlen((*env)->name));
+        write(1, list->name, ft_strlen(list->name));
         write(1, "=", 1);
-        write(1, (*env)->value, ft_strlen((*env)->value));
+        write(1, list->value, ft_strlen(list->value));
         write(1, "\n", 1);
-        (*env) = (*env)->next;
+        list = list->next;
     }
 }
 
@@ -71,5 +74,6 @@ t_env                 *save_env()
         array = NULL;
         i++;
     }
+    printf("env = [%p]\n", env);
     return (env);
 }
