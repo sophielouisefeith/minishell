@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/29 19:24:08 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/30 14:25:50 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct				s_input{
 	struct		s_lexer 	*next;
 }							t_input;
 					
-	typedef struct			s_output_modus{
+typedef struct			s_output_modus{
 	//char					*str;
 	char 					**array_modus;
 	struct		s_lexer 	*next;
@@ -134,5 +134,7 @@ t_env			    			*ll_new_node_env(char *name, char *value);
 void        					execute_env(t_env *env);
 int	            				execute_export(t_env **env);
 void        					execute_unset(t_env **env);
+void        					execute_exit(void);
+int								execute_echo(t_command *head_command);
 
 #endif

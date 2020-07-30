@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 16:22:20 by maran         #+#    #+#                 */
-/*   Updated: 2020/07/29 18:07:23 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/30 13:50:28 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,6 @@ void        execute_unset(t_env **env)
     char unset[] = "_";
 
     list = *env;
-// Print before
-// execute_env(env);
-// printf("---------------------\n");
-// 
     if (unset[0] == '\0')
         return ;
     if (!ft_strcmp(list->name, unset))
@@ -72,7 +68,6 @@ void        execute_unset(t_env **env)
         if (!ft_strcmp(list->next->name, unset))
         {
             ll_remove_next_node(list);
-            // execute_env(env);
             return ;
         }
         list = list->next;

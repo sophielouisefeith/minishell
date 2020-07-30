@@ -6,11 +6,71 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/27 13:01:30 by maran         #+#    #+#                 */
-/*   Updated: 2020/07/29 19:33:59 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/30 15:12:05 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+
+ //PSEUDOCODE
+ 
+void            execute_pipe()
+{
+    int fd[2];
+    int id;
+
+    if (pipe(fd) == -1)
+    {
+        printf("ERROR in opening the pipe\n");
+        return (1);
+    }
+    id = fork();
+    if (id == -1)
+        printf("ERROR with fork\n");
+    if (id == 0)                        //child
+    {
+        close (fd[0]);
+        builtin(fd[1]);                 //laat builtins output schrijven naar fd[1]
+        close(fd[1]);
+    }
+    command_head = command_head->next;
+    
+}
+
+
+void            builtin()
+{
+    int builtin;
+    t_env *env;                         //kopie head
+
+    env = save_env();
+
+    // printf("env = [%p]\n", env);
+    // printf("--------ENV BEFORE---------\n");
+    // execute_env(env);
+    builtin = builtin_exit;
+    // if (builtin == builtin_echo)
+    //     execute_echo();
+    if (builtin == builtin_cd)
+        execute_cd();
+    if (builtin == builtin_pwd)
+        execute_pwd();
+    if (builtin == builtin_env)
+        execute_env(env);
+    if (builtin == builtin_export)
+        execute_export(&env);
+    if (builtin == builtin_unset)
+        execute_unset(&env);
+    if (builtin == builtin_exit)
+        execute_exit();
+    // printf("--------ENV AFTER---------\n");
+    // execute_env(env);
+
+    return (0);
+}
+
+
 
 /*
 ** Tel aantal nodes. Aantal nodes is aantal processen
@@ -22,32 +82,9 @@
 ** Opnieuw uitzoeken waarom ** ipv * (zucht)
 */
 
-int             execute(void)
+int             execute()
 {
-    int builtin;
-    t_env *env;                         //kopie head
-
-    env = save_env();
-
-    printf("env = [%p]\n", env);
-
-    printf("--------ENV BEFORE---------\n");
-    execute_env(env);
-    
-    builtin = builtin_export;
-    if (builtin == builtin_cd)
-        execute_cd();
-    if (builtin == builtin_pwd)
-        execute_pwd();
-    if (builtin == builtin_env)
-        execute_env(env);
-    if (builtin == builtin_export)
-        execute_export(&env);
-    if (builtin == builtin_unset)
-        execute_unset(&env);
-
-    printf("--------ENV AFTER---------\n");
-    execute_env(env);
-
+    if (command_head->pipe_after)
+        execute_pipe()
     return (0);
 }
