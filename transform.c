@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/07/31 10:06:58 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/31 10:31:27 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void			ll_lstadd_back_command(t_command **head, t_command *new)
 
 
 
-static void	redirection(t_lexer *head, char **array, int *y)
+static void	redirection(t_lexer *head, char **array, int y)
 {
 	// int						redirection_greater;
 	// int						redirection_lesser;
@@ -85,7 +85,7 @@ static void	redirection(t_lexer *head, char **array, int *y)
 	// out = head->str;
     while(head)                                         //dit moet dus veranderd naar output_head
     { 
-        if(head->token[7]||head && head->token[9])
+        if(head->token[7]|| head->token[9])
             output_fill(head, array, &y);
         head = head->next;
         if(head->token[8])
@@ -120,7 +120,7 @@ static void	redirection(t_lexer *head, char **array, int *y)
         // //output_head = output_head->next_output;  // nu naar de volgende node 
         // tmp_input = ll_new_node_output(str_output, token_output);
 	    // ll_lstadd_back_output(&output_head, tmp_input);
-    }
+ //   }
     
 	// while((head && (head->token[7]|| head->token[9])))
 	// {
@@ -147,64 +147,64 @@ static void	redirection(t_lexer *head, char **array, int *y)
 
 
 
-static void		out_in_put(t_lexer *head, int i)
-{
-	t_command		command;
-	t_list 			*output; //head
-	t_list 			*input;  //head
-	t_list 			*output_modus;//head
-	t_input			*tmp;
-	char			**array_input; // deze moet dus nog gemalloced worden maar even kijken hoe we weten met hoeveel
-	int				y;
-	int 			pipe_after;
-	int				pipe_before;
-	int				redirection_greater;
-	int				redirection_lesser;
-	int				redirection_dgreater;
-	int				sem_after;
+// static void		out_in_put(t_lexer *head, int i)
+// {
+// 	t_command		command;
+// 	t_list 			*output; //head
+// 	t_list 			*input;  //head
+// 	t_list 			*output_modus;//head
+// 	t_input			*tmp;
+// 	char			**array_input; // deze moet dus nog gemalloced worden maar even kijken hoe we weten met hoeveel
+// 	int				y;
+// 	int 			pipe_after;
+// 	int				pipe_before;
+// 	int				redirection_greater;
+// 	int				redirection_lesser;
+// 	int				redirection_dgreater;
+// 	int				sem_after;
 
-	output = NULL;
-	input = NULL;
-	// printf("pipeafter out_int [%d]\n", pipe_after);
-	// printf ("int i = [%d]\n", i);
+// 	output = NULL;
+// 	input = NULL;
+// 	// printf("pipeafter out_int [%d]\n", pipe_after);
+// 	// printf ("int i = [%d]\n", i);
 
-	// if(pipe_after)
-	// {
-	// 	printf("array[%s]\n", *command.array); // dit doet het dus wel 
-	// 	array_input[y] = *command.array;
-	// 	// y++;
-	// }
-	if(redirection_dgreater || pipe_after || redirection_greater||sem_after)
-	{
-		while(*command.array)
-		{
-			printf("array[%s]\n", *command.array); // dit doet het dus wel 
-			array_input[y] = *command.array;
-			*command.array = *command.array++;
-		}
-	}
-	else
-		//array_input[y] = input;
-		y++;
-		input = input->next;
-	if(pipe_before)
-	{
-		printf("array[%s]\n", *command.array); // dit doet het dus wel 
-			array_input[y] = *command.array; // dit moet output zin 
-			*command.array = *command.array++;
-	}
+// 	// if(pipe_after)
+// 	// {
+// 	// 	printf("array[%s]\n", *command.array); // dit doet het dus wel 
+// 	// 	array_input[y] = *command.array;
+// 	// 	// y++;
+// 	// }
+// 	if(redirection_dgreater || pipe_after || redirection_greater||sem_after)
+// 	{
+// 		while(*command.array)
+// 		{
+// 			printf("array[%s]\n", *command.array); // dit doet het dus wel 
+// 			array_input[y] = *command.array;
+// 			*command.array = *command.array++;
+// 		}
+// 	}
+// 	else
+// 		//array_input[y] = input;
+// 		y++;
+// 		input = input->next;
+// 	if(pipe_before)
+// 	{
+// 		printf("array[%s]\n", *command.array); // dit doet het dus wel 
+// 			array_input[y] = *command.array; // dit moet output zin 
+// 			*command.array = *command.array++;
+// 	}
 	
-	// if(i == sem_after)
-	// 	printf("sem");
-	// if(i == redirection_greater)
-	// if(i == redirection_lesser)
-	// if(i == redirection_dgreater)
+// 	// if(i == sem_after)
+// 	// 	printf("sem");
+// 	// if(i == redirection_greater)
+// 	// if(i == redirection_lesser)
+// 	// if(i == redirection_dgreater)
 
-// nu willen we het gewoon in de volgende node stoppen 
-	// tmp = ll_new_node_command(array_input, i);
-	// ll_lstadd_back_command(&command, tmp);	
+// // nu willen we het gewoon in de volgende node stoppen 
+// 	// tmp = ll_new_node_command(array_input, i);
+// 	// ll_lstadd_back_command(&command, tmp);	
 	
-}
+// }
 
 static int		fill_operator(t_lexer *head)
 {
@@ -214,54 +214,31 @@ static int		fill_operator(t_lexer *head)
 	
 	if(head && head->token[token_pipe])
 		return(pipe_after = 1);
-		printf("pipeafter[%d]\n", pipe_after);
-		// misschien zouden we hier al wel input en output kunnen doen // hier zouden we gelijk naar input_output functie kunnen gaan
 	if(head && head->token[token_semicolon])
 		return(sem_after = 1);
-	// if((head && head->token[7])||(head && head->token[8])\
-	// || (head && head->token[9]))
-	// 	return(redirection(head, &command));
 	return(0);
 }
 
-static int			command_next(t_command *command, t_lexer *head)
+static void			command_next(t_command *command, t_lexer *head)
 {
- 
 	int		pipe_after;
 	int		pipe_before;
 	int		sem_after;
 	int		sem_before;
-	int		redirection_greater;
-	int		redirection_lesser;
-	int		redirection_dgreater;
 	
-	//  eerst even gaan kijken met de redirections want dan word het dus input of output
-	// dan gaan we in de volgende daar gebeurt eigenlijk precies hetzelfde maar dan moeten we wel even 
-	// de pipe en semicolum op after zetten 
 	if(pipe_after == 1 && command)
 	{
-		pipe_after = 0; // denk misschien niet nodig omdat we  niet ++ maar in de after operator er een 1 aan geven.
+		pipe_after = 0; 
 		command = command->next;
-		return(pipe_before = 1);
+		pipe_before = 1;
 	}
 	if(sem_after == 1 && command)
 	{
-		printf("er is een semicolum");
+        sem_after = 0; 
 		command = command->next;
-		return(sem_before = 1);
+		sem_before = 1;
 	}
-	if((redirection_greater || redirection_dgreater || redirection_lesser) && command)
-	{
-		command = command->next;
-		
-	}
-		
-	// nu hebben we de input en output ook gevuld van de eerste node van de command struct nu gaa we naar de tweede node en doen 
-	//hetzelfde riedeltje opnieuw
-	command = command->next; // hier gaan we naar de volgende node in de commanstruct
-	//en nu gaan we er dan nog een keer in
-	//transform(head);
-	return(0);
+	command = command->next;
 }
 
 void				transform(t_lexer *head)
@@ -271,11 +248,10 @@ void				transform(t_lexer *head)
 	int 		type_built;
 	int 		num_nodes;
 	int 		y;
-	int			operator;
 	t_command 	*command; //command head
 	t_command 	*tmp;
 
-	printf("kom je in transform\n");
+
 	int	 *builtin;
 	builtin = intspace(8);
 	y = 0;
@@ -302,19 +278,12 @@ void				transform(t_lexer *head)
 	}
 	if(array)
 		array[y]= 0;
-	printf("waar zijn we nu in de node[%s]\n", head->str);
 	if((head && head->token[7])||(head && head->token[8])\
 	|| (head && head->token[9]))
-		redirection(head, array, &y);
-	
-	//printf("head->str = [%s]\n", head->str);
+		redirection(head, array, y);
 	tmp = ll_new_node_command(array, type_built);
 	ll_lstadd_back_command(&command, tmp);
-	operator = fill_operator(head);
-	printf("operator[%d]\n", operator);
-	//we weten nu wat alle dingen zijn nu moeten we bepalen of het input of output is
-	out_in_put(head, operator);
-	operator = command_next(command, head);
+	fill_operator(head);
+	command_next(command, head);
 	transform(head);
-	//out_in_put(&command, operator);
 }
