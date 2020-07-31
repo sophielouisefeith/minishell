@@ -6,15 +6,13 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:38:34 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/07/31 11:49:06 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/31 13:08:19 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-
-t_input			*ll_new_node_input(void *content, int token_output)
+static t_input			*ll_new_node_input(void *content, int token_output)
 {
 	t_input		*new;
 
@@ -27,8 +25,7 @@ t_input			*ll_new_node_input(void *content, int token_output)
 	return (new);
 }
 
-
-void			ll_lstadd_back_input(t_input **head_input, t_output *new_input)
+static void			ll_lstadd_back_input(t_input **head_input, t_input *new_input)
 {
 	t_input		*list_input;
 
@@ -43,28 +40,16 @@ void			ll_lstadd_back_input(t_input **head_input, t_output *new_input)
 		*head_input = new_input;
 }
 
-void            input_fill(t_lexer *head)
+void            input_fill(t_lexer **head)
 {
-
-    char					*in;
-    char                    *str_input;
     t_input                 *tmp_input;
     t_input                 input;
     t_input                 *input_head; //head
      int                    token_input;
 
     input_head = NULL;
-	in = head->str;
-
-  
-    printf("input[%s]\n", in);
-    token_input = check_token(in);
-    head = head->next;
-    str_input = head->str;
-    printf("filename input[%s]\n", str_input);
-    head = head->next;
-    // input_head = input_head->next_input;  // nu naar de volgende node 
-    tmp_input = ll_new_node_input(str_input, token_input);
+    token_input = check_token((*head)->str);
+    *head = (*head)->next;
+    tmp_input = ll_new_node_input((*head)->str, token_input);
 	ll_lstadd_back_input(&input_head, tmp_input);
-    
 }

@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/31 08:57:33 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/31 13:23:36 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static void			save_operator(char *line, int *i, int type, t_lexer **head)
 	char		*str;
 	int			*token;
 
-	token = intspace(11);
+	token = intspace(12);
 	if (type == token_redirection_greater && line[*i + 1] == '>')
 	{
 		(*i)++;
@@ -128,6 +128,8 @@ static void			save_operator(char *line, int *i, int type, t_lexer **head)
 		token[type] = 1;
 		str = str_from_char(line[*i]);						//FREE!
 	}
+	if (type >= token_redirection_greater && type <= token_redirection_dgreater)
+		token[token_redirection] = 1; 
 	tmp = ll_new_node(str, token);
 	ll_lstadd_back(head, tmp);
 	(*i)++;

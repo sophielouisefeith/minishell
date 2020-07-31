@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/07/31 12:02:32 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/31 13:26:52 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static int				count_node(t_lexer *head)
 	t_lexer   *count_node;
 	int 				i;
 
-	i = 0;
+	i = -1;			//builtin telt niet mee
 	count_node = head;
-	while(count_node && (count_node->token[token_general]||count_node->token[7|8|9]))
+	while(count_node && count_node->token[token_general])
 	{
 		i++;
 		count_node = count_node->next;
@@ -63,7 +63,7 @@ void			ll_lstadd_back_command(t_command **head, t_command *new)
 
 
 
-static void	redirection(t_lexer *head)
+static void	redirection(t_lexer **head)
 {
 	// int						redirection_greater;
 	// int						redirection_lesser;
@@ -85,15 +85,16 @@ static void	redirection(t_lexer *head)
     // output_head = NULL;
 	// out = head->str;
     // output_head = head;
-    while(head)                                         //dit moet dus veranderd naar output_head
-    { 
-        if(head->token[7]|| head->token[9])
+	printf("In redirection\n");
+    // while (head)                                         //dit moet dus veranderd naar output_head
+    // {
+        if ((*head)->token[7]|| (*head)->token[9])
             output_fill(head);
-        head = head->next;
+        // head = head->next;
         //hier checkken of er nog iets achter de redirection staat 
-        if(head->token[8])
+        if((*head)->token[8])
             input_fill(head);
-        head = head->next;
+        // head = head->next;
         // printf("waar zijn we nu in de node[%s]\n", out);
         // token_output = check_token(out);
         // head = head->next;
@@ -106,7 +107,7 @@ static void	redirection(t_lexer *head)
         // //output_head = output_head->next_output;  // nu naar de volgende node 
         // tmp_output = ll_new_node_output(str_input, token_output);
 	    // ll_lstadd_back_output(&output_head, tmp_output);
-    }
+    // }
     // while(head && head->token[8])                                        //dit moet dus veranderd naar output_head
     // { 
     //     input_fill(head, array, &y);
@@ -258,7 +259,6 @@ void				transform(t_lexer *head)
 
 	int	 *builtin;
 
-	printf("HALLO TRANSORM\n");
 	builtin = intspace(8);
 	y = 0;
 	command = NULL;
@@ -270,10 +270,16 @@ void				transform(t_lexer *head)
 		printf("Malloc failed\n");
 	type_built = check_builtin_node(&head);
 
-	while((head) && (head->token[token_general]||head->token[7] ||head->token[8]|| head->token[9]))
+	while((head && (head->token[token_general] || head->token[token_redirection])))
 	{
-        while(head->token[7] ||head->token[8]|| head->token[9])
-            head = head->next->next;
+        if (head->token[token_redirection])
+		{
+			redirection(&head);
+			if (head->next)
+            	head = head->next;
+			else
+				break ;
+		}
 		if (head->token[token_quote] || head->token[token_dquote])
 		{
 			newstr = trunc_quotes(head, head->str);
@@ -286,24 +292,23 @@ void				transform(t_lexer *head)
 	}
 	if(array)
 		array[y]= 0;
-	if((head && head->token[7])||(head && head->token[8])\
-	|| (head && head->token[9]))
-		redirection(head);
+	// if(head && (head->token[7] || head->token[8] || head->token[9]))
+	// 	redirection(head);
 	tmp = ll_new_node_command(array, type_built);
 	ll_lstadd_back_command(&command, tmp);
-	fill_operator(head);
-	command_next(command, head);
+	// fill_operator(head);
+	// command_next(command, head);
 	//transform(head)//hoe gaan we dit de tweede keer oproepen;
 
 
 //// Tester
 // 		2d array printer:
-	y = 0;
-	while(array[y])
-	{
-		printf("dubbel array[%s]\n", array[y]);
-		y++;
-	}
+	// y = 0;
+	// while(array[y])
+	// {
+	// 	printf("dubbel array[%s]\n", array[y]);
+	// 	y++;
+	// }
 //Linked list 2d array printer
 	t_command		*list;
 	int n;

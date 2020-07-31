@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/31 12:02:24 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/31 13:18:12 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ enum	token_type{
 	token_dquote, 
 	token_pipe,
 	token_semicolon,
+	token_redirection, 						//new
 	token_redirection_greater,
 	token_redirection_lesser,
 	token_redirection_dgreater,
@@ -64,7 +65,7 @@ typedef struct				s_output{
 	//char 					*filename;
 	int						token_output;
 
-	struct		s_lexer 	*next_output;
+	struct		s_output 	*next_output;
 }							t_output;
 
 
@@ -72,10 +73,10 @@ typedef struct				s_output{
 
 typedef struct				s_input{
 	char					*str_input;
-	char 					**array_input;
+	// char 					**array_input;
 	int						token_input;
 
-	struct		s_lexer 	*next_input;
+	struct		s_input 	*next_input;
 }							t_input;
 
 
@@ -138,14 +139,14 @@ int    							check_token(char *str);
 int								get_token_type(char *line, int *i);
 
 /*output */
-void            				output_fill(t_lexer *head);
+void            				output_fill(t_lexer **head);
 void							ll_lstadd_back_output(t_output **head_output, t_output *new_output);
 t_output						*ll_new_node_output(void *content, int token_output);
 
 /* input */
-void            				input_fill(t_lexer *head);
-void							ll_lstadd_back_input(t_input **head_input, t_output *new_input);
-t_input							*ll_new_node_input(void *content, int token_output);
+void            				input_fill(t_lexer **head);
+// void							ll_lstadd_back_input(t_input **head_input, t_output *new_input);
+// t_input							*ll_new_node_input(void *content, int token_output);
 
 /*execute*/
 int             				execute(void);
