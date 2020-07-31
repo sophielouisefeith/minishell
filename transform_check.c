@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/07/28 14:04:26 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/31 08:25:52 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,3 +35,14 @@ int         node_count(t_lexer *count_node, int i)
     return(i);
 }
 
+int     check_token(char *str)
+{   
+    if(!ft_strcmp(str, ">"))
+		return(token_redirection_greater);
+	else if (!ft_strcmp(str, ">>"))
+		return (token_redirection_dgreater);
+    else if (!ft_strcmp(str, "<"))
+		return(token_redirection_lesser);
+    else
+        return(0); 
+}

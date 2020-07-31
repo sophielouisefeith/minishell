@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/24 15:03:36 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/31 08:57:33 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 ** 4. Let op: niet te veel parameters in fucnties: opschonen.
 */
 
-static int			get_token_type(char *line, int *i)
+int			get_token_type(char *line, int *i)
 {
 	if (is_whitespace(line[*i]))
 		return (token_whitespace);

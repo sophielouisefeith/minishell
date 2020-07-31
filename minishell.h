@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/30 15:20:02 by maran         ########   odam.nl         */
+/*   Updated: 2020/07/31 10:59:30 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,30 @@ typedef struct				s_lexer{
 	struct		s_lexer 	*next;
 }							t_lexer;
 
-typedef struct				s_output{
-	//char					*str;
-	char 					**array_output;
 
-	struct		s_lexer 	*next;
+
+
+typedef struct				s_output{
+	char					*str_output;
+	//char 					*filename;
+	int						token_output;
+
+	struct		s_lexer 	*next_output;
 }							t_output;
 
-typedef struct				s_input{
-	//char					*str;
-	char 					**array_input;
 
-	struct		s_lexer 	*next;
+
+
+typedef struct				s_input{
+	char					*str_input;
+	char 					**array_input;
+	int						token_input;
+
+	struct		s_lexer 	*next_input;
 }							t_input;
+
+
+		
 					
 typedef struct			s_output_modus{
 	//char					*str;
@@ -123,6 +134,18 @@ void							transform(t_lexer *list);
 int         					get_builtin_type(char *str);
 char            				*trunc_quotes(t_lexer *list,char *str);
 int								check_builtin_node(t_lexer **head);
+int    							check_token(char *str);
+int								get_token_type(char *line, int *i);
+
+/*output */
+void            				output_fille(t_lexer *head, char **array, int *y);
+void							ll_lstadd_back_output(t_output **head_output, t_output *new_output);
+t_output						*ll_new_node_output(void *content, int token_output);
+
+/* input */
+void            				input_fill(t_lexer *head, char **array, int *y);
+void							ll_lstadd_back_input(t_input **head_input, t_output *new_input);
+t_input							*ll_new_node_input(void *content, int token_output);
 
 /*execute*/
 int             				execute(void);
