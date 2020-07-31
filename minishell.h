@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/31 10:32:00 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/31 11:48:46 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,12 @@ int    							check_token(char *str);
 int								get_token_type(char *line, int *i);
 
 /*output */
-void            				output_fille(t_lexer *head, char **array, int *y);
+void            				output_fill(t_lexer *head);
 void							ll_lstadd_back_output(t_output **head_output, t_output *new_output);
 t_output						*ll_new_node_output(void *content, int token_output);
 
 /* input */
-void            				input_fill(t_lexer *head, char **array, int *y);
+void            				input_fill(t_lexer *head);
 void							ll_lstadd_back_input(t_input **head_input, t_output *new_input);
 t_input							*ll_new_node_input(void *content, int token_output);
 
