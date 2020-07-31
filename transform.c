@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/07/31 09:36:07 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/07/31 10:06:58 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,62 +62,35 @@ void			ll_lstadd_back_command(t_command **head, t_command *new)
 
 
 
-
-t_input			*ll_new_node_input(void *content, int token_output)
-{
-	t_input		*new;
-
-	new = (t_input *)malloc(sizeof(t_input));
-	if (!new)
-		return (0);
-	new->str_input = content;
-	new->token_input = token_output;
-	new->next_input = NULL;
-	return (new);
-}
-
-
-void			ll_lstadd_back_input(t_input **head_input, t_output *new_input)
-{
-	t_input		*list_input;
-
-	list_input = *head_input;
-	if (list_input)
-	{
-		while (list_input->next_input)
-			list_input = list_input->next_input;
-		list_input->next_input = new_input;
-	}
-	else
-		*head_input = new_input;
-}
-
-
-
 static void	redirection(t_lexer *head, char **array, int *y)
 {
-	int						redirection_greater;
-	int						redirection_lesser;
-	int						redirection_dgreater;
-	char					*out;
-    char                    *str_input;
-    char                    *str_output;
-    t_output                output;
-    t_output                *output_head; //head
-    t_output                *tmp_output;
-    t_input                 *tmp_input;
-    t_input                 input;
-    t_input                 *input_head; //head
-    int                     token_output;
-    int                     token_input;
+	// int						redirection_greater;
+	// int						redirection_lesser;
+	// int						redirection_dgreater;
+	// char					*out;
+    // char                    *str_input;
+    // char                    *str_output;
+    // t_output                output;
+    // t_output                *output_head; //head
+    // t_output                *tmp_output;
+    // t_input                 *tmp_input;
+    // t_input                 input;
+    // t_input                 *input_head; //head
+    // int                     token_output;
+    // int                     token_input;
     
 
     
     // output_head = NULL;
 	// out = head->str;
-    while((head) && (head->token[7]||(head && head->token[9])))                                        //dit moet dus veranderd naar output_head
+    while(head)                                         //dit moet dus veranderd naar output_head
     { 
-        output_fill(head, array, &y);
+        if(head->token[7]||head && head->token[9])
+            output_fill(head, array, &y);
+        head = head->next;
+        if(head->token[8])
+            input_fill(head, array, &y);
+        head = head->next;
         // printf("waar zijn we nu in de node[%s]\n", out);
         // token_output = check_token(out);
         // head = head->next;
@@ -131,21 +104,22 @@ static void	redirection(t_lexer *head, char **array, int *y)
         // tmp_output = ll_new_node_output(str_input, token_output);
 	    // ll_lstadd_back_output(&output_head, tmp_output);
     }
-    
-    while(head && head->token[8])                                        //dit moet dus veranderd naar output_head
-    { 
-        printf("input[%s]\n", out);
-        token_input = check_token(out);
-        head = head->next;
-        str_output = head->str;
-        printf("filename[%s]\n", str_output);
-        head = head->next;
-        // if(get_token_type(head->str, *y) == head->token[token_general])                                         //dat betekend dat er nog iets achter de filename staat
-        //     array[*y] = head->str;
-        //     printf("array[%s]\n", array[*y]);
-        //output_head = output_head->next_output;  // nu naar de volgende node 
-        tmp_input = ll_new_node_output(str_output, token_output);
-	    ll_lstadd_back_output(&output_head, tmp_input);
+    // while(head && head->token[8])                                        //dit moet dus veranderd naar output_head
+    // { 
+    //     input_fill(head, array, &y);
+    //     head = head->next;
+        // printf("input[%s]\n", out);
+        // token_input = check_token(out);
+        // head = head->next;
+        // str_output = head->str;
+        // printf("filename[%s]\n", str_output);
+        // head = head->next;
+        // // if(get_token_type(head->str, *y) == head->token[token_general])                                         //dat betekend dat er nog iets achter de filename staat
+        // //     array[*y] = head->str;
+        // //     printf("array[%s]\n", array[*y]);
+        // //output_head = output_head->next_output;  // nu naar de volgende node 
+        // tmp_input = ll_new_node_output(str_output, token_output);
+	    // ll_lstadd_back_output(&output_head, tmp_input);
     }
     
 	// while((head && (head->token[7]|| head->token[9])))
