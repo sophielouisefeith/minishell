@@ -3,39 +3,14 @@
 /*                                                        ::::::::            */
 /*   transform.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
+/*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/07/23 12:07:41 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/07/30 16:35:54 by SophieLouis   ########   odam.nl         */
+/*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
+/*   Updated: 2020/07/31 09:36:07 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-** >>>>>>> TO DO <<<<<<<<<<<<<< 
-** 1. use the link list from the lexer go trough every node to check on ' "" | ;
-** 2. save if ; | before after. remove '  ""
-** 3. place the nodes in a new struct the command struct 
-** 
-*/
-
-
-/* strategie lijst sophie 
-// redirections geven een ander beeld 
-// | is het allemaal input
-// stapt 1 of redirections in de eerste node zettendus in de de eerste **char
-// 
-strategie lijst sophie
-redirections geven een ander beeld
- |  ; is het allemaal input /// dus hiervan alleen maar de pipes en semicolum opslaan dat is check  
- stapt 1 of redirections in de eerste node zetten dus in de de eerste **char // want deze moeten meegelezen worden in de executor.
- hier schrijf ik een if statement voor if redirection dan sla op **char  
- alle input and output arrays moeten gemalloced worden ( hoe weten we van te voren hoe groot die zijn . 
- bij redicrection echo hallo > file 1 >> file2 // hier worde de 1 dus geplaats als input in file2 hoe ga ik dit opslaan // eerst even met maran overleggen over de tactiek
-checkken of er iets na de semicolum of pipe komt zo ja dan worden de pipes_after worden pipes_before
-
-*/
 
 static int				count_node(t_lexer *head)
 {
@@ -83,33 +58,120 @@ void			ll_lstadd_back_command(t_command **head, t_command *new)
 		*head = new;
 }
 
+
+
+
+
+
+t_input			*ll_new_node_input(void *content, int token_output)
+{
+	t_input		*new;
+
+	new = (t_input *)malloc(sizeof(t_input));
+	if (!new)
+		return (0);
+	new->str_input = content;
+	new->token_input = token_output;
+	new->next_input = NULL;
+	return (new);
+}
+
+
+void			ll_lstadd_back_input(t_input **head_input, t_output *new_input)
+{
+	t_input		*list_input;
+
+	list_input = *head_input;
+	if (list_input)
+	{
+		while (list_input->next_input)
+			list_input = list_input->next_input;
+		list_input->next_input = new_input;
+	}
+	else
+		*head_input = new_input;
+}
+
+
+
 static void	redirection(t_lexer *head, char **array, int *y)
 {
 	int						redirection_greater;
 	int						redirection_lesser;
 	int						redirection_dgreater;
-	char					*newstr;
+	char					*out;
+    char                    *str_input;
+    char                    *str_output;
+    t_output                output;
+    t_output                *output_head; //head
+    t_output                *tmp_output;
+    t_input                 *tmp_input;
+    t_input                 input;
+    t_input                 *input_head; //head
+    int                     token_output;
+    int                     token_input;
+    
 
-	newstr = head->str;
-	while((head && (head->token[7]|| head->token[8]| head->token[9])))
-	{
-		array[*y] = newstr;
-		printf("array[%s]\n ", array[*y]);
-		head = head->next;
-		*y++;
-	}
-	head = head->next;
-	//newstr = NULL;
-	newstr = head->str;
-	printf("waar zijn we nu in de node[%s]\n", head->str);
-	while(head && (head->token[token_general]))
-	{
-		array[*y] = newstr;
-		head = head->next;
-		printf("array[%s]\n ", array[*y]);
-	 	*y++;
-	}
+    
+    // output_head = NULL;
+	// out = head->str;
+    while((head) && (head->token[7]||(head && head->token[9])))                                        //dit moet dus veranderd naar output_head
+    { 
+        output_fill(head, array, &y);
+        // printf("waar zijn we nu in de node[%s]\n", out);
+        // token_output = check_token(out);
+        // head = head->next;
+        // str_input = head->str;
+        // printf("filename[%s]\n", str_input);
+        // head = head->next;
+        // // if(get_token_type(head->str, *y) == head->token[token_general])                                         //dat betekend dat er nog iets achter de filename staat
+        // //     array[*y] = head->str;
+        // //     printf("array[%s]\n", array[*y]);
+        // //output_head = output_head->next_output;  // nu naar de volgende node 
+        // tmp_output = ll_new_node_output(str_input, token_output);
+	    // ll_lstadd_back_output(&output_head, tmp_output);
+    }
+    
+    while(head && head->token[8])                                        //dit moet dus veranderd naar output_head
+    { 
+        printf("input[%s]\n", out);
+        token_input = check_token(out);
+        head = head->next;
+        str_output = head->str;
+        printf("filename[%s]\n", str_output);
+        head = head->next;
+        // if(get_token_type(head->str, *y) == head->token[token_general])                                         //dat betekend dat er nog iets achter de filename staat
+        //     array[*y] = head->str;
+        //     printf("array[%s]\n", array[*y]);
+        //output_head = output_head->next_output;  // nu naar de volgende node 
+        tmp_input = ll_new_node_output(str_output, token_output);
+	    ll_lstadd_back_output(&output_head, tmp_input);
+    }
+    
+	// while((head && (head->token[7]|| head->token[9])))
+	// {
+	// 	array[*y] = filename;
+	// 	printf("array[%s]\n ", array[*y]);
+	// 	head = head->next;
+	// 	*y++;
+	// }
+	// head = head->next;
+	// //newstr = NULL;
+	// newstr = head->str;
+	// printf("waar zijn we nu in de node[%s]\n", head->str);
+	// while(head && (head->token[token_general]))
+	// {
+	// 	array[*y] = newstr;
+	// 	head = head->next;
+	// 	printf("array[%s]\n ", array[*y]);
+	//  	*y++;
+	// }
 }
+
+
+
+
+
 
 static void		out_in_put(t_lexer *head, int i)
 {
@@ -281,57 +343,4 @@ void				transform(t_lexer *head)
 	operator = command_next(command, head);
 	transform(head);
 	//out_in_put(&command, operator);
-		
-
-//// Tester
-// 		2d array printer:
-	y = 0;
-	while(array[y])
-	{
-		printf("dubbel array[%s]\n", array[y]);
-		y++;
-	}
-//Linked list 2d array printer
-	t_command		*list;
-	int n;
-	
-	n = 0;
-	list = command;
-	printf("EIND RESULTAAT TRANSFORM:\n");
-	printf("node-builtin = [%d]\n", list->builtin);
-	while (list->array[n])
-	{
-		printf("node-str[%d] = [%s]\n", n, list->array[n]);
-		n++;
-	}
-//// Einde Tester
 }
-
-
-	// if(head->token[token_pipe])
-	// 	printf("je bent een pipeline\n");
-	// if(head->token[token_semicolon])
-	// 	printf("je bent een semicoln\n");
-
-	/* hier komt 1 node per keer binnen want deze functie word aangeroepen in de lexer vanuit een while loop  
-	dus nu hebben we de eerste node */
-	
-
-
-/*   token string dan stoppen we hem in transform en dan geven we hem terug als een string dit is het enige wat er gaat gebeuren in transform
-maar je moet wel kijken wat er relevant is om in te stoppen en of het input of output gaat zijn*/
-
-
-	/*nu wil ik dus per node gaan kijken en gaan transformen hiervoor gebruik ik execve dit 
-	gebruik ik pas als ik de tekenstjes heb opgeslagen*/
-
-	/*eerst heb ik dus oude en de nieuwe node nodig om elkaar te kunne overschrijven  */
-
-	// if((pid = fork ()) == -1)
-	// 	printf("here comes an error execve was not succesfull");
-	// else if (pid == 0)
-	// {
-		
-	// }
-		
-
