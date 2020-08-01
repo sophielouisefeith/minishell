@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/31 13:23:36 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/01 18:24:34 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,9 @@ void				lexer(char *line)
 	t_lexer		*list;
 	int 		type;
 	int 		i;
+	int			count;
 
+	count = 0;
 	head = NULL;
 	i = 0;
 	while (line[i])
@@ -160,7 +162,13 @@ void				lexer(char *line)
 	list = head;
 	printf("EIND RESULTAAT:\n");
 	int n;
-	transform(head);
+	//transform(head);
+	while(head->next)
+	{
+		transform(head, count);
+		count++;
+		head = head->next;
+	}
 	while (list)
 	{
 		//transform(list);										// this is the expiriment with transform ffrom sophie 

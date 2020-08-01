@@ -6,13 +6,31 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/07/31 08:25:52 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/01 17:42:00 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
+int				count_node(t_lexer *head)
+{
+	t_lexer   *count_node;
+	int 				i;
+
+	i = -1;			//builtin telt niet mee
+	count_node = head;
+	while(count_node)
+	{
+        if(count_node->token[token_general])
+		    i++;
+        if(count_node->token[token_redirection])
+		    count_node = count_node->next;
+        count_node = count_node->next;
+	}
+    printf("hoeveel ruimte malloced hij nu[%d]\n", i);
+	return (i);
+}
 char           *trunc_quotes(t_lexer *list,char *str)
 {
     int     len;
