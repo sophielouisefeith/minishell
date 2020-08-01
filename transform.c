@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/01 18:25:52 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/01 18:36:59 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void				transform(t_lexer *head, int count)
 	t_command 	*tmp;
 	int	        *builtin;
 
-
+    printf("head->next->transform[%s]\n", head->str);
     fill_operator(head,count);
 	builtin = intspace(8);
 	y = 0;
@@ -136,7 +136,7 @@ void				transform(t_lexer *head, int count)
 		array[y]= 0;
 	tmp = ll_new_node_command(array, type_built);
 	ll_lstadd_back_command(&command, tmp);
-
+    printf("head->next->eindetransform[%s]\n", head->str);
 
 
 //// Tester

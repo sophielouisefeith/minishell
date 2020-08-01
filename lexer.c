@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/01 18:24:34 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/01 18:35:53 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,9 +165,11 @@ void				lexer(char *line)
 	//transform(head);
 	while(head->next)
 	{
+		printf("head->next->lexer[%s]\n", head->str);
 		transform(head, count);
 		count++;
 		head = head->next;
+		
 	}
 	while (list)
 	{
