@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/03 18:51:10 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/03 19:16:58 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,8 +169,6 @@ void				lexer(char *line)
 	while (head)
 	{
 		k = transform(&head, count);
-		if(!head)
-				break;
 		if (k == 1)
 			count = 1;
 		else
