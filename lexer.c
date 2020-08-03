@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/03 13:51:31 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/03 15:03:46 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,20 +164,17 @@ void				lexer(char *line)
 	int n;
 	int k;
 	k = 0;
-	//transform(head);
-	//printf("tokenlexer [%d]\n", head->token[token_pipe]);
 	while(head->next)
 	{
-		k = transform(head, count);
+		printf("In lexer: head->str [%s]\n", head->str);
+		k = transform(&head, count);
 		if (k == 1)
 			count = 1;
 		else
 			count = 0;
-		//fill_operator(head,count);
-		//count++;
+		//printf("In lexer, after transform: head->str [%s]\n", head->str);
 		head = head->next;
-		//k++;
-		//printf("HOEVEELSTE LOOP[%d]\n", k);
+		printf("In lexer, after transform: head->str [%s]\n", head->str);
 		
 	}
 	while (list)
