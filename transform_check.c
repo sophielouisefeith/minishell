@@ -6,30 +6,29 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/03 13:55:30 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/03 18:07:37 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 int				count_node(t_lexer *head)
 {
-	t_lexer   *count_node;
 	int 				i;
 
-	i = -1;			//builtin telt niet mee
-	count_node = head;
-	while (count_node)
+	i = -1;							//builtin telt niet mee
+
+	while (head)
 	{
-        if (count_node->token[token_general])
+        if (head->token[token_general])
 		    i++;
-        if (count_node->token[token_redirection])
-		    count_node = count_node->next;
-        count_node = count_node->next;
+        if (head->token[token_redirection])
+		    head = head->next;
+        head = head->next;
 	}
 	return (i);
 }
+
 char           *trunc_quotes(t_lexer *list,char *str)
 {
     int     len;
