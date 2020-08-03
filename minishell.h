@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/01 18:08:48 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/03 12:08:25 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ int								check_builtin_node(t_lexer **head);
 int    							check_token(char *str);
 int								get_token_type(char *line, int *i);
 int								count_node(t_lexer *head);
+int								fill_operator(t_lexer *head, int count);
 
 /*output */
 void            				output_fill(t_lexer **head);

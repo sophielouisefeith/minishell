@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/01 18:36:59 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/03 12:22:59 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,45 +41,56 @@ void			ll_lstadd_back_command(t_command **head, t_command *new)
 		*head = new;
 }
 
-static void	redirection(t_lexer **head)
+static void	redirection(t_lexer *head)
 {
 	
     // while (head)                                         //dit moet dus veranderd naar output_head
     // {
-        if ((*head)->token[7]|| (*head)->token[9])
-            output_fill(head);
+        if ((head)->token[7]|| (head)->token[9])
+        {
+            output_fill(&head);
+            printf("head->next->wat geeft hij terug[%s]\n", head->str);
+        }
         // head = head->next;
-        if((*head)->token[8])
-            input_fill(head);
+        if((head)->token[8])
+            input_fill(&head);
         // head = head->next;
     
 }
 
-static int		fill_operator(t_lexer *head, int count)
+int		fill_operator(t_lexer *head, int count)
 {
 	t_command command;
 	int pipe_after;
 	int sem_after;
     int pipe_before;
     int sem_before;
-	
+	printf("count2[%d]\n", count);
     if(count == 0)
-    {
-	    if(head && head->token[token_pipe])
+    {   
+        printf("kom in count\n");
+        printf("token [%d]", head->token[token_pipe]);
+	    if(head->token[token_pipe])
+        {
 		    pipe_after = 1;
+            printf("pipeafter\n");
+        }
 	    if(head && head->token[token_semicolon])
 		    sem_after = 1;
+        printf("waarde pipe[%d][%d]\n", pipe_after,pipe_before);
     }
     if(count && head->token[token_pipe])
     {
         if(pipe_after)
         {
+            printf("waarde pipe[%d][%d]\n", pipe_after,pipe_before);
             pipe_after = 0;
             pipe_before = 1;
             exit(1);
         }
         if(pipe_before)
         {
+            printf("waarde p[%d][%d]\n", pipe_after, pipe_before);
             pipe_after = 1;
             pipe_before = 0;
             exit(1);
@@ -101,7 +112,8 @@ void				transform(t_lexer *head, int count)
 	int	        *builtin;
 
     printf("head->next->transform[%s]\n", head->str);
-    fill_operator(head,count);
+    printf("count[%d]\n", count);
+    // fill_operator(head,count);
 	builtin = intspace(8);
 	y = 0;
 	command = NULL;
@@ -111,12 +123,12 @@ void				transform(t_lexer *head, int count)
 	if (array == NULL)
 		printf("Malloc failed\n"); // error functie van maken 
 	type_built = check_builtin_node(&head);
-
 	while((head && (head->token[token_general] || head->token[token_redirection])))
 	{
         if (head->token[token_redirection])
 		{
-			redirection(&head);
+			redirection(head);
+            printf("na redirection de head[%s]\n", head->str);
 			if (head->next)
             	head = head->next;
 			else

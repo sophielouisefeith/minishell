@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:38:34 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/07/31 13:08:19 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/03 12:19:03 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void            input_fill(t_lexer **head)
     t_input                 *input_head; //head
      int                    token_input;
 
+    printf("head->next->input[%s]\n", (*head)->str);
     input_head = NULL;
     token_input = check_token((*head)->str);
     *head = (*head)->next;
