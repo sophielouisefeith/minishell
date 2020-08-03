@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/03 15:05:21 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/03 15:22:59 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int				transform(t_lexer **head, int count)
 	builtin = intspace(8);
 	y = 0;
 	command = NULL;
-	num_nodes = count_node(*head);
+	num_nodes = count_node(head);
 	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
 	if (array == NULL)
 		printf("Malloc failed\n"); // error functie van maken 

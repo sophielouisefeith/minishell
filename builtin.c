@@ -6,13 +6,11 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 11:53:32 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/07/27 10:21:07 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/03 15:13:09 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 int         get_builtin_type(char *str)
 {   
@@ -33,7 +31,6 @@ int         get_builtin_type(char *str)
     else
         return(builtin_no); 
 }
-
 
 int			check_builtin_node(t_lexer **head)
 {

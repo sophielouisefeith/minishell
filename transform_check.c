@@ -6,20 +6,20 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/03 13:26:29 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/03 15:18:37 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-int				count_node(t_lexer *head)
+int				count_node(t_lexer **head)
 {
 	t_lexer   *count_node;
 	int 				i;
 
 	i = -1;			//builtin telt niet mee
-	count_node = head;
+	count_node = *head;
 	while(count_node)
 	{
         if(count_node->token[token_general])
