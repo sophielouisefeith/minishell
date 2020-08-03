@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/03 18:47:11 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/03 18:55:31 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,19 @@ int pipe_after, int pipe_before, int sem)
     if(sem)
         new->sem = sem;
 	new->next = NULL;
-    printf("pipe after[%d]\n", new->pipe_after);
+   
     while (new->array[n])
 	{
 		printf("node-str[%d] = [%s]\n", n, new->array[n]);
 		n++;
 	}
-   
-    printf("builtin[%d]\n", new->builtin);
-    printf("pipe before[%d]\n", new->pipe_before);
-    printf("sem[%d]\n", new->sem);
+    printf("node---pipe after[%d]\n", new->pipe_after);
+    printf("node---builtin[%d]\n", new->builtin);
+    printf("node---pipe before[%d]\n", new->pipe_before);
+    printf("node---sem[%d]\n", new->sem);
     
 	return (new);
 }
-
 
 void			ll_lstadd_back_command(t_command **head, t_command *new)
 {
@@ -66,12 +65,12 @@ void			ll_lstadd_back_command(t_command **head, t_command *new)
 
 static void	redirection(t_lexer *head)
 {
-        if (head->token[7]|| head->token[9])
+        if ((head)->token[token_redirection_greater]||
+			(head)->token[token_redirection_dgreater])
             output_fill(&head);
-        if((head)->token[8])
+        if((head)->token[token_redirection_lesser])
             input_fill(&head);
 }
-
 
 int				transform(t_lexer **head, int count)
 {
@@ -80,28 +79,29 @@ int				transform(t_lexer **head, int count)
 	int 		type_built;
 	int 		num_nodes;
 	int 		y;
-	t_command 	*command;
+	t_command 	*command; 				//command head
 	t_command 	*tmp;
-	int	        *builtin;
+	// int	        *builtin;			//gebruik je niet
     int         pipe_after;
     int         pipe_before;
     int         i;
     int         sem;
-
+             
+    pipe_before = 0;         
+    pipe_after =0;
     sem = 0;
     if(count == 1)
     {
         pipe_before = 1;
-        pipe_after = 0;
         i = 0;
     }
-	builtin = intspace(8);
+	// builtin = intspace(8);			//gebruik je niet.
 	y = 0;
 	command = NULL;
 	num_nodes = count_node(*head);
 	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
 	if (array == NULL)
-		printf("Malloc failed\n"); // error functie van maken 
+		printf("Malloc failed\n"); 		// error functie van maken 
 	type_built = check_builtin_node(head);
 	while((*head && ((*head)->token[token_general] || (*head)->token[token_redirection])))
 	{

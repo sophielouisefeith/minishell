@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/03 17:51:26 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/03 18:51:10 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,9 +159,14 @@ void				lexer(char *line)
 		type = 0;
 	}
 
+/// TESTER
+	// printf("value head = [%p], adress head = [%p]\n", head, &head);
+	list = head;
+	printf("EIND RESULTAAT:\n");
+	//int n;
 	int k;
 	k = 0;
-	while(head && head->next)
+	while (head)
 	{
 		k = transform(&head, count);
 		if(!head)
@@ -170,7 +175,9 @@ void				lexer(char *line)
 			count = 1;
 		else
 			count = 0;
-		head = head->next;
+		if (head)
+			head = head->next;
+		
 	}
 /// TESTER
 	list = head;
