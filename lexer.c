@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/03 15:03:46 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/03 17:51:26 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ void				lexer(char *line)
 {
 	t_lexer		*head;
 	t_lexer		*list;
+	
 	int 		type;
 	int 		i;
 	int			count;
@@ -158,25 +159,23 @@ void				lexer(char *line)
 		type = 0;
 	}
 
-/// TESTER
-	list = head;
-	printf("EIND RESULTAAT:\n");
-	int n;
 	int k;
 	k = 0;
-	while(head->next)
+	while(head && head->next)
 	{
-		printf("In lexer: head->str [%s]\n", head->str);
 		k = transform(&head, count);
+		if(!head)
+				break;
 		if (k == 1)
 			count = 1;
 		else
 			count = 0;
-		//printf("In lexer, after transform: head->str [%s]\n", head->str);
 		head = head->next;
-		printf("In lexer, after transform: head->str [%s]\n", head->str);
-		
 	}
+/// TESTER
+	list = head;
+	printf("EIND RESULTAAT:\n");
+	int n;
 	while (list)
 	{
 		//transform(list);										// this is the expiriment with transform ffrom sophie 

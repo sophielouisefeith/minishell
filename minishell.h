@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/03 15:18:18 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/03 18:30:22 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,7 @@ typedef struct				s_command {
 	struct s_list 			output_modus; // trunk append
 	int						pipe_before;
 	int						pipe_after;
-	int						sem_after;
-	int						sem_before;
-	int						redirection_greater;
-	int						redirection_lesser;
-	int						redirection_dgreater;
+	int						sem;
 	struct		s_command 	*next;
 }							t_command;
 
@@ -137,7 +133,7 @@ char            				*trunc_quotes(t_lexer *list,char *str);
 int								check_builtin_node(t_lexer **head);
 int    							check_token(char *str);
 int								get_token_type(char *line, int *i);
-int								count_node(t_lexer **head);
+int								count_node(t_lexer *head);
 int								fill_operator(t_lexer *head, int count);
 
 /*output */
@@ -163,4 +159,6 @@ void        					execute_unset(t_env **env);
 void        					execute_exit(void);
 int								execute_echo(t_command *head_command);
 
+/*test */
+void     				tester_pars(t_lexer *lexer, t_command *command);
 #endif

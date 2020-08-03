@@ -6,7 +6,7 @@
 #    By: Maran <Maran@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/06 17:19:34 by Maran         #+#    #+#                  #
-#    Updated: 2020/07/31 11:01:17 by maran         ########   odam.nl          #
+#    Updated: 2020/08/03 17:00:52 by SophieLouis   ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRC =  main.c lexer.c lexer_utils.c ft_strcmp.c\
 		ll_make_list.c transform.c builtin.c transform_check.c\
 		builtins/execute.c builtins/execute_cd.c builtins/execute_pwd.c\
 		builtins/execute_env.c builtins/execute_export.c\
-		builtins/execute_unset.c output.c input.c\
+		builtins/execute_unset.c output.c input.c test.c\
 
 OBJ = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/07/30 16:42:52 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/03 17:10:47 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int				main(int argc, char **argv)
 		// 	error();
 		if (line[i] != '\0')
 			lexer(line);
+		//tester(line);
 		// execute();
 		free(line);
 		line = NULL;
