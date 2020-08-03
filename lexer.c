@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/01 18:35:53 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/03 12:09:09 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ void				lexer(char *line)
 	}
 
 /// TESTER
+	// printf("value head = [%p], adress head = [%p]\n", head, &head);
 	list = head;
 	printf("EIND RESULTAAT:\n");
 	int n;

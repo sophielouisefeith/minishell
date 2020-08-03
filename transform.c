@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/01 18:36:59 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/03 12:10:32 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void				transform(t_lexer *head, int count)
 	t_command 	*tmp;
 	int	        *builtin;
 
-    printf("head->next->transform[%s]\n", head->str);
+    // printf("head->next->transform[%s]\n", head->str);
     fill_operator(head,count);
 	builtin = intspace(8);
 	y = 0;
@@ -109,7 +109,7 @@ void				transform(t_lexer *head, int count)
 	printf("num nodes = %d \n", num_nodes);
 	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
 	if (array == NULL)
-		printf("Malloc failed\n"); // error functie van maken 
+		printf("Malloc failed\n"); 							// error functie van maken 
 	type_built = check_builtin_node(&head);
 
 	while((head && (head->token[token_general] || head->token[token_redirection])))

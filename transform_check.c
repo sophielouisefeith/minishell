@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/01 17:42:00 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/03 12:01:48 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ int				count_node(t_lexer *head)
 
 	i = -1;			//builtin telt niet mee
 	count_node = head;
-	while(count_node)
+	while (count_node)
 	{
-        if(count_node->token[token_general])
+        if (count_node->token[token_general])
 		    i++;
-        if(count_node->token[token_redirection])
+        if (count_node->token[token_redirection])
 		    count_node = count_node->next;
         count_node = count_node->next;
 	}
-    printf("hoeveel ruimte malloced hij nu[%d]\n", i);
+    // printf("hoeveel ruimte malloced hij nu[%d]\n", i);
 	return (i);
 }
 char           *trunc_quotes(t_lexer *list,char *str)
