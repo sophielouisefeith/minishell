@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/03 12:25:01 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/03 12:45:53 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,32 +65,38 @@ int		fill_operator(t_lexer *head, int count)
 	int sem_after;
     int pipe_before;
     int sem_before;
-	printf("count2[%d]\n", count);
+
+	pipe_after = -1;
+	sem_after = -1;
+	pipe_before = -1;
+	sem_before = -1;
+	printf("Fill operator token_pipe = [%d]\n", head->token[token_pipe]);
+	
     if(count == 0)
     {   
-        printf("kom in count\n");
-        printf("token [%d]", head->token[token_pipe]);
+        // printf("kom in count\n");
+        // printf("-------> token [%d]\n", head->token[token_pipe]);
 	    if(head->token[token_pipe])
         {
 		    pipe_after = 1;
-            printf("pipeafter\n");
+            // printf("------> pipeafter\n");
         }
 	    if(head && head->token[token_semicolon])
 		    sem_after = 1;
-        printf("waarde pipe[%d][%d]\n", pipe_after,pipe_before);
+        // printf("waarde pipe[%d][%d]\n", pipe_after,pipe_before);
     }
     if(count && head->token[token_pipe])
     {
         if(pipe_after)
         {
-            printf("waarde pipe[%d][%d]\n", pipe_after,pipe_before);
+            // printf("waarde pipe[%d][%d]\n", pipe_after,pipe_before);
             pipe_after = 0;
             pipe_before = 1;
             exit(1);
         }
         if(pipe_before)
         {
-            printf("waarde p[%d][%d]\n", pipe_after, pipe_before);
+            // printf("waarde p[%d][%d]\n", pipe_after, pipe_before);
             pipe_after = 1;
             pipe_before = 0;
             exit(1);
