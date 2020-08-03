@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/03 12:01:48 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/03 13:55:30 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int				count_node(t_lexer *head)
 		    count_node = count_node->next;
         count_node = count_node->next;
 	}
-    // printf("hoeveel ruimte malloced hij nu[%d]\n", i);
 	return (i);
 }
 char           *trunc_quotes(t_lexer *list,char *str)

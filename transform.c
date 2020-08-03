@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/03 12:45:53 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/03 13:55:04 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,70 +43,59 @@ void			ll_lstadd_back_command(t_command **head, t_command *new)
 
 static void	redirection(t_lexer *head)
 {
-	
-    // while (head)                                         //dit moet dus veranderd naar output_head
-    // {
         if ((head)->token[7]|| (head)->token[9])
-        {
             output_fill(&head);
-            printf("head->next->wat geeft hij terug[%s]\n", head->str);
-        }
         // head = head->next;
         if((head)->token[8])
             input_fill(&head);
         // head = head->next;
+}
+
+// int		fill_operator(t_lexer *head, int count)
+// {
+// 	t_command command;
+// 	int pipe_after;
+// 	int sem_after;
+//     int pipe_before;
+//     int sem_before;
     
-}
-
-int		fill_operator(t_lexer *head, int count)
-{
-	t_command command;
-	int pipe_after;
-	int sem_after;
-    int pipe_before;
-    int sem_before;
-
-	pipe_after = -1;
-	sem_after = -1;
-	pipe_before = -1;
-	sem_before = -1;
-	printf("Fill operator token_pipe = [%d]\n", head->token[token_pipe]);
-	
-    if(count == 0)
-    {   
-        // printf("kom in count\n");
-        // printf("-------> token [%d]\n", head->token[token_pipe]);
-	    if(head->token[token_pipe])
-        {
-		    pipe_after = 1;
-            // printf("------> pipeafter\n");
-        }
-	    if(head && head->token[token_semicolon])
-		    sem_after = 1;
-        // printf("waarde pipe[%d][%d]\n", pipe_after,pipe_before);
-    }
-    if(count && head->token[token_pipe])
-    {
-        if(pipe_after)
-        {
-            // printf("waarde pipe[%d][%d]\n", pipe_after,pipe_before);
-            pipe_after = 0;
-            pipe_before = 1;
-            exit(1);
-        }
-        if(pipe_before)
-        {
-            // printf("waarde p[%d][%d]\n", pipe_after, pipe_before);
-            pipe_after = 1;
-            pipe_before = 0;
-            exit(1);
-        }
+    
+// 	printf("count2[%d]\n", count);
+//     if(count > 0)
+//     {   
+//         printf("kom in count\n");
+//         printf("token [%d]", head->token[token_pipe]);
+// 	    if(head->token[token_pipe])
+//         {
+// 		    pipe_after = 1;
+//             printf("pipeafter\n");
+//         }
+// 	    if(head && head->token[token_semicolon])
+// 		    sem_after = 1;
+//         printf("waarde pipe[%d][%d]\n", pipe_after,pipe_before);
+//     }
+//     if(count > 1 && head->token[token_pipe])
+//     {
+//         if(pipe_after)
+//         {
+//             printf("waarde pipe[%d][%d]\n", pipe_after,pipe_before);
+//             pipe_after = 0;
+//             pipe_before = 1;
+           
+//         }
+//         if(pipe_before)
+//         {
+//             printf("waarde p[%d][%d]\n", pipe_after, pipe_before);
+//             pipe_after = 1;
+//             pipe_before = 0;
+           
+//         }
         
-    }
-	return(0);
-}
+//     }
+// 	return(0);
+// }
 
-void				transform(t_lexer *head, int count)
+int				transform(t_lexer *head, int count)
 {
 	char 		**array;
 	char 		*newstr;
@@ -116,15 +105,25 @@ void				transform(t_lexer *head, int count)
 	t_command 	*command; //command head
 	t_command 	*tmp;
 	int	        *builtin;
+    int         pipe_after;
+    int         pipe_before;
+    int         i;
 
-    printf("head->next->transform[%s]\n", head->str);
+   
     printf("count[%d]\n", count);
-    // fill_operator(head,count);
+    if(count == 1)
+    {
+        pipe_before = 1;
+        pipe_after = 0;
+        i = 0;
+        printf("pipe_before[%d]\n", pipe_before);
+        printf("pipe_after[%d]\n", pipe_after);
+    }
 	builtin = intspace(8);
 	y = 0;
 	command = NULL;
 	num_nodes = count_node(head);
-	printf("num nodes = %d \n", num_nodes);
+	//printf("num nodes = %d \n", num_nodes);
 	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
 	if (array == NULL)
 		printf("Malloc failed\n"); 							// error functie van maken 
@@ -134,7 +133,6 @@ void				transform(t_lexer *head, int count)
         if (head->token[token_redirection])
 		{
 			redirection(head);
-            printf("na redirection de head[%s]\n", head->str);
 			if (head->next)
             	head = head->next;
 			else
@@ -154,7 +152,15 @@ void				transform(t_lexer *head, int count)
 		array[y]= 0;
 	tmp = ll_new_node_command(array, type_built);
 	ll_lstadd_back_command(&command, tmp);
-    printf("head->next->eindetransform[%s]\n", head->str);
+    if(head->token[token_pipe] && !count )
+    {
+        pipe_after = 1;
+        //pipe_before = 0;
+        printf("pipe_after[%d]\n", pipe_after);
+        return(1);
+    }
+    return(i);
+   
 
 
 //// Tester
