@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:30:21 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/03 12:17:09 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/03 13:25:52 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void            output_fill(t_lexer **head)
     t_output                *output_head; 				//head
     t_output                *tmp_output;
 
-    printf("head->next->output[%s]\n", (*head)->str);
+ 
     output_head = NULL;
     token_output = check_token((*head)->str);
     *head = (*head)->next;
