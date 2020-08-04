@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/04 11:37:08 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/04 11:52:36 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,17 @@ static void                 check_operator(t_lexer **head, char *newstr, char **
 		array[y]= 0;
 }
 
-static int            fill_node_parsing(t_lexer **head, int count, char **array, int type_built)
+static int            fill_node_parsing(t_lexer **head, t_command *command,int count, \
+char **array, int type_built)
 {
     int         pipe_after;
     int         pipe_before;
     int         i;
     int         sem;
-    t_command 	*command; 				//command head
+    //t_command 	*command; 				//command head
 	t_command 	*tmp;
     
-    command = NULL;         
+    //command = NULL;         
     pipe_before = 0;         
     pipe_after =0;
     sem = 0;
@@ -119,7 +120,7 @@ static int            fill_node_parsing(t_lexer **head, int count, char **array,
     return(i);
 }
 
-int				transform(t_lexer **head, int count)
+int				transform(t_lexer **head, t_command **command, int count)
 {
 	char 		**array;
 	char 		*newstr;
@@ -133,28 +134,6 @@ int				transform(t_lexer **head, int count)
 		printf("Malloc failed\n"); 		// error functie van maken 
 	type_built = check_builtin_node(head);
     check_operator(head, newstr, array);
-    return(fill_node_parsing(head,count, array, type_built));
+    return(fill_node_parsing(head, *command,count, array, type_built));
 
 }
-// Tester
-		//2d array printer:
-// 	y = 0;
-// 	while(array[y])
-// 	{
-// 		printf("dubbel array[%s]\n", array[y]);
-// 		y++;
-// 	}
-// //Linked list 2d array printer
-// 	t_command		*list;
-// 	int n;
-	
-// 	n = 0;
-// 	list = command;
-// 	printf("EIND RESULTAAT TRANSFORM:\n");
-// 	printf("node-builtin = [%d]\n", list->builtin);
-// 	while (list->array[n])
-// 	{
-// 		printf("node-str[%d] = [%s]\n", n, list->array[n]);
-// 		n++;
-// 	}
-// Einde Tester
