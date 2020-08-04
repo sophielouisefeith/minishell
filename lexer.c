@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/03 19:16:58 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/04 11:05:21 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,17 +135,11 @@ static void			save_operator(char *line, int *i, int type, t_lexer **head)
 	(*i)++;
 }
 
-void				lexer(char *line)
+void				lexer(t_lexer **head, char *line)
 {
-	t_lexer		*head;
-	t_lexer		*list;
-	
 	int 		type;
 	int 		i;
-	int			count;
 
-	count = 0;
-	head = NULL;
 	i = 0;
 	while (line[i])
 	{
@@ -153,46 +147,9 @@ void				lexer(char *line)
 			i++;
 		type = get_token_type(line, &i);
 		if (type == token_quote || type == token_dquote || type == token_general)
-			save_word(line, &i, &head);
+			save_word(line, &i, head);
 		if (type >= token_pipe && type <= token_redirection_lesser)
-			save_operator(line, &i, type, &head);
+			save_operator(line, &i, type, head);
 		type = 0;
 	}
-
-/// TESTER
-	// printf("value head = [%p], adress head = [%p]\n", head, &head);
-	list = head;
-	printf("EIND RESULTAAT:\n");
-	//int n;
-	int k;
-	k = 0;
-	while (head)
-	{
-		k = transform(&head, count);
-		if (k == 1)
-			count = 1;
-		else
-			count = 0;
-		if (head)
-			head = head->next;
-		
-	}
-/// TESTER
-	list = head;
-	printf("EIND RESULTAAT:\n");
-	int n;
-	while (list)
-	{
-		//transform(list);										// this is the expiriment with transform ffrom sophie 
-		// printf("node-str = [%s]\n", list->str);
-		// n = 0;
-		// while (n < 11)
-		// {
-		// 	printf("%d=[%d]  ", n, list->token[n]);
-		// 	n++;
-		// }
-		// printf("\n");
-		list = list->next;	
-	}
-/// END TESTER
 }

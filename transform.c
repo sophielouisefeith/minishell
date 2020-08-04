@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/03 18:55:31 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/04 11:01:32 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,15 @@ int pipe_after, int pipe_before, int sem)
         new->sem = sem;
 	new->next = NULL;
    
-    while (new->array[n])
-	{
-		printf("node-str[%d] = [%s]\n", n, new->array[n]);
-		n++;
-	}
-    printf("node---pipe after[%d]\n", new->pipe_after);
-    printf("node---builtin[%d]\n", new->builtin);
-    printf("node---pipe before[%d]\n", new->pipe_before);
-    printf("node---sem[%d]\n", new->sem);
+    // while (new->array[n])
+	// {
+	// 	printf("node-str[%d] = [%s]\n", n, new->array[n]);
+	// 	n++;
+	// }
+    // printf("node---pipe after[%d]\n", new->pipe_after);
+    // printf("node---builtin[%d]\n", new->builtin);
+    // printf("node---pipe before[%d]\n", new->pipe_before);
+    // printf("node---sem[%d]\n", new->sem);
     
 	return (new);
 }
@@ -72,14 +72,13 @@ static void	redirection(t_lexer *head)
             input_fill(&head);
 }
 
-int				transform(t_lexer **head, int count)
+int				transform(t_lexer **head, t_command **command, int count)
 {
 	char 		**array;
 	char 		*newstr;
 	int 		type_built;
 	int 		num_nodes;
 	int 		y;
-	t_command 	*command; 				//command head
 	t_command 	*tmp;
 	// int	        *builtin;			//gebruik je niet
     int         pipe_after;
@@ -97,7 +96,6 @@ int				transform(t_lexer **head, int count)
     }
 	// builtin = intspace(8);			//gebruik je niet.
 	y = 0;
-	command = NULL;
 	num_nodes = count_node(*head);
 	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
 	if (array == NULL)
@@ -134,41 +132,14 @@ int				transform(t_lexer **head, int count)
         pipe_after = 1;
         tmp = ll_new_node_command(array, type_built, pipe_after, pipe_before, sem);
         // tmp->pipe_after = 1;
-        ll_lstadd_back_command(&command, tmp);
+        ll_lstadd_back_command(command, tmp);
        // tmp = ll_new_node_command(&pipe_after, type_built);
        // printf("echo hallo[%s]",tmp);
        // ll_lstadd_back_command(&command, tmp);
         return(1);
     }
     tmp = ll_new_node_command(array, type_built, pipe_after, pipe_before, sem);
-    ll_lstadd_back_command(&command, tmp);
+    ll_lstadd_back_command(command, tmp);
     // tester_pars(*head, command);
     return(i);
-    
-    
-   
-
-
-// Tester
-		//2d array printer:
-// 	y = 0;
-// 	while(array[y])
-// 	{
-// 		printf("dubbel array[%s]\n", array[y]);
-// 		y++;
-// 	}
-// //Linked list 2d array printer
-// 	t_command		*list;
-// 	int n;
-	
-// 	n = 0;
-// 	list = command;
-// 	printf("EIND RESULTAAT TRANSFORM:\n");
-// 	printf("node-builtin = [%d]\n", list->builtin);
-// 	while (list->array[n])
-// 	{
-// 		printf("node-str[%d] = [%s]\n", n, list->array[n]);
-// 		n++;
-// 	}
-// Einde Tester
 }
