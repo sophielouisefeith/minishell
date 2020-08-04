@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/03 18:50:11 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/04 11:06:18 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int				count_node(t_lexer *head)
 	int 				i;
 
 	i = -1;							//builtin telt niet mee
-
 	while (head)
 	{
         if (head->token[token_general])
@@ -32,10 +31,9 @@ int				count_node(t_lexer *head)
 char           *trunc_quotes(t_lexer *list,char *str)
 {
     int     len;
-   // t_command **commandstr;
     char       *newstr;
-    len = ft_strlen(str);
     
+    len = ft_strlen(str);
     len = len - 2;
 	newstr= ft_substr(list->str, 1, len);
     return(newstr);
@@ -61,4 +59,13 @@ int     check_token(char *str)
 		return(token_redirection_lesser);
     else
         return(0); 
+}
+
+void 	        redirection(t_lexer *head)
+{
+        if ((head)->token[token_redirection_greater]||
+			(head)->token[token_redirection_dgreater])
+            output_fill(&head);
+        if((head)->token[token_redirection_lesser])
+            input_fill(&head);
 }

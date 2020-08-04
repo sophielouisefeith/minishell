@@ -6,13 +6,13 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:30:21 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/03 14:46:15 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/04 11:34:19 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_output			*ll_new_node_output(void *content, int token_output)
+static t_output			*ll_new_node_output(void *content, int token_output)
 {
 	t_output		*new;
 
@@ -21,11 +21,13 @@ t_output			*ll_new_node_output(void *content, int token_output)
 		return (0);
 	new->str_output = content;
 	new->token_output = token_output;
+    printf("node---str_output[%s]\n", new->str_output);
+    printf("node---token_output[%d]\n", new->token_output);
 	new->next_output = NULL;
 	return (new);
 }
 
-void			ll_lstadd_back_output(t_output **head_output, t_output *new_output)
+static void			ll_lstadd_back_output(t_output **head_output, t_output *new_output)
 {
 	t_output		*list_output;
 

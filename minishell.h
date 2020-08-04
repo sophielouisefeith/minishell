@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/03 18:49:22 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/04 11:35:33 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,23 +108,23 @@ typedef struct				s_env{
 }							t_env;
 
 
-void						lexer(char *line);
-int							*intspace(int i);
+void							lexer(char *line);
+int								*intspace(int i);
 
-int							ft_strcmp(const char *s1, const char *s2);
-char 						*str_from_char(char c);
-char 						*str_redirection_dgreater(void);
+int								ft_strcmp(const char *s1, const char *s2);
+char 							*str_from_char(char c);
+char 							*str_redirection_dgreater(void);
 
-int							is_single_quote(char c);
-int							is_double_quote(char c);
-int							is_whitespace(char c);
-int							is_operator(char c);
-int							is_metachar(char c);
+int								is_single_quote(char c);
+int								is_double_quote(char c);
+int								is_whitespace(char c);
+int								is_operator(char c);
+int								is_metachar(char c);
 
-t_lexer						*ll_new_node(void *content, int *token);
-void						ll_lstadd_back(t_lexer **head, t_lexer *new);
+t_lexer							*ll_new_node(void *content, int *token);
+void							ll_lstadd_back(t_lexer **head, t_lexer *new);
 
-int							this_is_a_test(int c);
+int								this_is_a_test(int c);
 
 /*transform */
 int								transform(t_lexer **list, int count);
@@ -135,16 +135,14 @@ int    							check_token(char *str);
 int								get_token_type(char *line, int *i);
 int								count_node(t_lexer *head);
 int								fill_operator(t_lexer *head, int count);
+void	        				redirection(t_lexer *head);
 
 /*output */
 void            				output_fill(t_lexer **head);
-void							ll_lstadd_back_output(t_output **head_output, t_output *new_output);
-t_output						*ll_new_node_output(void *content, int token_output);
 
 /* input */
 void            				input_fill(t_lexer **head);
-// void							ll_lstadd_back_input(t_input **head_input, t_output *new_input);
-// t_input							*ll_new_node_input(void *content, int token_output);
+
 
 /*execute*/
 int             				execute(void);

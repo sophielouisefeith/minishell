@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 11:53:32 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/03 18:25:53 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/04 10:21:20 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,11 @@ int			check_builtin_node(t_lexer **head)
 	char *newstr;
 	int type_built;
 
-	newstr = trunc_quotes(*head, (*head)->str);
+    if((*head)->token[token_quote] || (*head)->token[token_dquote])
+	    newstr = trunc_quotes(*head, (*head)->str);
+    else
+        newstr = (*head)->str;
 	type_built = get_builtin_type(newstr);
 	*head = (*head)->next;
-	
 	return (type_built);
 }

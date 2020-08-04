@@ -6,13 +6,13 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:38:34 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/03 13:25:57 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/04 11:11:07 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_input			*ll_new_node_input(void *content, int token_output)
+static t_input			*ll_new_node_input(void *content, int token_input)
 {
 	t_input		*new;
 
@@ -20,7 +20,9 @@ static t_input			*ll_new_node_input(void *content, int token_output)
 	if (!new)
 		return (0);
 	new->str_input = content;
-	new->token_input = token_output;
+    new->token_input = token_input;
+    printf("node---str_input[%s]\n", new->str_input);
+    printf("node---token_input[%d]\n", new->token_input);
 	new->next_input = NULL;
 	return (new);
 }
@@ -45,7 +47,7 @@ void            input_fill(t_lexer **head)
     t_input                 *tmp_input;
     t_input                 input;
     t_input                 *input_head; //head
-     int                    token_input;
+    int                    token_input;
 
     input_head = NULL;
     token_input = check_token((*head)->str);
