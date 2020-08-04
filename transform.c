@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/04 11:52:36 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/04 12:05:49 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ int pipe_after, int pipe_before, int sem)
         new->pipe_before = pipe_before;
     if(sem)
         new->sem = sem;
-    while (new->array[n])
-	{
-		printf("node-str[%d] = [%s]\n", n, new->array[n]);
-		n++;
-	}
-    printf("node---pipe after[%d]\n", new->pipe_after);
-    printf("node---builtin[%d]\n", new->builtin);
-    printf("node---pipe before[%d]\n", new->pipe_before);
-    printf("node---sem[%d]\n", new->sem);
+    // while (new->array[n])
+	// {
+	// 	printf("node-str[%d] = [%s]\n", n, new->array[n]);
+	// 	n++;
+	// }
+    // printf("node---pipe after[%d]\n", new->pipe_after);
+    // printf("node---builtin[%d]\n", new->builtin);
+    // printf("node---pipe before[%d]\n", new->pipe_before);
+    // printf("node---sem[%d]\n", new->sem);
 	new->next = NULL;
 	return (new);
 }
@@ -87,37 +87,35 @@ static void                 check_operator(t_lexer **head, char *newstr, char **
 		array[y]= 0;
 }
 
-static int            fill_node_parsing(t_lexer **head, t_command *command,int count, \
+static int            fill_node_parsing(t_lexer **head, t_command **command,int count, \
 char **array, int type_built)
 {
     int         pipe_after;
     int         pipe_before;
     int         i;
     int         sem;
-    //t_command 	*command; 				//command head
 	t_command 	*tmp;
     
-    //command = NULL;         
     pipe_before = 0;         
     pipe_after =0;
     sem = 0;
-    if(count == 1)
+    if (count == 1)
     {
         pipe_before = 1;
         i = 0;
     }
-    if(*head && (*head)->token[token_semicolon])
+    if (*head && (*head)->token[token_semicolon])
         sem = 1;
-    if(*head && (*head)->token[token_pipe] && !count)
+    if (*head && (*head)->token[token_pipe] && !count)
     {
         pipe_after = 1;
         tmp = ll_new_node_command(array, type_built, pipe_after, pipe_before, sem);
-        ll_lstadd_back_command(&command, tmp);
-        return(1);
+        ll_lstadd_back_command(command, tmp);
+        return (1);
     }
     tmp = ll_new_node_command(array, type_built, pipe_after, pipe_before, sem);
-    ll_lstadd_back_command(&command, tmp);
-    return(i);
+    ll_lstadd_back_command(command, tmp);
+    return (i);
 }
 
 int				transform(t_lexer **head, t_command **command, int count)
@@ -134,6 +132,5 @@ int				transform(t_lexer **head, t_command **command, int count)
 		printf("Malloc failed\n"); 		// error functie van maken 
 	type_built = check_builtin_node(head);
     check_operator(head, newstr, array);
-    return(fill_node_parsing(head, *command,count, array, type_built));
-
+    return (fill_node_parsing(head, command,count, array, type_built));
 }
