@@ -1,16 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ll_make_list.c                                     :+:    :+:            */
+/*   ll_make_list_lexer.c                               :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 12:12:45 by Maran         #+#    #+#                 */
-<<<<<<< HEAD:ll_make_list.c
-/*   Updated: 2020/08/06 15:26:53 by SophieLouis   ########   odam.nl         */
-=======
-/*   Updated: 2020/08/06 15:21:54 by maran         ########   odam.nl         */
->>>>>>> 69a9313794baca92cbd6f623d107cdb05e1398e8:ll_make_list_lexer.c
+/*   Updated: 2020/08/06 16:54:14 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +17,9 @@ t_lexer			*ll_new_node(char *str, int *token)
 	t_lexer		*new;
 
 	new = (t_lexer *)malloc(sizeof(t_lexer));
-<<<<<<< HEAD:ll_make_list.c
 	if(!new)
 		error_free(errno);;
-	new->str = content;
-=======
-	if (!new)
-		return (0);
 	new->str = str;
->>>>>>> 69a9313794baca92cbd6f623d107cdb05e1398e8:ll_make_list_lexer.c
 	new->token = token;
 	new->next = NULL;
 	return (new);

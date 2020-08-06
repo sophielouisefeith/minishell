@@ -6,11 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-<<<<<<< HEAD
-/*   Updated: 2020/08/06 15:26:34 by SophieLouis   ########   odam.nl         */
-=======
-/*   Updated: 2020/08/06 15:19:14 by maran         ########   odam.nl         */
->>>>>>> 69a9313794baca92cbd6f623d107cdb05e1398e8
+/*   Updated: 2020/08/06 16:51:25 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,25 +72,12 @@ static int		check_meta_and_quote(char *line, int *i, int *token)
 	return (0);
 }
 
-<<<<<<< HEAD
-int				*intspace(int i)
-{
-	int 	*size_type;
-
-	size_type = (int *)malloc(sizeof(int) * i);
-	if(!size_type)
-		error_free(errno);
-	ft_bzero(size_type, 11 * sizeof(int));
-	return (size_type);
-}
-=======
 /*
 ** In int *token is saved what the token type is:
 ** - General (always)
 ** - quote, dubbel quote, dollar (optional)
 ** The word and token type are saved in a linked list node.
 */
->>>>>>> 69a9313794baca92cbd6f623d107cdb05e1398e8
 
 static void			save_word(char *line, int *i, t_lexer **sort)
 {
@@ -109,13 +92,8 @@ static void			save_word(char *line, int *i, t_lexer **sort)
 	check_meta_and_quote(line, i, token);
 	str = ft_substr(line, start, (*i - start));
 	tmp = ll_new_node(str, token);
-<<<<<<< HEAD
 	//free(token);
-	ll_lstadd_back(head, tmp);
-=======
-	free(token);
 	ll_lstadd_back(sort, tmp);
->>>>>>> 69a9313794baca92cbd6f623d107cdb05e1398e8
 }
 
 /*

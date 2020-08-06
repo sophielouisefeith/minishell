@@ -6,11 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 15:51:41 by msiemons      #+#    #+#                 */
-<<<<<<< HEAD
-/*   Updated: 2020/08/06 15:26:11 by SophieLouis   ########   odam.nl         */
-=======
-/*   Updated: 2020/08/06 15:04:48 by maran         ########   odam.nl         */
->>>>>>> 69a9313794baca92cbd6f623d107cdb05e1398e8
+/*   Updated: 2020/08/06 16:50:31 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +52,9 @@ int				*allocate_memory_int_string(int i)
 char 			*str_from_char(char c)
 {
 	char 	*str;
-<<<<<<< HEAD
 	str = (char *)malloc(sizeof(char) * 2);
 	if(!str)
 		error_free(errno);
-=======
-
-	str = (char *)malloc(sizeof(char) * 2);
->>>>>>> 69a9313794baca92cbd6f623d107cdb05e1398e8
 	str[0] = c;
 	str[1] = '\0';
 	return (str);
