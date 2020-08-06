@@ -1,16 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   transform.c                                        :+:    :+:            */
+/*   parser.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-<<<<<<< HEAD:transform.c
-/*   Updated: 2020/08/06 15:27:54 by SophieLouis   ########   odam.nl         */
-=======
-/*   Updated: 2020/08/06 13:02:21 by maran         ########   odam.nl         */
->>>>>>> 69a9313794baca92cbd6f623d107cdb05e1398e8:parser.c
+/*   Updated: 2020/08/06 16:53:34 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
