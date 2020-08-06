@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/04 11:05:21 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/06 11:27:49 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int			get_token_type(char *line, int *i)
 
 static int			check_quotation_complete(char quote, char *line, int *i, int *token)
 {
+
 	(*i)++;
 	while (line[*i] != quote && line[*i])
 	{
@@ -51,10 +52,8 @@ static int			check_quotation_complete(char quote, char *line, int *i, int *token
 	if (line[*i] == quote)
 		return (0);
 	else
-	{
-		printf("[Multiple line command is not part of the subject\n]");
-		exit(1);
-	}
+		strerror(error_Multipleline);
+	return(-1);
 }
 
 static int		check_meta_and_quote(char *line, int *i, int *token)
@@ -84,7 +83,6 @@ int				*intspace(int i)
 
 	size_type = (int *)malloc(sizeof(int) * i);
 	ft_bzero(size_type, 11 * sizeof(int));
-
 	return (size_type);
 }
 
@@ -103,6 +101,7 @@ static void			save_word(char *line, int *i, t_lexer **head)
 	len = *i - start;
 	str = ft_substr(line, start, len);
 	tmp = ll_new_node(str, token);
+	free(token);
 	ll_lstadd_back(head, tmp);
 }
 
@@ -131,7 +130,9 @@ static void			save_operator(char *line, int *i, int type, t_lexer **head)
 	if (type >= token_redirection_greater && type <= token_redirection_dgreater)
 		token[token_redirection] = 1; 
 	tmp = ll_new_node(str, token);
+	free(token);
 	ll_lstadd_back(head, tmp);
+	free_str(str);  //hoeven we hier maar een str te freen of meerdere? 
 	(*i)++;
 }
 

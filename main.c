@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/04 11:07:30 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/06 11:13:40 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,18 @@ static void		lexer_parser_executer(char *line, int i)
 	int n;
 	while (command)
 	{
+		t_list *input;
+		t_list *output;
 		n = 0;
 		printf("--------------------Node------------------------------:\n");
 		printf("node---builtin = [%d]\n", command->builtin);
     	printf("node---pipe before[%d]\n", command->pipe_before);
 		printf("node---pipe after[%d]\n", command->pipe_after);
     	printf("node---sem[%d]\n", command->sem);
+		// printf("node---str_input[%s]\n", command->input->str_input);
+    	// printf("node---token_input[%d]\n", command.input->input->token_input);
+		// printf("node---str_output[%s]\n", command.output->new->str_output);
+    	// printf("node---token_output[%d]\n", command.output->token_output);
 		while (command->array[n])
 		{
 			printf("node-str[%d] = [%s]\n", n, command->array[n]);
@@ -81,7 +87,7 @@ int				main(int argc, char **argv)
 		write(1, "$ ", 2);
 		ret = get_next_line(0, &line);
 		// if (ret == -1)
-		// 	error();
+		// 	strerror(erroc_notavalidfile);
 		lexer_parser_executer(line, i);
 		free(line);
 		line = NULL;

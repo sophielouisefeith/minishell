@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/04 11:06:18 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 09:53:41 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int				count_node(t_lexer *head)
 {
 	int 				i;
 
-	i = -1;							//builtin telt niet mee
+	i = -1;							
 	while (head)
 	{
         if (head->token[token_general])

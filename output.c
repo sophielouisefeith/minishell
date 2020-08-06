@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:30:21 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/04 11:34:19 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 11:31:54 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void			ll_lstadd_back_output(t_output **head_output, t_output *new_output
 	}
 	else
 		*head_output = new_output;
+	free(new_output);
 }
 
 void            output_fill(t_lexer **head)

@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/04 11:45:07 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 11:23:55 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "libft/libft.h"
 #include <errno.h>
 #include <string.h>
+
 
 /*
 ** Checken of later verwijderen:
@@ -51,6 +52,16 @@ enum	builtin_type{
 	builtin_exit
 };
 
+enum	error_type{
+	error_malloc,
+	erroc_notavalidfile,
+	error_Multipleline,
+	error_notavalidentifier,
+	//error_fork,
+	//error_openingpipe,
+	
+};
+
 typedef struct				s_lexer{
 	char 					*str;
 	int						*token;
@@ -62,7 +73,6 @@ typedef struct				s_lexer{
 
 typedef struct				s_output{
 	char					*str_output;
-	//char 					*filename;
 	int						token_output;
 
 	struct		s_output 	*next_output;
@@ -73,7 +83,6 @@ typedef struct				s_output{
 
 typedef struct				s_input{
 	char					*str_input;
-	// char 					**array_input;
 	int						token_input;
 
 	struct		s_input 	*next_input;
@@ -157,5 +166,12 @@ void        					execute_exit(void);
 int								execute_echo(t_command *head_command);
 
 /*test */
-void     				tester_pars(t_lexer *lexer, t_command *command);
+void     						tester_pars(t_lexer *lexer, t_command *command);
+
+/*free */				
+int            					free_array(char **array);
+void      						free_str(char *str);
+
+/*error */						
+char                			*strerror(int errnum);
 #endif

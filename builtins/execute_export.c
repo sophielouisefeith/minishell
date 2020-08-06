@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/07/29 19:33:42 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/06 11:30:51 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ static int          check_format(char *str)
     
     if (!ft_isalpha(str[0]))
     {
-        printf("not a valid identifier\n");
-        return (1);
+        strerror(erroc_notavalidfile);
+        // printf("not a valid identifier\n");
+        // return (1);
     }
     i = 1;
     while ((ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_') && str)
@@ -65,6 +66,7 @@ static int          check_format(char *str)
         return (1);                 //doet niets
     else
     {
+        strerror(error_notavalidentifier);
         printf("not a valid identifier\n");
         return (2);                 //foutmelding
     }
@@ -105,8 +107,8 @@ int            execute_export(t_env **env)
     array = ft_split(str, '=');
     if (check_present_in_env(array[0], array[1], *env))
     {
-        free (array[0]);
-        free (array);
+        free(array[0]);
+        free_array(array); //andere free voor array
         return (0);
     }
     else
@@ -114,7 +116,7 @@ int            execute_export(t_env **env)
         tmp = ll_new_node_env(array[0], array[1]);
         ll_lstadd_back_env(env, tmp);
     }
-    free (array);
+    free_array(array);
 
 // // Test in child
 //     int id;
