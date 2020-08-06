@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/06 16:51:25 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/06 17:07:59 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static void			save_word(char *line, int *i, t_lexer **sort)
 	check_meta_and_quote(line, i, token);
 	str = ft_substr(line, start, (*i - start));
 	tmp = ll_new_node(str, token);
-	//free(token);
+	free(token);
 	ll_lstadd_back(sort, tmp);
 }
 

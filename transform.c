@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parser.c                                           :+:    :+:            */
+/*   transform.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/06 17:10:42 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/06 17:02:49 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int pipe_after, int pipe_before, int sem)
 
     n = 0;
 	new = (t_command *)malloc(sizeof(t_command));
-	//if(!new)
-		//error_free(errno);
+	if(!new)
+		error_free(errno);
 	new->array = content;
 	new->builtin = builtin;
     if(pipe_after)
@@ -109,7 +109,7 @@ char **array, int type_built)
     return (i);
 }
 
-int				parser(t_lexer **head, t_command **command, int count)
+int				transform(t_lexer **head, t_command **command, int count)
 {
 	char 		**array;
 	char 		*newstr;
@@ -119,8 +119,8 @@ int				parser(t_lexer **head, t_command **command, int count)
 
 	num_nodes = count_node(*head);
 	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
-	//if (array == NULL)
-		//error_free(errno);
+	if (array == NULL)
+		error_free(errno);
 	type_built = check_builtin_node(head);
     check_operator(head, newstr, array);
     return (fill_node_parsing(head, command,count, array, type_built));

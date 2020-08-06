@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ll_make_list_lexer.c                               :+:    :+:            */
+/*   ll_make_list.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 12:12:45 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/06 17:11:27 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/06 17:02:56 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lexer			*ll_new_node(char *str, int *token)
+t_lexer			*ll_new_node(void *content, int *token)
 {
 	t_lexer		*new;
 
 	new = (t_lexer *)malloc(sizeof(t_lexer));
 	if(!new)
 		error_free(errno);;
-	new->str = str;
+	new->str = content;
 	new->token = token;
 	new->next = NULL;
 	return (new);
@@ -32,11 +32,11 @@ t_lexer			*ll_new_node(char *str, int *token)
 ** We have to make a copy of **head, to not change where the initial head is pointing to: the first node of the list.
 */
 
-void			ll_lstadd_back(t_lexer **sort, t_lexer *new)
+void			ll_lstadd_back(t_lexer **head, t_lexer *new)
 {
 	t_lexer		*list;
 
-	list = *sort;
+	list = *head;
 	if (list)
 	{
 		while (list->next)
@@ -44,5 +44,5 @@ void			ll_lstadd_back(t_lexer **sort, t_lexer *new)
 		list->next = new;
 	}
 	else
-		*sort = new;
+		*head = new;
 }

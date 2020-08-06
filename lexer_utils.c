@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 15:51:41 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/06 16:50:31 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/06 17:08:14 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,8 @@ int				*allocate_memory_int_string(int i)
 char 			*str_from_char(char c)
 {
 	char 	*str;
+
 	str = (char *)malloc(sizeof(char) * 2);
-	if(!str)
-		error_free(errno);
 	str[0] = c;
 	str[1] = '\0';
 	return (str);
