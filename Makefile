@@ -6,11 +6,7 @@
 #    By: Maran <Maran@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/06 17:19:34 by Maran         #+#    #+#                  #
-<<<<<<< HEAD
-#    Updated: 2020/08/06 15:06:49 by SophieLouis   ########   odam.nl          #
-=======
-#    Updated: 2020/08/06 15:26:32 by maran         ########   odam.nl          #
->>>>>>> 69a9313794baca92cbd6f623d107cdb05e1398e8
+#    Updated: 2020/08/06 17:06:07 by SophieLouis   ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +21,8 @@ SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		ll_make_list_lexer.c parser.c builtin.c parser_check.c\
 		builtins/execute.c builtins/execute_cd.c builtins/execute_pwd.c\
 		builtins/execute_env.c builtins/execute_export.c\
-		builtins/execute_unset.c output.c input.c free.c error.c \
+		builtins/execute_unset.c output.c input.c  error.c\
+		# free.c error.c
 		
 
 OBJ = $(SRC:.c=.o)

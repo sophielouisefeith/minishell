@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/06 15:35:35 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 17:02:29 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	error_free(int mistake)
     printf("mistake[%d]", mistake);
 	write(1, strerror(mistake), ft_strlen(strerror(mistake)));
 	write(1, "\n", 1);
-	free_complete(mistake);
+	//free_complete(mistake);
 	exit(0);
 	return (0);
 }
