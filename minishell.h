@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/06 12:40:10 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 16:09:04 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@
 ** Checken of later verwijderen:
 */
 #include <stdio.h>
-// #include <fcntl.h>
-// #include <stdlib.h>
+#include <fcntl.h>
+#include <stdlib.h>
+//#define errno (*error_free())
 
 enum	token_type{
 	token_null = 0,
@@ -54,10 +55,10 @@ enum	builtin_type{
 
 enum	error_type{
 	erro_general,
-	error_malloc,
-	erroc_notavalidfile,
+	error_malloc,					//	strerror(errno);
+	erroc_notavalidfile,			//	strerror(errno);
 	error_Multipleline,
-	error_notavalidentifier,
+	error_notavalidentifier,		//	strerror(errno);
 	//error_fork,
 	//error_openingpipe,
 	
@@ -92,11 +93,11 @@ typedef struct				s_input{
 
 		
 					
-typedef struct			s_output_modus{
-	//char					*str;
-	char 					**array_modus;
-	struct		s_lexer 	*next;
-}							t_output_modus;
+// typedef struct			s_output_modus{
+// 	//char					*str;
+// 	char 					**array_modus;
+// 	struct		s_lexer 	*next;
+// }							t_output_modus;
 
 typedef struct				s_command {
 	char					**array;
@@ -172,7 +173,9 @@ void     						tester_pars(t_lexer *lexer, t_command *command);
 /*free */				
 int            					free_array(char **array);
 void      						free_str(char *str);
+void            				free_complete(int mistake);
 
 /*error */						
 char                			*strerror_i(int errnum);
+int								error_free(int mistake);
 #endif

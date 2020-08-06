@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 15:51:41 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/22 12:24:25 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/06 15:26:11 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ char 			*str_from_char(char c)
 {
 	char 	*str;
 	str = (char *)malloc(sizeof(char) * 2);
-
+	if(!str)
+		error_free(errno);
 	str[0] = c;
 	str[1] = '\0';
 
@@ -77,6 +78,8 @@ char 			*str_redirection_dgreater(void)
 {
 	char 	*str;
 	str = (char *)malloc(sizeof(char) * 3);
+	if(!str)
+		error_free(errno);
 	str = ">>";
 
 	return (str);

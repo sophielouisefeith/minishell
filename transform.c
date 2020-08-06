@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/06 12:43:41 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 15:27:54 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int pipe_after, int pipe_before, int sem)
 
     n = 0;
 	new = (t_command *)malloc(sizeof(t_command));
-	if (!new)
-		return (0);
+	if(!new)
+		error_free(errno);
 	new->array = content;
 	new->builtin = builtin;
     if(pipe_after)
@@ -120,16 +120,9 @@ int				transform(t_lexer **head, t_command **command, int count)
 	num_nodes = count_node(*head);
 	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
 	if (array == NULL)
-	{
-		printf("Malloc failed:[%s]\n", strerror(errno));
-		strerror(errno);
-		// free_array(array);
-	}
+		error_free(errno);
 	type_built = check_builtin_node(head);
-	/*printf("Malloc failed:[%s]\n", strerror(errno));*/
     check_operator(head, newstr, array);
-	//printf("Malloc failed:[%s]\n", strerror(errno));
-	write(1, strerror(errno), ft_strlen(strerror(errno)));
     return (fill_node_parsing(head, command,count, array, type_built));
 	
 	

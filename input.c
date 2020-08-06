@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:38:34 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/06 11:52:05 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 15:25:15 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_input			*ll_new_node_input(void *content, int token_input)
 
 	new = (t_input *)malloc(sizeof(t_input));
 	if (!new)
-		return (0);
+		error_free(errno);
 	new->str_input = content;
     new->token_input = token_input;
     printf("node---str_input[%s]\n", new->str_input);

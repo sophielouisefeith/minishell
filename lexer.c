@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/06 11:47:20 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 15:26:34 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int				*intspace(int i)
 	int 	*size_type;
 
 	size_type = (int *)malloc(sizeof(int) * i);
+	if(!size_type)
+		error_free(errno);
 	ft_bzero(size_type, 11 * sizeof(int));
 	return (size_type);
 }
@@ -101,7 +103,7 @@ static void			save_word(char *line, int *i, t_lexer **head)
 	len = *i - start;
 	str = ft_substr(line, start, len);
 	tmp = ll_new_node(str, token);
-	free(token);
+	//free(token);
 	ll_lstadd_back(head, tmp);
 }
 

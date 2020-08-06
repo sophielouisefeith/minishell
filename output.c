@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:30:21 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/06 11:51:29 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 16:11:56 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 static t_output			*ll_new_node_output(void *content, int token_output)
 {
 	t_output		*new;
-
+	printf("je moet hier komen\n");
 	new = (t_output *)malloc(sizeof(t_output));
-	if (!new)
-		return (0);
+	if(!new)
+		error_free(errno);;
 	new->str_output = content;
 	new->token_output = token_output;
     printf("node---str_output[%s]\n", new->str_output);
@@ -40,7 +40,7 @@ static void			ll_lstadd_back_output(t_output **head_output, t_output *new_output
 	}
 	else
 		*head_output = new_output;
-	//free(new_output);
+	
 }
 
 void            output_fill(t_lexer **head)
@@ -53,8 +53,11 @@ void            output_fill(t_lexer **head)
  
     output_head = NULL;
     token_output = check_token((*head)->str);
+	//if((*head)->token[builtin_echo])
+		//*head = (*head)->next;
+	printf("filenname[%s]\n",(*head)->str);
     *head = (*head)->next;
     tmp_output = ll_new_node_output((*head)->str, token_output);
 	ll_lstadd_back_output(&output_head, tmp_output);
-	//free(tmp_output);
+	
 }
