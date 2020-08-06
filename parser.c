@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/06 12:43:41 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 13:02:21 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char **array, int type_built)
     return (i);
 }
 
-int				transform(t_lexer **head, t_command **command, int count)
+int				parser(t_lexer **head, t_command **command, int count)
 {
 	char 		**array;
 	char 		*newstr;

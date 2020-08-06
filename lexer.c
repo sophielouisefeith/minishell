@@ -6,36 +6,24 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/06 11:47:20 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 15:19:14 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 /*
 ** >>>>>>> TO DO <<<<<<<<<<<<<< 
-** 1. get_token_type: wss splitten op words vs operator hier voldoende (niet op alle subs).
-** 2. *token strings toegevoegd aan code. Beste methode? Ontdekken we vast bij parsing.
 ** 3. Protecten, error-exit, free
-** 4. Let op: niet te veel parameters in fucnties: opschonen.
 */
 
-int			get_token_type(char *line, int *i)
-{
-	if (is_whitespace(line[*i]))
-		return (token_whitespace);
-	else if (is_single_quote(line[*i]))
-		return (token_quote);
-	else if (is_double_quote(line[*i]))
-		return (token_dquote);
-	else if (is_operator(line[*i]))
-		return (is_operator(line[*i]));
-	else if (line[*i] == '\0')
-		return (token_null);
-	else
-		return (token_general);
-}
+/*
+** While the char is not equal to ' or ", keep looping.
+** Meanwhile check for:
+** 	- dollar-signs between the quotations
+** 	- \"	--> not a closing quotation, keep looping.
+** If the closing quotation is found return, otherwise error.
+*/
 
 static int			check_quotation_complete(char quote, char *line, int *i, int *token)
 {
@@ -52,13 +40,20 @@ static int			check_quotation_complete(char quote, char *line, int *i, int *token
 	if (line[*i] == quote)
 		return (0);
 	else
-		strerror(error_Multipleline);
-	return(-1);
+		strerror(error_Multipleline);						// Go to error function, exit vanuitdaar.
+	return(-1);												// Deze kan dan weg.
 }
+
+/*
+** While it's not a separating character (metacharacter) it checks every char
+** for quotation marks and dollar-signs.
+** 	- quotation: check if there is a closing quotation. If not: the real bash shell
+** would act as a multiple line command. This not part of the subject.
+*/
 
 static int		check_meta_and_quote(char *line, int *i, int *token)
 {
-	while (!is_metachar(line[*i]) && line[*i])
+	while ((!is_metachar(line[*i]))&& line[*i])
 	{
 		if (is_single_quote(line[*i]))
 		{
@@ -77,45 +72,50 @@ static int		check_meta_and_quote(char *line, int *i, int *token)
 	return (0);
 }
 
-int				*intspace(int i)
-{
-	int 	*size_type;
+/*
+** In int *token is saved what the token type is:
+** - General (always)
+** - quote, dubbel quote, dollar (optional)
+** The word and token type are saved in a linked list node.
+*/
 
-	size_type = (int *)malloc(sizeof(int) * i);
-	ft_bzero(size_type, 11 * sizeof(int));
-	return (size_type);
-}
-
-static void			save_word(char *line, int *i, t_lexer **head)
+static void			save_word(char *line, int *i, t_lexer **sort)
 {
 	t_lexer		*tmp;
 	char		*str;
-	int			start;
-	int			len;
 	int			*token;
+	int			start;
 
 	start = *i;
-	token = intspace(11);
+	token = allocate_memory_int_string(12);
 	token[token_general] = 1;
 	check_meta_and_quote(line, i, token);
-	len = *i - start;
-	str = ft_substr(line, start, len);
+	str = ft_substr(line, start, (*i - start));
 	tmp = ll_new_node(str, token);
 	free(token);
-	ll_lstadd_back(head, tmp);
+	ll_lstadd_back(sort, tmp);
 }
 
 /*
-** Later kijken of deze manier van type doorgeven nog handig is.
+** In int *token is saved what the token type is:
+**	- Redirection greater, redirection double greater, redirection lesser,
+** pipe or semicolon.
+**	- If it's one of three redirections than also "redirection" in general.
+** The operator and token type are saved in a linked list node.
+**
+** Changelog:
+** 	- Aangepast:
+	 11 -> 12. Was er een reden voor mallocen andere size (12) 
+	 voor int *token dan bij save_word (11)?
 */
 
-static void			save_operator(char *line, int *i, int type, t_lexer **head)
+static void			save_operator(char *line, int *i, int type, t_lexer **sort)
 {
 	t_lexer		*tmp;
 	char		*str;
 	int			*token;
 
-	token = intspace(12);
+	token = allocate_memory_int_string(12);
 	if (type == token_redirection_greater && line[*i + 1] == '>')
 	{
 		(*i)++;
@@ -127,16 +127,26 @@ static void			save_operator(char *line, int *i, int type, t_lexer **head)
 		token[type] = 1;
 		str = str_from_char(line[*i]);						//FREE!
 	}
-	if (type >= token_redirection_greater && type <= token_redirection_dgreater)
-		token[token_redirection] = 1; 
+	if (type >= token_redirection_greater &&
+			type <= token_redirection_dgreater)
+		token[token_redirection] = 1;
 	tmp = ll_new_node(str, token);
-	//free(token);
-	ll_lstadd_back(head, tmp);
-	//free_str(str);  //hoeven we hier maar een str te freen of meerdere? 
+	//free(token);											//Niet hier
+	ll_lstadd_back(sort, tmp);
+	//free_str(str);  //hoeven we hier maar een str te freen of meerdere? //1, Niet hier
 	(*i)++;
 }
 
-void				lexer(t_lexer **head, char *line)
+/*
+** Changelog:
+** - Getest:
+	Type meegeven aan save_word. Kan niet want je moet halverwege een word ook checken op " (bijv. Hoi"maran).
+	Type moet dus niet vast staan vooraf.
+** - Verwijderd:
+	type == token_quote || type == token_dquote
+*/
+
+void				lexer(t_lexer **sort, char *line)					//head naam aanpassen
 {
 	int 		type;
 	int 		i;
@@ -147,10 +157,10 @@ void				lexer(t_lexer **head, char *line)
 		while (is_whitespace(line[i]))
 			i++;
 		type = get_token_type(line, &i);
-		if (type == token_quote || type == token_dquote || type == token_general)
-			save_word(line, &i, head);
+		if (type == token_general)
+			save_word(line, &i, sort);
 		if (type >= token_pipe && type <= token_redirection_lesser)
-			save_operator(line, &i, type, head);
+			save_operator(line, &i, type, sort);
 		type = 0;
 	}
 }

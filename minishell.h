@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/06 12:40:10 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 15:22:22 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ typedef struct				s_env{
 }							t_env;
 
 void						lexer(t_lexer **head, char *line);
-int							*intspace(int i);
+int							*allocate_memory_int_string(int i);
 
 int								ft_strcmp(const char *s1, const char *s2);
 char 							*str_from_char(char c);
@@ -130,13 +130,13 @@ int								is_whitespace(char c);
 int								is_operator(char c);
 int								is_metachar(char c);
 
-t_lexer							*ll_new_node(void *content, int *token);
+t_lexer							*ll_new_node(char *str, int *token);
 void							ll_lstadd_back(t_lexer **head, t_lexer *new);
 
 int								this_is_a_test(int c);
 
 /*transform */
-int								transform(t_lexer **head, t_command **command, int count);
+int								parser(t_lexer **head, t_command **command, int count);
 int         					get_builtin_type(char *str);
 char            				*trunc_quotes(t_lexer *list,char *str);
 int								check_builtin_node(t_lexer **head);

@@ -6,78 +6,64 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 15:51:41 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/07/22 12:24:25 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/06 15:04:48 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int				is_whitespace(char c)
+/*
+** Changelog:
+** - Verwijderd:
+	if (is_whitespace(line[*i]))
+		return (token_whitespace);
+	if (is_single_quote(line[*i]))
+		return (token_quote);
+	else if (is_double_quote(line[*i]))
+		return (token_dquote);
+** - Aangepast:
+	if (is_operator(line[*i]))
+		return (is_operator(line[*i]));
+*/
+
+int				get_token_type(char *line, int *i)
 {
-	if (c == ' ' || c == '\n' || c == '\t' || c == '\r' || c == '\v'
-			|| c == '\f')
-		return (1);
-	return (0);
+	int 	operator;
+
+	operator = 0;
+	operator = is_operator(line[*i]); 
+	if (operator)
+		return (operator);
+	else if (line[*i] == '\0')
+		return (token_null);
+	else
+		return (token_general);
 }
 
-int				is_single_quote(char c)
+int				*allocate_memory_int_string(int i)
 {
-	if (c == '\'')
-		return (1);
-	else
-		return (0);
-}
+	int 	*int_str;
 
-int				is_double_quote(char c)
-{
-	if (c == '\"')
-		return (1);
-	else
-		return (0);
-}
-
-// & en quotes kunnen wel in words
-// \n nog toevoegen?
-int				is_operator(char c)
-{
-	if (c == ';')
-		return (token_semicolon);
-	if (c == '|')
-		return (token_pipe);
-	if (c == '>')
-		return (token_redirection_greater);
-	if (c == '<')
-		return (token_redirection_lesser);
-	else
-		return (0);
-}
-
-// Voor nu & en , eruit gelaten
-int				is_metachar(char c)
-{
-	if (is_whitespace(c) || is_operator(c))
-		return (1);
-	else
-		return (0);
-	
+	int_str = (int *)malloc(sizeof(int) * i);
+	ft_bzero(int_str, 11 * sizeof(int));
+	return (int_str);
 }
 
 char 			*str_from_char(char c)
 {
 	char 	*str;
-	str = (char *)malloc(sizeof(char) * 2);
 
+	str = (char *)malloc(sizeof(char) * 2);
 	str[0] = c;
 	str[1] = '\0';
-
 	return (str);
 }
 
 char 			*str_redirection_dgreater(void)
 {
 	char 	*str;
+
 	str = (char *)malloc(sizeof(char) * 3);
 	str = ">>";
-
 	return (str);
 }

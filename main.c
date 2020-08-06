@@ -6,44 +6,43 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/06 12:00:21 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 15:28:25 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-static void		lexer_parser_executer(char *line, int i)
+static void			lexer_parser_executer(char *line, int i)
 {
-	t_lexer		*lex_head;
-	t_command 	*command; 
-	int			count;
-	int 		k;
-	char		**array;
+	t_lexer		*sort;
+	t_command 	*command;								
+	int			count;									//naam
+	int 		k;										//naam
 	
 	k = 0;
 	count = 0;
-	lex_head = NULL;
+	sort = NULL;
 	command = NULL;
 	if (line[i] != '\0')
-		lexer(&lex_head, line);
-	while (lex_head)
+		lexer(&sort, line);
+	while (sort)
 	{
-		k = transform(&lex_head, &command, count);
+		k = parser(&sort, &command, count);
 		if (k == 1)
 			count = 1;
 		else
 			count = 0;
-		if (lex_head)
-			lex_head = lex_head->next;
+		if (sort)
+			sort = sort->next;
 	}
 	//free_array(array);
 	// execute();
 // LEXER TESTER
-	// while (lex_head)
+	// while (sort)
 	// {
-	// 	printf("node-str = [%s]\n", lex_head->str);
-	// 	lex_head = lex_head->next;	
+	// 	printf("node-str = [%s]\n", sort->str);
+	// 	sort = sort->next;	
 	// }
 //PARSER TESTER
 	int n;
@@ -71,17 +70,17 @@ static void		lexer_parser_executer(char *line, int i)
 	}
 }
 
-
 /*
 ** Spaces before commands or returns are allowed.
 ** Return key: prompt on a new line
 */
 
-int				main(int argc, char **argv)
+int					main(int argc, char **argv)
 {
-	char	*line;
-	int		ret;
-	int 	i;
+	char		*line;
+	int			ret;
+	int 		i;
+
 	ret = 1;
 	while (ret > 0)
 	{
