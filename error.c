@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/06 11:34:58 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 12:40:00 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,20 @@ a pointer to the corresponding message string. */
 /*errnum 
 Is the value of errno to interpret.*/
 
-char                *strerror(int errnum)
+/* dit moet dan ook  nog gefreed worden    */
+
+char                *strerror_i(int errnum)
 {
+    t_lexer     *lexer;
+    t_command   *command;
 
     if(errnum == error_malloc)
     {
         write(1,"Malloc failed", 13);
+        // if(lexer)
+        //     free(lexer);
+        // if(command)
+        //     free(command);
        // exit(1);
     }
 

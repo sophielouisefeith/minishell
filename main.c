@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/06 11:13:40 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 12:00:21 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void		lexer_parser_executer(char *line, int i)
 	t_command 	*command; 
 	int			count;
 	int 		k;
+	char		**array;
 	
 	k = 0;
 	count = 0;
@@ -36,6 +37,7 @@ static void		lexer_parser_executer(char *line, int i)
 		if (lex_head)
 			lex_head = lex_head->next;
 	}
+	//free_array(array);
 	// execute();
 // LEXER TESTER
 	// while (lex_head)

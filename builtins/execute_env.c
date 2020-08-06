@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 10:31:32 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/06 11:30:19 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 11:52:34 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_env                 *save_env()
         array = ft_split(environ[i], '=');
         tmp = ll_new_node_env(array[0], array[1]);
         ll_lstadd_back_env(&env, tmp);
-        free_array(array); // andere free voor array
+        //free_array(array); // andere free voor array
         array = NULL;
         i++;
     }

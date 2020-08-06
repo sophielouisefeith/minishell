@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/06 11:23:55 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 12:40:10 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ enum	builtin_type{
 };
 
 enum	error_type{
+	erro_general,
 	error_malloc,
 	erroc_notavalidfile,
 	error_Multipleline,
@@ -173,5 +174,5 @@ int            					free_array(char **array);
 void      						free_str(char *str);
 
 /*error */						
-char                			*strerror(int errnum);
+char                			*strerror_i(int errnum);
 #endif

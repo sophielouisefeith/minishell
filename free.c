@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:25 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/06 11:23:49 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 11:53:40 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,21 @@
 
 int         free_array(char **array)
 {
+    char **arrayfree;
     
     int     i;
 
+    arrayfree = array;
     i = 0;
-    if(array[i]!= NULL)
+    if(arrayfree[i]!= NULL)
     {
-        while(array[i])
+        while(arrayfree[i])
         {
-            free(array[i]);
+            free(arrayfree[i]);
             array[i] = NULL;
             i++;
         }
-        free(array);
+        free(arrayfree);
     }
     return(i);
 }
@@ -47,7 +49,7 @@ void       free_str(char *str)
         //     str= NULL;
         //     i++;
         // }
-        free(str);
+        free(str);  // dit is niet nodig 
     }
     //return(i);
 }

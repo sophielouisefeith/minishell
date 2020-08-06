@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/06 11:27:49 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 11:47:20 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,9 +130,9 @@ static void			save_operator(char *line, int *i, int type, t_lexer **head)
 	if (type >= token_redirection_greater && type <= token_redirection_dgreater)
 		token[token_redirection] = 1; 
 	tmp = ll_new_node(str, token);
-	free(token);
+	//free(token);
 	ll_lstadd_back(head, tmp);
-	free_str(str);  //hoeven we hier maar een str te freen of meerdere? 
+	//free_str(str);  //hoeven we hier maar een str te freen of meerdere? 
 	(*i)++;
 }
 
