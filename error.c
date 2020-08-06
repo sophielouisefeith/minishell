@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/06 11:11:19 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/06 11:34:58 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char                *strerror(int errnum)
 
     if(errnum == error_malloc)
     {
-        write(1,"Multiple line command is not part of the subject", 27);
+        write(1,"Malloc failed", 13);
        // exit(1);
     }
 
