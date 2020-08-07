@@ -1,0 +1,29 @@
+main
+sort| value = NULL | adress = 0x01
+
+lexer:
+sort| value = LL-adress | adress = 0x01
+
+
+main:
+sort| value = LL-adress | adress = 0x01
+
+main &sort(adress==0x01) ---> parser ** (value==0x01)  
+
+**parser:
+sort| value = 0x01 | adress = 0x05
+
+parser (value= 0x01) ---> check_operator ** (value==0x01)
+
+
+check_operator:
+sort| value = 0x01 | adress = 0x06
+
+check_operator --> redirection
+
+& 
+
+value 
+
+
+

@@ -6,30 +6,24 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/06 17:10:42 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/07 17:55:46 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_command			*ll_new_node_command(void *content, int builtin, \
-int pipe_after, int pipe_before, int sem)
+static t_command			*ll_new_node_command()
 {
 	t_command		*new;
-    int n;
 
-    n = 0;
 	new = (t_command *)malloc(sizeof(t_command));
 	//if(!new)
 		//error_free(errno);
-	new->array = content;
-	new->builtin = builtin;
-    if(pipe_after)
-        new->pipe_after = pipe_after;
-    if(pipe_before)
-        new->pipe_before = pipe_before;
-    if(sem)
-        new->sem = sem;
+	new->array = NULL;
+	new->builtin = 0;
+   	new->pipe_after = 0;
+	new->pipe_before = 0;
+	new->sem = 0;
 	new->next = NULL;
 	return (new);
 }
@@ -49,81 +43,82 @@ static void			        ll_lstadd_back_command(t_command **head, t_command *new)
 		*head = new;
 }
 
-static void                 check_operator(t_lexer **head, char *newstr, char **array)
+static void                 check_operator(t_lexer **head, t_command **tmp, char **array)
 {
-    int y;
+	char 		*newstr;
+    int 		y;
 
     y = 0;
-    while((*head && ((*head)->token[token_general] || (*head)->token[token_redirection])))
+	while((*head)->next)
 	{
-        if ((*head)->token[token_redirection])
+		while ((*head)->token[token_redirection])
 		{
-			redirection(*head);                         //hier vullen we input & output
+			redirection(head, tmp);
 			if ((*head)->next)
             	*head = (*head)->next;
 			else
+			{
+				if (array)
+					array[y]= 0;
+				(*tmp)->array = array;
+				return ;
+			}
+		}
+		while(*head && (*head)->token[token_general])
+		{
+			if ((*head)->token[token_quote] || (*head)->token[token_dquote])
+			{
+				newstr = trunc_quotes(*head, (*head)->str);
+				array[y] = newstr;
+			}
+			else
+				array[y] = (*head)->str;
+			y++;
+			if ((*head)->next)
+				*head = (*head)->next;
+			else
 				break ;
 		}
-		if ((*head)->token[token_quote] || (*head)->token[token_dquote])
-		{
-			newstr = trunc_quotes(*head, (*head)->str);
-			array[y] = newstr;
-		}
-		else
-			array[y] = (*head)->str;
-		y++;
-		*head = (*head)->next;
 	}
 	if(array)
 		array[y]= 0;
+	(*tmp)->array = array;
 }
 
-static int            fill_node_parsing(t_lexer **head, t_command **command,int count, \
-char **array, int type_built)
+static int            fill_node_parsing(t_lexer **head, t_command **command, int count, t_command **tmp)
 {
-    int         pipe_after;
-    int         pipe_before;
     int         i;
-    int         sem;
-	t_command 	*tmp;
-    
-    pipe_before = 0;         
-    pipe_after =0;
-    sem = 0;
+
     if (count == 1)
     {
-        pipe_before = 1;
+        (*tmp)->pipe_before = 1;
         i = 0;
     }
     if (*head && (*head)->token[token_semicolon])
-        sem = 1;
+        (*tmp)->sem = 1;
     if (*head && (*head)->token[token_pipe] && !count)
     {
-        pipe_after = 1;
-        tmp = ll_new_node_command(array, type_built, pipe_after, pipe_before, sem);
-        ll_lstadd_back_command(command, tmp);
+        (*tmp)->pipe_after = 1;
+        ll_lstadd_back_command(command, *tmp);
         return (1);
-    }
-    tmp = ll_new_node_command(array, type_built, pipe_after, pipe_before, sem);
-    ll_lstadd_back_command(command, tmp);
+	}
+    ll_lstadd_back_command(command, *tmp);
     return (i);
 }
 
-int				parser(t_lexer **head, t_command **command, int count)
+int				parser(t_lexer **sort, t_command **command, int count)
 {
 	char 		**array;
-	char 		*newstr;
-	int 		type_built;
 	int 		num_nodes;
-             
+	t_command 	*tmp;
 
-	num_nodes = count_node(*head);
+	tmp = NULL;
+	tmp = ll_new_node_command();
+	num_nodes = count_node(*sort);
 	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
 	//if (array == NULL)
 		//error_free(errno);
-	type_built = check_builtin_node(head);
-    check_operator(head, newstr, array);
-    return (fill_node_parsing(head, command,count, array, type_built));
-	
-	
+	tmp->builtin = check_builtin_node(sort);
+    check_operator(sort, &tmp, array);
+    return (fill_node_parsing(sort, command, count, &tmp));
 }
