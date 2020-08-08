@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:30:21 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/06 16:11:56 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/07 16:35:10 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static void			ll_lstadd_back_output(t_output **head_output, t_output *new_output
 	}
 	else
 		*head_output = new_output;
-	
+	//printf("node---str_output[%s]\n", list_output->str_output);
+    //printf("node---token_output[%d]\n", new_output->token_output);
 }
 
 void            output_fill(t_lexer **head)
@@ -53,11 +54,13 @@ void            output_fill(t_lexer **head)
  
     output_head = NULL;
     token_output = check_token((*head)->str);
-	//if((*head)->token[builtin_echo])
-		//*head = (*head)->next;
+	// if((*head)->token[builtin_echo])
+	// 	*head = (*head)->next;
 	printf("filenname[%s]\n",(*head)->str);
     *head = (*head)->next;
     tmp_output = ll_new_node_output((*head)->str, token_output);
 	ll_lstadd_back_output(&output_head, tmp_output);
+	// printf("node---str_output[%s]\n", output.);
+	// printf("node---str_output[%s]\n", output.tmp_output);
 	
 }

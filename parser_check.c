@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   transform_check.c                                  :+:    :+:            */
+/*   parser_check.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/06 09:53:41 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/07 17:18:03 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,20 @@ int     check_token(char *str)
         return(0); 
 }
 
-void 	        redirection(t_lexer *head)
+void 	        redirection(t_lexer **head, t_command *command)
 {
-        if ((head)->token[token_redirection_greater]||
-			(head)->token[token_redirection_dgreater])
-            output_fill(&head);
-        if((head)->token[token_redirection_lesser])
-            input_fill(&head);
+    
+       
+        if ((*head)->token[token_redirection_greater]||
+			(*head)->token[token_redirection_dgreater])
+        {
+            output_fill(&head, command);
+          
+            //printf("node---str_output[%s]\n", command->output.str_output);
+        }
+        if ((*head)->token[token_redirection_lesser])
+        {
+            input_fill(&head, command);
+            
+        }
 }

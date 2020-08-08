@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/06 17:00:48 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/07 17:49:06 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,20 +91,14 @@ typedef struct				s_input{
 }							t_input;
 
 
-		
-					
-// typedef struct			s_output_modus{
-// 	//char					*str;
-// 	char 					**array_modus;
-// 	struct		s_lexer 	*next;
-// }							t_output_modus;
+
 
 typedef struct				s_command {
 	char					**array;
 	int						builtin;
 	
-	struct s_list			output;    // dit is dus een link list voor alle outputs // moeten we hier dan * van maken 
-	struct s_list			input;     // dit is dus een link list voor de input
+	struct s_output			output;    // dit is dus een link list voor alle outputs // moeten we hier dan * van maken 
+	struct s_input			input;     // dit is dus een link list voor de input
 	struct s_list 			output_modus; // trunk append
 	int						pipe_before;
 	int						pipe_after;
@@ -118,8 +112,8 @@ typedef struct				s_env{
 	struct		s_env   	*next;
 }							t_env;
 
-void						lexer(t_lexer **head, char *line);
-int							*allocate_memory_int_string(int i);
+void							lexer(t_lexer **head, char *line);
+int								*allocate_memory_int_string(int i);
 
 int								ft_strcmp(const char *s1, const char *s2);
 char 							*str_from_char(char c);
@@ -145,7 +139,7 @@ int    							check_token(char *str);
 int								get_token_type(char *line, int *i);
 int								count_node(t_lexer *head);
 int								fill_operator(t_lexer *head, int count);
-void	        				redirection(t_lexer *head);
+void	        				redirection(t_lexer **head, t_command *command);
 
 /*output */
 void            				output_fill(t_lexer **head);

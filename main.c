@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/06 15:28:25 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/07 14:00:29 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ static void			lexer_parser_executer(char *line, int i)
     	printf("node---pipe before[%d]\n", command->pipe_before);
 		printf("node---pipe after[%d]\n", command->pipe_after);
     	printf("node---sem[%d]\n", command->sem);
-		// printf("node---str_input[%s]\n", command->input->str_input);
-    	// printf("node---token_input[%d]\n", command.input->input->token_input);
-		// printf("node---str_output[%s]\n", command.output->new->str_output);
-    	// printf("node---token_output[%d]\n", command.output->token_output);
+		printf("node---str_input[%s]\n", command->input.str_input);
+    	printf("node---token_input[%d]\n", command->input.token_input);
+		printf("node---str_output[%s]\n", command->output.str_output);
+    	printf("node---token_output[%d]\n", command->output.token_output);
 		while (command->array[n])
 		{
 			printf("node-str[%d] = [%s]\n", n, command->array[n]);
