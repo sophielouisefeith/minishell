@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/08 09:22:42 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/10 14:54:07 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void                 check_operator(t_lexer **head, t_command **tmp, char
     int 		y;
 
     y = 0;
-	while((*head)->next)
+	while (*head && ((*head)->token[token_general] || (*head)->token[token_redirection]))
 	{
 		while ((*head)->token[token_redirection])
 		{
@@ -72,17 +72,25 @@ static void                 check_operator(t_lexer **head, t_command **tmp, char
 				array[y] = newstr;
 			}
 			else
+			{
 				array[y] = (*head)->str;
+			}
 			y++;
 			if ((*head)->next)
 				*head = (*head)->next;
 			else
-				break ;
+			{
+				if (array)
+					array[y]= 0;
+				(*tmp)->array = array;
+				return ;
+			}
 		}
 	}
-	if(array)
+	if (array)
 		array[y]= 0;
 	(*tmp)->array = array;
+	return ;
 }
 
 static int            fill_node_parsing(t_lexer **head, t_command **command, int count, t_command **tmp)
