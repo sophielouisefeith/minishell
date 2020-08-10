@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/07 13:29:40 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/08 09:23:51 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ static void			save_operator(char *line, int *i, int type, t_lexer **sort)
 	type == token_quote || type == token_dquote
 */
 
-void				lexer(t_lexer **sort, char *line)					//head naam aanpassen
+void				lexer(t_lexer **sort, char *line)
 {
 	int 		type;
 	int 		i;

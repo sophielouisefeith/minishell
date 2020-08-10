@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parser_check.c                                     :+:    :+:            */
+/*   parser_utils.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/07 17:18:03 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/08 09:37:48 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int				count_node(t_lexer *head)
-{
-	int 				i;
+/*
+** Counts number of general nodes
+** To do:
+** - Testen of het in alle gevallen goed gaat door op -1 te beginnen.
+*/
 
-	i = -1;							
-	while (head)
+int				count_node(t_lexer *sort)
+{
+	int 	i;
+
+	i = -1;
+	while (sort)
 	{
-        if (head->token[token_general])
+        if (sort->token[token_general])
 		    i++;
-        if (head->token[token_redirection])
-		    head = head->next;
-        head = head->next;
+        if (sort->token[token_redirection])
+		    sort = sort->next;
+        sort = sort->next;
 	}
 	return (i);
 }
@@ -50,7 +56,7 @@ int         node_count(t_lexer *count_node, int i)
 }
 
 int     check_token(char *str)
-{   
+{ 
     if(!ft_strcmp(str, ">"))
 		return(token_redirection_greater);
 	else if (!ft_strcmp(str, ">>"))
@@ -61,20 +67,11 @@ int     check_token(char *str)
         return(0); 
 }
 
-void 	        redirection(t_lexer **head, t_command *command)
+void 	        redirection(t_lexer **head, t_command **tmp)
 {
-    
-       
         if ((*head)->token[token_redirection_greater]||
 			(*head)->token[token_redirection_dgreater])
-        {
-            output_fill(&head, command);
-          
-            //printf("node---str_output[%s]\n", command->output.str_output);
-        }
-        if ((*head)->token[token_redirection_lesser])
-        {
-            input_fill(&head, command);
-            
-        }
+            output_fill(head, tmp);
+        if((*head)->token[token_redirection_lesser])
+            input_fill(head,tmp);
 }

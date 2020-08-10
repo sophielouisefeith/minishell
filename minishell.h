@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/07 17:49:06 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/10 11:15:32 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,19 @@ typedef struct				s_input{
 	struct		s_input 	*next_input;
 }							t_input;
 
-
-
+// typedef struct			s_output_modus{
+// 	//char					*str;
+// 	char 					**array_modus;
+// 	struct		s_lexer 	*next;
+// }							t_output_modus;
 
 typedef struct				s_command {
 	char					**array;
 	int						builtin;
 	
-	struct s_output			output;    // dit is dus een link list voor alle outputs // moeten we hier dan * van maken 
-	struct s_input			input;     // dit is dus een link list voor de input
-	struct s_list 			output_modus; // trunk append
+	struct s_output			*output;    
+	struct s_input			*input;     
+	// struct s_list 			output_modus; // trunk append
 	int						pipe_before;
 	int						pipe_after;
 	int						sem;
@@ -131,21 +134,23 @@ void							ll_lstadd_back(t_lexer **head, t_lexer *new);
 int								this_is_a_test(int c);
 
 /*transform */
-int								parser(t_lexer **head, t_command **command, int count);
+int								parser(t_lexer **sort, t_command **command, int count);
 int         					get_builtin_type(char *str);
 char            				*trunc_quotes(t_lexer *list,char *str);
 int								check_builtin_node(t_lexer **head);
 int    							check_token(char *str);
 int								get_token_type(char *line, int *i);
-int								count_node(t_lexer *head);
+int								count_node(t_lexer *sort);
 int								fill_operator(t_lexer *head, int count);
-void	        				redirection(t_lexer **head, t_command *command);
+void	        				redirection(t_lexer **head, t_command **tmp);
+
 
 /*output */
-void            				output_fill(t_lexer **head);
+void            				output_fill(t_lexer **head, t_command **tmp);
+
 
 /* input */
-void            				input_fill(t_lexer **head);
+void            				input_fill(t_lexer **head, t_command **tmp);
 
 
 /*execute*/

@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/07 14:00:29 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/09 16:30:39 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void			lexer_parser_executer(char *line, int i)
 	t_command 	*command;								
 	int			count;									//naam
 	int 		k;										//naam
-	
+
 	k = 0;
 	count = 0;
 	sort = NULL;
@@ -28,7 +28,7 @@ static void			lexer_parser_executer(char *line, int i)
 		lexer(&sort, line);
 	while (sort)
 	{
-		k = parser(&sort, &command, count);
+		k = parser(&sort, &command, count);				//naam count en k
 		if (k == 1)
 			count = 1;
 		else
@@ -39,27 +39,33 @@ static void			lexer_parser_executer(char *line, int i)
 	//free_array(array);
 	// execute();
 // LEXER TESTER
-	// while (sort)
+	// t_lexer		*sort_list;
+	// sort_list = sort;
+	// while (sort_list)
 	// {
-	// 	printf("node-str = [%s]\n", sort->str);
-	// 	sort = sort->next;	
+	// 	printf("node-str = [%s], token_general = [%d]\n", sort_list->str, sort_list->token[token_general]);
+	// 	sort_list = sort_list->next;	
 	// }
 //PARSER TESTER
 	int n;
 	while (command)
 	{
-		t_list *input;
-		t_list *output;
 		n = 0;
 		printf("--------------------Node------------------------------:\n");
 		printf("node---builtin = [%d]\n", command->builtin);
     	printf("node---pipe before[%d]\n", command->pipe_before);
 		printf("node---pipe after[%d]\n", command->pipe_after);
     	printf("node---sem[%d]\n", command->sem);
-		printf("node---str_input[%s]\n", command->input.str_input);
-    	printf("node---token_input[%d]\n", command->input.token_input);
-		printf("node---str_output[%s]\n", command->output.str_output);
-    	printf("node---token_output[%d]\n", command->output.token_output);
+		while (command->output)
+		{
+			printf("node---str_output[%s]\n", command->output->str_output);
+			command->output = command->output->next_output;
+		}
+		while (command->input)
+		{
+			printf("node---str_intput[%s]\n", command->input->str_input);
+			command->input = command->input->next_input;
+		}
 		while (command->array[n])
 		{
 			printf("node-str[%d] = [%s]\n", n, command->array[n]);

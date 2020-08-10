@@ -6,7 +6,7 @@
 #    By: Maran <Maran@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/06 17:19:34 by Maran         #+#    #+#                  #
-#    Updated: 2020/08/06 17:06:07 by SophieLouis   ########   odam.nl          #
+#    Updated: 2020/08/07 17:59:18 by maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ LIBFT = libft
 
 SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
-		ll_make_list_lexer.c parser.c builtin.c parser_check.c\
+		ll_make_list_lexer.c parser.c builtin.c parser_utils.c\
 		builtins/execute.c builtins/execute_cd.c builtins/execute_pwd.c\
 		builtins/execute_env.c builtins/execute_export.c\
 		builtins/execute_unset.c output.c input.c  error.c\
