@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/10 16:33:44 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/10 18:01:44 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,14 +136,15 @@ int								this_is_a_test(int c);
 /*transform */
 int								parser(t_lexer **sort, t_command **command, int count);
 int         					get_builtin_type(char *str);
-// char            				*trunc_quotes(t_lexer *list,char *str);
 char            				*trunc_quotes(char *str);
 int								check_builtin_node(t_lexer **head);
 int    							check_token(char *str);
 int								get_token_type(char *line, int *i);
 int								count_node(t_lexer *sort);
 int								fill_operator(t_lexer *head, int count);
-void	        				redirection(t_lexer **head, t_command **tmp);
+int	  		      				redirection(t_lexer **head, t_command **tmp);
+int             				general(t_lexer **sort, t_command **tmp, char **array, int *y);
+void 							close_and_save_array(t_command **tmp, char **array, int y);
 
 
 /*output */

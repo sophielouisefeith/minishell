@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/10 16:46:27 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/10 18:02:38 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,52 +43,23 @@ static void			        ll_lstadd_back_command(t_command **head, t_command *new)
 		*head = new;
 }
 
-static void                 check_operator(t_lexer **head, t_command **tmp, char **array)
+static void			check_operator(t_lexer **sort, t_command **tmp, char **array)
 {
-	char 		*newstr;
-    int 		y;
+	int		ret;
+    int 	y;
 
     y = 0;
-	while (*head && ((*head)->token[token_general] || (*head)->token[token_redirection]))
+	while (*sort && ((*sort)->token[token_general]
+				|| (*sort)->token[token_redirection]))
 	{
-		while ((*head)->token[token_redirection])
-		{
-			redirection(head, tmp);
-			if ((*head)->next)
-            	*head = (*head)->next;
-			else
-			{
-				if (array)
-					array[y]= 0;
-				(*tmp)->array = array;
-				return ;
-			}
-		}
-		while(*head && (*head)->token[token_general])
-		{
-			if ((*head)->token[token_quote] || (*head)->token[token_dquote])
-			{
-				newstr = trunc_quotes((*head)->str); 			//aangepast
-				array[y] = newstr;
-			}
-			else
-				array[y] = (*head)->str;
-			y++;
-			if ((*head)->next)
-				*head = (*head)->next;
-			else
-			{
-				if (array)
-					array[y]= 0;
-				(*tmp)->array = array;
-				return ;
-			}
-		}
+		ret = redirection(sort, tmp);
+		if (ret == 1)
+			return (close_and_save_array(tmp, array, y));
+		ret = general(sort, tmp, array, &y);
+		if (ret == 1)
+			return (close_and_save_array(tmp, array, y));
 	}
-	if (array)
-		array[y]= 0;
-	(*tmp)->array = array;
-	return ;
+	return (close_and_save_array(tmp, array, y));
 }
 
 static int            fill_node_parsing(t_lexer **head, t_command **command, int count, t_command **tmp)
