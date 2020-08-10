@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/10 15:38:35 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/10 16:46:27 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void                 check_operator(t_lexer **head, t_command **tmp, char
 		{
 			if ((*head)->token[token_quote] || (*head)->token[token_dquote])
 			{
-				newstr = trunc_quotes(*head, (*head)->str);
+				newstr = trunc_quotes((*head)->str); 			//aangepast
 				array[y] = newstr;
 			}
 			else

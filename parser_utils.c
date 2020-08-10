@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/10 14:54:22 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/10 16:36:58 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,21 @@ int				count_node(t_lexer *sort)
 	return (i);
 }
 
-char           *trunc_quotes(t_lexer *list,char *str)
+/*
+** Changelog:
+    - Removed:
+    t_lexer *sort
+*/
+
+char            *trunc_quotes(char *str)
 {
     int     len;
-    char       *newstr;
+    char    *newstr;
     
     len = ft_strlen(str);
     len = len - 2;
-	newstr= ft_substr(list->str, 1, len);
-    return(newstr);
+	newstr = ft_substr(str, 1, len);
+    return (newstr);
 }
 
 int         node_count(t_lexer *count_node, int i)

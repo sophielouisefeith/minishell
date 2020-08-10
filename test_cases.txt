@@ -1,0 +1,16 @@
+echo hallo daar
+
+"echo" hallo daar
+
+echo "hallo daar"
+
+"echo' hallo daar                   --> Error multiple line command (wacht op error functie sophie)
+
+echo hallo daar | echo hoi maran
+
+echo hallo daar ; echo hoi maran
+
+echo hallo >file1 >file2
+
+echo hallo >file1 >file2 maran
+
