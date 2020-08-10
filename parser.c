@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/08 09:22:42 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/10 15:44:31 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static t_command			*ll_new_node_command()
 	t_command		*new;
 
 	new = (t_command *)malloc(sizeof(t_command));
-	//if(!new)
-		//error_free(errno);
+	if(!new)
+		error_free(errno);
 	new->array = NULL;
 	new->builtin = 0;
    	new->pipe_after = 0;
@@ -47,9 +47,9 @@ static void                 check_operator(t_lexer **head, t_command **tmp, char
 {
 	char 		*newstr;
     int 		y;
-
+	
     y = 0;
-	while((*head)->next)
+	while((*head)->next &&((*head)->token[token_general] || (*head)->token[token_redirection]))
 	{
 		while ((*head)->token[token_redirection])
 		{
@@ -63,8 +63,9 @@ static void                 check_operator(t_lexer **head, t_command **tmp, char
 				(*tmp)->array = array;
 				return ;
 			}
+			
 		}
-		while(*head && (*head)->token[token_general])
+		if((*head && (*head)->token[token_general]))
 		{
 			if ((*head)->token[token_quote] || (*head)->token[token_dquote])
 			{
@@ -75,9 +76,7 @@ static void                 check_operator(t_lexer **head, t_command **tmp, char
 				array[y] = (*head)->str;
 			y++;
 			if ((*head)->next)
-				*head = (*head)->next;
-			else
-				break ;
+				*head = (*head)->next;	
 		}
 	}
 	if(array)
@@ -116,8 +115,8 @@ int				parser(t_lexer **sort, t_command **command, int count)
 	tmp = ll_new_node_command();
 	num_nodes = count_node(*sort);
 	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
-	//if (array == NULL)
-		//error_free(errno);
+	if (array == NULL)
+		error_free(errno);
 	tmp->builtin = check_builtin_node(sort);
     check_operator(sort, &tmp, array);
     return (fill_node_parsing(sort, command, count, &tmp));

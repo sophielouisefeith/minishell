@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/09 16:21:50 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/10 11:17:13 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	error_free(int mistake)
 {
-    printf("mistake[%d]", mistake);
+    printf("error[%d]", mistake);
 	write(1, strerror(mistake), ft_strlen(strerror(mistake)));
 	write(1, "\n", 1);
 	//free_complete(mistake);

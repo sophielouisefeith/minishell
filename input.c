@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:38:34 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/09 16:29:52 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/10 15:27:34 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,11 @@ static void			ll_lstadd_back_input(t_input **head_input, t_input *new_input)
 void            input_fill(t_lexer **head, t_command **tmp)  // deze tmp is dus een tmp voor de command struct zodat we hem kunnen kopppelen aan de link list
 {
     t_input                 *tmp_input;
-    // t_input                 input;
-    // t_input                 *input_head; //head
     int                    	token_input;
 
-   
+//	printf
     token_input = check_token((*head)->str);
     *head = (*head)->next;
     tmp_input = ll_new_node_input((*head)->str, token_input);
 	ll_lstadd_back_input(&(*tmp)->input, tmp_input);
-//	printf("node---str_input[%s]\n", tmp.input->str_input);
-  //  printf("node---token_input[%d]\n", tmp->token_input);
-	
 }
