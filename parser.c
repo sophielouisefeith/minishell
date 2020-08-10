@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/10 14:54:07 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/10 15:38:35 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,7 @@ static void                 check_operator(t_lexer **head, t_command **tmp, char
 				array[y] = newstr;
 			}
 			else
-			{
 				array[y] = (*head)->str;
-			}
 			y++;
 			if ((*head)->next)
 				*head = (*head)->next;
