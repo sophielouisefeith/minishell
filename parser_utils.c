@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/08 09:37:48 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/10 14:54:22 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int				count_node(t_lexer *sort)
 	int 	i;
 
 	i = -1;
-	while (sort)
+	while (sort && !sort->token[token_pipe] && !sort->token[token_semicolon])
 	{
         if (sort->token[token_general])
 		    i++;

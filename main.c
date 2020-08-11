@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/10 11:19:26 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/10 17:06:29 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int					main(int argc, char **argv)
 	int			ret;
 	int 		i;
 
+	
 	ret = 1;
 	while (ret > 0)
 	{
@@ -94,7 +95,7 @@ int					main(int argc, char **argv)
 		write(1, "$ ", 2);
 		ret = get_next_line(0, &line);
 		if (ret == -1)
-			error_free(errno);
+			error(2, line); // here we say  No such file or directory
 		lexer_parser_executer(line, i);
 		free(line);
 		line = NULL;

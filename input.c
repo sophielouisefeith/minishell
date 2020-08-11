@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:38:34 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/10 15:27:34 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/10 16:17:59 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void            input_fill(t_lexer **head, t_command **tmp)  // deze tmp is dus 
     t_input                 *tmp_input;
     int                    	token_input;
 
-//	printf
     token_input = check_token((*head)->str);
     *head = (*head)->next;
     tmp_input = ll_new_node_input((*head)->str, token_input);

@@ -27,3 +27,12 @@ value
 
 
 
+
+foutjes
+
+
+echo hallo " echo hal
+// geeft een nieuw lijn 
+wij lezen hem gewoon 
+
+

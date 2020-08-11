@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/08 09:23:51 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/10 17:35:12 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int			check_quotation_complete(char quote, char *line, int *i, int *token
 	if (line[*i] == quote)
 		return (0);
 	else
-		strerror(error_Multipleline);						// Go to error function, exit vanuitdaar.
+		error_free(103);						// Go to error function, exit vanuitdaar.
 	return(-1);												// Deze kan dan weg.
 }
 

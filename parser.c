@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/10 15:44:31 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/11 07:59:31 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void                 check_operator(t_lexer **head, t_command **tmp, char
     int 		y;
 	
     y = 0;
-	while((*head)->next &&((*head)->token[token_general] || (*head)->token[token_redirection]))
+	while (*head && ((*head)->token[token_general] || (*head)->token[token_redirection]))
 	{
 		while ((*head)->token[token_redirection])
 		{
@@ -76,12 +76,20 @@ static void                 check_operator(t_lexer **head, t_command **tmp, char
 				array[y] = (*head)->str;
 			y++;
 			if ((*head)->next)
-				*head = (*head)->next;	
+				*head = (*head)->next;
+			else
+			{
+				if (array)
+					array[y]= 0;
+				(*tmp)->array = array;
+				return ;
+			}
 		}
 	}
-	if(array)
+	if (array)
 		array[y]= 0;
 	(*tmp)->array = array;
+	return ;
 }
 
 static int            fill_node_parsing(t_lexer **head, t_command **command, int count, t_command **tmp)
@@ -114,9 +122,11 @@ int				parser(t_lexer **sort, t_command **command, int count)
 	tmp = NULL;
 	tmp = ll_new_node_command();
 	num_nodes = count_node(*sort);
+//	error_free(12);
 	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
+	//array = NULL;
 	if (array == NULL)
-		error_free(errno);
+		error_free(12);
 	tmp->builtin = check_builtin_node(sort);
     check_operator(sort, &tmp, array);
     return (fill_node_parsing(sort, command, count, &tmp));
