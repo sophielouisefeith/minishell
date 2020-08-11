@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/10 17:06:29 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/11 17:07:34 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@ static void			lexer_parser_executer(char *line, int i)
 	t_lexer		*sort;
 	t_command 	*command;								
 	int			count;									//naam
-	int 		k;										//naam
+	int 		k;	
+	void        *del;									//naam
 
 	k = 0;
 	count = 0;
 	sort = NULL;
 	command = NULL;
+	//sort = (char **)malloc(() * sizeof(char *)); // struct mallocen
+	//command = (char **)malloc(() * sizeof(char *)); struct mallocen
 	if (line[i] != '\0')
 		lexer(&sort, line);
 	while (sort)
@@ -36,6 +39,8 @@ static void			lexer_parser_executer(char *line, int i)
 		if (sort)
 			sort = sort->next;
 	}
+	free_list_lexer(&sort, del);						// kunnen na de parser heel de lexer freen
+	// free_list_command(&command, del);
 	//free_array(array);
 	// execute();
 // LEXER TESTER
@@ -95,7 +100,7 @@ int					main(int argc, char **argv)
 		write(1, "$ ", 2);
 		ret = get_next_line(0, &line);
 		if (ret == -1)
-			error(2, line); // here we say  No such file or directory
+			error(2, line); // ---------------here we say  No such file or directory
 		lexer_parser_executer(line, i);
 		free(line);
 		line = NULL;

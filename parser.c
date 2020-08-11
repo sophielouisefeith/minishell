@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/11 08:10:38 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/11 17:10:38 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_command			*ll_new_node_command()
 
 	new = (t_command *)malloc(sizeof(t_command));
 	if(!new)
-		error_free(errno);
+		error_free(12);
 	new->array = NULL;
 	new->builtin = 0;
    	new->pipe_after = 0;
@@ -31,6 +31,7 @@ static t_command			*ll_new_node_command()
 static void			        ll_lstadd_back_command(t_command **head, t_command *new)
 {
 	t_command		*list;
+	void			*del;
 
 	list = *head;
 	if (list)
@@ -41,6 +42,7 @@ static void			        ll_lstadd_back_command(t_command **head, t_command *new)
 	}
 	else
 		*head = new;
+	free_list_command(head, del);
 }
 
 static void			check_operator(t_lexer **sort, t_command **tmp, char **array)
@@ -65,6 +67,7 @@ static void			check_operator(t_lexer **sort, t_command **tmp, char **array)
 static int            fill_node_parsing(t_lexer **head, t_command **command, int count, t_command **tmp)
 {
     int         i;
+	void        *del;	
 
     if (count == 1)
     {
@@ -92,7 +95,7 @@ int				parser(t_lexer **sort, t_command **command, int count)
 	tmp = NULL;
 	tmp = ll_new_node_command();
 	num_nodes = count_node(*sort);
-//	error_free(12);
+	//error_free(12);
 	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
 	//array = NULL;
 	if (array == NULL)

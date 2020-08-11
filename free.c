@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:25 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/11 08:09:26 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/11 17:02:17 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,91 +41,83 @@ static void         free_list_output(t_output *output)
     next_output = NULL; 
 }
 
+static void	remove_command(t_command *head, void (*del)(void *))
+{
+	if (!head)
+		return ;
+	del(head->next);
+	free(head);
+	head = NULL;
+}
 
-static void        free_command(t_command *command)
+void        free_list_command(t_command **head, void (*del)(void *))
 {
   	char					**array;
 	t_output			    *output;    
 	t_input			        *input;     
 	t_command 	            *next;
     t_command               *new;
-    t_command               *head;
+   // t_command               *head;
     
+    if(!head)
+     return ;
+    while(head)
+    {
+        next = *head;
+        *head = (*head)->next;
+        remove_command(*head, del);
+    }
+    *head = NULL;
+    // extra bescherming of hij ook echt leeg is. 
     if(array)
         free_array(array);
-    free_list_output(output);
-    free_list_input(input);
-    while(head != NULL)
-    {
-        next = head;
-        head = head->next;
-        free(next);
-    }
-    next = NULL;
-    
-       
+    if(output)
+        free_list_output(output);
+    if(input)   
+        free_list_input(input);
 }
 
-
-static void        free_list_lexer(t_lexer *lexer)
+static void	remove_list(t_lexer *sort, void (*del)(void *))
 {
-    //vraag free je hier ook al mee de nodes 
-    t_lexer     *next;
-    t_lexer     *sort;
-
-    while(sort != NULL)
-    {
-        next = sort;
-        sort = sort->next;
-        free(next);
-    }
-    next = NULL;
+	if (!sort)
+		return ;
+	del(sort->next);
+	free(sort);
+	sort = NULL;
 }
 
-// static void        free_lexer(t_lexer **lexer)
-// {
-//     // printf("inlexerfree\n");
-//     // char        *str;
-//     // int         *token;
-//     // t_lexer     *new;
-//     // t_lexer     *next;
-    
-//         // if(lexer->str)
-//         //     free(str);
-//         // if(next)
-//         //     free_list_lexer(lexer); //even uitzoeken moeten we nou heel zo'n struct freen 
-//         // if(new)
-//         //     free_struct(new); // dit is met alle nodes er in hoe free je een link list dit gebeurd dan al in next
-// }
+
+void        free_list_lexer(t_lexer **sort, void (*del)(void *))
+{
+    t_lexer     *next;
+    if(!sort)
+        return ;
+    while(*sort)
+    {
+        next = *sort;
+        *sort = (*sort)->next;
+        remove_list(*sort, del); // dit kan uiteindelijk wel samengengevoegd worden maar nu voor het overzicht 
+    }
+    *sort = NULL;
+   // free(lexer); moet dit dan ook nog 
+    //vraag nu is heel de struct geleegd of allen head(sort)
+}
 
 
 void            free_complete(int mistake)
 {
-     printf("kom je nu hier\n");
+    //printf("kom je nu hier\n");
     t_lexer     *lexer;
     t_command   *command;
+    t_lexer     *sort;
+    t_command   *head;
     char        *str;
+    void        *del;
     
-    // if(mistake) == 2) // No such file or directory dan zijn er nog geen structs aangemaakt
-        
-    //     return(0);
-    //     break ;
-        
-    // if(!mistake)
-    //     free_error(errno); dubbel op protection 
-   // printf("str[%s]\n", lexer->str);
-   // if(mistake)// dit betekend dat er een error is geweest en daarom moet free
-        if(lexer)
-        {
-            printf("fout in lexer\n");
-            free_list_lexer(lexer);
-        }
-        if(command)
-            free_command(command);
-        // if(env)
-        //    free(env);
-
-    //printf("free because of error\n");     
+    if(sort) //of if(lexer)
+        free_list_lexer(&lexer, del);
+    if(head) // if(head) ik denk head want er dan pas wat gemalloced 
+        free_list_command(&command, del);   
 }
 
 
@@ -169,3 +161,19 @@ void       free_str(char *str)
     //return(i);
 }
 
+
+// static void        free_lexer(t_lexer **lexer)
+// {
+//     // printf("inlexerfree\n");
+//     // char        *str;
+//     // int         *token;
+//     // t_lexer     *new;
+//     // t_lexer     *next;
+    
+//         // if(lexer->str)
+//         //     free(str);
+//         // if(next)
+//         //     free_list_lexer(lexer); //even uitzoeken moeten we nou heel zo'n struct freen 
+//         // if(new)
+//         //     free_struct(new); // dit is met alle nodes er in hoe free je een link list dit gebeurd dan al in next
+// }
