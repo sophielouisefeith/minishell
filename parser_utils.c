@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/10 18:00:30 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/11 10:20:48 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,10 @@ int 	        redirection(t_lexer **sort, t_command **tmp)
 {
     while ((*sort)->token[token_redirection])
     {
-        if ((*sort)->token[token_redirection_greater]||
-            (*sort)->token[token_redirection_dgreater])
-            output_fill(sort, tmp);
+        if ((*sort)->token[token_redirection_greater])
+            output_fill(sort, tmp, token_redirection_greater);
+        if ((*sort)->token[token_redirection_dgreater])
+            output_fill(sort, tmp, token_redirection_dgreater);
         if ((*sort)->token[token_redirection_lesser])
             input_fill(sort,tmp);
         if ((*sort)->next)

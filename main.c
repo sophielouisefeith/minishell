@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/10 17:06:29 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/11 10:16:09 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ static void			lexer_parser_executer(char *line, int i)
     	printf("node---sem[%d]\n", command->sem);
 		while (command->output)
 		{
-			printf("node---str_output[%s]\n", command->output->str_output);
-			command->output = command->output->next_output;
+			printf("node---str_output[%s], token = [%d]\n", command->output->str_output, command->output->token);
+			command->output = command->output->next;
 		}
 		while (command->input)
 		{
 			printf("node---str_intput[%s]\n", command->input->str_input);
-			command->input = command->input->next_input;
+			command->input = command->input->next;
 		}
 		while (command->array[n])
 		{
