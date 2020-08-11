@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/11 10:16:09 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/11 11:55:44 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,22 @@ static void			lexer_parser_executer(char *line, int i)
 {
 	t_lexer		*sort;
 	t_command 	*command;								
-	int			count;									//naam
+	int			pipe_status;									//naam
 	int 		k;										//naam
 
 	k = 0;
-	count = 0;
+	pipe_status = 0;
 	sort = NULL;
 	command = NULL;
 	if (line[i] != '\0')
 		lexer(&sort, line);
 	while (sort)
 	{
-		k = parser(&sort, &command, count);				//naam count en k
+		k = parser(&sort, &command, pipe_status);				//naam count en k
 		if (k == 1)
-			count = 1;
+			pipe_status = 1;
 		else
-			count = 0;
+			pipe_status = 0;
 		if (sort)
 			sort = sort->next;
 	}
