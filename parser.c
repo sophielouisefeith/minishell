@@ -6,13 +6,13 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/11 17:10:38 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/11 17:18:22 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_command			*ll_new_node_command()
+static t_command	*ll_new_node_command()
 {
 	t_command		*new;
 
@@ -28,12 +28,11 @@ static t_command			*ll_new_node_command()
 	return (new);
 }
 
-static void			        ll_lstadd_back_command(t_command **head, t_command *new)
+static void		ll_lstadd_back_command(t_command **command, t_command *new)
 {
-	t_command		*list;
-	void			*del;
+	t_command	*list;
 
-	list = *head;
+	list = *command;
 	if (list)
 	{
 		while (list->next)
@@ -41,16 +40,15 @@ static void			        ll_lstadd_back_command(t_command **head, t_command *new)
 		list->next = new;
 	}
 	else
-		*head = new;
-	free_list_command(head, del);
+		*command = new;
 }
 
-static void			check_operator(t_lexer **sort, t_command **tmp, char **array)
+static void		check_operator(t_lexer **sort, t_command **tmp, char **array)
 {
-	int		ret;
-    int 	y;
+	int			ret;
+    int 		y;
 
-    y = 0;
+	y = 0;
 	while (*sort && ((*sort)->token[token_general]
 				|| (*sort)->token[token_redirection]))
 	{
@@ -64,29 +62,33 @@ static void			check_operator(t_lexer **sort, t_command **tmp, char **array)
 	return (close_and_save_array(tmp, array, y));
 }
 
-static int            fill_node_parsing(t_lexer **head, t_command **command, int count, t_command **tmp)
-{
-    int         i;
-	void        *del;	
+/*
+** pipe_status 1 == pipe_before
+** pipe_status 0 == pipe_after
+** Changelog:
+	- Gereorganiseerd meerdere dingen, check github < 11-08-2020 voor versie hiervoor.
+*/
 
-    if (count == 1)
-    {
-        (*tmp)->pipe_before = 1;
-        i = 0;
-    }
-    if (*head && (*head)->token[token_semicolon])
+static int		fill_node_parsing(t_lexer **sort, t_command **command,
+							t_command **tmp, int pipe_status)
+{
+    if (*sort && (*sort)->token[token_semicolon])
         (*tmp)->sem = 1;
-    if (*head && (*head)->token[token_pipe] && !count)
+    if (pipe_status == 1)
+	{
+		(*tmp)->pipe_before = 1;
+		pipe_status = 0;
+	}
+    if (*sort && (*sort)->token[token_pipe])
     {
         (*tmp)->pipe_after = 1;
-        ll_lstadd_back_command(command, *tmp);
-        return (1);
+		pipe_status = 1;
 	}
     ll_lstadd_back_command(command, *tmp);
-    return (i);
+    return (pipe_status);
 }
 
-int				parser(t_lexer **sort, t_command **command, int count)
+int				parser(t_lexer **sort, t_command **command, int pipe_status)
 {
 	char 		**array;
 	int 		num_nodes;
@@ -95,12 +97,11 @@ int				parser(t_lexer **sort, t_command **command, int count)
 	tmp = NULL;
 	tmp = ll_new_node_command();
 	num_nodes = count_node(*sort);
-	//error_free(12);
+// //	error_free(12);
 	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
-	//array = NULL;
 	if (array == NULL)
 		error_free(12);
 	tmp->builtin = check_builtin_node(sort);
     check_operator(sort, &tmp, array);
-    return (fill_node_parsing(sort, command, count, &tmp));
+    return (fill_node_parsing(sort, command, &tmp, pipe_status));
 }

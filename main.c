@@ -6,7 +6,11 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
+<<<<<<< HEAD
 /*   Updated: 2020/08/11 17:07:34 by SophieLouis   ########   odam.nl         */
+=======
+/*   Updated: 2020/08/11 11:55:44 by maran         ########   odam.nl         */
+>>>>>>> d19681bed89bb3a8d192ccc68c02b38f17dd9f2f
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +21,11 @@ static void			lexer_parser_executer(char *line, int i)
 {
 	t_lexer		*sort;
 	t_command 	*command;								
-	int			count;									//naam
-	int 		k;	
-	void        *del;									//naam
+	int			pipe_status;									//naam
+	int 		k;										//naam
 
 	k = 0;
-	count = 0;
+	pipe_status = 0;
 	sort = NULL;
 	command = NULL;
 	//sort = (char **)malloc(() * sizeof(char *)); // struct mallocen
@@ -31,11 +34,11 @@ static void			lexer_parser_executer(char *line, int i)
 		lexer(&sort, line);
 	while (sort)
 	{
-		k = parser(&sort, &command, count);				//naam count en k
+		k = parser(&sort, &command, pipe_status);				//naam count en k
 		if (k == 1)
-			count = 1;
+			pipe_status = 1;
 		else
-			count = 0;
+			pipe_status = 0;
 		if (sort)
 			sort = sort->next;
 	}
@@ -63,13 +66,13 @@ static void			lexer_parser_executer(char *line, int i)
     	printf("node---sem[%d]\n", command->sem);
 		while (command->output)
 		{
-			printf("node---str_output[%s]\n", command->output->str_output);
-			command->output = command->output->next_output;
+			printf("node---str_output[%s], token = [%d]\n", command->output->str_output, command->output->token);
+			command->output = command->output->next;
 		}
 		while (command->input)
 		{
 			printf("node---str_intput[%s]\n", command->input->str_input);
-			command->input = command->input->next_input;
+			command->input = command->input->next;
 		}
 		while (command->array[n])
 		{

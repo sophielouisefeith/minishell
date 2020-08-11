@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:25 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/11 17:02:17 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/11 17:17:37 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void         free_list_input(t_input *input)
     while(head_input != NULL)
     {
         next_input = head_input;
-        head_input = head_input->next_input;
+        head_input = head_input->next;
         free(next_input);
     }
     next_input = NULL; 
@@ -35,7 +35,7 @@ static void         free_list_output(t_output *output)
     while(head_output != NULL)
     {
         next_output = head_output;
-        head_output = head_output->next_output;
+        head_output = head_output->next;
         free(next_output);
     }
     next_output = NULL; 

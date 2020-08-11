@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/11 17:11:31 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/11 17:17:18 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,14 @@ typedef struct				s_lexer{
 
 typedef struct				s_output{
 	char					*str_output;
-	int						token_output;
-
-	struct		s_output 	*next_output;
+	int						token;
+	struct		s_output 	*next;
 }							t_output;
 
 
 typedef struct				s_input{
 	char					*str_input;
-	int						token_input;
-
-	struct		s_input 	*next_input;
+	struct		s_input 	*next;
 }							t_input;
 
 typedef struct				s_command {
@@ -137,8 +134,7 @@ void 							close_and_save_array(t_command **tmp, char **array, int y);
 
 
 /*output */
-void            				output_fill(t_lexer **head, t_command **tmp);
-
+void            				output_fill(t_lexer **sort, t_command **tmp, int token);
 
 /* input */
 void            				input_fill(t_lexer **head, t_command **tmp);
