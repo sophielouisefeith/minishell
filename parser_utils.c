@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/10 14:54:22 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/10 18:00:30 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,21 @@ int				count_node(t_lexer *sort)
 	return (i);
 }
 
-char           *trunc_quotes(t_lexer *list,char *str)
+/*
+** Changelog:
+    - Removed:
+    t_lexer *sort
+*/
+
+char            *trunc_quotes(char *str)
 {
     int     len;
-    char       *newstr;
+    char    *newstr;
     
     len = ft_strlen(str);
     len = len - 2;
-	newstr= ft_substr(list->str, 1, len);
-    return(newstr);
+	newstr = ft_substr(str, 1, len);
+    return (newstr);
 }
 
 int         node_count(t_lexer *count_node, int i)
@@ -67,11 +73,48 @@ int     check_token(char *str)
         return(0); 
 }
 
-void 	        redirection(t_lexer **head, t_command **tmp)
+void 			close_and_save_array(t_command **tmp, char **array, int y)
 {
-        if ((*head)->token[token_redirection_greater]||
-			(*head)->token[token_redirection_dgreater])
-            output_fill(head, tmp);
-        if((*head)->token[token_redirection_lesser])
-            input_fill(head,tmp);
+	if (array)
+		array[y]= 0;
+	(*tmp)->array = array;
+}
+
+int 	        redirection(t_lexer **sort, t_command **tmp)
+{
+    while ((*sort)->token[token_redirection])
+    {
+        if ((*sort)->token[token_redirection_greater]||
+            (*sort)->token[token_redirection_dgreater])
+            output_fill(sort, tmp);
+        if ((*sort)->token[token_redirection_lesser])
+            input_fill(sort,tmp);
+        if ((*sort)->next)
+            *sort = (*sort)->next;
+        else
+            return (1);
+    }
+    return (0);
+}
+
+int             general(t_lexer **sort, t_command **tmp, char **array, int *y)
+{
+    char 	*newstr;
+    
+    while (*sort && (*sort)->token[token_general])
+	{
+		if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
+		{
+			newstr = trunc_quotes((*sort)->str);
+			array[*y] = newstr;
+		}
+		else
+			array[*y] = (*sort)->str;
+		(*y)++;
+		if ((*sort)->next)
+			*sort = (*sort)->next;
+		else
+            return (1);
+	}
+    return (0);
 }
