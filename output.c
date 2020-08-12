@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:30:21 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/11 20:14:52 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/12 17:19:22 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_output		*ll_new_node_output(char *str_output, int token)
 {
 	t_output	*new;
 
-	// new = (t_output *)malloc(sizeof(t_output));
+	new = (t_output *)malloc(sizeof(t_output));
 	// if (!new)
 	// 	error_free(errno);;
 	new->str_output = str_output;

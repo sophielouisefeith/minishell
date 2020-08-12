@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/12 16:52:22 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/12 21:28:55 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ static t_command	*ll_new_node_command()
 	t_command		*new;
 
 	new = (t_command *)malloc(sizeof(t_command));
-	// if(!new)
-	// 	error_free(12);
+	if(!new)
+		error_free(12);
 	new->array = NULL;
 	new->builtin = 0;
    	new->pipe_after = 0;
 	new->pipe_before = 0;
 	new->sem = 0;
-	new->next = NULL;
+	new->next_command = NULL;
 	return (new);
 }
 
@@ -35,9 +35,9 @@ static void		ll_lstadd_back_command(t_command **command, t_command *new)
 	list = *command;
 	if (list)
 	{
-		while (list->next)
-			list = list->next;
-		list->next = new;
+		while (list->next_command)
+			list = list->next_command;
+		list->next_command = new;
 	}
 	else
 		*command = new;

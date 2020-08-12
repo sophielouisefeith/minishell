@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/12 16:59:18 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/12 21:00:29 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ static void			save_word(char *line, int *i, t_lexer **sort)
 	check_meta_and_quote(line, i, token);
 	str = ft_substr(line, start, (*i - start));
 	tmp = ll_new_node(str, token);
+	if(!tmp)
+		free_list(sort, NULL);
 	ll_lstadd_back(sort, tmp);
 }
 
@@ -116,7 +118,7 @@ static void			save_operator(char *line, int *i, int type, t_lexer **sort)
 	int			*token;
 
 	token = allocate_memory_int_string(12);
-	if(!token)
+	//if(!token)
 		//free(token);
 		//error_free(1);
 	if (type == token_redirection_greater && line[*i + 1] == '>')
@@ -138,9 +140,11 @@ static void			save_operator(char *line, int *i, int type, t_lexer **sort)
 			type <= token_redirection_dgreater)
 		token[token_redirection] = 1;
 	tmp = ll_new_node(str, token);
+	if(!tmp)
+		free_list(sort, NULL);
 	ll_lstadd_back(sort, tmp);
 	// if(!tmp)
-	// free(tmp);
+	// 	free_list(sort, NULL);
 	//free_str(str);  //hoeven we hier maar een str te freen of meerdere? //1, Niet hier
 	(*i)++;
 }
