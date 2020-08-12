@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/12 13:15:47 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/12 16:59:18 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static int			check_quotation_complete(char quote, char *line, int *i, int *token
 	if (line[*i] == quote)
 		return (0);
 	else
-		error_free(103);						// Go to error function, exit vanuitdaar.
+		return(0);
+		//error_free(103);						// Go to error function, exit vanuitdaar.
 	return(-1);												// Deze kan dan weg.
 }
 
@@ -117,21 +118,21 @@ static void			save_operator(char *line, int *i, int type, t_lexer **sort)
 	token = allocate_memory_int_string(12);
 	if(!token)
 		//free(token);
-		error_free(1);
+		//error_free(1);
 	if (type == token_redirection_greater && line[*i + 1] == '>')
 	{
 		(*i)++;
 		token[token_redirection_dgreater] = 1;
 		str = str_redirection_dgreater();
 		if(!str)
-			error_free(1);				//FREE!
+			free_list(sort, NULL);				//FREE!
 	}
 	else
 	{
 		token[type] = 1;
 		str = str_from_char(line[*i]);
 		if(!str)
-			error_free(1);						//FREE!
+			free_list(sort, NULL);					//FREE!
 	}
 	if (type >= token_redirection_greater &&
 			type <= token_redirection_dgreater)

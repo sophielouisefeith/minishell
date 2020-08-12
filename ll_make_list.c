@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 12:12:45 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/06 17:02:56 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/12 16:39:40 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ t_lexer			*ll_new_node(void *content, int *token)
 	t_lexer		*new;
 
 	new = (t_lexer *)malloc(sizeof(t_lexer));
-	if(!new)
-		error_free(errno);;
+	// if(!new)
+	// 	error_free(errno);;
 	new->str = content;
 	new->token = token;
 	new->next = NULL;

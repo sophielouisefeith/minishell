@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/12 17:08:29 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/12 17:14:53 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static void			lexer_parser_executer(char *line, int i)
 		if (sort)
 			sort = sort->next;
 	}
-	// free_list_lexer(&sort);						// kunnen na de parser heel de lexer freen
+	free_list(&sort, NULL);						// kunnen na de parser heel de lexer freen
+	//free(lexer);
 	//executor
 	//free_list_command(&command);
 	// free_list_command(&command, del);
@@ -101,8 +102,8 @@ int					main(int argc, char **argv)
 		i = 0;
 		write(1, "$ ", 2);
 		ret = get_next_line(0, &line);
-		if (ret == -1)
-			error(2, line); // ---------------here we say  No such file or directory
+		//if (ret == -1)
+			//error(2, line); // ---------------here we say  No such file or directory
 		lexer_parser_executer(line, i);
 		free(line);
 		line = NULL;

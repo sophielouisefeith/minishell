@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/11 17:18:22 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/12 16:52:22 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static t_command	*ll_new_node_command()
 	t_command		*new;
 
 	new = (t_command *)malloc(sizeof(t_command));
-	if(!new)
-		error_free(12);
+	// if(!new)
+	// 	error_free(12);
 	new->array = NULL;
 	new->builtin = 0;
    	new->pipe_after = 0;
@@ -99,8 +99,8 @@ int				parser(t_lexer **sort, t_command **command, int pipe_status)
 	num_nodes = count_node(*sort);
 // //	error_free(12);
 	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
-	if (array == NULL)
-		error_free(12);
+	// if (array == NULL)
+	// 	error_free(12);
 	tmp->builtin = check_builtin_node(sort);
     check_operator(sort, &tmp, array);
     return (fill_node_parsing(sort, command, &tmp, pipe_status));
