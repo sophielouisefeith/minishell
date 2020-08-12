@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/12 14:41:29 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/12 16:50:44 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,8 @@ void      						free_str(char *str);
 void            				free_complete(int mistake);
 void        					free_list_lexer(t_lexer **sort);
 void        				    free_list_command(t_command **command);
+
+void        					free_list(t_lexer **sort, t_command *command);
 
 /*error */						
 char                			*strerror_i(int errnum);

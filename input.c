@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:38:34 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/11 20:15:06 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/12 16:39:06 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static t_input		*ll_new_node_input(char *str_input)
 {
 	t_input		*new;
 
-	// new = (t_input *)malloc(sizeof(t_input));
+	new = (t_input *)malloc(sizeof(t_input));
 	// if (!new)
-	// 	error_free(errno);
+		// error_free(errno);
 	new->str_input = str_input;
 	new->next = NULL;
 	return (new);
