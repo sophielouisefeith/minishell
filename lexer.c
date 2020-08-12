@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/12 16:59:18 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/12 17:33:57 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static void			save_operator(char *line, int *i, int type, t_lexer **sort)
 	int			*token;
 
 	token = allocate_memory_int_string(12);
-	if(!token)
+	// if(!token)
 		//free(token);
 		//error_free(1);
 	if (type == token_redirection_greater && line[*i + 1] == '>')
