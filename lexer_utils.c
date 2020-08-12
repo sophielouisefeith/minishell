@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 15:51:41 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/11 16:53:03 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/12 15:15:52 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int				*allocate_memory_int_string(int i)
 {
 	int 	*int_str;
 
-	int_str = (int *)malloc(sizeof(int) * i);
+	int_str = (int *)malloc(sizeof(int) * i);												
+	//int_str = 0;// testfor malloc
 	if(!int_str)
 		error_free(12);
 	ft_bzero(int_str, 11 * sizeof(int));

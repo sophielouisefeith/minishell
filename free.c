@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:25 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/11 17:17:37 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/12 15:14:10 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,68 +41,120 @@ static void         free_list_output(t_output *output)
     next_output = NULL; 
 }
 
-static void	remove_command(t_command *head, void (*del)(void *))
-{
-	if (!head)
-		return ;
-	del(head->next);
-	free(head);
-	head = NULL;
-}
+// static void	remove_command(t_command *head, void (*del)(void *))
+// {
+// 	if (!head)
+// 		return ;
+// 	del(head->next);
+// 	free(head);
+// 	head = NULL;
+// }
 
-void        free_list_command(t_command **head, void (*del)(void *))
+
+void        free_list_command(t_command **command)
 {
   	char					**array;
 	t_output			    *output;    
 	t_input			        *input;     
 	t_command 	            *next;
     t_command               *new;
-   // t_command               *head;
+    t_command               *tmp;
+   // t_command               command;
+    t_command               *head;
+    t_command	            *list;
+    // if(!head)
+    //  return ;
     
-    if(!head)
-     return ;
-    while(head)
+
+    head = *command;
+    while(head != NULL)
     {
-        next = *head;
-        *head = (*head)->next;
-        remove_command(*head, del);
+        tmp = head->next;
+        if(head->array)
+            free(head->array);
+        if(head->builtin)
+            free(head->builtin);
+        if(head->pipe_after)
+            free(head->pipe_after);
+        if(head->sem)
+            free(head->sem);
+        free(head);
+        head = tmp;
     }
-    *head = NULL;
+
+}
+    // head = *command;
+    // while(head != NULL)
+    // {
+    //     tmp = head->next;
+    //    if(head->list)
+    //         free(head->list);
+    //     free(head);
+    //     head = tmp;
+    // }
+//     *command = NULL;
     // extra bescherming of hij ook echt leeg is. 
-    if(array)
-        free_array(array);
-    if(output)
-        free_list_output(output);
-    if(input)   
-        free_list_input(input);
-}
+    // if(array)
+    //     free_array(array);
+    // if(output)
+    //     free_list_output(output);
+    // if(input)   
+    //     free_list_input(input);
+    // free(*command);
+//}
 
-static void	remove_list(t_lexer *sort, void (*del)(void *))
+
+// void    free_envlist(t_env **head_origin)
+// {
+//     t_env *head;
+//     t_env *tmp;
+//     head = *head_origin;
+//     while (head != NULL)
+//     {
+//         tmp = head->next;
+//         if (head->data)
+//             free(head->data);
+//         free(head);
+//         head = tmp;
+//     }
+//     *head_origin = NULL;
+// }
+
+// static void	remove_list(t_lexer *sort)
+// {
+// 	if (!sort)
+// 		return ;
+// 	sort = (*sort)->next;
+// 	free(sort);
+// 	sort = NULL;
+// }
+
+
+void        free_list_lexer(t_lexer **sort)
 {
-	if (!sort)
-		return ;
-	del(sort->next);
-	free(sort);
-	sort = NULL;
-}
-
-
-void        free_list_lexer(t_lexer **sort, void (*del)(void *))
-{
+    t_lexer     *tmp;
+    t_lexer     *head;
     t_lexer     *next;
-    if(!sort)
-        return ;
-    while(*sort)
+    t_lexer		*new;
+    t_lexer 	*list;
+    printf("kom je hier in free list lexor\n");
+    head = *sort;
+    while(head != NULL)
     {
-        next = *sort;
-        *sort = (*sort)->next;
-        remove_list(*sort, del); // dit kan uiteindelijk wel samengengevoegd worden maar nu voor het overzicht 
+        next = head->next;
+        if(new->str)
+            free(new->str);
+        if(new->token)
+            free(new->token);
+        free(head);
+        head =tmp;
+        //*sort = (*sort)->next;
+        //remove_list(*sort); // dit kan uiteindelijk wel samengengevoegd worden maar nu voor het overzicht 
     }
     *sort = NULL;
    // free(lexer); moet dit dan ook nog 
     //vraag nu is heel de struct geleegd of allen head(sort)
 }
-
 
 void            free_complete(int mistake)
 {
@@ -110,14 +162,14 @@ void            free_complete(int mistake)
     t_lexer     *lexer;
     t_command   *command;
     t_lexer     *sort;
-    t_command   *head;
-    char        *str;
-    void        *del;
-    
-    if(sort) //of if(lexer)
-        free_list_lexer(&lexer, del);
-    if(head) // if(head) ik denk head want er dan pas wat gemalloced 
-        free_list_command(&command, del);   
+    // t_command   *head;
+    // char        *str;
+    // void        *del;
+    printf("kom je hier in free\n");
+    if(lexer) //of if(lexer)
+        free_list_lexer(&sort);
+    if(command) // if(head) ik denk head want er dan pas wat gemalloced 
+        free_list_command(&command);   
 }
 
 

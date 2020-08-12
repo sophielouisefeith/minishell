@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/11 17:01:03 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/12 13:04:44 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,23 @@
 
 int	error_free(int mistake)
 {
+	// if i
+    //printf("error[%d]", mistake);
+	if(mistake >=1 && mistake <=102)
+	{
+		printf("kom je hier in error\n");
+		write(1, "error:-------------------------------", 37);
+		write(1, strerror(mistake), ft_strlen(strerror(mistake)));
+		write(1, "\n", 1);
+		write(1, "-------------------------------\n", 32);
+		free_complete(mistake);
+		exit(0);
+	}
 	if(mistake < 0)
 		write(1, strerror(mistake), ft_strlen(strerror(mistake)));
 	if(mistake == 103)
 	{
 		write(1, "error:-------------------------------multiply lines", 50);
-		write(1, "-------------------------------\n", 32);
-		free_complete(mistake);
-		exit(0);
-	}
-	// if i
-    //printf("error[%d]", mistake);
-	else
-	{
-		write(1, "error:-------------------------------", 37);
-		//write(1, strerror(mistake), ft_strlen(strerror(mistake)));
-		//write(1, "\n", 1);
 		write(1, "-------------------------------\n", 32);
 		free_complete(mistake);
 		exit(0);

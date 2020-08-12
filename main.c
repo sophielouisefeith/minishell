@@ -6,11 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-<<<<<<< HEAD
-/*   Updated: 2020/08/11 17:07:34 by SophieLouis   ########   odam.nl         */
-=======
-/*   Updated: 2020/08/11 11:55:44 by maran         ########   odam.nl         */
->>>>>>> d19681bed89bb3a8d192ccc68c02b38f17dd9f2f
+/*   Updated: 2020/08/12 14:43:43 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +18,8 @@ static void			lexer_parser_executer(char *line, int i)
 	t_lexer		*sort;
 	t_command 	*command;								
 	int			pipe_status;									//naam
-	int 		k;										//naam
+	int 		k;
+	void		*del;									//naam
 
 	k = 0;
 	pipe_status = 0;
@@ -42,7 +39,9 @@ static void			lexer_parser_executer(char *line, int i)
 		if (sort)
 			sort = sort->next;
 	}
-	free_list_lexer(&sort, del);						// kunnen na de parser heel de lexer freen
+	free_list_lexer(&sort);						// kunnen na de parser heel de lexer freen
+	//executor
+	//free_list_command(&command);
 	// free_list_command(&command, del);
 	//free_array(array);
 	// execute();
