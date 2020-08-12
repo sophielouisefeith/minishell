@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/12 14:43:43 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/12 17:08:29 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void			lexer_parser_executer(char *line, int i)
 		if (sort)
 			sort = sort->next;
 	}
-	free_list_lexer(&sort);						// kunnen na de parser heel de lexer freen
+	// free_list_lexer(&sort);						// kunnen na de parser heel de lexer freen
 	//executor
 	//free_list_command(&command);
 	// free_list_command(&command, del);
