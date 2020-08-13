@@ -6,49 +6,72 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/12 21:28:55 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/13 10:44:58 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_command	*ll_new_node_command()
+static void 	close_and_save_array(t_command **tmp, char **array, int y)
 {
-	t_command		*new;
-
-	new = (t_command *)malloc(sizeof(t_command));
-	if(!new)
-		error_free(12);
-	new->array = NULL;
-	new->builtin = 0;
-   	new->pipe_after = 0;
-	new->pipe_before = 0;
-	new->sem = 0;
-	new->next_command = NULL;
-	return (new);
+	if (array)
+		array[y]= 0;
+	(*tmp)->array = array;
 }
 
-static void		ll_lstadd_back_command(t_command **command, t_command *new)
+static int		redirection(t_lexer **sort, t_command **tmp)
 {
-	t_command	*list;
+    while ((*sort)->token[token_redirection])
+    {
+        if ((*sort)->token[token_redirection_greater])
+            output_fill(sort, tmp, token_redirection_greater);
+        if ((*sort)->token[token_redirection_dgreater])
+            output_fill(sort, tmp, token_redirection_dgreater);
+        if ((*sort)->token[token_redirection_lesser])
+            input_fill(sort,tmp);
+        if ((*sort)->next)
+            *sort = (*sort)->next;
+        else
+            return (1);
+    }
+    return (0);
+}
 
-	list = *command;
-	if (list)
+static int		general(t_lexer **sort, t_command **tmp, char **array, int *y)
+{
+    char		*newstr;
+    
+    while (*sort && (*sort)->token[token_general])
 	{
-		while (list->next_command)
-			list = list->next_command;
-		list->next_command = new;
+		if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
+		{
+			newstr = trunc_quotes((*sort)->str);
+			array[*y] = newstr;
+		}
+		else
+			array[*y] = (*sort)->str;
+		(*y)++;
+		if ((*sort)->next)
+			*sort = (*sort)->next;
+		else
+            return (1);
 	}
-	else
-		*command = new;
+    return (0);
 }
 
-static void		check_operator(t_lexer **sort, t_command **tmp, char **array)
+static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp)
 {
+	char 		**array;
+	int 		num_nodes;
 	int			ret;
     int 		y;
 
 	y = 0;
+	num_nodes = count_node(*sort);
+	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
+	// if (array == NULL)
+	// 	error_free(12);
+	(*tmp)->builtin = check_builtin_node(sort);
 	while (*sort && ((*sort)->token[token_general]
 				|| (*sort)->token[token_redirection]))
 	{
@@ -63,45 +86,30 @@ static void		check_operator(t_lexer **sort, t_command **tmp, char **array)
 }
 
 /*
-** pipe_status 1 == pipe_before
-** pipe_status 0 == pipe_after
+** Pipe_status == 1 --> Pipe_before
 ** Changelog:
-	- Gereorganiseerd meerdere dingen, check github < 11-08-2020 voor versie hiervoor.
+	- Veel gereorganiseerd, check github < 13-08-2020 voor versie hiervoor.
 */
-
-static int		fill_node_parsing(t_lexer **sort, t_command **command,
-							t_command **tmp, int pipe_status)
-{
-    if (*sort && (*sort)->token[token_semicolon])
-        (*tmp)->sem = 1;
-    if (pipe_status == 1)
-	{
-		(*tmp)->pipe_before = 1;
-		pipe_status = 0;
-	}
-    if (*sort && (*sort)->token[token_pipe])
-    {
-        (*tmp)->pipe_after = 1;
-		pipe_status = 1;
-	}
-    ll_lstadd_back_command(command, *tmp);
-    return (pipe_status);
-}
 
 int				parser(t_lexer **sort, t_command **command, int pipe_status)
 {
-	char 		**array;
-	int 		num_nodes;
 	t_command 	*tmp;
 
 	tmp = NULL;
 	tmp = ll_new_node_command();
-	num_nodes = count_node(*sort);
-// //	error_free(12);
-	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
-	// if (array == NULL)
-	// 	error_free(12);
-	tmp->builtin = check_builtin_node(sort);
-    check_operator(sort, &tmp, array);
-    return (fill_node_parsing(sort, command, &tmp, pipe_status));
+    fill_builtin_redirec_array(sort, &tmp);
+	if (*sort && (*sort)->token[token_semicolon])
+    	(tmp)->sem = 1;
+    if (pipe_status == 1)
+	{
+		(tmp)->pipe_before = 1;
+		pipe_status = 0;
+	}
+	if (*sort && (*sort)->token[token_pipe])
+    {
+		(tmp)->pipe_after = 1;
+		pipe_status = 1;
+	}
+	ll_lstadd_back_command(command, tmp);
+	return (pipe_status);
 }

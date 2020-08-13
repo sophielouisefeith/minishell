@@ -6,13 +6,13 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/12 16:34:52 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/12 21:53:30 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/13 09:50:58 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void         free_input(t_input *input)
+static void         free_input(t_input *input)              //M: Zelfde schrijfstijl aanhouden als bij de andere free
 {
     t_input       *head_input;
     t_input 	  *next_input;
@@ -26,11 +26,11 @@ static void         free_input(t_input *input)
     next_input = NULL; 
 }
 
-static void         free_output(t_output *output)
+static void         free_output(t_output *output)           //M: Zelfde schrijfstijl aanhouden als bij de andere free
 {
     t_output       *head_output;
     t_output	   *next_output;
-
+                                                            //M: head_output = *output;
     while(head_output != NULL)
     {
         next_output = head_output;
@@ -47,7 +47,7 @@ int         free_array(char **array)
     
     arrayfree = array;
     i = 0;
-    if(arrayfree[i]!= NULL)
+    if(arrayfree[i]!= NULL)                                     //M: If niet dubbel op met while?
     {
         while(arrayfree[i])
         {
@@ -61,7 +61,7 @@ int         free_array(char **array)
 }
 
 
-void        free_list(t_lexer **sort, t_command *command)
+void        free_list(t_lexer **sort, t_command *command)      //M: Misschien overwegen om vanuit deze functie, de 2 free functies aan te roepen. Voor het overzicht.
 {
     
     t_command   *next_command;
@@ -72,7 +72,7 @@ void        free_list(t_lexer **sort, t_command *command)
     if(sort)
     {
         head_lexer = *sort;
-        if(!head_lexer)
+        if(!head_lexer)                                          //M: dit is niet nodig denk ik, of wel?
             printf("ben jij de seg\n");
         while(head_lexer != NULL)
         {

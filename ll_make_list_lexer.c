@@ -6,13 +6,13 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 12:12:45 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/12 17:47:04 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/13 10:41:20 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lexer			*ll_new_node(char *str, int *token)
+t_lexer			*ll_new_node_lexer(char *str, int *token)
 {
 	t_lexer		*new;
 
@@ -33,7 +33,7 @@ t_lexer			*ll_new_node(char *str, int *token)
 ** We have to make a copy of **head, to not change where the initial head is pointing to: the first node of the list.
 */
 
-void			ll_lstadd_back(t_lexer **sort, t_lexer *new)
+void			ll_lstadd_back_lexer(t_lexer **sort, t_lexer *new)
 {
 	t_lexer		*list;
 

@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/12 21:28:24 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/13 10:49:45 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,13 @@ typedef struct				s_env{
 	struct		s_env   	*next;
 }							t_env;
 
+void            				tester(t_lexer *sort, t_command *command);
+
 void							lexer(t_lexer **head, char *line);
-int								*allocate_memory_int_string(int i);
 
 int								ft_strcmp(const char *s1, const char *s2);
+int								get_token_type(char *line, int *i);
+int								*allocate_memory_int_string(int i);
 char 							*str_from_char(char c);
 char 							*str_redirection_dgreater(void);
 
@@ -115,23 +118,18 @@ int								is_whitespace(char c);
 int								is_operator(char c);
 int								is_metachar(char c);
 
-t_lexer							*ll_new_node(char *str, int *token);
-void							ll_lstadd_back(t_lexer **head, t_lexer *new);
-
-int								this_is_a_test(int c);
+t_lexer							*ll_new_node_lexer(char *str, int *token);
+void							ll_lstadd_back_lexer(t_lexer **head, t_lexer *new);
 
 /*transform */
 int								parser(t_lexer **sort, t_command **command, int count);
-int         					get_builtin_type(char *str);
-char            				*trunc_quotes(char *str);
-int								check_builtin_node(t_lexer **head);
-int    							check_token(char *str);
-int								get_token_type(char *line, int *i);
 int								count_node(t_lexer *sort);
-int								fill_operator(t_lexer *head, int count);
-int	  		      				redirection(t_lexer **head, t_command **tmp);
-int             				general(t_lexer **sort, t_command **tmp, char **array, int *y);
-void 							close_and_save_array(t_command **tmp, char **array, int y);
+char            				*trunc_quotes(char *str);
+int         					get_builtin_type(char *str);
+int								check_builtin_node(t_lexer **head);
+
+t_command	    				*ll_new_node_command();
+void		    				ll_lstadd_back_command(t_command **command, t_command *new);
 
 
 /*output */

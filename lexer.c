@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/13 09:23:44 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/13 10:41:08 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,10 @@ static void			save_word(char *line, int *i, t_lexer **sort)
 	token[token_general] = 1;
 	check_meta_and_quote(line, i, token);
 	str = ft_substr(line, start, (*i - start));
-	tmp = ll_new_node(str, token);
+	tmp = ll_new_node_lexer(str, token);
 	if(!tmp)
 		free_list(sort, NULL);
-	ll_lstadd_back(sort, tmp);
+	ll_lstadd_back_lexer(sort, tmp);
 }
 
 /*
@@ -139,10 +139,10 @@ static void			save_operator(char *line, int *i, int type, t_lexer **sort)
 	if (type >= token_redirection_greater &&
 			type <= token_redirection_dgreater)
 		token[token_redirection] = 1;
-	tmp = ll_new_node(str, token);
+	tmp = ll_new_node_lexer(str, token);
 	if(!tmp)
 		free_list(sort, NULL);
-	ll_lstadd_back(sort, tmp);
+	ll_lstadd_back_lexer(sort, tmp);
 	// if(!tmp)
 	// 	free_list(sort, NULL);
 	//free_str(str);  //hoeven we hier maar een str te freen of meerdere? //1, Niet hier

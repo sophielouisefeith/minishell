@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/11 10:20:48 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/13 10:33:06 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,10 @@ int				count_node(t_lexer *sort)
 	return (i);
 }
 
-/*
-** Changelog:
-    - Removed:
-    t_lexer *sort
-*/
-
 char            *trunc_quotes(char *str)
 {
     int     len;
-    char    *newstr;
+    char     *newstr;
     
     len = ft_strlen(str);
     len = len - 2;
@@ -51,71 +45,41 @@ char            *trunc_quotes(char *str)
     return (newstr);
 }
 
-int         node_count(t_lexer *count_node, int i)
-{
-    while(count_node && count_node->token[token_general])
-	{
-		i++;
-		count_node = count_node->next;
-	}
-    return(i);
-}
 
-int     check_token(char *str)
-{ 
-    if(!ft_strcmp(str, ">"))
-		return(token_redirection_greater);
-	else if (!ft_strcmp(str, ">>"))
-		return (token_redirection_dgreater);
-    else if (!ft_strcmp(str, "<"))
-		return(token_redirection_lesser);
+int				get_builtin_type(char *str)
+{   
+    if (!ft_strcmp(str, "echo"))
+		return (builtin_echo);
+	else if (!ft_strcmp(str, "cd"))
+		return (builtin_cd);
+    else if (!ft_strcmp(str, "pwd"))
+		return (builtin_pwd);
+	else if (!ft_strcmp(str, "export"))
+		return (builtin_export);
+    else if (!ft_strcmp(str, "unset"))
+		return (builtin_unset);
+	else if (!ft_strcmp(str, "env"))
+		return (builtin_env);
+   else if (!ft_strcmp(str, "exit"))
+		return (builtin_exit); 
     else
-        return(0); 
+        return (builtin_no);
 }
 
-void 			close_and_save_array(t_command **tmp, char **array, int y)
-{
-	if (array)
-		array[y]= 0;
-	(*tmp)->array = array;
-}
+/*
+** Removes quotation and returns builtin_type
+*/
 
-int 	        redirection(t_lexer **sort, t_command **tmp)
+int				check_builtin_node(t_lexer **sort)
 {
-    while ((*sort)->token[token_redirection])
-    {
-        if ((*sort)->token[token_redirection_greater])
-            output_fill(sort, tmp, token_redirection_greater);
-        if ((*sort)->token[token_redirection_dgreater])
-            output_fill(sort, tmp, token_redirection_dgreater);
-        if ((*sort)->token[token_redirection_lesser])
-            input_fill(sort,tmp);
-        if ((*sort)->next)
-            *sort = (*sort)->next;
-        else
-            return (1);
-    }
-    return (0);
-}
+	char 	*newstr;
+	int 	builtin_type;
 
-int             general(t_lexer **sort, t_command **tmp, char **array, int *y)
-{
-    char 	*newstr;
-    
-    while (*sort && (*sort)->token[token_general])
-	{
-		if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
-		{
-			newstr = trunc_quotes((*sort)->str);
-			array[*y] = newstr;
-		}
-		else
-			array[*y] = (*sort)->str;
-		(*y)++;
-		if ((*sort)->next)
-			*sort = (*sort)->next;
-		else
-            return (1);
-	}
-    return (0);
+    if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
+	    newstr = trunc_quotes((*sort)->str);
+    else
+        newstr = (*sort)->str;
+	builtin_type = get_builtin_type(newstr);
+	*sort = (*sort)->next;
+	return (builtin_type);
 }
