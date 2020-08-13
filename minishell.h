@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/13 10:49:45 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/13 14:49:18 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,20 +67,20 @@ enum	error_type{
 typedef struct				s_lexer{
 	char 					*str;
 	int						*token;
-	struct		s_lexer 	*next;
+	struct		s_lexer 	*next_sort;
 }							t_lexer;
 
 
 typedef struct				s_output{
 	char					*str_output;
 	int						token;
-	struct		s_output 	*next;
+	struct		s_output 	*next_output;
 }							t_output;
 
 
 typedef struct				s_input{
 	char					*str_input;
-	struct		s_input 	*next;
+	struct		s_input 	*next_input;
 }							t_input;
 
 typedef struct				s_command {
@@ -160,6 +160,7 @@ int            					free_array(char **array);
 void      						free_str(char *str);
 void            				free_complete(int mistake);
 void        					free_list_lexer(t_lexer **sort);
+
 void        				    free_list_command(t_command **command);
 
 void        					free_list(t_lexer **sort, t_command *command);

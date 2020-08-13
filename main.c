@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/13 10:56:44 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/13 19:19:07 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 	- Removed k
 	//sort = (char **)malloc(() * sizeof(char *)); // struct mallocen
 	//command = (char **)malloc(() * sizeof(char *)); struct mallocen
+	//changed next to  next_sort
 */
 
 static void			lexer_parser_executer(char *line, int i)
@@ -34,10 +35,10 @@ static void			lexer_parser_executer(char *line, int i)
 	{
 		pipe_status = parser(&sort, &command, pipe_status);
 		if (sort)
-			sort = sort->next;
+			sort = sort->next_sort;
 	}
 	//FREE LEXER
-	// free_list(&sort, NULL);						// kunnen na de parser heel de lexer freen
+	free_list(&sort, NULL);						// kunnen na de parser heel de lexer freen
 	//EXECUTOR
 	// execute()
 	//FREE COMMAND

@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/13 10:33:06 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/13 15:36:12 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int				count_node(t_lexer *sort)
         if (sort->token[token_general])
 		    i++;
         if (sort->token[token_redirection])
-		    sort = sort->next;
-        sort = sort->next;
+		    sort = sort->next_sort;
+        sort = sort->next_sort;
 	}
 	return (i);
 }
@@ -80,6 +80,6 @@ int				check_builtin_node(t_lexer **sort)
     else
         newstr = (*sort)->str;
 	builtin_type = get_builtin_type(newstr);
-	*sort = (*sort)->next;
+	*sort = (*sort)->next_sort;
 	return (builtin_type);
 }

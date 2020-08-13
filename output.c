@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:30:21 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/13 09:27:12 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/13 15:00:25 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_output		*ll_new_node_output(char *str_output, int token)
 	// 	error_free(errno);;
 	new->str_output = str_output;
 	new->token = token;
-	new->next = NULL;
+	new->next_output = NULL;
 	return (new);
 }
 
@@ -32,9 +32,9 @@ static void			ll_lstadd_back_output(t_output **output, t_output *new)
 	list_output = *output;
 	if (list_output)
 	{
-		while (list_output->next)
-			list_output = list_output->next;
-		list_output->next = new;
+		while (list_output->next_output)
+			list_output = list_output->next_output;
+		list_output->next_output = new;
 	}
 	else
 		*output = new;
@@ -44,7 +44,7 @@ void				output_fill(t_lexer **sort, t_command **tmp, int token)
 {
     t_output	*tmp_output;
 
-    *sort = (*sort)->next;
+    *sort = (*sort)->next_sort;
 	tmp_output = ll_new_node_output((*sort)->str, token);
 	ll_lstadd_back_output(&(*tmp)->output, tmp_output);
 }

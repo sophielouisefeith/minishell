@@ -6,12 +6,16 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/13 10:44:58 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/13 15:51:40 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+** Changelog:
+	//changed next to  next_sort
+*/
 static void 	close_and_save_array(t_command **tmp, char **array, int y)
 {
 	if (array)
@@ -29,8 +33,8 @@ static int		redirection(t_lexer **sort, t_command **tmp)
             output_fill(sort, tmp, token_redirection_dgreater);
         if ((*sort)->token[token_redirection_lesser])
             input_fill(sort,tmp);
-        if ((*sort)->next)
-            *sort = (*sort)->next;
+        if ((*sort)->next_sort)
+            *sort = (*sort)->next_sort;
         else
             return (1);
     }
@@ -51,8 +55,8 @@ static int		general(t_lexer **sort, t_command **tmp, char **array, int *y)
 		else
 			array[*y] = (*sort)->str;
 		(*y)++;
-		if ((*sort)->next)
-			*sort = (*sort)->next;
+		if ((*sort)->next_sort)
+			*sort = (*sort)->next_sort;
 		else
             return (1);
 	}

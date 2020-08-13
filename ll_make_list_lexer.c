@@ -6,12 +6,16 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 12:12:45 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/13 10:41:20 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/13 15:51:23 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+** Changelog:
+	//changed next to  next_sort
+*/
 t_lexer			*ll_new_node_lexer(char *str, int *token)
 {
 	t_lexer		*new;
@@ -22,7 +26,7 @@ t_lexer			*ll_new_node_lexer(char *str, int *token)
 	// 	error_free(12);
 	new->str = str;
 	new->token = token;
-	new->next = NULL;
+	new->next_sort = NULL;
 	return (new);
 }
 
@@ -40,9 +44,9 @@ void			ll_lstadd_back_lexer(t_lexer **sort, t_lexer *new)
 	list = *sort;
 	if (list)
 	{
-		while (list->next)
-			list = list->next;
-		list->next = new;
+		while (list->next_sort)
+			list = list->next_sort;
+		list->next_sort = new;
 	}
 	else
 		*sort = new;
