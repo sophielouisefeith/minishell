@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/12 16:34:52 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/13 19:42:56 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/13 20:13:55 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void         free_input(t_input *input)              //M: Zelfde schrijfs
     t_input       *head_input;
     t_input 	  *next_input;
 
-    
+    printf("---------input is free\n");
     head_input = input;
     while(head_input != NULL)
     {
@@ -28,7 +28,7 @@ static void         free_input(t_input *input)              //M: Zelfde schrijfs
         head_input = next_input; 
     }
     input = NULL; 
-     printf("---------input is free\n");
+
 }
 
 static void         free_output(t_output *output)           //M: Zelfde schrijfstijl aanhouden als bij de andere free
@@ -74,35 +74,25 @@ void        free_list_parser(t_command *command)
 {
     t_command   *next_command;
     t_command   *head_parser;
+    t_output    *output;
+    t_input     *input;
+    //t_command 	*tmp;
 
-    printf("----------command is free\n");
+   
     head_parser = command;
     while(head_parser  != NULL)
     {
         next_command = head_parser->next_command;
         if(head_parser->array)
             free_array(head_parser->array);
-        //if(head_parser->builtin)
-        //free(head_parser->builtin);
-       // head_parser->builtin = NULL;
-       printf("---------hier stop je dus\n");
-        if(head_parser->output)
-        {
-            printf("---------wil je hier wel in\n");
-            free_output(head_parser->output);
-        }
-        if(head_parser->input)
-            free(head_parser->input);
-        // if(head_parser->pipe_after)
-        //     free(head_parser->pipe_after);
-        // if(head_parser->pipe_before)
-        //     free(head_parser->pipe_before);
-        // if(head_parser->sem)
-        //     free(head_parser->sem);
+        free_output(head_parser->output);
+        free_input(head_parser->input);
         free(head_parser);
         head_parser  = next_command;
         command = NULL;
+        
     } 
+    printf("----------command is free\n");
 }
 
 void        free_list_lexer(t_lexer **sort)
