@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/13 20:40:36 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/13 20:48:39 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ typedef struct				s_input{
 typedef struct				s_command {
 	
 	char					**array;
-	int						*builtin;
+	int						builtin;
 	
 	struct s_output			*output;    
 	struct s_input			*input;    
-	int						*pipe_before;
-	int						*pipe_after;
-	int						*sem;
+	int						pipe_before;
+	int						pipe_after;
+	int						sem;
 	struct		s_command 	*next_command;
 }							t_command;
 

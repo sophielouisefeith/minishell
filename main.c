@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/13 20:44:28 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/13 20:48:30 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,19 @@ static void			lexer_parser_executer(char *line, int i)
 	command = NULL;
 	if (line[i] != '\0')
 		lexer(&sort, line);
-	while (sort)
-	{
-		pipe_status = parser(&sort, &command, pipe_status);
-		if (sort)
-			sort = sort->next_sort;
-	}
+	// while (sort)
+	// {
+	// 	pipe_status = parser(&sort, &command, pipe_status);
+	// 	if (sort)
+	// 		sort = sort->next_sort;
+	// }
 	tester(sort, command);
 	//FREE LEXER
 	free_list(&sort, NULL);						// kunnen na de parser heel de lexer freen
 	//EXECUTOR
 	// execute(&command);
 	//FREE COMMAND
-	free_list(NULL, command);
+	//free_list(NULL, command);
 	//tester(sort, command);
 	//tester(sort, command);
 	
