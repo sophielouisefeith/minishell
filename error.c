@@ -6,11 +6,32 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/12 16:14:47 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/13 16:03:26 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 int	error_free(int mistake)
