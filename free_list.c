@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/12 16:34:52 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/13 20:13:55 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/13 20:37:42 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@ static void         free_input(t_input *input)              //M: Zelfde schrijfs
     t_input       *head_input;
     t_input 	  *next_input;
 
-    printf("---------input is free\n");
+   
     head_input = input;
     while(head_input != NULL)
     {
-        next_input = next_input->next_input;
+        next_input = head_input->next_input;
         if(head_input->str_input)
             free(head_input->str_input);
         free(head_input);
         head_input = next_input; 
     }
     input = NULL; 
-
+    printf("---------input is free\n");
 }
 
 static void         free_output(t_output *output)           //M: Zelfde schrijfstijl aanhouden als bij de andere free
@@ -40,7 +40,7 @@ static void         free_output(t_output *output)           //M: Zelfde schrijfs
     head_output = output;
     while(head_output != NULL)
     {
-        next_output = next_output->next_output;
+        next_output = head_output->next_output;
         if(head_output->str_output)
             free(head_output->str_output);
         // if(head_output->token)
@@ -74,8 +74,8 @@ void        free_list_parser(t_command *command)
 {
     t_command   *next_command;
     t_command   *head_parser;
-    t_output    *output;
-    t_input     *input;
+    // t_output    *output;
+    // t_input     *input;
     //t_command 	*tmp;
 
    
