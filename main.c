@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/12 17:35:13 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/13 09:26:59 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,29 @@ static void			lexer_parser_executer(char *line, int i)
 	//command = (char **)malloc(() * sizeof(char *)); struct mallocen
 	if (line[i] != '\0')
 		lexer(&sort, line);
-	while (sort)
-	{
-		k = parser(&sort, &command, pipe_status);				//naam count en k
-		if (k == 1)
-			pipe_status = 1;
-		else
-			pipe_status = 0;
-		if (sort)
-			sort = sort->next;
-	}
-	// free_list(&sort, NULL);						// kunnen na de parser heel de lexer freen
-	//free(lexer);
-	//executor
-	//free_list_command(&command);
-	// free_list_command(&command, del);
-	//free_array(array);
-	// execute();
+	// while (sort)
+	// {
+	// 	k = parser(&sort, &command, pipe_status);				//naam count en k
+	// 	if (k == 1)
+	// 		pipe_status = 1;
+	// 	else
+	// 		pipe_status = 0;
+	// 	if (sort)
+	// 		sort = sort->next;
+	// }
+	
+	//FREE LEXER
+	free_list(&sort, NULL);						// kunnen na de parser heel de lexer freen
+	
+	//EXECUTOR
+	//FREE COMMAND
+	//free_list(&sort, command);	
+	
+
+
+
+
+	
 // LEXER TESTER
 	// t_lexer		*sort_list;
 	// sort_list = sort;
@@ -80,7 +86,7 @@ static void			lexer_parser_executer(char *line, int i)
 			n++;
 		}
 		printf("--------------------Einde Node------------------------:\n");
-		command = command->next;
+		command = command->next_command;
 	}
 }
 

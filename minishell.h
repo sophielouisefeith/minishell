@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/12 16:50:44 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/12 21:28:24 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ typedef struct				s_command {
 	int						pipe_before;
 	int						pipe_after;
 	int						sem;
-	struct		s_command 	*next;
+	struct		s_command 	*next_command;
 }							t_command;
 
 typedef struct				s_env{

@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 15:51:41 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/12 16:39:30 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/12 20:56:18 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,24 @@ int				get_token_type(char *line, int *i)
 
 int				*allocate_memory_int_string(int i)
 {
+	t_lexer	**sort;
 	int 	*int_str;
 
 	int_str = (int *)malloc(sizeof(int) * i);												
-	//int_str = 0;// testfor malloc
-	// if(!int_str)
-	// 	free
-	// 	error_free(12);
+	if(!int_str)
+		free(int_str);
 	ft_bzero(int_str, 11 * sizeof(int));
 	return (int_str);
 }
 
 char 			*str_from_char(char c)
 {
+	t_lexer	**sort;
 	char 	*str;
 
 	str = (char *)malloc(sizeof(char) * 2);
-	// if(!str)
-		//error_free(12);
+	if(!str)
+		free(str);
 	str[0] = c;
 	str[1] = '\0';
 	return (str);
@@ -67,11 +67,12 @@ char 			*str_from_char(char c)
 
 char 			*str_redirection_dgreater(void)
 {
+	t_lexer	**sort;
 	char 	*str;
 
 	str = (char *)malloc(sizeof(char) * 3);
-	// if(!str)
-	// 	error_free(12);
+	if(!str)
+		free(str);
 	str = ">>";
 	return (str);
 }
