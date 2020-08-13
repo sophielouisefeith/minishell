@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/12 16:34:52 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/13 14:56:27 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/13 19:42:56 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void         free_output(t_output *output)           //M: Zelfde schrijfs
     t_output       *head_output;
     t_output	   *next_output;
     
+    printf("---------kom je in output\n");
     head_output = output;
     while(head_output != NULL)
     {
@@ -51,7 +52,7 @@ static void         free_output(t_output *output)           //M: Zelfde schrijfs
     printf("---------output is free\n");
 }
 
-int         free_array(char **array)
+void        free_array(char **array)
 {
     char **arrayfree;
     int     i;
@@ -65,7 +66,8 @@ int         free_array(char **array)
         i++;
     }
     free(arrayfree);
-    return(i);
+    printf("----------array is free\n");
+    //return(i);
 }
 
 void        free_list_parser(t_command *command)
@@ -80,10 +82,15 @@ void        free_list_parser(t_command *command)
         next_command = head_parser->next_command;
         if(head_parser->array)
             free_array(head_parser->array);
-        // if(head_parser->builtin)
-        //     free(head_parser->builtin);
+        //if(head_parser->builtin)
+        //free(head_parser->builtin);
+       // head_parser->builtin = NULL;
+       printf("---------hier stop je dus\n");
         if(head_parser->output)
+        {
+            printf("---------wil je hier wel in\n");
             free_output(head_parser->output);
+        }
         if(head_parser->input)
             free(head_parser->input);
         // if(head_parser->pipe_after)

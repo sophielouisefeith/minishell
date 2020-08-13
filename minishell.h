@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/13 14:49:18 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/13 19:26:19 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ int								execute_echo(t_command *head_command);
 void     						tester_pars(t_lexer *lexer, t_command *command);
 
 /*free */				
-int            					free_array(char **array);
+void           					free_array(char **array);
 void      						free_str(char *str);
 void            				free_complete(int mistake);
 void        					free_list_lexer(t_lexer **sort);
