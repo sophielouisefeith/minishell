@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/13 10:46:14 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/14 15:12:27 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/14 16:28:13 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 /*
 ** LATER VERWIJDEREN
+** Changelog:
+	- Toegevoegd:
+	copy_output en copy_input
 */
 
 void            tester(t_lexer *sort, t_command *command)
@@ -24,16 +27,14 @@ void            tester(t_lexer *sort, t_command *command)
 	// 	printf("node-str = [%s], token_general = [%d]\n", sort->str, sort->token[token_general]);
 	// 	sort = sort->next_sort;	
 	// }
-
-	// t_lexer *sort;
-	// t_command *command;
-
-	// sort = sort_original;
-	// command = command_original;
 	
 //PARSER TESTER
-	int n;
+	t_output	*copy_output;
+	t_input		*copy_input;
+	int 		n;
 
+	copy_output = command->output;
+	copy_input = command->input;
 	while (command)
 	{
 		n = 0;
@@ -43,16 +44,16 @@ void            tester(t_lexer *sort, t_command *command)
 		printf("node---pipe after[%d]\n", command->pipe_after);
     	printf("node---sem[%d]\n", command->sem);
 		printf("output = [%p]\n",(command)->output);
-		// while (command->output)
-		// {
-		// 	printf("node---str_output[%s], token = [%d]\n", command->output->str_output, command->output->token);
-		// 	command->output = command->output->next_output;
-		// }
-		// while (command->input)
-		// {
-		// 	printf("node---str_intput[%s]\n", command->input->str_input);
-		// 	command->input = command->input->next_input;
-		// }
+		while (copy_output)
+		{
+			printf("node---str_output[%s], token = [%d]\n", copy_output->str_output, copy_output->token);
+			copy_output = copy_output->next_output;
+		}
+		while (copy_input)
+		{
+			printf("node---str_intput[%s]\n", copy_input->str_input);
+			copy_input = copy_input->next_input;
+		}
 		if (command->array)
 		{
 			while (command->array[n])

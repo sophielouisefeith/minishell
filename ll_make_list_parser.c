@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/13 10:17:35 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/14 10:47:42 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/14 16:21:37 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ t_command		*ll_new_node_command()
 	// 	error_(12); 
 	new->array = NULL;
 	new->builtin = 0;
-	new->output = NULL; //
-	new->input = NULL; //
+	new->output = NULL;
+	new->input = NULL;
 	new->pipe_before = 0;
    	new->pipe_after = 0;
 	new->sem = 0;

@@ -6,19 +6,23 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/14 14:24:15 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/14 15:33:53 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
+** We loop through sort in parser, we make a copy beforehand.
+** So when we start free'ing, we start at the first node of sort and not at the end.
+** 
 ** Changelog:
 	- Removed k
 	//sort = (char **)malloc(() * sizeof(char *)); // struct mallocen
 	//command = (char **)malloc(() * sizeof(char *)); struct mallocen
 	//changed next to  next_sort
 	//puted tester above the free otherwise segg
+	- added: Copy of sort!
 */
 
 static void			lexer_parser_executer(char *line, int i)
@@ -26,7 +30,6 @@ static void			lexer_parser_executer(char *line, int i)
 	t_lexer		*sort;
 	t_lexer		*sort_copy;
 	t_command 	*command;
-	t_command 	*command_copy;								
 	int			pipe_status;
 
 	pipe_status = 0;
@@ -41,21 +44,16 @@ static void			lexer_parser_executer(char *line, int i)
 		if (sort)
 			sort = sort->next_sort;
 	}
-	command_copy = command;						
-	// tester(sort_copy, command_copy);
-	printf("---------output VOOR tester = [%p]\n",(command)->output);
 	tester(sort, command);
-	printf("---------output NA tester = [%p]\n",(command)->output);
 	
 	//FREE LEXER
-	free_list_lexer(&sort_copy);   //niet met sort? Nee want die is verder geloopt in parser (misschien in parser copy meegeven)
-	// free_list_lexer(&sort);
+	free_list_lexer(&sort_copy);
 	
 	//EXECUTOR
 	// execute(&command);
 
 	//FREE COMMAND
-	free_list_parser(&command_copy);
+	free_list_parser(&command);
 }
 
 /*

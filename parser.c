@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/14 13:18:32 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/14 16:24:49 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 ** Changelog:
 	//changed next to  next_sort
 */
-
 
 static void 	close_and_save_array(t_command **tmp, char **array, int y)
 {
@@ -43,6 +42,13 @@ static int		redirection(t_lexer **sort, t_command **tmp)
     return (0);
 }
 
+/*
+** Changelog:
+	- Toegevoegd:
+	free(newstr);
+	newstr = NULL;
+*/
+
 static int		general(t_lexer **sort, char **array, int *y)
 {
     char		*newstr;
@@ -54,7 +60,7 @@ static int		general(t_lexer **sort, char **array, int *y)
 		{
 			newstr = trunc_quotes((*sort)->str);
 			array[*y] = newstr;
-			free(newstr);							//aangepast
+			free(newstr);
 			newstr = NULL;
 		}
 		else
@@ -68,6 +74,12 @@ static int		general(t_lexer **sort, char **array, int *y)
     return (0);
 }
 
+/*
+** Changelog:
+	- toegevoegd:
+	if (num_nodes > 0)
+*/
+
 static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp)
 {
 	char 		**array;
@@ -75,9 +87,9 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp)
 	int			ret;
     int 		y;
 
-	y = 0;
 	array = NULL;
 	num_nodes = 0;
+	y = 0;
 	num_nodes = count_node(*sort);
 	if (num_nodes > 0)
 		array = (char **)malloc((num_nodes + 1) * sizeof(char *));
@@ -102,7 +114,6 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp)
 ** Changelog:
 	- Veel gereorganiseerd, check github < 13-08-2020 voor versie hiervoor.
 */
-
 
 int				parser(t_lexer **sort, t_command **command, int pipe_status)
 {

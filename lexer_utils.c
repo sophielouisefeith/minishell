@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 15:51:41 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/14 12:35:38 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/14 16:25:12 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int				*allocate_memory_int_string(int i)
 	int 	*int_str;
 
 	int_str = (int *)malloc(sizeof(int) * i);												
-	if(!int_str)
+	if (!int_str)
 		free(int_str);
 	ft_bzero(int_str, 11 * sizeof(int));
 	return (int_str);
@@ -58,7 +58,7 @@ char 			*str_from_char(char c)
 	char 	*str;
 
 	str = (char *)malloc(sizeof(char) * 2);
-	if(!str)
+	if (!str)
 		free(str);
 	str[0] = c;
 	str[1] = '\0';
@@ -81,6 +81,5 @@ char 			*str_redirection_dgreater(void)
 		free(str);
 	str[0] = '>';
 	str[1] = '>';
-	// str = ">>";
 	return (str);
 }

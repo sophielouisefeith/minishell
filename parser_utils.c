@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/14 12:13:41 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/14 16:27:28 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,15 @@ int				get_builtin_type(char *str)
 
 /*
 ** Removes quotation and returns builtin_type
+**
+** Changelog:
+	- Bij if toegevoegd:
+		builtin_type = get_builtin_type(newstr);
+		free (newstr);									--> vanwege deze
+		*sort = (*sort)->next_sort;
+		return (builtin_type);
+** TO DO:
+	- Kan dit mooier deze toevoeging?
 */
 
 int				check_builtin_node(t_lexer **sort)
@@ -86,7 +95,6 @@ int				check_builtin_node(t_lexer **sort)
     else
         newstr = (*sort)->str;
 	builtin_type = get_builtin_type(newstr);
-	// free (newstr);
 	*sort = (*sort)->next_sort;
 	return (builtin_type);
 }

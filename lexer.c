@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/14 11:43:14 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/14 16:20:12 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@
 ** 	- \"	--> not a closing quotation, keep looping.
 ** If the closing quotation is found return, otherwise error.
 */
-
-
 
 static int			check_quotation_complete(char quote, char *line, int *i, int *token)
 {
