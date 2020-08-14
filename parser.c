@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/13 15:51:40 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/14 13:18:32 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@
 ** Changelog:
 	//changed next to  next_sort
 */
+
+
 static void 	close_and_save_array(t_command **tmp, char **array, int y)
 {
-	if (array)
+	if (array != NULL)
 		array[y]= 0;
 	(*tmp)->array = array;
 }
@@ -41,9 +43,10 @@ static int		redirection(t_lexer **sort, t_command **tmp)
     return (0);
 }
 
-static int		general(t_lexer **sort, t_command **tmp, char **array, int *y)
+static int		general(t_lexer **sort, char **array, int *y)
 {
     char		*newstr;
+
     
     while (*sort && (*sort)->token[token_general])
 	{
@@ -51,6 +54,8 @@ static int		general(t_lexer **sort, t_command **tmp, char **array, int *y)
 		{
 			newstr = trunc_quotes((*sort)->str);
 			array[*y] = newstr;
+			free(newstr);							//aangepast
+			newstr = NULL;
 		}
 		else
 			array[*y] = (*sort)->str;
@@ -71,8 +76,11 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp)
     int 		y;
 
 	y = 0;
+	array = NULL;
+	num_nodes = 0;
 	num_nodes = count_node(*sort);
-	array = (char **)malloc((num_nodes + 1) * sizeof(char *));
+	if (num_nodes > 0)
+		array = (char **)malloc((num_nodes + 1) * sizeof(char *));
 	// if (array == NULL)
 	// 	error_free(12);
 	(*tmp)->builtin = check_builtin_node(sort);
@@ -82,7 +90,7 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp)
 		ret = redirection(sort, tmp);
 		if (ret == 1)
 			return (close_and_save_array(tmp, array, y));
-		ret = general(sort, tmp, array, &y);
+		ret = general(sort, array, &y);
 		if (ret == 1)
 			return (close_and_save_array(tmp, array, y));
 	}
@@ -94,6 +102,7 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp)
 ** Changelog:
 	- Veel gereorganiseerd, check github < 13-08-2020 voor versie hiervoor.
 */
+
 
 int				parser(t_lexer **sort, t_command **command, int pipe_status)
 {

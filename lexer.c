@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/13 15:50:49 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/14 11:43:14 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ static void			save_word(char *line, int *i, t_lexer **sort)
 	check_meta_and_quote(line, i, token);
 	str = ft_substr(line, start, (*i - start));
 	tmp = ll_new_node_lexer(str, token);
-	if(!tmp)
-		free_list(sort, NULL);
+	// if(!tmp)
+	// 	free_list(sort, NULL);
 	ll_lstadd_back_lexer(sort, tmp);
 }
 
@@ -128,22 +128,22 @@ static void			save_operator(char *line, int *i, int type, t_lexer **sort)
 		(*i)++;
 		token[token_redirection_dgreater] = 1;
 		str = str_redirection_dgreater();
-		if(!str)
-			free_list(sort, NULL);				//FREE!
+		// if(!str)
+		// 	free_list(sort, NULL);				//FREE!
 	}
 	else
 	{
 		token[type] = 1;
 		str = str_from_char(line[*i]);
-		if(!str)
-			free_list(sort, NULL);					//FREE!
+		// if(!str)
+		// 	free_list(sort, NULL);					//FREE!
 	}
 	if (type >= token_redirection_greater &&
 			type <= token_redirection_dgreater)
 		token[token_redirection] = 1;
 	tmp = ll_new_node_lexer(str, token);
-	if(!tmp)
-		free_list(sort, NULL);
+	// if(!tmp)
+	// 	free_list(sort, NULL);
 	ll_lstadd_back_lexer(sort, tmp);
 	// if(!tmp)
 	// 	free_list(sort, NULL);

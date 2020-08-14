@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 15:51:41 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/12 20:56:18 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/14 12:35:38 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,12 @@ char 			*str_from_char(char c)
 	return (str);
 }
 
+/*
+** Changelog:
+   - Veranderd ivm malloc error
+   	// str = ">>";
+*/
+
 char 			*str_redirection_dgreater(void)
 {
 	t_lexer	**sort;
@@ -73,6 +79,8 @@ char 			*str_redirection_dgreater(void)
 	str = (char *)malloc(sizeof(char) * 3);
 	if(!str)
 		free(str);
-	str = ">>";
+	str[0] = '>';
+	str[1] = '>';
+	// str = ">>";
 	return (str);
 }

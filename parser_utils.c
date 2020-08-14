@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/13 15:36:12 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/14 12:13:41 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,17 @@ int				check_builtin_node(t_lexer **sort)
 	int 	builtin_type;
 
     if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
+	{
 	    newstr = trunc_quotes((*sort)->str);
+		builtin_type = get_builtin_type(newstr);
+		free (newstr);
+		*sort = (*sort)->next_sort;
+		return (builtin_type);
+	}
     else
         newstr = (*sort)->str;
 	builtin_type = get_builtin_type(newstr);
+	// free (newstr);
 	*sort = (*sort)->next_sort;
 	return (builtin_type);
 }

@@ -10,7 +10,7 @@ echo hallo daar | echo hoi maran
 
 echo hallo daar ; echo hoi maran
 
-echo hallo >file1 >file2
+echo hallo >file1 >file2            !
 
 echo hallo >file1 >file2 maran
 

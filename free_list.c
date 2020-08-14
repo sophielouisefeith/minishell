@@ -6,13 +6,13 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/12 16:34:52 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/13 20:37:42 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/14 14:23:21 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void         free_input(t_input *input)              //M: Zelfde schrijfstijl aanhouden als bij de andere free
+static void         free_input(t_input *input)
 {
     t_input       *head_input;
     t_input 	  *next_input;
@@ -22,77 +22,62 @@ static void         free_input(t_input *input)              //M: Zelfde schrijfs
     while(head_input != NULL)
     {
         next_input = head_input->next_input;
-        if(head_input->str_input)
-            free(head_input->str_input);
+        // if(head_input->str_input)
+        //     free(head_input->str_input);
         free(head_input);
         head_input = next_input; 
     }
-    input = NULL; 
-    printf("---------input is free\n");
+    input = NULL;
 }
 
-static void         free_output(t_output *output)           //M: Zelfde schrijfstijl aanhouden als bij de andere free
+static void         free_output(t_output *output)
 {
-    t_output       *head_output;
-    t_output	   *next_output;
-    
-    printf("---------kom je in output\n");
-    head_output = output;
-    while(head_output != NULL)
+    t_output	   *tmp;
+
+    while (output != NULL)
     {
-        next_output = head_output->next_output;
-        if(head_output->str_output)
-            free(head_output->str_output);
-        // if(head_output->token)
-        //     free(head_output->token);
-        free(head_output);
-        head_output = next_output; 
+        tmp = (output)->next_output;
+        // if ((*output)->str_output)
+        //     free((*output)->str_output);
+        free(output);
+        output = tmp; 
     }
     output = NULL; 
-    printf("---------output is free\n");
 }
 
 void        free_array(char **array)
 {
-    char **arrayfree;
-    int     i;
+    int     y;
     
-    arrayfree = array;
-    i = 0;
-    while(arrayfree[i])
+    y = 0;
+    while (array[y])
     {
-        free(arrayfree[i]);
-        array[i] = NULL;
-        i++;
+        // printf("free array: array[y] = %s\n", array[y]);     //WE MALLOCEN DEZE NIET MIJN GOTTIE
+        // free(array[y]);
+        array[y] = NULL;
+        y++;
     }
-    free(arrayfree);
-    printf("----------array is free\n");
-    //return(i);
-}
+    free(array);
+}  
 
-void        free_list_parser(t_command *command)
+void        free_list_parser(t_command **command)
 {
-    t_command   *next_command;
-    t_command   *head_parser;
-    // t_output    *output;
-    // t_input     *input;
-    //t_command 	*tmp;
+    t_command   *tmp;
 
-   
-    head_parser = command;
-    while(head_parser  != NULL)
+    tmp = NULL;
+    while (*command != NULL)
     {
-        next_command = head_parser->next_command;
-        if(head_parser->array)
-            free_array(head_parser->array);
-        free_output(head_parser->output);
-        free_input(head_parser->input);
-        free(head_parser);
-        head_parser  = next_command;
-        command = NULL;
-        
+        tmp = (*command)->next_command;
+        if ((*command)->array)
+            free_array((*command)->array);
+        if ((*command)->output)
+            free_output((*command)->output);
+        if ((*command)->input)
+            free_input((*command)->input);
+        free(*command);
+            *command = tmp;
     } 
-    printf("----------command is free\n");
+    *command = NULL;
 }
 
 void        free_list_lexer(t_lexer **sort)
@@ -112,13 +97,12 @@ void        free_list_lexer(t_lexer **sort)
         head_lexer = next_sort; 
     }
     *sort = NULL; 
-    printf("---------lexer is free\n");
 }
 
-void        free_list(t_lexer **sort, t_command *command)      //M: Misschien overwegen om vanuit deze functie, de 2 free functies aan te roepen. Voor het overzicht.
-{
-    if(sort)
-        free_list_lexer(sort);
-    if(command)
-        free_list_parser(command);
-}
+// void        free_list(t_lexer **sort, t_command **command)      //M: Misschien overwegen om vanuit deze functie, de 2 free functies aan te roepen. Voor het overzicht.
+// {
+//     if (sort)
+//         free_list_lexer(sort);
+//     if (command)
+//         free_list_parser(command);
+// }
