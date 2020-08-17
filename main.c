@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/14 15:33:53 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/17 11:07:19 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 	//changed next to  next_sort
 	//puted tester above the free otherwise segg
 	- added: Copy of sort!
+** TO DO:
+	- Wss ook nog een copy van command nodig na execute. Later naar kijken.
 */
 
 static void			lexer_parser_executer(char *line, int i)
