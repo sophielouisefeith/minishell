@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/14 16:01:39 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/17 13:58:03 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void            				input_fill(t_lexer **head, t_command **tmp);
 /*execute*/
 int								execute(t_command **command);
 char							*execute_echo(t_command **command);
-// int								execute_echo(t_command *head_command);
+// char							*execute_echo(t_command **command, char *buf);
 int								execute_cd(void);
 int          					execute_pwd(void);
 t_env                 			*save_env();

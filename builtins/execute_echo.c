@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/09 15:32:46 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/17 11:02:37 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/17 13:57:47 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,12 @@ static void			write_echo(char **array, int y, char *buf, int *i)
 		while (array[y][x])
 		{
 			buf[*i] = array[y][x];
-			printf("3. buf[i] = [%c]\n", buf[*i]);
 			(*i)++;
 			x++;
 		}
 		y++;
 		space++;
 	}
-	// printf("2. buf = [%s]\n", buf);
 }
 
 char			*execute_echo(t_command **command)
@@ -119,6 +117,5 @@ char			*execute_echo(t_command **command)
 	write_echo((*command)->array, y, buf, &i);
 	// if (!flag_n)
 	// 	write(buf[i], "\n", 1);
-	printf("1. buf = [%s]\n", buf);
 	return (buf);
 }

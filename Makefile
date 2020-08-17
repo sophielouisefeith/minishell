@@ -6,7 +6,7 @@
 #    By: Maran <Maran@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/06 17:19:34 by Maran         #+#    #+#                  #
-#    Updated: 2020/08/17 12:28:19 by maran         ########   odam.nl          #
+#    Updated: 2020/08/17 12:32:47 by maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		free_list.c \
 		tester.c\
 		output.c input.c\
-		#builtins/execute.c builtins/execute_echo.c builtins/execute_cd.c\
+		builtins/execute.c builtins/execute_echo.c builtins/execute_cd.c\
 		builtins/execute_pwd.c builtins/execute_exit.c \
 		builtins/execute_env.c builtins/execute_export.c\
 		builtins/execute_unset.c\
