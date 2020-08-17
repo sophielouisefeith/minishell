@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/09 15:32:46 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/17 17:49:47 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/17 18:38:53 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,27 @@
 ** Test schrijven naar fd:
 */
 
+static int			length_total_array(char **array, int y)
+{
+	int 	len;
+	
+	len = 0;
+	while (array[y])
+	{
+		len = len + ft_strlen(array[y]);
+		len++;
+		y++;
+	}
+	return (len);
+}
+
 static char			*write_echo(char **array, int y, int *i)
 {
 	int 	space;
 	int		x;
 	char 	*buf;
 
-	buf = (char *)malloc(sizeof(char) * 100);
+	buf = (char *)malloc(sizeof(char) * length_total_array(array, y));
 	space = 0;
 	while (array[y])
 	{
@@ -99,15 +113,14 @@ static char			*write_echo(char **array, int y, int *i)
 
 char			*execute_echo(t_command **command)
 {
-	int 		flag_n;
-	int 		y;
 	char		*buf;
-	int i;
+	int 		flag_n;
+	int 		i;
+	int 		y;
 
-	flag_n = 0;
-	y = 0;
 	i = 0;
-	// buf = (char *)malloc(sizeof(char) * 1000);
+	y = 0;
+	flag_n = 0;
 	// if (!(*command)->array[0])
 	// {
 	// 	write(buf[i], "\n", 1);
@@ -121,6 +134,5 @@ char			*execute_echo(t_command **command)
 	buf = write_echo((*command)->array, y, &i);
 	// if (!flag_n)
 	// 	write(buf[i], "\n", 1);
-	// buf = "EN DIT WEL?";
 	return (buf);
 }

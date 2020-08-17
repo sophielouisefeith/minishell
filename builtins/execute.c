@@ -12,19 +12,13 @@
 
 #include "../minishell.h"
 
-
-// void            builtin(int fd_0, int fd_1) 
-
 static char             *execute_builtin(t_command **command)
 {
+    char *buf;
     t_env *env;                         //kopie head
     env = save_env();
 
-    char *buf;
-    // buf = (char *)malloc(sizeof(char) * 10);
-
     // printf("env = [%p]\n", env);
-    printf("-----------In execute builtin----------------\n");
     // printf("--------ENV BEFORE---------\n");
     // execute_env(env);
     if ((*command)->builtin == builtin_echo)
@@ -43,7 +37,6 @@ static char             *execute_builtin(t_command **command)
         execute_exit();
     // printf("--------ENV AFTER---------\n");
     // execute_env(env);
-    printf("1. buf = [%s]\n", buf);
     return (buf);
 }
 
@@ -74,23 +67,22 @@ static int            execute_pipe(t_command **command)
         printf("ERROR with fork\n");
     if (id == 0)                                                        //child
     {
-        char *buf;
-        int len;
         close(fd[0]);
+        char *buf;
         buf = execute_builtin(command);
-        len = ft_strlen(buf);
-        printf("3. buf = [%s], len = %d\n", buf, len);
-        ret = write(fd[1], buf, len);
-        printf("ret write= [%d]\n", ret);
+        ret = write(fd[1], buf, ft_strlen(buf));
+        if (ret == -1)
+            printf("ERROR in write\n");
         close(fd[1]);
     }
     else
     {
         close(fd[1]);
         char *buffer;
-        buffer = (char *)malloc(sizeof(char) * 10);
-        ret = read(fd[0], buffer, 10);                                  //lees van fd[0] en sla op in buffer
-        printf("ret read = [%d]\n", ret);
+        buffer = (char *)malloc(sizeof(char) * 1024);
+        ret = read(fd[0], buffer, 1024);                               //lees van fd[0] en sla op in buffer
+        if (ret == -1)
+            printf("ERROR in read\n");
         printf("In parent proces: > via pipe van child proces ontvangen [%s]\n", buffer);
         close(fd[0]);
     }
@@ -99,7 +91,6 @@ static int            execute_pipe(t_command **command)
 
 int             execute(t_command **command)
 {
-    // printf("-----------In execute----------------\n");
     // if ((*command)->pipe_after)
         execute_pipe(command);
     // execute_builtin(command);
