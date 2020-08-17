@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/09 15:32:46 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/17 13:57:47 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/17 17:49:47 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,13 @@
 ** Test schrijven naar fd:
 */
 
-static void			write_echo(char **array, int y, char *buf, int *i)
+static char			*write_echo(char **array, int y, int *i)
 {
 	int 	space;
 	int		x;
+	char 	*buf;
 
+	buf = (char *)malloc(sizeof(char) * 100);
 	space = 0;
 	while (array[y])
 	{
@@ -91,6 +93,8 @@ static void			write_echo(char **array, int y, char *buf, int *i)
 		y++;
 		space++;
 	}
+	buf[*i] = '\0';
+	return (buf);
 }
 
 char			*execute_echo(t_command **command)
@@ -103,7 +107,7 @@ char			*execute_echo(t_command **command)
 	flag_n = 0;
 	y = 0;
 	i = 0;
-	buf = (char *)malloc(sizeof(char) * 1000);
+	// buf = (char *)malloc(sizeof(char) * 1000);
 	// if (!(*command)->array[0])
 	// {
 	// 	write(buf[i], "\n", 1);
@@ -114,8 +118,9 @@ char			*execute_echo(t_command **command)
 	// 	flag_n = 1;
 	// 	y++;
 	// }
-	write_echo((*command)->array, y, buf, &i);
+	buf = write_echo((*command)->array, y, &i);
 	// if (!flag_n)
 	// 	write(buf[i], "\n", 1);
+	// buf = "EN DIT WEL?";
 	return (buf);
 }

@@ -21,7 +21,7 @@ static char             *execute_builtin(t_command **command)
     env = save_env();
 
     char *buf;
-    // buf = (char *)malloc(sizeof(char) * 1000);
+    // buf = (char *)malloc(sizeof(char) * 10);
 
     // printf("env = [%p]\n", env);
     printf("-----------In execute builtin----------------\n");
@@ -43,10 +43,7 @@ static char             *execute_builtin(t_command **command)
         execute_exit();
     // printf("--------ENV AFTER---------\n");
     // execute_env(env);
-
     printf("1. buf = [%s]\n", buf);
-    buf = "EN DIT WEL?";
-    printf("2. buf = [%s]\n", buf);
     return (buf);
 }
 
@@ -65,7 +62,6 @@ static int            execute_pipe(t_command **command)
 {
     int fd[2];
     int id;
-    char *buf;
     int ret;
 
     if (pipe(fd) == -1)
@@ -78,18 +74,23 @@ static int            execute_pipe(t_command **command)
         printf("ERROR with fork\n");
     if (id == 0)                                                        //child
     {
+        char *buf;
+        int len;
         close(fd[0]);
         buf = execute_builtin(command);
-        printf("3. buf = [%s]\n", buf);
-        write(fd[1], &buf, sizeof(buf));
+        len = ft_strlen(buf);
+        printf("3. buf = [%s], len = %d\n", buf, len);
+        ret = write(fd[1], buf, len);
+        printf("ret write= [%d]\n", ret);
         close(fd[1]);
     }
     else
     {
         close(fd[1]);
         char *buffer;
-        buffer = (char *)malloc(sizeof(char) * 1000);
-        read(fd[0], &buffer, sizeof(buffer));                         //lees van fd[0] en sla op in buffer
+        buffer = (char *)malloc(sizeof(char) * 10);
+        ret = read(fd[0], buffer, 10);                                  //lees van fd[0] en sla op in buffer
+        printf("ret read = [%d]\n", ret);
         printf("In parent proces: > via pipe van child proces ontvangen [%s]\n", buffer);
         close(fd[0]);
     }
