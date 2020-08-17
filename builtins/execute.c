@@ -98,16 +98,19 @@ static int            execute_pipe(t_command **command)
 
 int             execute(t_command **command)
 {
-    // if (command->array)
-	// {
-	// 	while (command->array[n])
-	// 	{
-	// 		printf("node-str[%d] = [%s]\n", n, command->array[n]);
-	// 		n++;
-	// 	}
-    // }
-    if ((*command)->pipe_after)
-        execute_pipe(command);
+    printf("-----------In execute----------------\n");
+    int n = 0;
+
+    if ((*command)->array)
+	{
+		while ((*command)->array[n])
+		{
+			printf("node-str[%d] = [%s]\n", n, (*command)->array[n]);
+			n++;
+		}
+    }
+    // if ((*command)->pipe_after)
+    //     execute_pipe(command);
     // execute_builtin(command);
 
     return (0);

@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/14 16:24:49 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/17 12:25:39 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ static int		redirection(t_lexer **sort, t_command **tmp)
 	- Toegevoegd:
 	free(newstr);
 	newstr = NULL;
+	- Removed:
+	free(newstr);
+	newstr = NULL;
+	- Changed:
+	array[*y] = (*sort)->str;
 */
 
 static int		general(t_lexer **sort, char **array, int *y)
@@ -60,11 +65,9 @@ static int		general(t_lexer **sort, char **array, int *y)
 		{
 			newstr = trunc_quotes((*sort)->str);
 			array[*y] = newstr;
-			free(newstr);
-			newstr = NULL;
 		}
 		else
-			array[*y] = (*sort)->str;
+			array[*y] = ft_strdup((*sort)->str);				//new
 		(*y)++;
 		if ((*sort)->next_sort)
 			*sort = (*sort)->next_sort;

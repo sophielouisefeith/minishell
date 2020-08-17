@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/12 16:34:52 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/14 16:14:04 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/17 12:27:52 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void         free_output(t_output *output)
 /*
 ** TO DO:
     - Beslissen of we de inidividuele arrays binnen **array ook gaan mallocen (net als in split).
-    ZO niet, niet freeen. Zo wel freeen!
+    ZO niet, niet freeen. Zo wel freeen! [SOLVED].
 */
 
 void        free_array(char **array)
@@ -58,6 +58,7 @@ void        free_array(char **array)
     y = 0;
     while (array[y])
     {
+        free(array[y]);                     //new
         array[y] = NULL;
         y++;
     }
