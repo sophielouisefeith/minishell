@@ -44,3 +44,35 @@ In ons geval savestdin, bevat stdin van de terminal.
 2 stderror
 3 savestdin
 4 ...
+
+
+
+
+----
+Meetekenen:
+0 stdin
+1 stdout
+2 stderror
+3 tmpin                 (is fd[0] terminal stdin)
+4 tmpout                (is fd[1] terminal stdout)
+5 fdin                  (redirection file of terminal stdin)
+
+-------
+While loop:
+0 "fdin"                  (redirection file of terminal stdin)   //na dup2
+1 stdout
+2 stderror
+3 tmpin                 (is fd[0] terminal stdin)
+4 tmpout                (is fd[1] terminal stdout)
+5 ...                                                         //close deletes fdin
+
+-----
+setup output else:
+
+fdout = fdpipe[1]               Read
+fdin = fdpipe[0]                Write
+
+
+
+
+
