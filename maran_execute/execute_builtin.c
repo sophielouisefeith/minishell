@@ -6,17 +6,11 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 11:57:16 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/20 13:27:16 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/20 17:59:26 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-
- //  if (execve("./sub", (*command)->array, env) == -1)
-                //     perror("Execve failed!\n");
-                // exit(1);
-
 
 void             execute_builtin(t_command **command)
 {
@@ -34,7 +28,7 @@ void             execute_builtin(t_command **command)
          if (execve("maran_execute/echo", (*command)->array, NULL) == -1)
             perror("Execve failed!\n");
         printf("Je komt nooit hier terug, tenzij execve faalt\n");
-        // execute_echo(command); 
+        exit(1);
     } 
     // if ((*command)->builtin == builtin_cd)
     //     execute_cd();

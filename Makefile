@@ -6,7 +6,7 @@
 #    By: Maran <Maran@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/06 17:19:34 by Maran         #+#    #+#                  #
-#    Updated: 2020/08/20 12:17:19 by maran         ########   odam.nl          #
+#    Updated: 2020/08/20 16:00:22 by maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		maran_execute/execute_maran.c\
 		maran_execute/execute_builtin.c\
 		maran_execute/execute_maran.c\
+		maran_execute/echo.c\
 		#builtins/execute.c builtins/execute_echo.c builtins/execute_cd.c\
 		builtins/execute_pwd.c builtins/execute_exit.c \
 		builtins/execute_env.c builtins/execute_export.c\
@@ -37,12 +38,13 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-
-
 $(NAME): $(OBJ) lib_ft
 	@ar rcs $(LIB) $(OBJ)
 	$(CC) $(LIB)
 	@echo "\n>>>>>Finished making<<<<<"
+
+	gcc maran_execute/echo.c ft_strcmp.c libft/ft_strlen.c -o maran_execute/echo
+	@echo "\n>>>>>Finished making builtin executables<<<<<"
 
 lib_ft:
 	@make -C $(LIBFT)
@@ -57,7 +59,7 @@ clean:
 	@make clean -C $(LIBFT)
 
 fclean: clean
-	$(RM) $(LIB) a.out
+	$(RM) $(LIB) a.out maran_execute/echo
 	@make fclean -C $(LIBFT)
 
 re: fclean all

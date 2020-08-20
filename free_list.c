@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/12 16:34:52 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/17 12:27:52 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/20 15:08:49 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
     - Kennelijk hoeven we bij free_input en free_output str_.... niet te freeen. Waarom is dat?
     Is deze niet gemalloct?
     Ik zou verwachten dat we een gemallocte str doorkrijgen vanuit sort. Misschien omdat we deze al in lexer freeen dat het oke is?
+
+** ANTWOORD:
+    We hoefte idd niet te freeen omdat we de gemallocte str doorkregen vanuit sort. Consequentie na het freeen van lexer dat we deze gemallocte string dus wel kwijt waren.
+    Oplossing: ft_strdup toegevoegd, lexer kan gefreet, str_input en str_output blijven wel bestaan, ze moeten nu ook gefreet worden. 
 */
 
 static void         free_input(t_input *input)
@@ -26,6 +30,7 @@ static void         free_input(t_input *input)
     while(input != NULL)
     {
         tmp = input->next_input;
+        free(input->str_input);                          //new
         free(input);
         input = tmp; 
     }
@@ -39,6 +44,7 @@ static void         free_output(t_output *output)
     while (output != NULL)
     {
         tmp = (output)->next_output;
+        free(output->str_output);                          //new
         free(output);
         output = tmp; 
     }
