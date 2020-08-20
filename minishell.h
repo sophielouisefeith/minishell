@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/17 15:06:48 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/20 12:35:06 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <unistd.h>
 //#define errno (*error_free())
 
 enum	token_type{
@@ -169,4 +170,10 @@ void							free_list_parser(t_command **command);
 char                			*strerror_i(int errnum);
 int								error_free(int mistake);
 int								error(int mistake, char *str);
+
+/* execute-maran*/
+void            				execute_maran(t_command **command);
+void             				execute_builtin(t_command **command);
+
+
 #endif
