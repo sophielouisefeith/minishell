@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 10:06:46 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/20 18:03:06 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/20 18:17:22 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,14 @@ static int      fill_fdout(t_command *command, int tmpout)
     return (fdout);
 }
 
+/*
+** Changelog:
+    - Gewijzigd:  
+    if ((*command)->pipe_after)    --> ipv else
+** TO DO:
+    - Na wijziging, lijkt al te werken maar wat zit er dan in fdout? Beter uitzoeken.
+*/
+
 void            execute_maran(t_command **command)
 {
         int            tmpin;
@@ -64,7 +72,7 @@ void            execute_maran(t_command **command)
             close(fdin);
             if (i == len_list - 1)
                 fdout = fill_fdout(*command, tmpout);
-            else
+            if ((*command)->pipe_after)
             {
                 pipe(fdpipe);
                 fdout = fdpipe[1];
