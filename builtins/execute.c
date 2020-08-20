@@ -11,9 +11,22 @@
 // /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <fcntl.h>
+
+/*
+** to do:
+	// pipe     //buf ontvangen voor de pipe gaan we het wel of niet meegeven, bijv in echo geven we het niet meer 
+    //sem
+*/
+
+/*
+** Changelog:
+	//changed next to  next_sort
+*/
 
 static char             *execute_builtin(t_command **command)
 {
+
     char *buf;
     t_env *env;                         //kopie head
     env = save_env();
@@ -28,7 +41,7 @@ static char             *execute_builtin(t_command **command)
     if ((*command)->builtin == builtin_pwd)
         execute_pwd();
     if ((*command)->builtin == builtin_env)
-        execute_env(env);
+        execute_env(env); //buf.
     if ((*command)->builtin == builtin_export)
         execute_export(&env);
     if ((*command)->builtin == builtin_unset)
@@ -69,7 +82,6 @@ static int            execute_pipe(t_command **command)
     {
         close(fd[0]);
         char *buf;
-        buf = execute_builtin(command);
         ret = write(fd[1], buf, ft_strlen(buf));
         if (ret == -1)
             printf("ERROR in write\n");
@@ -80,6 +92,7 @@ static int            execute_pipe(t_command **command)
         close(fd[1]);
         char *buffer;
         buffer = (char *)malloc(sizeof(char) * 1024);
+        // buf = execute_builtin(command, buf);
         ret = read(fd[0], buffer, 1024);                               //lees van fd[0] en sla op in buffer
         if (ret == -1)
             printf("ERROR in read\n");
@@ -89,12 +102,125 @@ static int            execute_pipe(t_command **command)
     return (0);   
 }
 
+static int  lstsize(t_command *command)
+{
+	int c;
+
+	c = 0;
+	while (command)
+	{
+		command = command->next_command;
+		c++;
+	}
+	return (c);
+}
+
+static void            trial(t_command *command)
+{
+        int             fd[0];
+        t_input         *input;
+        t_output        *output;
+        int             fdin;
+        int             fdout;
+        // char            *tmpin;
+        // char            *tmpout;
+        int            tmpin;
+        int            tmpout;
+        int             i;
+        int             lennode;
+        int             fdpipe[2];
+        int             ret;
+
+
+        i = 0;
+        lennode = lstsize(command);
+        tmpout = output->str_output; //= dub(0);
+        tmpin = input->str_input;   //= dub(1);
+
+        tmpin =   dub(0);
+        tmpout  = dub(1);
+
+
+        if(input->str_input)
+            fdin = open(input->str_input, UIO_READ);
+        else
+        {
+            fdin = dub(tmpin);
+        }
+
+        
+        while(i < lennode)
+        {
+            //redirect input is dit dus waar we de kindjes redirection 
+            i++;
+            dup2(fdin, 0);
+            close(fdin);
+            
+            if( i == lennode -1 )
+            {
+                if(output->str_output)
+                {
+                    fdout=open(output->str_output, UIO_READ );   // dit moet iets anders worden
+                }
+                else
+                fdout = dub (tmpout);
+            }
+            else
+            {
+                pipe(fdpipe);
+                fdout = fdpipe[1];
+                fdin  = fdpipe[0];
+            }
+
+            dup2(fdout,1);
+            close(fdout);
+
+            ret = fork();
+            if(ret == 0)    //niew childprocess ?
+            {
+               // execve(command->next_command, command->next_command, command->next_command);    //Scom simple command 
+                execve(input->str_input, &output->str_output, &output->str_output);    ///
+                perror("execve");
+                exit(1);
+            }
+
+        }  
+            dup2(tmpin, 0); //,0
+            dup2(tmpout, 1); //,1
+            close(tmpin);
+            close(tmpout);
+        
+
+       
+
+        // if(!background)  // geen background gebruiken maar om nu in de parent te komen 
+        // {
+        //     //wait for last command  // this is were the parrent comes in then
+        //     waitpid(ret, NULL);
+        // }
+
+}
+
+
+
+
+
 int             execute(t_command **command)
 {
-    // if ((*command)->pipe_after)
-        execute_pipe(command);
-    // execute_builtin(command);
+    char *buf;
+    int     i;
 
+    i = lstsize(*command);
+    printf("i[%d]\n", i);
+    //pipe before and pipe after. 
+    // while(command)
+    // {
+    //     buf  = execute_builtin(command);
+    //     // command = command->next;
+    //     if ((*command)->pipe_after)
+    //         buf = execute_pipe(command);
+    // }
+    // //write(fd, buf,)
     return (0);
 }
 
