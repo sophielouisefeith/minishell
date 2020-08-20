@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   pseudo_execute.c                                   :+:    :+:            */
+/*   execute_maran.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/08/18 15:43:28 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/20 09:56:04 by maran         ########   odam.nl         */
+/*   Created: 2020/08/20 10:06:46 by maran         #+#    #+#                 */
+/*   Updated: 2020/08/20 10:38:39 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
- void           execute()
- {
-//save in/out
-int tmpin=dup(0);                  //maakt een kopie van de fd
+void           execute(t_command **command)
+{
+int tmpin=dup(0);                  //dup takes what is in fd (0)
 int tmpout=dup(1);
- 
-//set the initial input 
 int fdin;
+int ret;
+int fdout;
+int i;
+
 if (infile)                         // check if there is input redirection                                  //ook voor pipe?
     fdin = open(infile,O_READ);      // open the file in bijv. infile and save it in fdin
 else                                  // if not: it will create a file descriptor that refers to the default input(0)
-// Use default input
     fdin=dup(tmpin);
 
-int ret;
-int fdout;
-for (i=0;i<numsimplecommands; i++)  //This for loop will create a process for every simple command and it will perform the pipe connections.
+i = 0;
+while(i < num_commands)
 {
-                                    //In the first iteration, the input of the first simple command will come from fdin (fd[0] of inputredirection)
-                                    //Later: fdin will be reassigned to a input pipe later in the loop
-//redirect input
     dup2(fdin, 0);                  //Maakt kopie van gespecificeerde fd. 
                                     //Redirects the standard input to come from fdin.
                                     //After this any read from stdin will come from the file pointed by fdin
@@ -83,27 +79,4 @@ This is because a new executable image has been loaded in the current CHILD proc
 overwritten, so there is nothing to return to. 
 */
     }
-} //  for                       //END OF FOR LOOP that iterates over all the simple commands
-
-/*
-After the for loop executes, all the simple commands are running in their own process and 
-they are communicating using pipes
-*/
-
-
-/* restore stdin and stdout to the same file object that was saved in
-tmpin, and tmpout. Otherwise, the shell will obtain the 
-input from the last file the input was redirected to
-*/
-
-//restore in/out defaults                              
-dup2(tmpin, 0);
-dup2(tmpout, 1);
-close(tmpin);              //  close the temporary file descriptors that were used to save the stdin and stdout of the parent shell process
-close(tmpout);
-
-//if (!background)      ---> hebben wij niet
-// Wait for last command
-waitpid(ret, NULL);         //  shell parent process should wait for the last child process in the command to finish before printing the shell prompt
-  
-} //END OF EXECUTE
+}
