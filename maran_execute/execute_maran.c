@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 10:06:46 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/20 18:17:22 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/21 14:30:36 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,19 @@ static int      fill_fdout(t_command *command, int tmpout)
 }
 
 /*
-** Changelog:
-    - Gewijzigd:  
-    if ((*command)->pipe_after)    --> ipv else
-** TO DO:
-    - Na wijziging, lijkt al te werken maar wat zit er dan in fdout? Beter uitzoeken.
+**
 */
 
 void            execute_maran(t_command **command)
 {
-        int            tmpin;
-        int            tmpout;
-        int            fdin;
-        int             ret;
-        int             fdout;
-        int             i;
-        int             len_list;
-        int             fdpipe[2];
+        int     tmpin;
+        int     tmpout;
+        int     fdin;
+        int     fdout;
+        int     ret;
+        int     i;
+        int     len_list;
+        int     fdpipe[2];
 
         len_list = lstsize(*command);
         tmpin = dup(0);
@@ -72,12 +68,14 @@ void            execute_maran(t_command **command)
             close(fdin);
             if (i == len_list - 1)
                 fdout = fill_fdout(*command, tmpout);
-            if ((*command)->pipe_after)
+            else if ((*command)->pipe_after)                            //new
             {
                 pipe(fdpipe);
                 fdout = fdpipe[1];
                 fdin  = fdpipe[0];
             }
+            else                                                        //new (overbodig wel mooier)
+                fdout = dup(tmpout);
             dup2(fdout,1);
             close(fdout);
             ret = fork();
@@ -88,12 +86,14 @@ void            execute_maran(t_command **command)
                 execute_builtin(command);
                 printf("Komt nooit hier toch?\n");
             }
-            *command = (*command)->next_command;
+            if (ret != 0)                                               //new
+                wait(NULL);
+;            *command = (*command)->next_command;
             i++;
         }
         dup2(tmpin, 0);
         dup2(tmpout, 1);
         close(tmpin);
         close(tmpout);
-        waitpid(ret, NULL, 0);
+        // waitpid(ret, NULL, 0);                                       //Lijkt niks meer toe te voegen?
 }
