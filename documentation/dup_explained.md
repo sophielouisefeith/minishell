@@ -48,32 +48,85 @@ In ons geval savestdin, bevat stdin van de terminal.
 
 
 
+# Meetekenen:
+
+default:
+  0 stdin
+  1 stdout
+  2 stderror
 ----
-Meetekenen:
-0 stdin
+Tmpin, tmpout dup en fdin:
+
+  0 stdin
+  1 stdout
+  2 stderror
+**3 tmpin                 (is fd[0] terminal stdin)**
+**4 tmpout                (is fd[1] terminal stdout)**
+**5 fdin                  (redirection inputfile of terminal stdin fd[0])**
+
+----
+While loop, dup2 en close:
+**0 "fdin"                (redirection inputfile of terminal stdin fd[0])   //na dup2**
+  1 stdout
+  2 stderror
+  3 tmpin                 (is fd[0] terminal stdin)
+  4 tmpout                (is fd[1] terminal stdout)
+**5 ...                                                                     //close deletes fdin**
+
+----
+ALS in laatste node:
+  0 "fdin"                (redirection inputfile of terminal stdin fd[0])
+  1 stdout
+  2 stderror
+  3 tmpin                 (is fd[0] terminal stdin)
+  4 tmpout                (is fd[1] terminal stdout)
+**5 fdout                 (redirection outputfile of terminal stdout fd[1])**  
+----
+ALS pipe after:
+
+0 "fdin"                (redirection inputfile of terminal stdin fd[0])
 1 stdout
 2 stderror
 3 tmpin                 (is fd[0] terminal stdin)
 4 tmpout                (is fd[1] terminal stdout)
-5 fdin                  (redirection file of terminal stdin)
+5 ...                   *fdout: gevuld als in laatste node*
+**6 fdpipe[0]           read-end pipe**
+**7 fdpipe[1]           write-end pipe**
+**8 fdin                (fdpipe[0] read-end pipe)**                  
+**9 fdout               (fdpipe[1] write-end pipe)**
 
--------
-While loop:
-0 "fdin"                  (redirection file of terminal stdin)   //na dup2
-1 stdout
-2 stderror
-3 tmpin                 (is fd[0] terminal stdin)
-4 tmpout                (is fd[1] terminal stdout)
-5 ...                                                         //close deletes fdin
-
------
-setup output else:
-
-fdout = fdpipe[1]               Read
-fdin = fdpipe[0]                Write
-
+Nu kunnen we in child ipv naar stdout naar write-end(fdpipe[1]) of pipe schrijven.
+In parent proces kunnen we van read-end(fdpipe[0]) of pipe lezen, ipv stdin.
 ------
+Dup2 en close fdout:
+  0 "fdin"                (redirection inputfile of terminal stdin fd[0])
+**1 "fdout"               (redirection outputfile of terminal stdout fd[1])** //ALS LAATSTE NODE
+                          **(fdpipe[1] write-end pipe)**                      //ALS PIPE AFTER
+                          **leeg** ???                                        //ALS ;  
+  2 stderror
+  3 tmpin                 (is fd[0] terminal stdin)
+  4 tmpout                (is fd[1] terminal stdout)
+**5 ...                   *fdout: gevuld als in laatste node**                 //closed
+  6 ...                   *fdpipe[0]: gevuld als pipe after*
+  7 ...                   *fdpipe[1]: gevuld als pipe after*
+  8 ...                   *fdin: gevuld als pipe after*    
+ **9 ...                   *fdout: gevuld als pipe after***                    //closed
 
+----
 
+Alles wordt geforked:
+output child komt dus terecht in outputfile/write-end pipe/terminal stdout of leeeeeg???
+
+& repeat while loop!
+----
+Recover, na while:
+
+**0 "tmpin"             (Recovered: is fd[0] terminal stdin)**
+**1 "tmpout"            (Recovered:is fd[1] terminal stdout)**
+  2 stderror
+**3 ...**                                                         //closed
+**4 ...**                                                         //closed
+
+THE END
 
 

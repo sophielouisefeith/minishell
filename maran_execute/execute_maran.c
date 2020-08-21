@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 10:06:46 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/21 14:30:36 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/21 15:29:20 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ static int      fill_fdout(t_command *command, int tmpout)
 }
 
 /*
-**
+** Next time:   echo hallo maran >file1 >file2 >file3   
+                echo pizza is lekker > file4 >>file2
+
 */
 
 void            execute_maran(t_command **command)
