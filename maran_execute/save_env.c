@@ -6,16 +6,16 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 13:14:37 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/24 13:15:05 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/24 15:31:12 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../minishell.h"
 extern char	**environ;
 
-t_env			    *ll_new_node_env(char *name, char *value)
+static t_env	*ll_new_node_env(char *name, char *value)
 {
-	t_env		*new;
+	t_env	*new;
 
 	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)
@@ -26,19 +26,19 @@ t_env			    *ll_new_node_env(char *name, char *value)
 	return (new);
 }
 
-void			    ll_lstadd_back_env(t_env **head, t_env *new)
+static void		ll_lstadd_back_env(t_env **env, t_env *new)
 {
-	t_env		*list;
+	t_env	*tmp;
 
-	list = *head;
-	if (list)
+	tmp = *env;
+	if (tmp)
 	{
-		while (list->next)
-			list = list->next;
-		list->next = new;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
 	}
 	else
-		*head = new;
+		*env = new;
 }
 
 t_env			*save_env()

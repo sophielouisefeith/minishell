@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 10:06:46 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/24 12:18:31 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/24 15:28:54 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,6 @@ static int      fill_fdout(t_output *output, int tmpout)
     return (fdout);
 }
 
-/*
-** Next time:   echo hallo maran >file1 >file2 >file3   
-                echo pizza is lekker > file4 >>file2
-
-*/
-
 void            execute_maran(t_command **command)
 {
         int     tmpin;
@@ -62,6 +56,9 @@ void            execute_maran(t_command **command)
         int     i;
         int     len_list;
         int     fdpipe[2];
+
+		t_env *env;														//new
+    	env = save_env();
 
         len_list = lstsize(*command);
         tmpin = dup(0);
@@ -92,7 +89,7 @@ void            execute_maran(t_command **command)
                 printf("ERROR IN FORK");
             if (ret == 0)
             {
-                execute_builtin(command);
+                execute_builtin(command, env);
                 printf("Komt nooit hier toch?\n");
             }
             if (ret != 0)                                               //new
