@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 10:06:46 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/21 15:29:20 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/24 11:43:52 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,21 @@ static int  lstsize(t_command *command)
 	return (c);
 }
 
-static int      fill_fdout(t_command *command, int tmpout)
+static int      fill_fdout(t_output *output, int tmpout)
 {
     int     fdout;
     
-    if (command->output && command->output->token == token_redirection_greater)
-        fdout = open(command->output->str_output,  O_RDWR | O_CREAT | O_TRUNC);
-    else if (command->output && command->output->token ==  token_redirection_dgreater)
-        fdout = open(command->output->str_output, O_RDWR | O_CREAT | O_APPEND);
+    if (output)
+    {
+        while (output)
+        {
+            if (output && output->token == token_redirection_greater)
+                fdout = open(output->str_output,  O_RDWR | O_CREAT | O_TRUNC, 777);
+            else if (output && output->token ==  token_redirection_dgreater)
+                fdout = open(output->str_output, O_RDWR | O_CREAT | O_APPEND, 777);
+            output = output->next_output;
+        }
+    }
     else
         fdout = dup(tmpout);
     return (fdout);
@@ -69,7 +76,7 @@ void            execute_maran(t_command **command)
             dup2(fdin, 0);
             close(fdin);
             if (i == len_list - 1)
-                fdout = fill_fdout(*command, tmpout);
+                fdout = fill_fdout((*command)->output, tmpout);
             else if ((*command)->pipe_after)                            //new
             {
                 pipe(fdpipe);

@@ -6,7 +6,7 @@
 #    By: Maran <Maran@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/06 17:19:34 by Maran         #+#    #+#                  #
-#    Updated: 2020/08/20 16:00:22 by maran         ########   odam.nl          #
+#    Updated: 2020/08/24 12:16:37 by maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,7 @@ clean:
 	@make clean -C $(LIBFT)
 
 fclean: clean
-	$(RM) $(LIB) a.out maran_execute/echo
+	$(RM) $(LIB) a.out file* maran_execute/echo
 	@make fclean -C $(LIBFT)
 
 re: fclean all
