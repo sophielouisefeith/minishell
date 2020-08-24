@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 11:57:16 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/20 17:59:26 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/24 14:20:34 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,16 @@ void             execute_builtin(t_command **command)
     //     execute_cd();
     // if ((*command)->builtin == builtin_pwd)
     //     execute_pwd();
-    // if ((*command)->builtin == builtin_env)
-    //     execute_env(env); //buf.
+    if ((*command)->builtin == builtin_env)
+    {
+		// make 2d arryay
+		array  = llto2d(env)
+		
+         if (execve("maran_execute/env", (*command)->array, NULL) == -1)
+            perror("Execve failed!\n");
+        printf("Je komt nooit hier terug, tenzij execve faalt\n");
+        exit(1);
+    }
     // if ((*command)->builtin == builtin_export)
     //     execute_export(&env);
     // if ((*command)->builtin == builtin_unset)
