@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   execute_maran.c                                    :+:    :+:            */
+/*   execute_sophie.c                                   :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: maran <maran@student.codam.nl>               +#+                     */
+/*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/08/20 10:06:46 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/24 14:47:07 by sfeith        ########   odam.nl         */
+/*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
+/*   Updated: 2020/08/24 14:47:27 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,19 +81,23 @@ void            execute_maran(t_command **command)
                 fdout = dup(tmpout);
             dup2(fdout,1);
             close(fdout);
-            ret = fork();
-            if (ret == -1)
-                printf("ERROR IN FORK");
-            if (ret == 0)
-            {
-                execute_command(command);
-                printf("Komt nooit hier toch?\n");
-            }
-            if (ret != 0)
-			{                                            //new
-                wait(NULL);
+			if ((*command)->builtin == builtin_echo)
+			{
+            	ret = fork();
+            	if (ret == -1)
+                	printf("ERROR IN FORK");
+           		if (ret == 0)
+            	{
+                	execute_command(command);
+                	printf("Komt nooit hier toch?\n");
+            	}
+            	if (ret != 0)
+				{                                            //new
+                	wait(NULL);
+				}
 			}
-;            *command = (*command)->next_command;
+			execute_builtin(command);
+           	*command = (*command)->next_command;
             i++;
         }
         dup2(tmpin, 0);

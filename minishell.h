@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/20 12:35:06 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/24 14:48:20 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,8 @@ void            				input_fill(t_lexer **head, t_command **tmp);
 /*execute*/
 int								execute(t_command **command);
 char							*execute_echo(t_command **command);
-int								execute_cd(void);
-int          					execute_pwd(void);
+int								execute_cd(t_command *command);
+int          					execute_pwd(t_command *command);
 t_env                 			*save_env();
 void			    			ll_lstadd_back_env(t_env **head, t_env *new);
 t_env			    			*ll_new_node_env(char *name, char *value);
@@ -152,6 +152,7 @@ void        					execute_env(t_env *env);
 int	            				execute_export(t_env **env);
 void        					execute_unset(t_env **env);
 void        					execute_exit(void);
+void            				execute_command(t_command **command);  
 
 /*test */
 void     						tester_pars(t_lexer *lexer, t_command *command);

@@ -6,7 +6,7 @@
 #    By: Maran <Maran@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/06 17:19:34 by Maran         #+#    #+#                  #
-#    Updated: 2020/08/20 16:00:22 by maran         ########   odam.nl          #
+#    Updated: 2020/08/24 14:14:54 by sfeith        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,10 +23,11 @@ SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		free_list.c \
 		tester.c\
 		output.c input.c\
-		maran_execute/execute_maran.c\
-		maran_execute/execute_builtin.c\
-		maran_execute/execute_maran.c\
-		maran_execute/echo.c\
+		sophie_execute/execute_sophie.c\
+		sophie_execute/execute_builtin.c\
+		sophie_execute/execute_sophie.c\
+		sophie_execute/echo.c \
+		builtins/execute_cd.c  builtins/execute_pwd.c\
 		#builtins/execute.c builtins/execute_echo.c builtins/execute_cd.c\
 		builtins/execute_pwd.c builtins/execute_exit.c \
 		builtins/execute_env.c builtins/execute_export.c\
@@ -43,7 +44,7 @@ $(NAME): $(OBJ) lib_ft
 	$(CC) $(LIB)
 	@echo "\n>>>>>Finished making<<<<<"
 
-	gcc maran_execute/echo.c ft_strcmp.c libft/ft_strlen.c -o maran_execute/echo
+	gcc maran_execute/echo.c ft_strcmp.c libft/ft_strlen.c -o sophie_execute/echo
 	@echo "\n>>>>>Finished making builtin executables<<<<<"
 
 lib_ft:
@@ -59,7 +60,7 @@ clean:
 	@make clean -C $(LIBFT)
 
 fclean: clean
-	$(RM) $(LIB) a.out maran_execute/echo
+	$(RM) $(LIB) a.out file* maran_execute/echo
 	@make fclean -C $(LIBFT)
 
 re: fclean all
