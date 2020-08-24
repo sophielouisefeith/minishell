@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/24 15:00:53 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/24 17:32:32 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ static void			lexer_parser_executer(char *line, int i)
 ** Return key: prompt on a new line
 */
 
-int					main(int argc, char **argv)
+int					main(int argc, char **argv, char **env)
 {
 	char		*line;
 	int			ret;
 	int 		i;
 
-	
+
 	ret = 1;
 	while (ret > 0)
 	{

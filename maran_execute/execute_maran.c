@@ -7,10 +7,14 @@
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 10:06:46 by maran         #+#    #+#                 */
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2020/08/24 14:47:07 by sfeith        ########   odam.nl         */
 =======
 /*   Updated: 2020/08/24 12:20:49 by maran         ########   odam.nl         */
 >>>>>>> 774e9d10d21ff0621f860d1ea3b42a0fab8ea63f
+=======
+/*   Updated: 2020/08/24 16:14:30 by msiemons      ########   odam.nl         */
+>>>>>>> f72b04142b014956c0eaf8fd34695766410b4ac2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +81,9 @@ void            execute_maran(t_command **command)
         int     len_list;
         int     fdpipe[2];
 
+		t_env *env;														//new
+    	env = save_env();
+
         len_list = lstsize(*command);
         tmpin = dup(0);
         tmpout = dup(1);
@@ -106,7 +113,11 @@ void            execute_maran(t_command **command)
                 printf("ERROR IN FORK");
             if (ret == 0)
             {
+<<<<<<< HEAD
                 execute_command(command);
+=======
+                execute_builtin(command, env);
+>>>>>>> f72b04142b014956c0eaf8fd34695766410b4ac2
                 printf("Komt nooit hier toch?\n");
             }
             if (ret != 0)

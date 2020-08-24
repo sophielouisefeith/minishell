@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/24 14:47:27 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/24 16:27:17 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ void            execute_maran(t_command **command)
         int     len_list;
         int     fdpipe[2];
 
+		t_env *env;														//new
+    	env = save_env();
+		
         len_list = lstsize(*command);
         tmpin = dup(0);
         tmpout = dup(1);
@@ -81,14 +84,14 @@ void            execute_maran(t_command **command)
                 fdout = dup(tmpout);
             dup2(fdout,1);
             close(fdout);
-			if ((*command)->builtin == builtin_echo)
+			if ((*command)->builtin == builtin_echo || (*command)->builtin == builtin_env)
 			{
             	ret = fork();
             	if (ret == -1)
                 	printf("ERROR IN FORK");
            		if (ret == 0)
             	{
-                	execute_command(command);
+                	execute_command(command, env);
                 	printf("Komt nooit hier toch?\n");
             	}
             	if (ret != 0)
@@ -96,7 +99,7 @@ void            execute_maran(t_command **command)
                 	wait(NULL);
 				}
 			}
-			execute_builtin(command);
+			execute_builtin(command, env);
            	*command = (*command)->next_command;
             i++;
         }
