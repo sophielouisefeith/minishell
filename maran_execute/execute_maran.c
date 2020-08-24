@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 10:06:46 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/24 11:43:52 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/24 12:20:49 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ static int      fill_fdout(t_output *output, int tmpout)
         while (output)
         {
             if (output && output->token == token_redirection_greater)
-                fdout = open(output->str_output,  O_RDWR | O_CREAT | O_TRUNC, 777);
+                fdout = open(output->str_output,  O_RDWR | O_CREAT | O_TRUNC, 0644);
             else if (output && output->token ==  token_redirection_dgreater)
-                fdout = open(output->str_output, O_RDWR | O_CREAT | O_APPEND, 777);
+                fdout = open(output->str_output, O_RDWR | O_CREAT | O_APPEND, 0644);
             output = output->next_output;
         }
     }
