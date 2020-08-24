@@ -6,7 +6,11 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 10:06:46 by maran         #+#    #+#                 */
+<<<<<<< HEAD
 /*   Updated: 2020/08/24 14:47:07 by sfeith        ########   odam.nl         */
+=======
+/*   Updated: 2020/08/24 12:20:49 by maran         ########   odam.nl         */
+>>>>>>> 774e9d10d21ff0621f860d1ea3b42a0fab8ea63f
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +33,7 @@ static int  lstsize(t_command *command)
 static int      fill_fdout(t_output *output, int tmpout)
 {
     int     fdout;
+<<<<<<< HEAD
 
 	if(output)
 	{
@@ -42,6 +47,21 @@ static int      fill_fdout(t_output *output, int tmpout)
 		}
 	}
 	else
+=======
+    
+    if (output)
+    {
+        while (output)
+        {
+            if (output && output->token == token_redirection_greater)
+                fdout = open(output->str_output,  O_RDWR | O_CREAT | O_TRUNC, 0644);
+            else if (output && output->token ==  token_redirection_dgreater)
+                fdout = open(output->str_output, O_RDWR | O_CREAT | O_APPEND, 0644);
+            output = output->next_output;
+        }
+    }
+    else
+>>>>>>> 774e9d10d21ff0621f860d1ea3b42a0fab8ea63f
         fdout = dup(tmpout);
     return (fdout);
 }
