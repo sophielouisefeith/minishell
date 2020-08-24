@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 10:06:46 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/24 14:22:33 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/24 16:14:30 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ void            execute_maran(t_command **command)
         int     len_list;
         int     fdpipe[2];
 
-		// t_env *env;
-    	// env = save_env();						//Sowieso saven
-	
+		t_env *env;														//new
+    	env = save_env();
+
         len_list = lstsize(*command);
         tmpin = dup(0);
         tmpout = dup(1);
@@ -89,7 +89,7 @@ void            execute_maran(t_command **command)
                 printf("ERROR IN FORK");
             if (ret == 0)
             {
-                execute_builtin(command);
+                execute_builtin(command, env);
                 printf("Komt nooit hier toch?\n");
             }
             if (ret != 0)                                               //new

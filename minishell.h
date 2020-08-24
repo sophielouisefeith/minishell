@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/24 14:17:38 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/24 16:14:09 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int          					execute_pwd(void);
 // t_env                 			*save_env();
 // void			    			ll_lstadd_back_env(t_env **head, t_env *new);
 // t_env			    			*ll_new_node_env(char *name, char *value);
-// // void        					execute_env(t_env *env);
+// void        					execute_env(t_env *env);
 int	            				execute_export(t_env **env);
 void        					execute_unset(t_env **env);
 void        					execute_exit(void);
@@ -173,7 +173,13 @@ int								error(int mistake, char *str);
 
 /* execute-maran*/
 void            				execute_maran(t_command **command);
-void             				execute_builtin(t_command **command);
+// void             				execute_builtin(t_command **command);
+
+
+/*env */
+void             				execute_builtin(t_command **command, t_env *env);
+t_env                 			*save_env();
+char							**env_ll_to_array(t_env *env);
 
 // t_env                 			*save_env();
 // void			    			ll_lstadd_back_env(t_env **head, t_env *new);
