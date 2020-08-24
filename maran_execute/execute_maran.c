@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 10:06:46 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/24 12:18:31 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/24 14:14:05 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ static int      fill_fdout(t_output *output, int tmpout)
         while (output)
         {
             if (output && output->token == token_redirection_greater)
-                fdout = open(output->str_output,  O_RDWR | O_CREAT | O_TRUNC, 777);
+                fdout = open(output->str_output,  O_RDWR | O_CREAT | O_TRUNC, 0644);
             else if (output && output->token ==  token_redirection_dgreater)
-                fdout = open(output->str_output, O_RDWR | O_CREAT | O_APPEND, 777);
+                fdout = open(output->str_output, O_RDWR | O_CREAT | O_APPEND, 0644);
             output = output->next_output;
         }
     }
@@ -45,12 +45,6 @@ static int      fill_fdout(t_output *output, int tmpout)
         fdout = dup(tmpout);
     return (fdout);
 }
-
-/*
-** Next time:   echo hallo maran >file1 >file2 >file3   
-                echo pizza is lekker > file4 >>file2
-
-*/
 
 void            execute_maran(t_command **command)
 {
@@ -63,6 +57,9 @@ void            execute_maran(t_command **command)
         int     len_list;
         int     fdpipe[2];
 
+		// t_env *env;
+    	// env = save_env();						//Sowieso saven
+	
         len_list = lstsize(*command);
         tmpin = dup(0);
         tmpout = dup(1);
