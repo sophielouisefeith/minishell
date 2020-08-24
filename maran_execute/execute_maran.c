@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/20 10:06:46 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/24 12:15:40 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/24 12:18:31 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ static int      fill_fdout(t_output *output, int tmpout)
 {
     int     fdout;
     
-	if (output)
-	{
-		while (output)
-		{
-			if (output && output->token == token_redirection_greater)
-        		fdout = open(output->str_output,  O_RDWR | O_CREAT | O_TRUNC, 777);
-    		else if (output && output->token ==  token_redirection_dgreater)
-        		fdout = open(output->str_output, O_RDWR | O_CREAT | O_APPEND, 777);
-			output = output->next_output;
-		}
-	}
+    if (output)
+    {
+        while (output)
+        {
+            if (output && output->token == token_redirection_greater)
+                fdout = open(output->str_output,  O_RDWR | O_CREAT | O_TRUNC, 777);
+            else if (output && output->token ==  token_redirection_dgreater)
+                fdout = open(output->str_output, O_RDWR | O_CREAT | O_APPEND, 777);
+            output = output->next_output;
+        }
+    }
     else
         fdout = dup(tmpout);
     return (fdout);
