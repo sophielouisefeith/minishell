@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   execute_sophie.c                                   :+:    :+:            */
+/*   execute.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/24 16:27:17 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/25 11:57:00 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int      fill_fdout(t_output *output, int tmpout)
     return (fdout);
 }
 
-void            execute_maran(t_command **command)
+void            execute(t_command **command)
 {
         int     tmpin;
         int     tmpout;

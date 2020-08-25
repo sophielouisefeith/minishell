@@ -6,16 +6,12 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:30 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/24 14:14:10 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/25 11:59:23 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "../minishell.h"
-
-/*
-** gcc echo.c ../ft_strcmp.c ../libft/ft_strlen.c -o echo
-*/
 
 static void			write_echo(char **array, int y)
 {
@@ -32,7 +28,7 @@ static void			write_echo(char **array, int y)
 	}
 }
 
-int					main(int argc, char **array)
+int					echo(char **array)
 {
 	int 		flag_n;
 	int 		y;

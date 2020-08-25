@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/08/25 11:41:47 by msiemons      ########   odam.nl          #
+#    Updated: 2020/08/25 12:00:55 by msiemons      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,12 +25,11 @@ SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		output.c input.c\
 		execute/execute.c\
 		execute/execute_builtin.c\
+		execute/echo.c\
 		execute/execute_cd.c  execute/execute_pwd.c\
 		execute/save_env.c execute/env_ll_to_array.c\
 		execute/env.c\
-		execute/execute_echo.c\
 
-		#execute/echo.c\
 		# free.c error.c
 
 OBJ = $(SRC:.c=.o)
@@ -42,7 +41,7 @@ $(NAME): $(OBJ) lib_ft
 	$(CC) $(LIB)
 	@echo "\n>>>>>Finished making<<<<<"
 
-	gcc execute/echo.c ft_strcmp.c libft/ft_strlen.c -o execute/echo
+	#gcc execute/echo.c ft_strcmp.c libft/ft_strlen.c -o execute/echo
 	gcc execute/env.c libft/ft_strlen.c -o execute/env
 	@echo "\n>>>>>Finished making builtin executables<<<<<"
 

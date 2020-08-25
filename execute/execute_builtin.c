@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:15 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/25 11:44:19 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/25 12:00:30 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,15 @@
 
 void			execute_command(t_command **command, t_env *env)
 {
-	char	**env_array;
-	char    *str;	
-	
-	str = NULL;
+	// char	**env_array;
+
 	if ((*command)->builtin == builtin_echo)
 	{
-		// if (execve("execute/echo", (*command)->array, NULL) == -1)
-		// 	perror("Execve failed!\n");
-		str = execute_echo(command);
-		printf("str[:%s]\n", str);
-		//printf("Je komt nooit hier terug, tenzij execve faalt\n");
+		echo((*command)->array);
 		exit(1);
     } 
-
 	// if ((*command)->builtin == builtin_env)
 	// {
-	
 	// 	env_array  = env_ll_to_array(env);
 	// 	if (execve("execute/env", env_array, NULL) == -1)
 	// 		perror("Execve failed!\n");
@@ -56,6 +48,4 @@ void			execute_builtin(t_command **command, t_env *env)
     //     execute_unset(&env);
     // if ((*command)->builtin == builtin_exit)
     //     execute_exit();
-    // printf("--------ENV AFTER---------\n");
-    // execute_env(env);
 }
