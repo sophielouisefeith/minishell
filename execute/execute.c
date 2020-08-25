@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/25 12:58:10 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/25 14:20:47 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void            execute(t_command **command, t_env *_env)
                 	wait(NULL);
 				}
 			}
-			execute_builtin(command, _env);
+			execute_builtin(command, &_env);
            	*command = (*command)->next_command;
             i++;
         }
