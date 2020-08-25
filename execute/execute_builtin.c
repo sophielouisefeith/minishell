@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:15 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/25 12:00:30 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/25 12:57:05 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ void			execute_command(t_command **command, t_env *env)
 	{
 		echo((*command)->array);
 		exit(1);
-    } 
+    }
+	if ((*command)->builtin == builtin_env)
+	{
+		 execute_export(&env);
+	}
 	// if ((*command)->builtin == builtin_env)
 	// {
 	// 	env_array  = env_ll_to_array(env);

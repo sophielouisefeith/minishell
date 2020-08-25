@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/06 11:43:49 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/25 13:09:36 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 **
 ** 1. Check of voldoet aan formar name=value
         - eerste char moet char zijn
-        - er kunnen geen speciale chars in name zitten BEHALVE underscore
+        - er kunnen geen speciale chars in name zitten BEHALVE un0derscore
         - geen = dan gebeurt er niets
         - wel = dan var aangemaakt 
 ** 2. Check of al in env zit
@@ -28,6 +28,7 @@
 ** TO DO:
 ** Child processes nu ook al gecovered? Uitzoeken.
 */
+
 
 int          check_present_in_env(char *name, char *value, t_env *env)
 {
@@ -91,6 +92,7 @@ int             print_declare_x_env(t_env *env)
 
 int            execute_export(t_env **env)
 {
+	printf("kom je in export");
     t_env   *tmp;
     char    **array;
     int     ret;
@@ -112,23 +114,23 @@ int            execute_export(t_env **env)
         free(array); //andere free voor array
         return (0);
     }
-    else
-    {
-        tmp = ll_new_node_env(array[0], array[1]);
-        ll_lstadd_back_env(env, tmp);
-    }
+    // else
+    // {
+    //     tmp = ll_new_node_env(array[0], array[1]);
+    //     ll_lstadd_back_env(env, tmp);
+    // }
     //free_array(array);
     free(array);
 
-// // Test in child
-//     int id;
-//     id = fork();
-//     if (id == 0)
-//     {
-//         printf("--------In child proces--------------\n");
-//         execute_env(*env);
-//         printf("--------End child---------------------\n");
-//     }
-// // End tester
+// Test in child
+    int id;
+    id = fork();
+    if (id == 0)
+    {
+        printf("--------In child proces--------------\n");
+        execute_env(*env);
+        printf("--------End child---------------------\n");
+    }
+// End tester
     return (0);
 }

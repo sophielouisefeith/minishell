@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/25 11:57:18 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/25 12:58:51 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,10 @@ int								error(int mistake, char *str);
 /*execute*/
 void            				execute(t_command **command);
 void             				execute_builtin(t_command **command, t_env *env);
-void            				execute_command(t_command **command, t_env *env);  
+void            				execute_command(t_command **command, t_env *env); 
+int            					execute_export(t_env **env);
+t_env                			*save_env();
+void        					execute_env(t_env *env);
 
 // char							*execute_echo(t_command **command);
 int								echo(char **array);
