@@ -6,12 +6,11 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 13:14:37 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/24 17:25:47 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/25 12:52:22 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
-extern char	**environ;
+# include "minishell.h"
 
 static t_env	*ll_new_node_env(char *name, char *value)
 {
@@ -41,22 +40,42 @@ static void		ll_lstadd_back_env(t_env **env, t_env *new)
 		*env = new;
 }
 
-t_env			*save_env()
+// t_env			*save_env()
+// {
+//     t_env	*env;
+//     t_env	*tmp;
+//     char	**array;
+//     int		i;
+
+//     env = NULL;
+//     i = 0;
+//     while (environ[i])
+//     {
+//         array = ft_split(environ[i], '=');
+//         tmp = ll_new_node_env(array[0], array[1]);
+//         ll_lstadd_back_env(&env, tmp);
+//         array = NULL;
+//         i++;
+//     }
+//     return (env);
+// }
+
+t_env			*save_env(char **env)
 {
-    t_env	*env;
+    t_env	*save_env;
     t_env	*tmp;
     char	**array;
-    int		i;
+    int		y;
 
-    env = NULL;
-    i = 0;
-    while (environ[i])
+    save_env = NULL;
+    y = 0;
+    while (env[y])
     {
-        array = ft_split(environ[i], '=');
+        array = ft_split(env[y], '=');
         tmp = ll_new_node_env(array[0], array[1]);
-        ll_lstadd_back_env(&env, tmp);
+        ll_lstadd_back_env(&save_env, tmp);
         array = NULL;
-        i++;
+        y++;
     }
-    return (env);
+    return (save_env);
 }

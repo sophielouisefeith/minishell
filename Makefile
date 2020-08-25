@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/08/25 12:00:55 by msiemons      ########   odam.nl          #
+#    Updated: 2020/08/25 12:56:30 by msiemons      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ LIB = minishell.a
 LIBFT = libft
 
 SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
+		save_env.c\
 		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
 		ll_make_list_lexer.c parser.c parser_utils.c\
 		ll_make_list_parser.c\
@@ -27,7 +28,7 @@ SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		execute/execute_builtin.c\
 		execute/echo.c\
 		execute/execute_cd.c  execute/execute_pwd.c\
-		execute/save_env.c execute/env_ll_to_array.c\
+		execute/env_ll_to_array.c\
 		execute/env.c\
 
 		# free.c error.c
@@ -40,10 +41,6 @@ $(NAME): $(OBJ) lib_ft
 	@ar rcs $(LIB) $(OBJ)
 	$(CC) $(LIB)
 	@echo "\n>>>>>Finished making<<<<<"
-
-	#gcc execute/echo.c ft_strcmp.c libft/ft_strlen.c -o execute/echo
-	gcc execute/env.c libft/ft_strlen.c -o execute/env
-	@echo "\n>>>>>Finished making builtin executables<<<<<"
 
 lib_ft:
 	@make -C $(LIBFT)
