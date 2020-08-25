@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/25 14:27:37 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/25 18:40:49 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,10 @@ typedef struct				s_env{
 void            				tester(t_lexer *sort, t_command *command);
 
 t_env                 			*save_env(char **env);
+t_env							*ll_new_node_env(char *name, char *value);
+void							ll_lstadd_back_env(t_env **env, t_env *new);
+
+
 void							lexer(t_lexer **head, char *line);
 
 int								ft_strcmp(const char *s1, const char *s2);
@@ -161,7 +165,7 @@ int								error_free(int mistake);
 int								error(int mistake, char *str);
 
 /*execute*/
-void            				execute(t_command **command, t_env *env);
+void            				execute(t_command **command, t_env **env);
 void             				execute_builtin(t_command **command, t_env **_env);
 void            				execute_command(t_command **command, t_env *_env);  
 
@@ -173,7 +177,7 @@ void             				execute_cd(t_command *command, t_env **_env);
 int                 			execute_pwd(t_command *command, t_env *_env);
 
 // int	            				execute_export(t_env **env);
-// void        					execute_unset(t_env **env);
+void        					execute_unset(t_env **_env);
 // void        					execute_exit(void);
 
 #endif

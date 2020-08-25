@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/27 13:31:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/25 15:57:05 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/25 18:45:31 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,33 @@
 ** to the directory specified in path.
 */
 
+static void		check_old_pwd(t_env **_env, char *old_path)		//KOPIE MAKEN VAN ENV ANDERS LOOPT NIET GOED
+{
+	t_env	*tmp;
+
+	while (*_env)
+	{
+		if (!ft_strcmp("OLDPWD", (*_env)->name))
+		{
+			(*_env)->value = old_path;
+			return ;
+		}
+		*_env = (*_env)->next;
+	}
+	tmp = ll_new_node_env("OLDPWD", old_path);
+	if (tmp == NULL)
+		printf("NULL\n");	
+	ll_lstadd_back_env(_env, tmp);
+}
+
+
 static void		change_env_pwd(t_env **_env)
 {
 	char	*path;
+	char 	*old_path;
+	// t_env	**copy_env;
+
+	// copy_env = _env;
 
 	path = getcwd(NULL, 0);													//getcwd malloct if buf == NULL, FREE!
 	if (path == NULL)
@@ -32,6 +56,8 @@ static void		change_env_pwd(t_env **_env)
 	{
 		if (!ft_strcmp("PWD", (*_env)->name))
 		{
+			old_path = (*_env)->value;
+			check_old_pwd(_env, old_path);			//new
 			(*_env)->value = path;											//FREE
 			break ;
 		}
@@ -61,7 +87,7 @@ static char		*search_node(t_env *_env, char *search)
 void				execute_cd(t_command *command, t_env **_env)
 {
 	int		ret;
-
+	
 	if (command->array)
 	{
 		if (!ft_strcmp(command->array[0], "~/"))

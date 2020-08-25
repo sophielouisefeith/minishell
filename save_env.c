@@ -6,13 +6,13 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 13:14:37 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/25 12:52:22 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/25 18:45:56 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-static t_env	*ll_new_node_env(char *name, char *value)
+t_env	*ll_new_node_env(char *name, char *value)
 {
 	t_env	*new;
 
@@ -25,7 +25,7 @@ static t_env	*ll_new_node_env(char *name, char *value)
 	return (new);
 }
 
-static void		ll_lstadd_back_env(t_env **env, t_env *new)
+void		ll_lstadd_back_env(t_env **env, t_env *new)
 {
 	t_env	*tmp;
 
@@ -39,26 +39,6 @@ static void		ll_lstadd_back_env(t_env **env, t_env *new)
 	else
 		*env = new;
 }
-
-// t_env			*save_env()
-// {
-//     t_env	*env;
-//     t_env	*tmp;
-//     char	**array;
-//     int		i;
-
-//     env = NULL;
-//     i = 0;
-//     while (environ[i])
-//     {
-//         array = ft_split(environ[i], '=');
-//         tmp = ll_new_node_env(array[0], array[1]);
-//         ll_lstadd_back_env(&env, tmp);
-//         array = NULL;
-//         i++;
-//     }
-//     return (env);
-// }
 
 t_env			*save_env(char **env)
 {
