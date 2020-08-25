@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:15 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/24 17:56:57 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/25 11:44:19 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void			execute_command(t_command **command, t_env *env)
 	str = NULL;
 	if ((*command)->builtin == builtin_echo)
 	{
-		// if (execve("sophie_execute/echo", (*command)->array, NULL) == -1)
+		// if (execve("execute/echo", (*command)->array, NULL) == -1)
 		// 	perror("Execve failed!\n");
 		str = execute_echo(command);
 		printf("str[:%s]\n", str);
@@ -28,16 +28,16 @@ void			execute_command(t_command **command, t_env *env)
 		exit(1);
     } 
 
-	if ((*command)->builtin == builtin_env)
-	{
+	// if ((*command)->builtin == builtin_env)
+	// {
 	
-		env_array  = env_ll_to_array(env);
-		// if (execve("maran_execute/command", env_array, NULL) == -1)
-		// 	perror("Execve failed!\n");
-		save_env(command, env_array);
-		printf("Je komt nooit hier terug, tenzij execve faalt\n");
-		exit(1);
-	}
+	// 	env_array  = env_ll_to_array(env);
+	// 	if (execve("execute/env", env_array, NULL) == -1)
+	// 		perror("Execve failed!\n");
+	// 	save_env(command, env_array);
+	// 	printf("Je komt nooit hier terug, tenzij execve faalt\n");
+	// 	exit(1);
+	// }
 }
 
 
