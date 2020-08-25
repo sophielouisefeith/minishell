@@ -6,24 +6,22 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 12:46:44 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/25 12:50:00 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/25 16:21:07 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "../minishell.h"
 #include <limits.h>
 
-#include "../minishell.h"
-
-int                execute_pwd(t_command *command, t_env *_env)
+int				execute_pwd(t_command *command, t_env *_env)
 {
-    char    buf[PATH_MAX];
-    char    *path;
+	char	buf[PATH_MAX];
+	char	*path;
 
-    path = getcwd(buf, sizeof(buf));
-    if (path == NULL)
-        printf("path == -------------------------------------------------------------null\n");
-    printf("current path= ------------------------------------------------------- %s\n", path);
-
-    return(0);
+	path = getcwd(buf, sizeof(buf));
+	if (path == NULL)
+		perror("error");
+	write(1, path, ft_strlen(path));
+	write(1, "\n", 1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:15 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/25 17:36:53 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/25 18:53:50 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void			execute_command(t_command **command, t_env **_env)
 	}
 	if((*command)->builtin == builtin_export)
 	{
-		 execute_export(command, _env);
+		 execute_export(_env, command);
 		 exit(1);
 	}
 	if ((*command)->builtin == builtin_env)
@@ -40,14 +40,14 @@ void			execute_builtin(t_command **command, t_env **_env)
 	
 
     if ((*command)->builtin == builtin_cd)
-        execute_cd(*command, *_env);
+        execute_cd(*command, _env);
     if ((*command)->builtin == builtin_pwd)
         execute_pwd(*command, *_env);
 
     // if ((*command)->builtin == builtin_export)
     //     execute_export(&env);
-    // if ((*command)->builtin == builtin_unset)
-    //     execute_unset(&env);
+	// if ((*command)->builtin == builtin_unset)
+	// 	execute_unset(env);
     // if ((*command)->builtin == builtin_exit)
     //     execute_exit();
 }

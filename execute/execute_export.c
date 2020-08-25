@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/25 18:25:53 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/25 18:55:23 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ int             print_declare_x_env(t_env *_env)
 }
 
 
-int            execute_export(t_command **command, t_env **_env)
+int            execute_export(t_env **_env, t_command **command)
 {
 	
     t_env   *tmp;
@@ -200,12 +200,12 @@ int            execute_export(t_command **command, t_env **_env)
 		printf("totaal gelijk\n");
        // free(array[0]);
     }
-    else
-    {
-		printf("nieuwe value\n");
-        tmp = ll_new_node_env(array[0], array[1]);
-		ll_lstadd_back_env(_env, tmp);
-    }
+    // else
+    // {
+	// 	printf("nieuwe value\n");
+    //     tmp = ll_new_node_env(array[0], array[1]); // hier gaat hij nog fout
+	// 	ll_lstadd_back_env(_env, tmp);
+    // }
     //free_array(array);
     //free(array);
 

@@ -1,3 +1,4 @@
+** echo **
 echo
 
 echo hallo daar
@@ -19,3 +20,22 @@ echo hallo >file1 >file2 maran
 echo hallo >file1 >file2 >>file3 maran siemons
 
 echo hallo <file1 >file2
+
+
+
+
+
+** cd **
+
+1 niveau omhoog:
+cd ..
+
+HOME:
+cd
+cd ~/
+
+Absoluut pad:
+/Users/msiemons/Desktop/map_1
+
+Relatief pad:
+cd ../Documents/Git_maran

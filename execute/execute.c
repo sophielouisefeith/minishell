@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/25 17:31:22 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/25 18:50:48 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int      fill_fdout(t_output *output, int tmpout)
     return (fdout);
 }
 
-void            execute(t_command **command, t_env *_env)
+void            execute(t_command **command, t_env **_env)
 {
         int     tmpin;
         int     tmpout;
@@ -88,7 +88,7 @@ void            execute(t_command **command, t_env *_env)
                 	printf("ERROR IN FORK");
            		if (ret == 0)
             	{
-                	execute_command(command, &_env);
+                	execute_command(command, _env);
                 	printf("Komt nooit hier toch?\n");
             	}
             	if (ret != 0)
@@ -96,7 +96,7 @@ void            execute(t_command **command, t_env *_env)
                 	wait(NULL);
 				}
 			}
-			execute_builtin(command, &_env);
+			execute_builtin(command, _env);
            	*command = (*command)->next_command;
             i++;
         }
