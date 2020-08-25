@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 12:46:44 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/24 17:15:25 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/25 12:50:00 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "../minishell.h"
 
-int                execute_pwd(t_command *command, t_env *env)
+int                execute_pwd(t_command *command, t_env *_env)
 {
     char    buf[PATH_MAX];
     char    *path;

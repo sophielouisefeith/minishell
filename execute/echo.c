@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:30 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/25 11:59:23 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/25 12:57:14 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static void			write_echo(char **array, int y)
 {
-	int 	space;
+	int		space;
 
 	space = 0;
 	while (array[y])
@@ -30,8 +30,8 @@ static void			write_echo(char **array, int y)
 
 int					echo(char **array)
 {
-	int 		flag_n;
-	int 		y;
+	int		flag_n;
+	int		y;
 
 	flag_n = 0;
 	y = 0;
@@ -43,5 +43,5 @@ int					echo(char **array)
 	write_echo(array, y);
 	if (!flag_n)
 		write(1, "\n", 1);
-	return (0);    
+	return (0);
 }

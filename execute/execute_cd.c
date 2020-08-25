@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/27 13:31:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/24 17:10:06 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/25 12:55:14 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ chdir changes the current working directory of the calling process to the direct
 oplossen cd ~/
 */
 
-int             execute_cd(t_command *command, t_env *env)
+int             execute_cd(t_command *command, t_env *_env)
 {
                                                                                                                                                                                                                                                                                             
 	// node aanpassen naar de juiste env en dan returnen als de geupdate env. 
@@ -50,14 +50,14 @@ int             execute_cd(t_command *command, t_env *env)
 	path = getcwd(buf, sizeof(buf));                      //FREE
 		if(path == NULL)
 			perror("error");
-	while(env)
+	while(_env)
 	{
-		if(!ft_strcmp("pwd", env->name))
+		if(!ft_strcmp("pwd", _env->name))
 		{
-			env->value = path;
+			_env->value = path;
 			break ;
 		}
-		env = env->next;
+		_env = _env->next;
 	}
 	
 	printf("now the path is changed -------------------------------------------------------  \n[%s]\n", path);

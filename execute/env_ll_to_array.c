@@ -6,15 +6,15 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 13:21:40 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/24 15:27:03 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/25 12:57:46 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int  lstsize_env(t_env *env)
+static int		lstsize_env(t_env *env)
 {
-	int c;
+	int		c;
 
 	c = 0;
 	while (env)
@@ -29,7 +29,7 @@ char			**env_ll_to_array(t_env *env)
 {
 	char	**array;
 	int		len_list;
-	int 	y;
+	int		y;
 
 	y = 0;
 	len_list = lstsize_env(env);

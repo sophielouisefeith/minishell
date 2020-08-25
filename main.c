@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/25 11:55:54 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/25 16:51:45 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 	- Wss ook nog een copy van command nodig na execute. Later naar kijken.
 */
 
-static void			lexer_parser_executer(char *line, int i)
+static void			lexer_parser_executer(char *line, int i, t_env *_env)
 {
 	t_lexer		*sort;
 	t_lexer		*sort_copy;
@@ -46,13 +46,13 @@ static void			lexer_parser_executer(char *line, int i)
 		if (sort)
 			sort = sort->next_sort;
 	}
-	//tester(sort, command);
+	 tester(sort, command);
 	
 	//FREE LEXER
 	free_list_lexer(&sort_copy);
 	
 	//EXECUTOR
-	execute(&command);
+	execute(&command, _env);
 
 	//FREE COMMAND
 	free_list_parser(&command);
@@ -65,20 +65,22 @@ static void			lexer_parser_executer(char *line, int i)
 
 int					main(int argc, char **argv, char **env)
 {
+	t_env		*_env;	
 	char		*line;
 	int			ret;
 	int 		i;
 
-
 	ret = 1;
+	
 	while (ret > 0)
 	{
+		_env = save_env(env);
 		i = 0;
 		write(1, "$ ", 2);
 		ret = get_next_line(0, &line);
 		//if (ret == -1)
 			//error(2, line); // ---------------here we say  No such file or directory
-		lexer_parser_executer(line, i);
+		lexer_parser_executer(line, i, _env);
 		free(line);
 		line = NULL;
 	}

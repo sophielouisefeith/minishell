@@ -6,16 +6,16 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/25 12:48:16 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/25 17:31:22 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <fcntl.h>
 
-static int  lstsize(t_command *command)
+static int		lstsize(t_command *command)
 {
-	int c;
+	int		c;
 
 	c = 0;
 	while (command)
@@ -46,7 +46,7 @@ static int      fill_fdout(t_output *output, int tmpout)
     return (fdout);
 }
 
-void            execute(t_command **command)
+void            execute(t_command **command, t_env *_env)
 {
         int     tmpin;
         int     tmpout;
@@ -56,9 +56,6 @@ void            execute(t_command **command)
         int     i;
         int     len_list;
         int     fdpipe[2];
-
-		t_env *env;														//new
-    	env = save_env();
 		
         len_list = lstsize(*command);
         tmpin = dup(0);
@@ -91,7 +88,7 @@ void            execute(t_command **command)
                 	printf("ERROR IN FORK");
            		if (ret == 0)
             	{
-                	execute_command(command, env);
+                	execute_command(command, &_env);
                 	printf("Komt nooit hier toch?\n");
             	}
             	if (ret != 0)
@@ -99,7 +96,7 @@ void            execute(t_command **command)
                 	wait(NULL);
 				}
 			}
-			execute_builtin(command, env);
+			execute_builtin(command, &_env);
            	*command = (*command)->next_command;
             i++;
         }
