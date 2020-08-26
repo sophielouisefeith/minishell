@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:15 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/26 15:09:55 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/26 15:25:06 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void			execute_builtin(t_command **command, t_env **_env)
 
     // if ((*command)->builtin == builtin_export)
     //     execute_export(&env);
-	// if ((*command)->builtin == builtin_unset)
-	// 	execute_unset(env);
+	if ((*command)->builtin == builtin_unset)
+	 	execute_unset(*command, _env);
     // if ((*command)->builtin == builtin_exit)
     //     execute_exit();
 }
