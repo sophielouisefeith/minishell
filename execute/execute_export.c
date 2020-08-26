@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/25 18:55:23 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/26 15:03:59 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,25 @@ static int          check_present_in_env(char **array, t_env *env)
 
     while (list)
     {		
-        if (!ft_strcmp(array[0], list->name))
+        if (!ft_strcmp(array[0], list->name)) //dit betekend dat de naam gelijk is
 		{
-			if (!ft_strcmp(array[1], list->value))
+			if (!ft_strcmp(array[1], list->value)) // dit betekend dat de value gelijk is
 			{
 				printf("je  bent helemaal gelijk\n");
 				return(0);
 			}
 			else
 			{
-				list->value = array[1];
-				printf("nieuwe value[%s]\n", list->value);
-				return(1);
+				list->value = array[1];  // dit betekend dat de value aangepast moet worden 
+				printf("-------------------nieuwe value[%s]\n", list->value);
+				return(2);
 			}
 		}
+        if(ft_strcmp(array[0], list->name))  // dit betekend dat de naam ook niet gelijk is dus dat er  //gewoon een node aan toegevoegd moet worden 
+        {
+            return(1);
+            printf("------------------je bent helemaal nieuw[%s]\n", list->name);
+        }
 		list = list->next;
     }
     return (1);									//geen gelijke vind opnnieeuw aanmaken
@@ -171,11 +176,7 @@ int            execute_export(t_env **_env, t_command **command)
     // if (array == '\0')
     //     return (0);
 	print_declare_x_env(*_env);
-	// array = (*command)->array;
-	// printf("array[%s]\n", array[0]);
-	// printf("array[%s]\n", array[1]);
-	// printf("array[%s]\n", array[2]);
-	//printf("array[%s]\n", array[1]);
+
 
 	// ret = check_format(*array);
     // if (ret > 0)
@@ -200,12 +201,13 @@ int            execute_export(t_env **_env, t_command **command)
 		printf("totaal gelijk\n");
        // free(array[0]);
     }
-    // else
-    // {
-	// 	printf("nieuwe value\n");
-    //     tmp = ll_new_node_env(array[0], array[1]); // hier gaat hij nog fout
-	// 	ll_lstadd_back_env(_env, tmp);
-    // }
+    
+    if(exsist == 1)
+    {
+		printf("nieuwe value\n");
+        tmp = ll_new_node_env(array[0], array[1]); // hier gaat hij nog fout
+		ll_lstadd_back_env(_env, tmp);
+    }
     //free_array(array);
     //free(array);
 
