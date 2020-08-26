@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/25 18:55:23 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/26 17:49:31 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,33 +30,44 @@
 */
 
 
-static int          check_present_in_env(char **array, t_env *env)
+static int          check_present_in_env(char **array, t_env **env)
 {
 	
     t_env   *list;
 
-    list = env;
+    list = *env;
 
 
     while (list)
     {		
-        if (!ft_strcmp(array[0], list->name))
+        if (!ft_strcmp(array[0], list->name)) //dit betekend dat de naam gelijk is
 		{
-			if (!ft_strcmp(array[1], list->value))
+            printf("--------------------------de naam is gelijk\n");
+			if (!ft_strcmp(array[1], list->value)) // dit betekend dat de value gelijk is
 			{
-				printf("je  bent helemaal gelijk\n");
+				printf("-----------------------je  bent helemaal gelijk\n");
 				return(0);
 			}
 			else
 			{
-				list->value = array[1];
-				printf("nieuwe value[%s]\n", list->value);
+				list->value = array[1];  // dit betekend dat de value aangepast moet worden 
+				printf("-------------------nieuwe value[%s]\n", list->value);
 				return(1);
 			}
 		}
+        if(ft_strcmp(array[0], list->name))  // dit betekend dat de naam ook niet gelijk is dus dat er  //gewoon een node aan toegevoegd moet worden 
+        {
+            // if(array[0])
+            //     list->name = array[0];
+            // if(array[1])
+            //     list->value = array[1];
+            return(2);
+            printf("------------------je bent helemaal nieuw[%s]\n", list->name);
+        }
 		list = list->next;
     }
-    return (1);									//geen gelijke vind opnnieeuw aanmaken
+    printf("----------------------komt hallo hier?\n");
+    return (0);									//geen gelijke vind opnnieeuw aanmaken
 }
 
 
@@ -84,21 +95,22 @@ static int          check_format(char *str)
     {
         strerror(2);
         printf("not a valid identifier\n");
-        return (1);
+        //return (1);
     }
     i = 1;
     while ((ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_') && str)
         i++;
     if (str[i] == '=')
         return (0);                
-    else if (str[i] == '\0')
-        return (1);                 
+    // else if (str[i] == '\0')
+    //    // return (1);                 
     else
     {
         strerror(error_notavalidentifier);
         printf("not a valid identifier\n");
-        return (2);                 
+        //return (2);                 
     }
+    return(0);
 }
 
 static void	swap(char **s1, char **s2)
@@ -136,22 +148,31 @@ static void alpha_env_list(t_env *alpha_env)
 	}
 }
 
-int             print_declare_x_env(t_env *_env)
+static int             print_declare_x_env(t_env **_env, int  i)
 {
     t_env   *list;
 	t_env   *alpha_env;
 	
-	alpha_env = _env;
+	alpha_env = *_env;
 	alpha_env_list(alpha_env);
    	list = alpha_env;
     while(list)                                         
     {
         write(1, "declare-x ", 10);
         write(1, list->name, ft_strlen(list->name));
+        // if(i == 2)
+        //     write(1, "''",2);
         write(1, "=", 1);
         write(1, list->value, ft_strlen(list->value));
         write(1, "\n", 1);
         list = list->next;
+        if(!list->next && i == 2)
+        {   
+            write(1, "declare-x ", 10);
+            write(1, list->name, ft_strlen(list->name));
+            write(1, "\n", 1);
+            return(0);
+        }
     }
     return (0);
 }
@@ -159,53 +180,54 @@ int             print_declare_x_env(t_env *_env)
 
 int            execute_export(t_env **_env, t_command **command)
 {
-	
-    t_env   *tmp;
+	t_env   *tmp;
+    t_env   *copy_env;
    	char    **array;
     int     ret;
 	int		i;
 	int		exsist;
 
-    //char    str[] = "TEST2=SIEMONS";
-
-    // if (array == '\0')
-    //     return (0);
-	print_declare_x_env(*_env);
-	// array = (*command)->array;
-	// printf("array[%s]\n", array[0]);
-	// printf("array[%s]\n", array[1]);
-	// printf("array[%s]\n", array[2]);
-	//printf("array[%s]\n", array[1]);
-
-	// ret = check_format(*array);
-    // if (ret > 0)
-    //     return (1);
-
+    copy_env = *_env;
+    exsist = 0;
+    if((*command)->array == '\0')
+    {
+        print_declare_x_env(&copy_env, 0);
+        return(0);
+    }
+    if(ft_strrchr((*command)->array[0], 61))
+           printf("wel =\n");
+           
 	i = 0;
 	while ((*command)->array[i])
 	{
-		printf("array[%s]\n", (*command)->array[i]);
+        
 		array = ft_split((*command)->array[i], '=');
-		// ret = check_format(*array);
-    	// if (ret > 0)
-        // 	return (1);
-		printf("array[%s]\n", array[0]);
-		printf("array[%s]\n", array[1]);
+		//ret = check_format(*array);
+		printf("array---name[%s]\n", array[0]);
+		printf("array---value[%s]\n", array[1]);
 		i++;
 	}
-   
-    exsist = check_present_in_env(array, *_env);
+    exsist = check_present_in_env(array, &copy_env);
+    printf("----------exsist[%d]\n", exsist);
 	if(!exsist)
+        print_declare_x_env(_env, 0); //totaal gelijk
+    if(exsist)
     {
-		printf("totaal gelijk\n");
-       // free(array[0]);
+        if(exsist == 1)
+        {
+		    printf("nieuwe value\n");// hier dus alleen de nieuwe value ingezet worden maar dat betekend wel dat de env
+            // en de export opnieuw gevuld moeten worden
+            print_declare_x_env(_env, 0);
+           
+        }
+        if(exsist == 2) // hier moet hij dus in de env toegevoegd worden en in export wel in alphabethvolgorde
+        {
+            printf("je word nieuw toegevoegd\n");
+            tmp = ll_new_node_env(array[0], array[1]); // hier gaat hij nog fout
+		    ll_lstadd_back_env(_env, tmp);
+            print_declare_x_env(_env, 2);
+        }
     }
-    // else
-    // {
-	// 	printf("nieuwe value\n");
-    //     tmp = ll_new_node_env(array[0], array[1]); // hier gaat hij nog fout
-	// 	ll_lstadd_back_env(_env, tmp);
-    // }
     //free_array(array);
     //free(array);
 
