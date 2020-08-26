@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/25 18:48:35 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/26 15:09:48 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 		if (sort)
 			sort = sort->next_sort;
 	}
-	 tester(sort, command);
+	//  tester(sort, command);
 	
 	//FREE LEXER
 	free_list_lexer(&sort_copy);
@@ -71,10 +71,9 @@ int					main(int argc, char **argv, char **env)
 	int 		i;
 
 	ret = 1;
-	
+	_env = save_env(env);	
 	while (ret > 0)
 	{
-		_env = save_env(env);
 		i = 0;
 		write(1, "$ ", 2);
 		ret = get_next_line(0, &line);
