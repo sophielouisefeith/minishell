@@ -6,11 +6,16 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 16:22:20 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/25 16:26:20 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/26 18:14:45 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+/*
+** TO DO:
+	- Als export klaar is deze ook toevoegen!
+*/
 
 /*
 ** Function receives current node and has to delete the next node.
@@ -23,53 +28,76 @@
 **     ------------     ------------------------
 */
 
-void	ll_remove_next_node(t_env *list)
+static void		ll_remove_next_node(t_env *list)
 {
-    t_env *tmp;
-    
+	t_env *tmp;
+
 	if (!list)
 		return ;
-    tmp = list->next;
-    list->next = list->next->next;
-    free (tmp->name);
-    free (tmp->value);
-    free (tmp);
-    tmp = NULL;
+	tmp = list->next;
+	list->next = list->next->next;
+	free (tmp->name);
+	free (tmp->value);
+	free (tmp);
+	tmp = NULL;
+}
+
+static int		compare_first_node(t_env **_env, char *array_str)
+{
+	t_env   *tmp;
+
+	tmp = *_env;
+	if (!ft_strcmp((*_env)->name, array_str))
+	{
+		(*_env) = (*_env)->next;
+		free (tmp);
+		free (tmp->name);
+		free (tmp->value);
+		return (1);
+	}
+	return (0);
+}
+
+static int		compare_after_first_node(t_env **_env, char *array_str)
+{
+	t_env	*tmp;
+
+	tmp = *_env;
+	while (tmp->next)
+	{
+		if (!ft_strcmp(tmp->next->name, array_str))
+		{
+			ll_remove_next_node(tmp);
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
 }
 
 /*
-** 1. Check if unset has any arguments, if not return
-** 2. Check if argument == head->name
-** 3. Check if argument == the following nodes
-** TO DO: 
-** - Er kunnen meerdere variabelen tegelijk worden geunset.
-** Dus straks in een while loop de array argumenten aanleveren.
+** Part1: Check if there is a match in the first node of env.
+** 		If so, set env to the next node and free first node.
+** Part2: If there is no match in the first node, check the following nodes.
+**		Evertime check if the next node, not the current, is a match. Because
+** 		the current node has to be relinked if the next will be deleted
+**		(singly linked list).
 */
 
-void        execute_unset(t_env **_env)
+void			execute_unset(t_command *command, t_env **_env)
 {
-    t_env *list;
-    char unset[] = "_";
+	int		first_node;
+	int		y;
 
-    list = *_env;
-    if (unset[0] == '\0')
-        return ;
-    if (!ft_strcmp(list->name, unset))
-    {
-        (*_env) = (*_env)->next;
-        free (list->name);
-        free (list->value);
-        free (list);
-        list = NULL;
-        return ;
-    }
-    while (list->next)
-    {
-        if (!ft_strcmp(list->next->name, unset))
-        {
-            ll_remove_next_node(list);
-            return ;
-        }
-        list = list->next;
-    }
+	y = 0;
+    if (!command->array)
+		return ;
+	while (command->array[y])
+	{
+		first_node = 0;
+		first_node = compare_first_node(_env, command->array[y]);
+		if (!first_node)
+			compare_after_first_node(_env, command->array[y]);
+		y++;
+	}
 }
