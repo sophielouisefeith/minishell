@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 13:14:37 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/26 14:39:52 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/26 21:40:51 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_env	*ll_new_node_env(char *name, char *value)
 {
 	t_env	*new;
-	printf("-------------name and value[%s],[%s]\n", name, value);
+	//printf("-------------name and value[%s],[%s]\n", name, value);
 	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)
 		return (0);

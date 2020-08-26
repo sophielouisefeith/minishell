@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/26 17:49:31 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/26 21:56:06 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ static int          check_present_in_env(char **array, t_env **env)
     t_env   *list;
 
     list = *env;
-
-
     while (list)
     {		
         if (!ft_strcmp(array[0], list->name)) //dit betekend dat de naam gelijk is
@@ -166,13 +164,13 @@ static int             print_declare_x_env(t_env **_env, int  i)
         write(1, list->value, ft_strlen(list->value));
         write(1, "\n", 1);
         list = list->next;
-        if(!list->next && i == 2)
-        {   
-            write(1, "declare-x ", 10);
-            write(1, list->name, ft_strlen(list->name));
-            write(1, "\n", 1);
-            return(0);
-        }
+        // if(!list->next && i == 2)
+        // {   
+        //     write(1, "declare-x ", 10);
+        //     write(1, list->name, ft_strlen(list->name));
+        //     write(1, "\n", 1);
+        //     return(0);
+        // }
     }
     return (0);
 }
@@ -186,7 +184,9 @@ int            execute_export(t_env **_env, t_command **command)
     int     ret;
 	int		i;
 	int		exsist;
+    int   equel;
 
+    equel = 0;
     copy_env = *_env;
     exsist = 0;
     if((*command)->array == '\0')
@@ -195,12 +195,10 @@ int            execute_export(t_env **_env, t_command **command)
         return(0);
     }
     if(ft_strrchr((*command)->array[0], 61))
-           printf("wel =\n");
-           
+        equel++;   
 	i = 0;
 	while ((*command)->array[i])
 	{
-        
 		array = ft_split((*command)->array[i], '=');
 		//ret = check_format(*array);
 		printf("array---name[%s]\n", array[0]);
@@ -208,40 +206,22 @@ int            execute_export(t_env **_env, t_command **command)
 		i++;
 	}
     exsist = check_present_in_env(array, &copy_env);
-    printf("----------exsist[%d]\n", exsist);
-	if(!exsist)
-        print_declare_x_env(_env, 0); //totaal gelijk
+	// if(!exsist)
+    //     print_declare_x_env(_env, 0);
     if(exsist)
     {
         if(exsist == 1)
-        {
-		    printf("nieuwe value\n");// hier dus alleen de nieuwe value ingezet worden maar dat betekend wel dat de env
-            // en de export opnieuw gevuld moeten worden
-            print_declare_x_env(_env, 0);
-           
-        }
+            print_declare_x_env(_env, 0); //newvalue
         if(exsist == 2) // hier moet hij dus in de env toegevoegd worden en in export wel in alphabethvolgorde
         {
             printf("je word nieuw toegevoegd\n");
-            tmp = ll_new_node_env(array[0], array[1]); // hier gaat hij nog fout
+            if(equel)
+                tmp = ll_new_node_env(array[0], "\"\"");
+            else 
+                tmp = ll_new_node_env(array[0], array[1]); // hier gaat hij nog fout
 		    ll_lstadd_back_env(_env, tmp);
             print_declare_x_env(_env, 2);
         }
     }
-    //free_array(array);
-    //free(array);
-
-// Test in child
-    // int id;
-    // id = fork();
-    // if (id == 0)
-    // {
-    //     printf("--------In child proces--------------\n");
-
-		
-    //     execute_env(env);
-    //     printf("--------End child---------------------\n");
-    // }
-// End tester
     return (0);
 }
