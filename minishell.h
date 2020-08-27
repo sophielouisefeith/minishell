@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/27 12:12:55 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/27 17:24:37 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ typedef struct				s_command {
 	
 	char					**array;
 	int						builtin;
-	
 	struct s_output			*output;    
 	struct s_input			*input;    
 	int						pipe_before;
@@ -170,7 +169,8 @@ void            				execute(t_command **command, t_env **env);
 void             				execute_builtin(t_command **command, t_env **_env);
 void            				execute_command(t_command **command, t_env **_env);  
 
-int								echo(char **array);
+// int								echo(char **array);
+int								echo(t_command *command, t_env *env);
 void							env(char **array);
 char							**env_ll_to_array(t_env *env);
 
@@ -180,5 +180,7 @@ int                 			execute_pwd(t_command *command, t_env *_env);
 int            					execute_export(t_env **_env, t_command **command);
 void        					execute_unset(t_command *command, t_env **_env);
 int      						execute_exit(t_command *command);
+
+char							*parameter_expansion(t_command *command, t_env *env, int y);
 
 #endif

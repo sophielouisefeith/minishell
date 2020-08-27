@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:15 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/27 13:25:31 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/27 15:25:05 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void			execute_command(t_command **command, t_env **_env)
 	ret = 0;
 	if ((*command)->builtin == builtin_echo)
 	{
-		ret = echo((*command)->array);
+		// ret = echo((*command)->array);
+		ret = echo(*command, *_env);
 		if (ret == -1)
 			(*command)->exit_status = 1;				//new
 		exit((*command)->exit_status);
