@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/12 16:34:52 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/20 15:08:49 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/27 21:18:49 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,21 @@ static void         free_output(t_output *output)
     output = NULL; 
 }
 
+void				free_env(t_env *_env)				//new
+{
+	t_env		*tmp;
+
+	while (_env)
+	{
+		tmp = (_env)->next;
+		free(_env->name);
+		free(_env->value);
+		free(_env);
+		_env = tmp; 
+	}
+	_env = NULL; 
+}
+
 /*
 ** TO DO:
     - Beslissen of we de inidividuele arrays binnen **array ook gaan mallocen (net als in split).
@@ -88,6 +103,8 @@ void        free_list_parser(t_command **command)
         tmp = (*command)->next_command;
         if ((*command)->array)
             free_array((*command)->array);
+		if ((*command)->quote)
+			free((*command)->quote);			//new
         if ((*command)->output)
             free_output((*command)->output);
         if ((*command)->input)

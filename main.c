@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/27 14:11:01 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/27 21:19:49 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ int					main(int argc, char **argv, char **env)
 		free(line);
 		line = NULL;
 	}
+	free_env(_env);												//new
 	return (0);
 }

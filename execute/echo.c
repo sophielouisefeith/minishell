@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:30 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/27 17:32:43 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/27 21:43:59 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int		write_echo(t_command *command, t_env *_env, int y)
 	{
 		if (space != 0)
 			ret = write(1, " ", 1);
-		if (command->array[y][0] == '$')			//new
+		if (command->array[y][0] == '$' && command->quote[y] != token_quote)			//new
 			command->array[y] = parameter_expansion(command, _env, y);
 		ret = write(1, command->array[y], ft_strlen(command->array[y]));
 		y++;

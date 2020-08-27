@@ -39,3 +39,11 @@ Absoluut pad:
 
 Relatief pad:
 cd ../Documents/Git_maran
+
+
+
+
+
+** Expansion **
+echo $USER "$USER" '$USER'
+

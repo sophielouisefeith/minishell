@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/27 17:24:37 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/27 21:06:14 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct				s_input{
 typedef struct				s_command {
 	
 	char					**array;
+	int						*quote;						//new
 	int						builtin;
 	struct s_output			*output;    
 	struct s_input			*input;    
@@ -154,6 +155,7 @@ void     						tester_pars(t_lexer *lexer, t_command *command);
 void        					free_list(t_lexer **sort, t_command **command);
 void        					free_list_lexer(t_lexer **sort);
 void							free_list_parser(t_command **command);
+void         					free_env(t_env *_env);
 
 // void      						free_str(char *str);
 // void            				free_complete(int mistake);
