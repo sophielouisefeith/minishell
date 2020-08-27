@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/13 10:17:35 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/14 16:21:37 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/27 12:13:20 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_command		*ll_new_node_command()
 	new->pipe_before = 0;
    	new->pipe_after = 0;
 	new->sem = 0;
+	new->exit_status = 0;						//new
 	new->next_command = NULL;
 	return (new);
 }

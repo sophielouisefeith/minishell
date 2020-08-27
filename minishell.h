@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/27 11:19:53 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/27 12:12:55 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct				s_command {
 	int						pipe_before;
 	int						pipe_after;
 	int						sem;
+	int						exit_status; 				//new
 	struct		s_command 	*next_command;
 }							t_command;
 
@@ -178,6 +179,6 @@ int                 			execute_pwd(t_command *command, t_env *_env);
 
 int            					execute_export(t_env **_env, t_command **command);
 void        					execute_unset(t_command *command, t_env **_env);
-void        					execute_exit(void);
+int      						execute_exit(t_command *command);
 
 #endif
