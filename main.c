@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/27 11:19:10 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/27 14:11:01 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 /*
 ** Spaces before commands or returns are allowed.
 ** Return key: prompt on a new line
+**
+** if (line[i] != '\0') --> checks if line is empty.
+** If not execute, else new prompt.
 */
 
 int					main(int argc, char **argv, char **env)
@@ -85,7 +88,8 @@ int					main(int argc, char **argv, char **env)
 		ret = get_next_line(0, &line);
 		//if (ret == -1)
 			//error(2, line); // ---------------here we say  No such file or directory
-		lexer_parser_executer(line, i, &_env);
+		if (line[i] != '\0')
+			lexer_parser_executer(line, i, &_env);
 		free(line);
 		line = NULL;
 	}
