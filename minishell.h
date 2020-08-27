@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/26 15:25:39 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/27 11:19:53 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include <errno.h>
 #include <string.h>
 
-
 /*
 ** Checken of later verwijderen:
 */
@@ -27,6 +26,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 //#define errno (*error_free())
+
 
 enum	token_type{
 	token_null = 0,
@@ -178,6 +178,6 @@ int                 			execute_pwd(t_command *command, t_env *_env);
 
 int            					execute_export(t_env **_env, t_command **command);
 void        					execute_unset(t_command *command, t_env **_env);
-// void        					execute_exit(void);
+void        					execute_exit(void);
 
 #endif
