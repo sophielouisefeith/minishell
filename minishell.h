@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/27 21:06:14 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/28 12:05:58 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,8 +171,7 @@ void            				execute(t_command **command, t_env **env);
 void             				execute_builtin(t_command **command, t_env **_env);
 void            				execute_command(t_command **command, t_env **_env);  
 
-// int								echo(char **array);
-int								echo(t_command *command, t_env *env);
+int								echo(char **array);
 void							env(char **array);
 char							**env_ll_to_array(t_env *env);
 
@@ -183,6 +182,5 @@ int            					execute_export(t_env **_env, t_command **command);
 void        					execute_unset(t_command *command, t_env **_env);
 int      						execute_exit(t_command *command);
 
-char							*parameter_expansion(t_command *command, t_env *env, int y);
-
+void							parameter_expansion(t_command **command, t_env *_env);
 #endif
