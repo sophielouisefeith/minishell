@@ -6,23 +6,29 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/26 17:12:58 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/27 21:19:49 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+#define COLOR_PROMPT	"\033[1;34mminishell-$ \033[0m"
+
+/*
+** \033				Octal value of ESC (escape sequence)
+** [1				Bold
+** ;				Divider
+** 34				Color code (blue)
+** m				Ending char
+** minishell-$		Text
+** \033				ESC
+** [0m				reset
+*/
+
+
 /*
 ** We loop through sort in parser, we make a copy beforehand.
 ** So when we start free'ing, we start at the first node of sort and not at the end.
-** 
-** Changelog:
-	- Removed k
-	//sort = (char **)malloc(() * sizeof(char *)); // struct mallocen
-	//command = (char **)malloc(() * sizeof(char *)); struct mallocen
-	//changed next to  next_sort
-	//puted tester above the free otherwise segg
-	- added: Copy of sort!
 ** TO DO:
 	- Wss ook nog een copy van command nodig na execute. Later naar kijken.
 */
@@ -61,6 +67,9 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 /*
 ** Spaces before commands or returns are allowed.
 ** Return key: prompt on a new line
+**
+** if (line[i] != '\0') --> checks if line is empty.
+** If not execute, else new prompt.
 */
 
 int					main(int argc, char **argv, char **env)
@@ -75,13 +84,15 @@ int					main(int argc, char **argv, char **env)
 	while (ret > 0)
 	{
 		i = 0;
-		write(1, "$ ", 2);
+		write(1, COLOR_PROMPT, 24);
 		ret = get_next_line(0, &line);
 		//if (ret == -1)
 			//error(2, line); // ---------------here we say  No such file or directory
-		lexer_parser_executer(line, i, &_env);
+		if (line[i] != '\0')
+			lexer_parser_executer(line, i, &_env);
 		free(line);
 		line = NULL;
 	}
+	free_env(_env);												//new
 	return (0);
 }

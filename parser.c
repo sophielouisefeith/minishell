@@ -6,22 +6,18 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/17 12:25:39 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/27 21:22:35 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-** Changelog:
-	//changed next to  next_sort
-*/
-
-static void 	close_and_save_array(t_command **tmp, char **array, int y)
+static void 	close_and_save_array(t_command **tmp, char **array, int y, int *quote)
 {
 	if (array != NULL)
 		array[y]= 0;
 	(*tmp)->array = array;
+	(*tmp)->quote = quote;
 }
 
 static int		redirection(t_lexer **sort, t_command **tmp)
@@ -44,17 +40,11 @@ static int		redirection(t_lexer **sort, t_command **tmp)
 
 /*
 ** Changelog:
-	- Toegevoegd:
-	free(newstr);
-	newstr = NULL;
-	- Removed:
-	free(newstr);
-	newstr = NULL;
 	- Changed:
 	array[*y] = (*sort)->str;
 */
 
-static int		general(t_lexer **sort, char **array, int *y)
+static int		general(t_lexer **sort, char **array, int *y, int *quote)
 {
     char		*newstr;
 
@@ -65,9 +55,10 @@ static int		general(t_lexer **sort, char **array, int *y)
 		{
 			newstr = trunc_quotes((*sort)->str);
 			array[*y] = newstr;
+			quote[*y] = ((*sort)->token[token_quote]) ? token_quote : token_dquote;			//new
 		}
 		else
-			array[*y] = ft_strdup((*sort)->str);				//new
+			array[*y] = ft_strdup((*sort)->str);
 		(*y)++;
 		if ((*sort)->next_sort)
 			*sort = (*sort)->next_sort;
@@ -78,38 +69,42 @@ static int		general(t_lexer **sort, char **array, int *y)
 }
 
 /*
-** Changelog:
-	- toegevoegd:
-	if (num_nodes > 0)
+** TO DO:
+	- Door het moeten toevoegen van quote wordt de functie te groot. Is dit de beste plek?
 */
 
 static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp)
 {
 	char 		**array;
+	int 		*quote;
 	int 		num_nodes;
 	int			ret;
     int 		y;
 
 	array = NULL;
+	quote = NULL;
 	num_nodes = 0;
 	y = 0;
 	num_nodes = count_node(*sort);
 	if (num_nodes > 0)
+	{
 		array = (char **)malloc((num_nodes + 1) * sizeof(char *));
-	// if (array == NULL)
-	// 	error_free(12);
+		// if (array == NULL)
+		// 	error_free(12);
+		quote = allocate_memory_int_string(num_nodes);							//new
+	}
 	(*tmp)->builtin = check_builtin_node(sort);
 	while (*sort && ((*sort)->token[token_general]
 				|| (*sort)->token[token_redirection]))
 	{
 		ret = redirection(sort, tmp);
 		if (ret == 1)
-			return (close_and_save_array(tmp, array, y));
-		ret = general(sort, array, &y);
+			return (close_and_save_array(tmp, array, y, quote));
+		ret = general(sort, array, &y, quote);
 		if (ret == 1)
-			return (close_and_save_array(tmp, array, y));
+			return (close_and_save_array(tmp, array, y, quote));
 	}
-	return (close_and_save_array(tmp, array, y));
+	return (close_and_save_array(tmp, array, y, quote));
 }
 
 /*

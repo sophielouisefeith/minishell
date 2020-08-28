@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/25 18:50:48 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/27 22:35:37 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void            execute(t_command **command, t_env **_env)
         i = 0;
         while (i < len_list)
         {
+			parameter_expansion(command, *_env);
             dup2(fdin, 0);
             close(fdin);
             if (i == len_list - 1)

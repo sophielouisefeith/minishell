@@ -6,42 +6,49 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:30 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/25 12:57:14 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/08/28 12:01:32 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "../minishell.h"
 
-static void			write_echo(char **array, int y)
+static int		write_echo(char **array, int y)
 {
 	int		space;
+	int 	ret;
 
+	ret = 0;
 	space = 0;
 	while (array[y])
 	{
 		if (space != 0)
-			write(1, " ", 1);
-		write(1, array[y], ft_strlen(array[y]));
+			ret = write(1, " ", 1);
+		ret = write(1, array[y], ft_strlen(array[y]));
 		y++;
-		space++;
+		space++;		
 	}
+	return (ret);
 }
 
-int					echo(char **array)
+int				echo(char **array)
 {
 	int		flag_n;
 	int		y;
+	int		ret;
 
+	ret = 0;
 	flag_n = 0;
 	y = 0;
+	if (!array)							//new
+			write(1, "\n", 1);
 	if (!ft_strcmp(array[0], "-n"))
 	{
 		flag_n = 1;
 		y++;
 	}
-	write_echo(array, y);
+	ret = write_echo(array, y);
 	if (!flag_n)
-		write(1, "\n", 1);
-	return (0);
+		ret = write(1, "\n", 1);
+	return (ret);
 }

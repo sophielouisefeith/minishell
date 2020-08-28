@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/26 15:25:39 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/28 12:05:58 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include <errno.h>
 #include <string.h>
 
-
 /*
 ** Checken of later verwijderen:
 */
@@ -27,6 +26,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 //#define errno (*error_free())
+
 
 enum	token_type{
 	token_null = 0,
@@ -87,13 +87,14 @@ typedef struct				s_input{
 typedef struct				s_command {
 	
 	char					**array;
+	int						*quote;						//new
 	int						builtin;
-	
 	struct s_output			*output;    
 	struct s_input			*input;    
 	int						pipe_before;
 	int						pipe_after;
 	int						sem;
+	int						exit_status; 				//new
 	struct		s_command 	*next_command;
 }							t_command;
 
@@ -154,6 +155,7 @@ void     						tester_pars(t_lexer *lexer, t_command *command);
 void        					free_list(t_lexer **sort, t_command **command);
 void        					free_list_lexer(t_lexer **sort);
 void							free_list_parser(t_command **command);
+void         					free_env(t_env *_env);
 
 // void      						free_str(char *str);
 // void            				free_complete(int mistake);
@@ -178,6 +180,7 @@ int                 			execute_pwd(t_command *command, t_env *_env);
 
 int            					execute_export(t_env **_env, t_command **command);
 void        					execute_unset(t_command *command, t_env **_env);
-// void        					execute_exit(void);
+int      						execute_exit(t_command *command);
 
+void							parameter_expansion(t_command **command, t_env *_env);
 #endif

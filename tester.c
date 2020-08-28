@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/13 10:46:14 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/17 11:11:43 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/27 20:52:36 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ void            tester(t_lexer *sort, t_command *command)
 			while (command->array[n])
 			{
 				printf("node-str[%d] = [%s]\n", n, command->array[n]);
-			n++;
-		}
+				printf("quote[%d] = [%d]\n", n, command->quote[n]);
+				n++;
+			}
 		}
 		printf("--------------------Einde Node------------------------:\n");
 		command = command->next_command;

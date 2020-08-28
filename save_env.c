@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 13:14:37 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/26 21:40:51 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/27 21:19:20 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_env			*save_env(char **env)
         array = ft_split(env[y], '=');
         tmp = ll_new_node_env(array[0], array[1]);
         ll_lstadd_back_env(&save_env, tmp);
+		free(array);									//new!
         array = NULL;
         y++;
     }

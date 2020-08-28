@@ -39,3 +39,21 @@ Absoluut pad:
 
 Relatief pad:
 cd ../Documents/Git_maran
+
+
+
+
+
+** Expansion **
+echo $USER "$USER" '$USER'
+
+
+
+
+** Flauw **:
+1. export TEST=/Users/maran/Desktop/minishell
+2. cd $IETSONBESTAANDS				---> moet naar home Git_maran
+3  cd $IETSONBESTAANDS	.. 			--->ignores eerste en gaat naar niveau hoger
+4. cd $POEP $MEERPOEP ..
+
+Dus als er een $ voorstaat en hij bestaat niet, dan wordt deze gedelete.
