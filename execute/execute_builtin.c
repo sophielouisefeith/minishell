@@ -6,11 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:15 by sfeith        #+#    #+#                 */
-<<<<<<< HEAD
-/*   Updated: 2020/08/31 11:59:27 by msiemons      ########   odam.nl         */
-=======
-/*   Updated: 2020/08/31 12:16:56 by sfeith        ########   odam.nl         */
->>>>>>> 1145665622f998fabb34255af194a1ea23f380fd
+/*   Updated: 2020/08/31 13:32:28 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +56,6 @@ void			execute_command(t_command **command, t_env **_env)
 
 void			execute_builtin(t_command **command, t_env **_env)
 {
-	
-
     if ((*command)->builtin == builtin_cd)
         execute_cd(*command, _env);
     if ((*command)->builtin == builtin_pwd)
@@ -77,8 +71,7 @@ void			execute_builtin(t_command **command, t_env **_env)
         execute_exit(*command);
 	if ((*command)->builtin == builtin_export)
 	{
-		 printf("-------------------execute_builtin[%s]\n", (*_env)->name);
-		 execute_export(_env, command);
+		//  execute_export(_env, command);
 		// exit((*command)->exit_status);
 	}
 }
