@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/31 18:46:16 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/31 21:01:20 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,34 +25,17 @@
 ** 2. Check of al in env zit
 **   zo ja --> verander value
 **   zo nee --> maak nieuw aan
-** 
-** TO DO:
-** Child processes nu ook al gecovered? Uitzoeken.
-** twee commands kwestie van een whileloopi toevoegen
-** error melding als spaties tussen = 
-*/
 
+** TO DO:
+** - Child processes nu ook al gecovered? Uitzoeken.
+** - twee commands kwestie van een whileloopi toevoegen [Check]
+** - error melding als spaties tussen = 
+** - return values
+*/
 
 /*
 ** hij errorrt op unset USER malloc
-
 */
-
-
-void        execute_env(t_env *env)
-{
-    t_env   *list;
-
-    list = env;
-    while (list)                                          //misschien beter om eigen printf te gebruiken?
-    {
-        write(1, list->name, ft_strlen(list->name));
-        write(1, "=", 1);
-        write(1, list->value, ft_strlen(list->value));
-        write(1, "\n", 1);
-        list = list->next;
-    }
-}
 
 static int          check_format(char *str)
 {
@@ -105,7 +88,6 @@ static void alpha_env_list(t_env *alpha_env)
 	int			compare;
 	
 	list1 = alpha_env;
-
 	while(list1 && list1->next)
 	{
 		list2 = list1->next;
@@ -130,6 +112,7 @@ static int             print_declare_x_env(t_env **_env)
 {
     t_env   *list;
 	t_env   *alpha_env;
+
 	alpha_env = *_env;
 	alpha_env_list(alpha_env);
    	list = alpha_env;
@@ -152,67 +135,15 @@ static int             print_declare_x_env(t_env **_env)
     return (0);
 }
 
-
-
 static int        not_present_in_env(char **array, t_env **_env, int equal)
 {
-
 	t_env   *tmp;
+
 	printf("---------------je word nieuw toegevoegd\n");
 	tmp = ll_new_node_env(array[0], array[1], equal);
     ll_lstadd_back_env(_env, tmp);
-	return(0);
+	return (0);
 }
-
-
-
-// static int        check_present_in_env(char **array, t_env **_env, int equal)
-// {
-//     t_env   *list;
-// 	// int		direction;
-	
-//     list = *_env;
-//     while (list)
-//     {		
-//         if (!ft_strcmp(array[0], list->name)) //dit betekend dat de naam gelijk is
-// 		{
-//            	printf("--------------------------de naam is gelijk\n");
-// 			printf("array[1][%s]\n", array[1]);
-// 			if(!array[1])
-// 			{
-// 				if(equal)
-// 				{
-// 					list->equal = 1;
-// 					list->value = "";
-// 				}
-// 				return(0);
-// 			}
-// 			if (!ft_strcmp(array[1], list->value)) // dit betekend dat de value gelijk is
-// 			{
-// 				printf("-----------------------je  bent helemaal gelijk\n");
-// 				return(0);
-// 			}
-// 			else
-// 			{
-// 				list->value = array[1];  // dit betekend dat de value aangepast moet worden
-// 				return(0);
-// 			}
-// 		}
-// 		list = list->next;
-// 	}
-// 	not_present_in_env(array, _env, equal);
-// 	return(0); 				
-// }
-
-
-/*
-**
-Als TEST=testje al bestaat:
-export TEST		-> niks, huidige value blijft staan
-export TEST=	-> TEST=""
-export TEST=new	-> TEST="new"
-** KORTERE VARIANT:
-*/
 
 static int        check_present_in_env(char **array, t_env **_env, int equal)
 {
@@ -228,7 +159,7 @@ static int        check_present_in_env(char **array, t_env **_env, int equal)
 					list->equal = 1;
 					if (!array[1])
 						list->value = "";
-					else if (ft_strcmp(array[1], list->value))			//vervang als ongelijke waarde
+					else if (ft_strcmp(array[1], list->value))
 						list->value = array[1];
 			}
 			return (0);
@@ -236,39 +167,35 @@ static int        check_present_in_env(char **array, t_env **_env, int equal)
 		list = list->next;
 	}
 	not_present_in_env(array, _env, equal);
-	return(0); 				
+	return (0); 				
 }
-
 
 int            execute_export(t_env **_env, t_command **command)
 {
    	char    **array;
-	int		i;
 	int		equal;
-	int		check;
+	int		i;
 
 	equal = 0;
-    check = 0;
-    if((*command)->array == '\0')
+	i = 0;
+	if (!(*command)->array)
     {
         print_declare_x_env(_env);
         return (0);
     }
-    if(ft_strrchr((*command)->array[0], 61))
+    if (ft_strrchr((*command)->array[0], '='))
         equal = 1;
-	i = 0;
-	// while ((*command)->array[i] && (*command)->array[i] !='\0')
 	while ((*command)->array[i] && (*command)->array[i] !='\0')
 	{
 		array = ft_split2((*command)->array[i], '=');
 		//ret = check_format(*array);
 		// printf("array---name[%s]\n", array[0]);
 		// printf("array---value[%s]\n", array[1]);
-   		check = check_present_in_env(array, _env, equal);
-		free (array);
+   		check_present_in_env(array, _env, equal);
+		free(array);
 		i++;
 	}
-    return(0);
+    return (0);
 }
 
 

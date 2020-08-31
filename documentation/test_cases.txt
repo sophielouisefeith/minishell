@@ -21,11 +21,9 @@ echo hallo >file1 >file2 >>file3 maran siemons
 
 echo hallo <file1 >file2
 
-
-
-
-
-** cd **
+***************************
+** 			cd 			**
+***************************
 
 1 niveau omhoog:
 cd ..
@@ -41,16 +39,38 @@ Relatief pad:
 cd ../Documents/Git_maran
 
 
+***************************
+**		export			**
+***************************
+
+export
+export ZZZ
+export ZZZ=
+export ZZZ=new_value
+export ZZZ======new
+export ZZZ=new YYY=new2 XXX===new3
+export $USER
+
+***************************
+**		export & env	**
+***************************
+1. export MARANSIEMONS
+2. env						--> Niet in env zichtbaar
+
+1. export MARANSIEMONS=lief
+2. env						--> Wel in env zichtbaar
 
 
+***************************
+** 		Expansion		 **
+***************************
 
-** Expansion **
 echo $USER "$USER" '$USER'
 
+***************************
+** 		Flauw 			**
+***************************
 
-
-
-** Flauw **:
 1. export TEST=/Users/maran/Desktop/minishell
 2. cd $IETSONBESTAANDS				---> moet naar home Git_maran
 3  cd $IETSONBESTAANDS	.. 			--->ignores eerste en gaat naar niveau hoger
