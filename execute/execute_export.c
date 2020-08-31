@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/28 14:51:42 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/28 16:13:57 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,37 +162,47 @@ static int             print_declare_x_env(t_env **_env, int  i)
 	alpha_env = *_env;
 	alpha_env_list(alpha_env);
    	list = alpha_env;
+  //printf("je gaat nu schrijven\n");
     while(list)                                         
     {
         write(1, "declare-x ", 10);
-        // if(i == 2)
-        // {
-        //      write(1, list->name, ft_strlen(list->name));
-        //      printf("kom je hier\n");
-        //      write(1, "\n", 1);
-        //      list = list->next;
-        //      return(0);
-        // }
         write(1, list->name, ft_strlen(list->name));
-        // if(i == 2)
-        //     write(1, "''",2);
         write(1, "=", 1);
-        // if(i ==3)
+        write(1, "\"", 1);
+        write(1, list->value, ft_strlen(list->value));
+        write(1, "\"", 1);
+        write(1, "\n", 1);
+        // if(!list->next  && i ==3)
         // {
         //     printf(" haakjes\n");
         //     write(1, "\"\"", 4);
+        //     //return(0);
         // }
-        write(1, list->value, ft_strlen(list->value));
-        write(1, "\n", 1);
+        
         list = list->next;
-        // if(!list->next && i == 2)
-        // {   
-        //     write(1, "declare-x ", 10);
-        //     write(1, list->name, ft_strlen(list->name));
-        //     write(1, "\n", 1);
-        //     return(0);
-        // }
-        //write(1, "\n", 1);
+        if(!list->next && i == 2)
+        {   
+            printf("je komt in 2\n");
+            write(1, "declare-x ", 10);
+            write(1, list->name, ft_strlen(list->name));
+           // write(1, "=", 1);
+           // write(1, "''",2);
+            write(1, "\n", 1);
+            return(0);
+        }
+        if(!list->next && i == 3)
+        {   
+            printf("je komt in 3\n");
+            write(1, "declare-x ", 10);
+            write(1, list->name, ft_strlen(list->name));
+           // write(1, "=", 1);
+           write(1, "\"",1);
+            write(1, "\"", 1);
+            write(1, "\n", 1);
+            return(0);
+        }
+        //list = list->next;
+       // write(1, "\n", 1);
     }
     return (0);
 }
@@ -230,8 +240,8 @@ int            execute_export(t_env **_env, t_command **command)
 		i++;
 	}
     exsist = check_present_in_env(array, &copy_env);
-	// if(!exsist)
-    //     print_declare_x_env(_env, 0);
+	if(!exsist)
+        print_declare_x_env(_env, 0);
     if(exsist)
     {
         if(exsist == 1)
@@ -246,7 +256,7 @@ int            execute_export(t_env **_env, t_command **command)
                 {
                     //printf("new-----value & name");
                      printf("---------------------------------------------array[1] word ook toegevoegd met haakjes\n");
-                    *array[1] = ft_strlcat(array[1], "\"", 100); // dubbele haakjes om de array
+                   // *array[1] = ft_strlcat(array[1], "\"", 100); // dubbele haakjes om de array
                     printf("----------------------------------------------value[%s]\n", array[1]);
                     //ft_strlcat(array[0], c_equel, ft_strlen(array[0] +2)); // dubbele haakjes om de array
                     tmp = ll_new_node_env(array[0], array[1]);
@@ -255,21 +265,21 @@ int            execute_export(t_env **_env, t_command **command)
                 }
                 else // er zit niks achter de equel
                 {
-                    tmp = ll_new_node_env(array[0], 0);
+                    printf("--------------------------------------------toegevoegd niks achter\n");
+                    tmp = ll_new_node_env(array[0], array[1]);
                     ll_lstadd_back_env(_env, tmp);
-                    print_declare_x_env(_env, 2);
+                    print_declare_x_env(_env, 4);
+                    return(0);
                 }
             }
-            // else 
-            // {
-            //     printf("toegevoegd\n");
-            //     tmp = ll_new_node_env(array[0], array[1]); // hier gaat hij nog fout
-            //     ll_lstadd_back_env(_env, tmp);
-            //     print_declare_x_env(_env, 2);
-                //return(0);
-                
-           // }
-            print_declare_x_env(_env, 0);
+            else 
+            {
+                printf("toegevoegd\n");
+                tmp = ll_new_node_env(array[0], array[1]); // hier gaat hij nog fout
+                ll_lstadd_back_env(_env, tmp);
+                print_declare_x_env(_env, 2);
+                return(0); 
+           }
 		   
         }
     }
