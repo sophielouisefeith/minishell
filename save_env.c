@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 13:14:37 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/31 15:01:53 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/31 15:11:06 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_env	*ll_new_node_env(char *name, char *value, int equal)
 	new->name = name;
 	new->equal = equal;
 	new->value = value;
+	new->equal = equal;
 	new->next = NULL;
 	return (new);
 }

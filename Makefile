@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/08/27 15:44:04 by maran         ########   odam.nl          #
+#    Updated: 2020/08/31 12:21:18 by msiemons      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,10 +31,9 @@ SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		execute/env_ll_to_array.c\
 		execute/env.c\
 		execute/execute_unset.c\
-		execute/execute_export.c\
 		execute/execute_exit.c\
-		execute/parameter_expansion.c
-
+		execute/parameter_expansion.c\
+		execute/execute_export.c\
 		# free.c error.c
 
 OBJ = $(SRC:.c=.o)

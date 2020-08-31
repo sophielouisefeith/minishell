@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/27 21:19:49 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/31 15:09:35 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,16 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 ** If not execute, else new prompt.
 */
 
+
+// static void 		sighandler(int signum)
+// {
+//    printf("Caught signal %d, coming out...\n", signum);
+// 	if (signum == SIGINT)					///ctrl c
+// 		exit(1);
+// 	if (signum == SIGQUIT)					// ctrl \ //
+// 		exit(1);
+// }
+
 int					main(int argc, char **argv, char **env)
 {
 	t_env		*_env;	
@@ -80,7 +90,17 @@ int					main(int argc, char **argv, char **env)
 	int 		i;
 
 	ret = 1;
-	_env = save_env(env);	
+	_env = save_env(env);
+
+	///
+ 	// signal(SIGINT, sighandler);
+	// while(1)
+	// {
+	// 	printf("Going to sleep for a second...\n");
+	// 	sleep(1); 
+	// }
+	///
+
 	while (ret > 0)
 	{
 		i = 0;

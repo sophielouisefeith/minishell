@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/31 15:00:49 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/31 15:11:01 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,8 @@ void             				execute_builtin(t_command **command, t_env **_env);
 void            				execute_command(t_command **command, t_env **_env);  
 
 int								echo(char **array);
-void							env(char **array);
+// void							env(char **array);
+void							env(t_env *_env);
 char							**env_ll_to_array(t_env *env);
 
 void             				execute_cd(t_command *command, t_env **_env);
