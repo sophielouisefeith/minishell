@@ -6,7 +6,11 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:15 by sfeith        #+#    #+#                 */
+<<<<<<< HEAD
 /*   Updated: 2020/08/31 11:59:27 by msiemons      ########   odam.nl         */
+=======
+/*   Updated: 2020/08/31 12:16:56 by sfeith        ########   odam.nl         */
+>>>>>>> 1145665622f998fabb34255af194a1ea23f380fd
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +75,10 @@ void			execute_builtin(t_command **command, t_env **_env)
 	 	execute_unset(*command, _env);
     if ((*command)->builtin == builtin_exit)
         execute_exit(*command);
+	if ((*command)->builtin == builtin_export)
+	{
+		 printf("-------------------execute_builtin[%s]\n", (*_env)->name);
+		 execute_export(_env, command);
+		// exit((*command)->exit_status);
+	}
 }

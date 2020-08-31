@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/28 16:13:57 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/08/31 12:15:35 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@
 
 */
 
-static int          check_present_in_env(char **array, t_env **env)
+static int          check_present_in_env(char **array, t_env **_env)
 {
-	
+	printf("kom je hier\n");
+	// printf("-------------------name[%s]\n", list->name);
     t_env   *list;
 
-    list = *env;
+    list = *_env;
+	printf("-------------------name[%s]\n", list->name);
     while (list)
     {		
         if (!ft_strcmp(array[0], list->name)) //dit betekend dat de naam gelijk is
@@ -62,6 +64,7 @@ static int          check_present_in_env(char **array, t_env **env)
 		}
         if(ft_strcmp(array[0], list->name))  // dit betekend dat de naam ook niet gelijk is dus dat er  //gewoon een node aan toegevoegd moet worden 
         {
+			printf("-----------------------helemaal nieuw toegevoegd\n");
             // if(array[0])
             //     list->name = array[0];
             // if(array[1])
@@ -72,7 +75,7 @@ static int          check_present_in_env(char **array, t_env **env)
         }
 		list = list->next;
     }
-    
+    printf("tot het eind\n");
     return (0);									//geen gelijke vind opnnieeuw aanmaken
 }
 
@@ -152,6 +155,7 @@ static void alpha_env_list(t_env *alpha_env)
 		}
 		list1 = list1->next;
 	}
+	write(1, "\n", 1);
 }
 
 static int             print_declare_x_env(t_env **_env, int  i)
@@ -162,7 +166,7 @@ static int             print_declare_x_env(t_env **_env, int  i)
 	alpha_env = *_env;
 	alpha_env_list(alpha_env);
    	list = alpha_env;
-  //printf("je gaat nu schrijven\n");
+  	printf("je gaat nu schrijven\n");
     while(list)                                         
     {
         write(1, "declare-x ", 10);
@@ -171,7 +175,7 @@ static int             print_declare_x_env(t_env **_env, int  i)
         write(1, "\"", 1);
         write(1, list->value, ft_strlen(list->value));
         write(1, "\"", 1);
-        write(1, "\n", 1);
+       	write(1, "\n", 1);
         // if(!list->next  && i ==3)
         // {
         //     printf(" haakjes\n");
@@ -180,6 +184,17 @@ static int             print_declare_x_env(t_env **_env, int  i)
         // }
         
         list = list->next;
+		if(!list->next && i == 4)
+        {   
+            printf("je komt in 4\n");
+            write(1, "declare-x ", 10);
+            write(1, list->name, ft_strlen(list->name));
+           // write(1, "=", 1);
+           	write(1, "\"",1);
+            write(1, "\"", 1);
+            write(1, "\n", 1);
+            return(0);
+        }
         if(!list->next && i == 2)
         {   
             printf("je komt in 2\n");
@@ -195,14 +210,15 @@ static int             print_declare_x_env(t_env **_env, int  i)
             printf("je komt in 3\n");
             write(1, "declare-x ", 10);
             write(1, list->name, ft_strlen(list->name));
-           // write(1, "=", 1);
+           write(1, "=", 1);
            write(1, "\"",1);
+		   write(1, list->value, ft_strlen(list->value));
             write(1, "\"", 1);
-            write(1, "\n", 1);
+			write(1, "\n", 1);
             return(0);
         }
         //list = list->next;
-       // write(1, "\n", 1);
+       //	write(1, "\n", 1);
     }
     return (0);
 }
@@ -211,7 +227,7 @@ static int             print_declare_x_env(t_env **_env, int  i)
 int            execute_export(t_env **_env, t_command **command)
 {
 	t_env   *tmp;
-    t_env   *copy_env;
+   t_env   *copy_env;
    	char    **array;
     int     ret;
 	int		i;
@@ -223,6 +239,7 @@ int            execute_export(t_env **_env, t_command **command)
     equel = 0;
     copy_env = *_env;
     exsist = 0;
+	printf("-------------------name_start[%s]\n", (*_env)->name);
     if((*command)->array == '\0')
     {
         print_declare_x_env(&copy_env, 0);  //trial met copy
@@ -239,13 +256,14 @@ int            execute_export(t_env **_env, t_command **command)
 		printf("array---value[%s]\n", array[1]);
 		i++;
 	}
-    exsist = check_present_in_env(array, &copy_env);
+	printf("-------------------name_before[%s]\n", (*_env)->name);
+    exsist = check_present_in_env(array, _env);
 	if(!exsist)
         print_declare_x_env(_env, 0);
     if(exsist)
     {
-        if(exsist == 1)
-            print_declare_x_env(_env, 0); //newvalue
+        if(exsist == 1 && equel)
+            print_declare_x_env(_env, 1); //newvalue
         if(exsist == 2) // hier moet hij dus in de env toegevoegd worden en in export wel in alphabethvolgorde
         {
             printf("---------------je word nieuw toegevoegd\n");

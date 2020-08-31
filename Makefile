@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/08/31 11:59:41 by msiemons      ########   odam.nl          #
+#    Updated: 2020/08/31 12:04:32 by msiemons      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		execute/execute_unset.c\
 		execute/execute_exit.c\
 		execute/parameter_expansion.c
-		#execute/execute_export.c\
+		execute/execute_export.c\
 
 		# free.c error.c
 
