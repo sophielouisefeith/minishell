@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/27 22:35:37 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/31 12:17:34 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void            execute(t_command **command, t_env **_env)
                 fdout = dup(tmpout);
             dup2(fdout,1);
             close(fdout);
-			if ((*command)->builtin == builtin_echo || (*command)->builtin == builtin_env ||  (*command)->builtin == builtin_export)
+			if ((*command)->builtin == builtin_echo || (*command)->builtin == builtin_env)
 			{
             	ret = fork();
             	if (ret == -1)
@@ -97,6 +97,7 @@ void            execute(t_command **command, t_env **_env)
                 	wait(NULL);
 				}
 			}
+			printf("-------------------execute[%s]\n", (*_env)->name);
 			execute_builtin(command, _env);
            	*command = (*command)->next_command;
             i++;

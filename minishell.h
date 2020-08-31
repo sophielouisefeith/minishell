@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/28 12:05:58 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/31 11:39:38 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct				s_command {
 typedef struct				s_env{
 	char 					*name;
 	char					*value;
+	int						equal;
 	struct		s_env   	*next;
 }							t_env;
 
