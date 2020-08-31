@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/31 15:11:01 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/31 17:50:34 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,8 @@ void             				execute_cd(t_command *command, t_env **_env);
 int                 			execute_pwd(t_command *command, t_env *_env);
 
 int            					execute_export(t_env **_env, t_command **command);
+char							**ft_split2(char const *s, char c);
+
 void        					execute_unset(t_command *command, t_env **_env);
 int      						execute_exit(t_command *command);
 

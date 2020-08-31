@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/31 16:28:13 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/31 18:46:16 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,43 +166,79 @@ static int        not_present_in_env(char **array, t_env **_env, int equal)
 
 
 
+// static int        check_present_in_env(char **array, t_env **_env, int equal)
+// {
+//     t_env   *list;
+// 	// int		direction;
+	
+//     list = *_env;
+//     while (list)
+//     {		
+//         if (!ft_strcmp(array[0], list->name)) //dit betekend dat de naam gelijk is
+// 		{
+//            	printf("--------------------------de naam is gelijk\n");
+// 			printf("array[1][%s]\n", array[1]);
+// 			if(!array[1])
+// 			{
+// 				if(equal)
+// 				{
+// 					list->equal = 1;
+// 					list->value = "";
+// 				}
+// 				return(0);
+// 			}
+// 			if (!ft_strcmp(array[1], list->value)) // dit betekend dat de value gelijk is
+// 			{
+// 				printf("-----------------------je  bent helemaal gelijk\n");
+// 				return(0);
+// 			}
+// 			else
+// 			{
+// 				list->value = array[1];  // dit betekend dat de value aangepast moet worden
+// 				return(0);
+// 			}
+// 		}
+// 		list = list->next;
+// 	}
+// 	not_present_in_env(array, _env, equal);
+// 	return(0); 				
+// }
+
+
+/*
+**
+Als TEST=testje al bestaat:
+export TEST		-> niks, huidige value blijft staan
+export TEST=	-> TEST=""
+export TEST=new	-> TEST="new"
+** KORTERE VARIANT:
+*/
+
 static int        check_present_in_env(char **array, t_env **_env, int equal)
 {
     t_env   *list;
-	// int		direction;
 	
     list = *_env;
     while (list)
     {		
-        if (!ft_strcmp(array[0], list->name)) //dit betekend dat de naam gelijk is
+        if (!ft_strcmp(array[0], list->name)) 			//dit betekend dat de naam gelijk is
 		{
-           	printf("--------------------------de naam is gelijk\n");
-			printf("array[1][%s]\n", array[1]);
-			if(!array[1])
+			if (equal)
 			{
-				if(equal)
-				{
 					list->equal = 1;
-					list->value = "";
-				}
-				return(0);
+					if (!array[1])
+						list->value = "";
+					else if (ft_strcmp(array[1], list->value))			//vervang als ongelijke waarde
+						list->value = array[1];
 			}
-			if (!ft_strcmp(array[1], list->value)) // dit betekend dat de value gelijk is
-			{
-				printf("-----------------------je  bent helemaal gelijk\n");
-				return(0);
-			}
-			else
-			{
-				list->value = array[1];  // dit betekend dat de value aangepast moet worden
-				return(0);
-			}
+			return (0);
 		}
 		list = list->next;
 	}
 	not_present_in_env(array, _env, equal);
 	return(0); 				
 }
+
 
 int            execute_export(t_env **_env, t_command **command)
 {
@@ -215,22 +251,23 @@ int            execute_export(t_env **_env, t_command **command)
     check = 0;
     if((*command)->array == '\0')
     {
-		printf("GEEN ARGUMENTEN\n");
         print_declare_x_env(_env);
         return (0);
     }
     if(ft_strrchr((*command)->array[0], 61))
         equal = 1;
 	i = 0;
+	// while ((*command)->array[i] && (*command)->array[i] !='\0')
 	while ((*command)->array[i] && (*command)->array[i] !='\0')
 	{
-		array = ft_split((*command)->array[i], '=');
+		array = ft_split2((*command)->array[i], '=');
 		//ret = check_format(*array);
-		printf("array---name[%s]\n", array[0]);
-		printf("array---value[%s]\n", array[1]);
+		// printf("array---name[%s]\n", array[0]);
+		// printf("array---value[%s]\n", array[1]);
+   		check = check_present_in_env(array, _env, equal);
+		free (array);
 		i++;
 	}
-   	check = check_present_in_env(array, _env, equal);
     return(0);
 }
 
