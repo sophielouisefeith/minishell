@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:15 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/31 15:11:34 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/31 16:03:22 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void			execute_builtin(t_command **command, t_env **_env)
         execute_exit(*command);
 	if ((*command)->builtin == builtin_export)
 	{
-		//  execute_export(_env, command);
+		execute_export(_env, command);
 		// exit((*command)->exit_status);
 	}
 }

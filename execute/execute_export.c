@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/31 15:10:55 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/31 16:28:13 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,16 @@ static void	swap(char **s1, char **s2)
 
 	tmp = *s2;
 	*s2 = *s1;
-	*s1 = tmp;
+	*s1 = tmp;	
+}
+
+static void	swap_int(int *s1, int *s2)
+{
+	int tmp;
+
+	tmp = *s2;
+	*s2 = *s1;
+	*s1 = tmp;	
 }
 
 static void alpha_env_list(t_env *alpha_env)
@@ -108,6 +117,7 @@ static void alpha_env_list(t_env *alpha_env)
 			{
 				swap(&list1->name, &list2->name);
 				swap(&list1->value, &list2->value);
+				swap_int(&list1->equal, &list2->equal);
 			}
 			list2 = list2->next;
 		}
@@ -124,24 +134,21 @@ static int             print_declare_x_env(t_env **_env)
 	alpha_env_list(alpha_env);
    	list = alpha_env;
 	printf("kom je hier\n");
-    while(list)                                         
+    while (list)                                         
     {
-		//printf("loop\n");
         write(1, "declare-x ", 10);
         write(1, list->name, ft_strlen(list->name));
-		if(list->equal)
+		if (list->equal)
 		{
-			
         	write(1, "=", 1);
         	write(1, "\"", 1);
+       		if(list->value)
+				write(1, list->value, ft_strlen(list->value));
+			write(1, "\"", 1);   
 		}
-       	if(list->value)
-			write(1, list->value, ft_strlen(list->value));
-		write(1, "\"", 1);
        	write(1, "\n", 1);
         list = list->next;
     }
-	
     return (0);
 }
 
@@ -162,11 +169,10 @@ static int        not_present_in_env(char **array, t_env **_env, int equal)
 static int        check_present_in_env(char **array, t_env **_env, int equal)
 {
     t_env   *list;
-	int		direction;
+	// int		direction;
 	
-
     list = *_env;
-    while(list)
+    while (list)
     {		
         if (!ft_strcmp(array[0], list->name)) //dit betekend dat de naam gelijk is
 		{
@@ -200,23 +206,21 @@ static int        check_present_in_env(char **array, t_env **_env, int equal)
 
 int            execute_export(t_env **_env, t_command **command)
 {
-	t_env   *tmp;
-   t_env   *copy_env;
    	char    **array;
-    int     ret;
 	int		i;
 	int		equal;
 	int		check;
-   
-    copy_env = *_env;
+
+	equal = 0;
     check = 0;
     if((*command)->array == '\0')
     {
+		printf("GEEN ARGUMENTEN\n");
         print_declare_x_env(_env);
-        return(0);
+        return (0);
     }
-    if(ft_strrchr((*command)->array[0], 61)) 			//USER=maran
-        equal = 1; 
+    if(ft_strrchr((*command)->array[0], 61))
+        equal = 1;
 	i = 0;
 	while ((*command)->array[i] && (*command)->array[i] !='\0')
 	{
