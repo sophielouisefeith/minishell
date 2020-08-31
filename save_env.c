@@ -6,13 +6,13 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 13:14:37 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/27 21:19:20 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/31 11:57:34 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-t_env	*ll_new_node_env(char *name, char *value)
+t_env	*ll_new_node_env(char *name, char *value, int equal)
 {
 	t_env	*new;
 	//printf("-------------name and value[%s],[%s]\n", name, value);
@@ -21,6 +21,7 @@ t_env	*ll_new_node_env(char *name, char *value)
 		return (0);
 	new->name = name;
 	new->value = value;
+	new->equal = equal;
 	new->next = NULL;
 	return (new);
 }
@@ -52,7 +53,7 @@ t_env			*save_env(char **env)
     while (env[y])
     {
         array = ft_split(env[y], '=');
-        tmp = ll_new_node_env(array[0], array[1]);
+        tmp = ll_new_node_env(array[0], array[1], 1);
         ll_lstadd_back_env(&save_env, tmp);
 		free(array);									//new!
         array = NULL;

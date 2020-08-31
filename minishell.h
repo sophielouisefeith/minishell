@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/28 12:05:58 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/31 11:54:34 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,14 @@ typedef struct				s_command {
 typedef struct				s_env{
 	char 					*name;
 	char					*value;
+	int						equal;
 	struct		s_env   	*next;
 }							t_env;
 
 void            				tester(t_lexer *sort, t_command *command);
 
 t_env                 			*save_env(char **env);
-t_env							*ll_new_node_env(char *name, char *value);
+t_env							*ll_new_node_env(char *name, char *value, int equal);
 void							ll_lstadd_back_env(t_env **env, t_env *new);
 
 
@@ -172,7 +173,8 @@ void             				execute_builtin(t_command **command, t_env **_env);
 void            				execute_command(t_command **command, t_env **_env);  
 
 int								echo(char **array);
-void							env(char **array);
+// void							env(char **array);
+void							env(t_env *_env);
 char							**env_ll_to_array(t_env *env);
 
 void             				execute_cd(t_command *command, t_env **_env);

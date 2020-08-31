@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:15 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/27 22:18:24 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/31 11:59:27 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ Simple shell command: echo
 
 void			execute_command(t_command **command, t_env **_env)
 {
-	char	**env_array;
+	// char	**env_array;
 	int 	ret;
 
 	ret = 0;
@@ -43,15 +43,12 @@ void			execute_command(t_command **command, t_env **_env)
 			(*command)->exit_status = 1;				//new
 		exit((*command)->exit_status);
 	}
-	if ((*command)->builtin == builtin_export)
-	{
-		 execute_export(_env, command);
-		 exit((*command)->exit_status);
-	}
 	if ((*command)->builtin == builtin_env)
 	{
-		env_array = env_ll_to_array(*_env);
-		env(env_array);
+		// env_array = env_ll_to_array(*_env);
+		// env(env_array);
+		// exit((*command)->exit_status);
+		env(*_env);
 		exit((*command)->exit_status);
 	}
 	
@@ -65,9 +62,11 @@ void			execute_builtin(t_command **command, t_env **_env)
         execute_cd(*command, _env);
     if ((*command)->builtin == builtin_pwd)
         execute_pwd(*command, *_env);
-
-    // if ((*command)->builtin == builtin_export)
-    //     execute_export(&env);
+	// if ((*command)->builtin == builtin_export)
+	// {
+	// 	 execute_export(_env, command);
+	// 	 exit((*command)->exit_status);
+	// }
 	if ((*command)->builtin == builtin_unset)
 	 	execute_unset(*command, _env);
     if ((*command)->builtin == builtin_exit)

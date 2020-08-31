@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/27 13:31:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/28 12:06:08 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/31 11:58:00 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void		check_old_pwd(t_env **_env, char *old_path)
 		}
 		copy_env = copy_env->next;
 	}
-	tmp = ll_new_node_env("OLDPWD", old_path);
+	tmp = ll_new_node_env("OLDPWD", old_path, 1);
 	if (tmp == NULL)
 		printf("NULL\n");	
 	ll_lstadd_back_env(_env, tmp);
