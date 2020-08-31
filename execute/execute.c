@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/31 12:17:34 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/08/31 12:43:09 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void            execute(t_command **command, t_env **_env)
                 	wait(NULL);
 				}
 			}
-			printf("-------------------execute[%s]\n", (*_env)->name);
+			//printf("-------------------execute[%s]\n", (*_env)->name);
 			execute_builtin(command, _env);
            	*command = (*command)->next_command;
             i++;
