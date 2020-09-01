@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/31 17:50:34 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/01 11:27:47 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "libft/libft.h"
 #include <errno.h>
 #include <string.h>
+#include <signal.h> 
 
 /*
 ** Checken of later verwijderen:

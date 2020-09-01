@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/31 18:34:59 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/01 12:07:32 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 **
 ** if (line[i] != '\0') --> checks if line is empty.
 ** If not execute, else new prompt.
-*/
+*/ 
 
 
 // static void 		sighandler(int signum)
@@ -92,14 +92,14 @@ int					main(int argc, char **argv, char **env)
 	ret = 1;
 	_env = save_env(env);
 
-	///
- 	// signal(SIGINT, sighandler);
+	//
+ 	// signal(SIGINT, SIG_DFL); //sighandler);
 	// while(1)
 	// {
 	// 	printf("Going to sleep for a second...\n");
 	// 	sleep(1); 
 	// }
-	///
+	// //
 
 	while (ret > 0)
 	{
