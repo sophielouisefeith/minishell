@@ -21,6 +21,8 @@ echo hallo >file1 >file2 >>file3 maran siemons
 
 echo hallo <file1 >file2
 
+echo $USER" 
+
 ***************************
 ** 			cd 			**
 ***************************
