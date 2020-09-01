@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/31 16:28:13 by maran         ########   odam.nl         */
+/*   Updated: 2020/08/31 19:46:52 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,26 +57,26 @@ void        execute_env(t_env *env)
 static int          check_format(char *str)
 {
     int i;
-    //printf("in format\n");
+    printf("in format\n");
     if (!ft_isalpha(*str))
     {
         strerror(2);
         printf("not a valid identifier\n");
-        //return (1);
+        return (1);
     }
     i = 1;
     while ((ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_') && str)
         i++;
     if (str[i] == '=')
         return (0);                
-    // else if (str[i] == '\0')
-    //    // return (1);                 
-    else
-    {
-        strerror(error_notavalidentifier);
-        printf("not a valid identifier\n");
-        //return (2);                 
-    }
+    else if (str[i] == '\0')
+       return (1);                 
+    // else
+    // {
+    //     strerror(error_notavalidentifier);
+    //     printf("not a valid identifier\n");
+    //     return (2);                 
+    // }
     return(0);
 }
 
@@ -158,7 +158,6 @@ static int        not_present_in_env(char **array, t_env **_env, int equal)
 {
 
 	t_env   *tmp;
-	printf("---------------je word nieuw toegevoegd\n");
 	tmp = ll_new_node_env(array[0], array[1], equal);
     ll_lstadd_back_env(_env, tmp);
 	return(0);
@@ -169,29 +168,33 @@ static int        not_present_in_env(char **array, t_env **_env, int equal)
 static int        check_present_in_env(char **array, t_env **_env, int equal)
 {
     t_env   *list;
-	// int		direction;
+    char    *str;
 	
     list = *_env;
     while (list)
     {		
         if (!ft_strcmp(array[0], list->name)) //dit betekend dat de naam gelijk is
 		{
-           	printf("--------------------------de naam is gelijk\n");
-			printf("array[1][%s]\n", array[1]);
-			if(!array[1])
+			if (!ft_strcmp(array[0], list->name)) 	
 			{
 				if(equal)
 				{
 					list->equal = 1;
 					list->value = "";
+                    if(ft_strcmp(array[1], list->value))			//vervang als ongelijke waarde
+						list->value = array[1];
 				}
 				return(0);
 			}
+            if(array[1])
+            {
+                str = array[1];
+                if(str[0] == '$')
+                    list->value = (*_env)->value;
+            }
+                
 			if (!ft_strcmp(array[1], list->value)) // dit betekend dat de value gelijk is
-			{
-				printf("-----------------------je  bent helemaal gelijk\n");
 				return(0);
-			}
 			else
 			{
 				list->value = array[1];  // dit betekend dat de value aangepast moet worden
@@ -210,6 +213,7 @@ int            execute_export(t_env **_env, t_command **command)
 	int		i;
 	int		equal;
 	int		check;
+    int     ret;
 
 	equal = 0;
     check = 0;
@@ -225,7 +229,7 @@ int            execute_export(t_env **_env, t_command **command)
 	while ((*command)->array[i] && (*command)->array[i] !='\0')
 	{
 		array = ft_split((*command)->array[i], '=');
-		//ret = check_format(*array);
+		check_format(*array);
 		printf("array---name[%s]\n", array[0]);
 		printf("array---value[%s]\n", array[1]);
 		i++;
@@ -233,7 +237,6 @@ int            execute_export(t_env **_env, t_command **command)
    	check = check_present_in_env(array, _env, equal);
     return(0);
 }
-
 
 
 
