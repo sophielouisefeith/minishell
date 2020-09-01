@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/31 21:01:20 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/01 15:11:57 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,38 +209,3 @@ int            execute_export(t_env **_env, t_command **command)
 
 
 
-
-	// 	if(!list->next && i == 4)
-    //     {   
-    //        	printf("je komt in 4\n");
-    //         write(1, "declare-x ", 10);
-    //         write(1, list->name, ft_strlen(list->name));
-    //        	write(1, "\"",1);
-    //         write(1, "\"", 1);
-    //         write(1, "\n", 1);
-	// 		printf("Seg4\n");
-    //         return(0);
-    //     }
-    //     if(!list->next && i == 2)
-    //     {   
-    //        printf("je komt in 2\n");
-    //         write(1, "declare-x ", 10);
-    //         write(1, list->name, ft_strlen(list->name));
-    //     //    write(1, "\"", 1);
-	// 	//    write(1, "\"", 1);
-    //         write(1, "\n", 1);
-    //         return(0);
-    //     }
-    //     if(!list->next && i == 3)
-    //     {   
-    //         //printf("je komt in 3\n");
-    //         write(1, "declare-x ", 10);
-    //         write(1, list->name, ft_strlen(list->name));
-    //        write(1, "=", 1);
-    //        write(1, "\"",1);
-	// 	   write(1, list->value, ft_strlen(list->value));
-    //         write(1, "\"", 1);
-	// 		write(1, "\n", 1);
-    //         return(0);
-    //     }
-	// 	write(1, "\n", 1);

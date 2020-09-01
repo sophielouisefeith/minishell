@@ -53,6 +53,7 @@ export ZZZ======new
 export ZZZ=new YYY=new2 XXX===new3
 export $USER
 export TEST=$USER4857987345
+export 123$USER---
 
 ***************************
 **		export & env	**
