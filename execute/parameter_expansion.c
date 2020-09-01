@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/28 12:05:00 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/01 12:06:13 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,24 +75,44 @@ void			parameter_expansion(t_command **command, t_env *_env)
 	char	*new_str;
 	char	*value;
 	int		y;
+	int		i;
+	int		len;
 
 	y = 0;
+	//i = 0;
 	while ((*command)->array && (*command)->array[y])
 	{
-		if ((*command)->array[y][0] == '$' && (*command)->quote[y] != token_quote)
+		i=0;
+		while((*command)->array[y][i])
 		{
-			if (!ft_strcmp("$?", (*command)->array[y]))
-				value = ft_itoa((*command)->exit_status);
-			else
+			if ((*command)->array[y][i] == '$' && (*command)->quote[y] != token_quote)
 			{
-				new_str = ft_strtrim((*command)->array[y], "$");
-				value = search_node(_env, new_str);
+				printf("------------array[%c][%d]\n",(*command)->array[y][i], i);
+				if (!ft_strcmp("$?", (*command)->array[y]))
+				{
+					value = ft_itoa((*command)->exit_status);
+					printf("------------stap1\n");
+				}
+				else
+				{
+					len = ft_strlen((*command)->array[y]) -i;
+					printf("------------len[%d]\n", len);
+					//new_str = ft_strtrim((*command)->array[y], "$");
+					new_str = ft_substr((*command)->array[y], i+1, len);
+					printf("------------newstr[%s]\n", new_str);
+					value = search_node(_env, new_str);
+					printf("------------new value[%s]\n", value);
+				}
+				if (value == NULL)
+					parameter_not_exist(command, &y);
+				else
+					(*command)->array[y] = value;
+				//	printf("------------array[%s]\n",(*command)->array[0]);
+				
 			}
-			if (value == NULL)
-				parameter_not_exist(command, &y);
-			else
-				(*command)->array[y] = value;
+			i++;
 		}
 		y++;
-	}
+	}	
+	
 }
