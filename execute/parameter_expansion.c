@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/01 14:52:38 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/01 18:14:49 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,36 +91,38 @@ Speciale tekens OK
  Wat als nog een $USER
  */
 
-
-
-
 // Wat wel en wat niet?:
 // ! is ook nog iets speciaals // dit hoeft waarschijnlijk niet.
 // hallo$USER&
 // & ook iets speciaals
 // En nog veel meer specials :(
 
+/*
+" not complete
+( ! & gewoon printen
+echo $USER\				--> Merel laat \ weg en print gewoon
+echo $USER_				--> underscore wordt gezien als een alpha
+ascii 96 ook gewoon printen
+echo $USER|				-->doet niks gewoon nieuw prompt
+
+ */
+ 
+/*
+** HADDEN WE NIET OOK MOETEN SPLITTEN OP $ in lexer?					!!!
+*/
 static int			is_special_char(char *str, int i)
 {
-	// printf("in is_special_char\n");
 	while (str[i])
 	{
-		if (str[i] == 33 || (str[i] >= 35 && str[i] <=38) || (str[i] >= 42 && str[i] <= 47) || str[i] == 58 || str[i] == 61 || str[i] == 63 || str[i] == 64 || str[i] == 91 || str[i] == 93 || str[i] == 94 || str[i] == 125 || str[i] == 126)
-			return (i);		//special char found
-		// if (c == 36)
-		// 	return (2);		//another expansion
+		if (ft_isprint(str[i]) && !ft_isalnum(str[i]) && str[i] != '_')
+			return (i);
 		i++;
+
 	}
-	return (0); 			//no specials
+	return (0);
 }
 
-/*
-** HADDEN WE NIET OOK MOETEN SPLITTEN OP $?					!!!
-*/
 
-static char			*join_strings(char *new_str1, char *value, char *new_str2)
-{
-	char *joined;
 /*
 	new_str1	value		new_str2
 	0			0			0
@@ -132,9 +134,10 @@ static char			*join_strings(char *new_str1, char *value, char *new_str2)
 	0			1			1
 	0			0			1
  */
- 	printf("[%s]\n", new_str1);
-	printf("[%s]\n", value);
-	printf("[%s]\n", new_str2);
+static char			*join_strings(char *new_str1, char *value, char *new_str2)
+{
+	char *joined;
+
 	if (!new_str1 && !value && !new_str2)
 		return (NULL);
 	if (new_str1 && value && new_str2)
@@ -154,9 +157,15 @@ static char			*join_strings(char *new_str1, char *value, char *new_str2)
 		joined = ft_strjoin(value, new_str2);
 	if (!new_str1 && !value && new_str2)
 		joined = new_str2;
-	return (joined);	
+	// printf("joined = [%s]", joined);
+	return (joined);
 }
 
+//echo $USER	$USER
+//     01234	56789
+
+
+// CHECK OF IETS NA $, zo niet gewoon printem 
 
 static char			*expand(char *str, int i, t_env *_env)
 {
@@ -172,31 +181,71 @@ static char			*expand(char *str, int i, t_env *_env)
 	new_str2 = NULL;
 	len = ft_strlen(str);
 	if (i > 0)
+	{ 
 		new_str1 = ft_substr(str, 0, i);							//Substr alles voor $, mits er iets voor staat
+			
+	}
 	ret = is_special_char(str, (i + 1));							//scan of rest van string nog speciale karakters heeft
-	// printf("ret = %d\n", ret);
 	if (ret > 0)
 	{
-		// printf("ret = %d\n", ret);
 		env_str = ft_substr(str, (i + 1), (ret - i - 1)) ;
 		new_str2 = ft_substr(str, ret, len);					//Substr alles vanaf special char 		//to do:check of dit weer nieuwe expansion is
+		if (new_str2[0] == '$')
+			new_str2 = expand(new_str2, 0, _env);
 	}
 	if (ret == 0)
-		env_str = ft_substr(str, (i + 1), len);					//i + 1 zodat $ eraf
-	// printf("env_str = [%s]\n", env_str);
+	{
+	// 	if (str[1] == '\0')			//mehhhh
+	// 		env_str = "$";
+	// 	else
+			env_str = ft_substr(str, (i + 1), len);					//i + 1 zodat $ eraf
+		
+	}
 	value = search_node(_env, env_str);
-	// if (value == NULL)
-	// printf("[%s][%s][%s]\n", new_str1, env_str, new_str2);
+	printf("[%s][%s][%s]\n", new_str1, env_str, new_str2);
 	value = join_strings(new_str1, value, new_str2);
-	printf("value[%s]\n", value);
 	return (value);
 }
+
+
+// static char			*expand(char *str, int i, t_env *_env)
+// {
+// 	char	*new_str1;
+// 	char	*env_str;
+// 	char	*new_str2;
+// 	char	*value;
+// 	int		len;
+// 	int		ret;
+
+// 	new_str1 = NULL;
+// 	env_str = NULL;
+// 	new_str2 = NULL;
+// 	len = ft_strlen(str);
+// 	if (i > 0)
+// 		new_str1 = ft_substr(str, 0, i);							//Substr alles voor $, mits er iets voor staat
+// 	ret = is_special_char(str, (i + 1));							//scan of rest van string nog speciale karakters heeft
+// 	printf("ret = %d\n", ret);
+// 	if (ret > 0)
+// 	{
+// 		printf("ret = %d\n", ret);
+// 		env_str = ft_substr(str, (i + 1), (ret - i - 1)) ;
+// 		printf("env_str = [%s]\n", env_str);
+// 		new_str2 = ft_substr(str, ret, len);					//Substr alles vanaf special char 		//to do:check of dit weer nieuwe expansion is
+// 		printf("new_str2= [%s]\n", new_str2);
+// 	}
+// 	if (ret == 0)
+// 		env_str = ft_substr(str, (i + 1), len);					//i + 1 zodat $ eraf
+// 	value = search_node(_env, env_str);
+// 	// if (value == NULL)
+// 	// printf("[%s][%s][%s]\n", new_str1, env_str, new_str2);
+// 	value = join_strings(new_str1, value, new_str2);
+// 	// printf("value[%s]\n", value);
+// 	return (value);
+// }
 
  
 void			parameter_expansion(t_command **command, t_env *_env)
 {
-	// char	*new_str1;
-	// char	*new_str2;
 	char	*value;
 	int		y;
 	int		i;
@@ -218,6 +267,7 @@ void			parameter_expansion(t_command **command, t_env *_env)
 					parameter_not_exist(command, &y);
 				else
 					(*command)->array[y] = value;
+				break ;								//moet uit eerste while loop
 			}
 			i++;
 		}

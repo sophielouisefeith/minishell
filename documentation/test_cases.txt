@@ -21,6 +21,15 @@ echo hallo >file1 >file2 >>file3 maran siemons
 
 echo hallo <file1 >file2
 
+
+
+
+echo $USER""			-->msiemons
+echo $USER"				-->not closed
+
+echo $USER_
+
+
 ***************************
 ** 			cd 			**
 ***************************
