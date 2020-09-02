@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/27 21:22:35 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/02 12:24:07 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int		general(t_lexer **sort, char **array, int *y, int *quote)
 	- Door het moeten toevoegen van quote wordt de functie te groot. Is dit de beste plek?
 */
 
-static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp)
+static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp, t_env **_env)
 {
 	char 		**array;
 	int 		*quote;
@@ -93,7 +93,7 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp)
 		// 	error_free(12);
 		quote = allocate_memory_int_string(num_nodes);							//new
 	}
-	(*tmp)->builtin = check_builtin_node(sort);
+	(*tmp)->builtin = check_builtin_node(sort, _env, tmp);
 	while (*sort && ((*sort)->token[token_general]
 				|| (*sort)->token[token_redirection]))
 	{
@@ -113,13 +113,13 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp)
 	- Veel gereorganiseerd, check github < 13-08-2020 voor versie hiervoor.
 */
 
-int				parser(t_lexer **sort, t_command **command, int pipe_status)
+int				parser(t_lexer **sort, t_command **command, int pipe_status, t_env **_env)
 {
 	t_command 	*tmp;
 
 	tmp = NULL;
 	tmp = ll_new_node_command();
-    fill_builtin_redirec_array(sort, &tmp);
+    fill_builtin_redirec_array(sort, &tmp, _env);
 	if (*sort && (*sort)->token[token_semicolon])
     	(tmp)->sem = 1;
     if (pipe_status == 1)

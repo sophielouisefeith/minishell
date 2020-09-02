@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/01 12:07:32 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/02 12:34:45 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,11 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 	sort_copy = sort;
 	while (sort)
 	{
-		pipe_status = parser(&sort, &command, pipe_status);
+		pipe_status = parser(&sort, &command, pipe_status, _env);
 		if (sort)
 			sort = sort->next_sort;
 	}
+	printf("mainpath[%s]\n", command->path);
 	// tester(sort, command);
 	
 	//FREE LEXER

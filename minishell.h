@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/01 11:27:47 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/02 13:20:03 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ typedef struct				s_input{
 typedef struct				s_command {
 	
 	char					**array;
+	char					*path;
 	int						*quote;						//new
 	int						builtin;
 	struct s_output			*output;    
@@ -130,12 +131,17 @@ int								is_metachar(char c);
 t_lexer							*ll_new_node_lexer(char *str, int *token);
 void							ll_lstadd_back_lexer(t_lexer **head, t_lexer *new);
 
-/*transform */
-int								parser(t_lexer **sort, t_command **command, int count);
+/*parsing */
+int								parser(t_lexer **sort, t_command **command, int count, t_env **_env);
 int								count_node(t_lexer *sort);
 char            				*trunc_quotes(char *str);
 int         					get_builtin_type(char *str);
-int								check_builtin_node(t_lexer **head);
+int								check_builtin_node(t_lexer **head, t_env **_env, t_command **tmp);
+
+
+/*Check path */
+
+int							check_path(t_env **env, t_lexer **sort);
 
 t_command	    				*ll_new_node_command();
 void		    				ll_lstadd_back_command(t_command **command, t_command *new);

@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/14 16:27:28 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/02 13:19:42 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int				get_builtin_type(char *str)
 	else if (!ft_strcmp(str, "env"))
 		return (builtin_env);
    else if (!ft_strcmp(str, "exit"))
-		return (builtin_exit); 
-    else
+		return (builtin_exit);
+	else
         return (builtin_no);
 }
 
@@ -79,15 +79,25 @@ int				get_builtin_type(char *str)
 	- Kan dit mooier deze toevoeging?
 */
 
-int				check_builtin_node(t_lexer **sort)
+int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 {
 	char 	*newstr;
 	int 	builtin_type;
+	
+
 
     if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
 	{
 	    newstr = trunc_quotes((*sort)->str);
 		builtin_type = get_builtin_type(newstr);
+		printf("builtin_type[%d]\n", builtin_type);
+		if(builtin_type == 0)
+		{
+			(*tmp)->path = (*sort)->str;
+			printf("--------------------------je moet checken of je een echt path bent\n");
+			//check_path(_env, sort);
+		}
+			
 		free (newstr);
 		*sort = (*sort)->next_sort;
 		return (builtin_type);
@@ -95,6 +105,17 @@ int				check_builtin_node(t_lexer **sort)
     else
         newstr = (*sort)->str;
 	builtin_type = get_builtin_type(newstr);
+	printf("builtin_type[%d]\n", builtin_type);
+	if(builtin_type == 0)
+	{
+		check_path(_env);
+		(*tmp)->path = ft_strdup((*sort)->str);
+		//printf("mapath[%s]\n", (*tmp)->path);
+		printf("--------------------------je moet checken of je een echt path bent\n");
+		//check_path(_env, sort);
+		
+	}
+			
 	*sort = (*sort)->next_sort;
 	return (builtin_type);
 }

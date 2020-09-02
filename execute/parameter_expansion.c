@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/01 14:52:38 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/02 13:21:45 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 	- Export expand hij ook name en value
 */
 
-static char		*search_node(t_env *_env, char *search)
+char		*search_node(t_env *_env, char *search)
 {
 	while (_env)
 	{

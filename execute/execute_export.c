@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/01 15:11:57 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/01 18:07:46 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,39 @@
 ** hij errorrt op unset USER malloc
 */
 
+
+
+// static int			is_special_char(char *str, int i)
+// {
+// 	printf("special\n");
+// 	// while (str[i])
+// 	// {
+// 		if(str[i] == '$' && str[i] + 1 == '\0')
+// 			return(1);
+// 		if (ft_isprint(str[i]) && !c && str[i] != '_')
+// 			return (1);
+// 	// 	i++;
+// 	// }
+// 	return (0);
+// }
+
 static int          check_format(char *str)
 {
     int i;
-    //printf("in format\n");
-    if (!ft_isalpha(*str))
-    {
-        strerror(2);
-        printf("not a valid identifier\n");
-        //return (1);
-    }
+	int ret;
+	
+    if (!ft_isalpha(str[0]))
+		return (1);
     i = 1;
-    while ((ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_') && str)
+    while((ft_isalnum(str[i])|| str[i] == '_') && str)
         i++;
+	if((!ft_isalnum(str[i])|| str[i] != '_') && str[i] != '\0')  // hier moet dan nog een $bij ?
+		return(1);
     if (str[i] == '=')
-        return (0);                
-    // else if (str[i] == '\0')
-    //    // return (1);                 
-    else
-    {
-        strerror(error_notavalidentifier);
-        printf("not a valid identifier\n");
-        //return (2);                 
-    }
-    return(0);
+        return (0);
+	// if (str[i]== '\0')                           
+    // 	return(0);
+	return(0);
 }
 
 static void	swap(char **s1, char **s2)
@@ -116,7 +125,6 @@ static int             print_declare_x_env(t_env **_env)
 	alpha_env = *_env;
 	alpha_env_list(alpha_env);
    	list = alpha_env;
-	printf("kom je hier\n");
     while (list)                                         
     {
         write(1, "declare-x ", 10);
@@ -138,8 +146,6 @@ static int             print_declare_x_env(t_env **_env)
 static int        not_present_in_env(char **array, t_env **_env, int equal)
 {
 	t_env   *tmp;
-
-	printf("---------------je word nieuw toegevoegd\n");
 	tmp = ll_new_node_env(array[0], array[1], equal);
     ll_lstadd_back_env(_env, tmp);
 	return (0);
@@ -175,9 +181,11 @@ int            execute_export(t_env **_env, t_command **command)
    	char    **array;
 	int		equal;
 	int		i;
+	int 	ret;
 
 	equal = 0;
 	i = 0;
+
 	if (!(*command)->array)
     {
         print_declare_x_env(_env);
@@ -187,10 +195,13 @@ int            execute_export(t_env **_env, t_command **command)
         equal = 1;
 	while ((*command)->array[i] && (*command)->array[i] !='\0')
 	{
+		
 		array = ft_split2((*command)->array[i], '=');
-		//ret = check_format(*array);
-		// printf("array---name[%s]\n", array[0]);
-		// printf("array---value[%s]\n", array[1]);
+		ret = check_format(array[0]);
+		if(ret)
+			printf(" export: `arg1': not a valid identifier\n");
+		printf("array---name[%s]\n", array[0]);
+		printf("array---value[%s]\n", array[1]);
    		check_present_in_env(array, _env, equal);
 		free(array);
 		i++;
