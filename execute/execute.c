@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/02 13:46:25 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/09/02 16:18:49 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,11 @@ void            execute(t_command **command, t_env **_env)
             	{
 					if((*command)->builtin == builtin_no)
 					{
-						printf("path[%s]\n", (*command)->path);
-						//execve((*command)->path, (*command)->array, env_ll_to_array(*_env));
-						execve("/bin/ls", (*command)->array, env_ll_to_array(*_env));
+						execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
+							printf("Je komt nooit hier terug, tenzij execve faalt\n");						
+						exit(1);														//welke exit code?
 					}
                 	execute_command(command, _env);
-                	//printf("Komt nooit hier toch?\n");
             	}
             	if (ret != 0)
 				{                                            //new

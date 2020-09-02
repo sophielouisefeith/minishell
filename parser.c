@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/02 12:24:07 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/09/02 16:05:55 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static int		general(t_lexer **sort, char **array, int *y, int *quote)
 {
     char		*newstr;
 
-    
     while (*sort && (*sort)->token[token_general])
 	{
 		if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
@@ -86,6 +85,8 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp, t_env *
 	num_nodes = 0;
 	y = 0;
 	num_nodes = count_node(*sort);
+	(*tmp)->builtin = check_builtin_node(sort, _env, tmp);
+	num_nodes = ((*tmp)->builtin == 0) ? (num_nodes + 1) : num_nodes;			//new	//in count_nodes fixen?
 	if (num_nodes > 0)
 	{
 		array = (char **)malloc((num_nodes + 1) * sizeof(char *));
@@ -93,7 +94,6 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp, t_env *
 		// 	error_free(12);
 		quote = allocate_memory_int_string(num_nodes);							//new
 	}
-	(*tmp)->builtin = check_builtin_node(sort, _env, tmp);
 	while (*sort && ((*sort)->token[token_general]
 				|| (*sort)->token[token_redirection]))
 	{
