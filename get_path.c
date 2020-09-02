@@ -6,12 +6,13 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/02 16:19:23 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/02 17:32:28 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+#include <dirent.h>
+ 
 /*
 ** To do:
 ** - Korter maken
@@ -24,35 +25,77 @@ static char		*make_path_complete(char *patharray, char *str)
 	return (patharray);
 }
 
+/*
+** Methode met open, read en closedir:
+*/
+
 char			*check_path(t_env *_env, char *str)
 {
-	struct stat	buf;
-	char 		**patharray;
-	char		*current_dir;
-	char		*path;
-	int 		ret;
-	int			i;
+	struct dirent 	*next_entry;
+	DIR				*folder;
+	char			*path;
+	char 			**patharray;
+	int				i;
 
 	i = 0;
 	path = search_node(_env, "PATH");
-	current_dir = search_node(_env, "PWD");
 	if (!path)
 		printf("No PATH in env");
 	patharray = ft_split(path, ':');
 	while (patharray && patharray[i])
 	{
-		ret = chdir(patharray[i]);
-		if (ret == 0)
+		folder = opendir(patharray[i]);
+		if (folder != 0)
 		{
-			patharray[i] = make_path_complete(patharray[i], str);
-			ret = stat(patharray[i], &buf);
-			if (ret == 0)
+			while ((next_entry = readdir(folder)) != NULL)
 			{
-				chdir(current_dir);
-				return (patharray[i]);
+				if (ft_strcmp(next_entry->d_name, str) == 0)
+				{
+					patharray[i] = make_path_complete(patharray[i], str);
+					closedir(folder);
+					return (patharray[i]);
+				}
 			}
+			closedir(folder);
 		}
 		i++;
 	}
 	return (NULL);
 }
+
+/*
+** Methode met Stat:
+*/
+
+// char			*check_path(t_env *_env, char *str)
+// {
+// 	struct stat	buf;
+// 	char 		**patharray;
+// 	char		*current_dir;
+// 	char		*path;
+// 	int 		ret;
+// 	int			i;
+
+// 	i = 0;
+// 	path = search_node(_env, "PATH");
+// 	current_dir = search_node(_env, "PWD");
+// 	if (!path)
+// 		printf("No PATH in env");
+// 	patharray = ft_split(path, ':');
+// 	while (patharray && patharray[i])
+// 	{
+// 		ret = chdir(patharray[i]);
+// 		if (ret == 0)
+// 		{
+// 			patharray[i] = make_path_complete(patharray[i], str);
+// 			ret = stat(patharray[i], &buf);
+// 			if (ret == 0)
+// 			{
+// 				chdir(current_dir);
+// 				return (patharray[i]);
+// 			}
+// 		}
+// 		i++;
+// 	}
+// 	return (NULL);
+// }
