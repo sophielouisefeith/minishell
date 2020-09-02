@@ -6,19 +6,20 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/01 18:14:49 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/02 11:52:35 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../minishell.h"
 
 /*
-** ($?) Expands to the exit status of the most recently executed foreground pipeline.
-** Single quote cases will not be expanded.
 ** TO DO:
-	- strtrim trimt van 2 kanten gaat dat wel goed?
-	- Moeten we ook braces?
-	- Export expand hij ook name en value
+	- Proberen of "while ((*command)->array && (*command)->array[y])" combi ook bij parser werkt, ipv if next bestaat.
+	- echo $USER\			--> Merel laat \ weg en print de rest
+	- echo $USER|			--> Merel doet niks, gewoon nieuwe prompt
+	- Moeten we dit nog verplaatsen naar lexer/parser?
+	- Testen: Export expand hij ook name en value
+	- Functies te lang.
 */
 
 static char		*search_node(t_env *_env, char *search)
@@ -38,7 +39,7 @@ static char		*search_node(t_env *_env, char *search)
 ** and move the others in the array. If there are no other parameters,
 ** the non_existing one will be deleted and the whole 2D array also.
 ** TO DO:
-	LET OP BIJ FREEEN, gaat dit dan goed?
+	- LET OP BIJ FREEEN, gaat dit dan goed?
 */
 
 static void		parameter_not_exist(t_command **command, int *y)
@@ -65,53 +66,10 @@ static void		parameter_not_exist(t_command **command, int *y)
 	}
 }
 
-/*
-** TO DO:
-	- Proberen of "while ((*command)->array && (*command)->array[y])" combi ook bij parser werkt, ipv if next bestaat.
-*/
-
-/*
-strlcat() appends string src to the end of dst
-
-echo --$USER--
---msiemons--
-
-
-
-Voor $:
-Letters OK
-Cijfers OK
-Speciale tekens OK
-
-Na $USER:
-Letters NIET OK
-Cijfers NIET OK
-Speciale tekens OK
- 
- Wat als nog een $USER
- */
-
-// Wat wel en wat niet?:
-// ! is ook nog iets speciaals // dit hoeft waarschijnlijk niet.
-// hallo$USER&
-// & ook iets speciaals
-// En nog veel meer specials :(
-
-/*
-" not complete
-( ! & gewoon printen
-echo $USER\				--> Merel laat \ weg en print gewoon
-echo $USER_				--> underscore wordt gezien als een alpha
-ascii 96 ook gewoon printen
-echo $USER|				-->doet niks gewoon nieuw prompt
-
- */
- 
-/*
-** HADDEN WE NIET OOK MOETEN SPLITTEN OP $ in lexer?					!!!
-*/
-static int			is_special_char(char *str, int i)
+static int		is_special_char(char *str, int i)
 {
+	if (!str[i])
+		return (-1);
 	while (str[i])
 	{
 		if (ft_isprint(str[i]) && !ft_isalnum(str[i]) && str[i] != '_')
@@ -122,9 +80,8 @@ static int			is_special_char(char *str, int i)
 	return (0);
 }
 
-
 /*
-	new_str1	value		new_str2
+	new_str1	parameter	new_str2
 	0			0			0
 	1			1			1
 	1			0			0
@@ -134,122 +91,123 @@ static int			is_special_char(char *str, int i)
 	0			1			1
 	0			0			1
  */
-static char			*join_strings(char *new_str1, char *value, char *new_str2)
+ 
+static char		*join_strings(char *new_str1, char *parameter, char *new_str2)
 {
-	char *joined;
+	char 	*joined;
 
-	if (!new_str1 && !value && !new_str2)
+	if (!new_str1 && !parameter && !new_str2)
 		return (NULL);
-	if (new_str1 && value && new_str2)
+	if (new_str1 && parameter && new_str2)
 	{
-		joined = ft_strjoin(new_str1, value);
+		joined = ft_strjoin(new_str1, parameter);
 		joined = ft_strjoin(joined, new_str2);
 	}
-	if (new_str1 && !value && !new_str2)
+	if (new_str1 && !parameter && !new_str2)
 		joined = new_str1;
-	if (new_str1 && value && !new_str2)
-		joined = ft_strjoin(new_str1, value);
-	if (new_str1 && !value && new_str2)
+	if (new_str1 && parameter && !new_str2)
+		joined = ft_strjoin(new_str1, parameter);
+	if (new_str1 && !parameter && new_str2)
 		joined = ft_strjoin(new_str1, new_str2);
-	if (!new_str1 && value && !new_str2)
-		joined = value;
-	if (!new_str1 && value && new_str2)
-		joined = ft_strjoin(value, new_str2);
-	if (!new_str1 && !value && new_str2)
+	if (!new_str1 && parameter && !new_str2)
+		joined = parameter;
+	if (!new_str1 && parameter && new_str2)
+		joined = ft_strjoin(parameter, new_str2);
+	if (!new_str1 && !parameter && new_str2)
 		joined = new_str2;
-	// printf("joined = [%s]", joined);
 	return (joined);
 }
 
-//echo $USER	$USER
-//     01234	56789
+/*
+** parameter --> $parameter
+** new_str1	-->	 string before $parameter
+** new_str2 -->  string after $parameter
+**
+** 1. i > 0 means the $ sign is not on the first element of the string.
+** Therefore everything before $ should be saved in a string.
+** 2. Check if there are more special characters after $
+** (not alphanumeric and printable, except '_'). Because special chars would
+** mean a new string, aphanummeric or '_' would be considered part of the
+** $parameter.
+** Also check for immediate end of line after $.
+** 3. ret == -1 --> Immediate end of line meaning that $ sign should be printed
+**    ret == 0  --> no special chars found, so no string after the $parameter 
+**    ret > 0   --> special char found, so new_str after $parameter, save in 
+**		new_str2. Ret is position of special char.
+** 4. If there is a new_str2 (ret > 0) check if special char is a $. If so this
+** one should be expanded as wel (recursive).
+** 5. If not immediate end of line, search for parameter in _env.
+** 6. Join the 3 possible strings, and return this new value.
+*/
 
+static char 	*check_for_more_expansion(char *new_str2, t_env *_env)
+{
+	int		i;
 
-// CHECK OF IETS NA $, zo niet gewoon printem 
+	i = 0;
+	while (new_str2[i])
+	{
+		if (new_str2[i] == '$')
+			new_str2 = expand(new_str2, i, _env);
+		i++;
+	}
+	return (new_str2);
+}
 
-static char			*expand(char *str, int i, t_env *_env)
+char			*expand(char *str, int i, t_env *_env)
 {
 	char	*new_str1;
-	char	*env_str;
 	char	*new_str2;
-	char	*value;
-	int		len;
+	char	*parameter;
 	int		ret;
 
 	new_str1 = NULL;
-	env_str = NULL;
+	parameter = NULL;
 	new_str2 = NULL;
-	len = ft_strlen(str);
 	if (i > 0)
-	{ 
-		new_str1 = ft_substr(str, 0, i);							//Substr alles voor $, mits er iets voor staat
-			
-	}
-	ret = is_special_char(str, (i + 1));							//scan of rest van string nog speciale karakters heeft
+		new_str1 = ft_substr(str, 0, i);
+	ret = is_special_char(str, (i + 1));
+	if (ret == -1)
+		parameter = "$";
+	if (ret == 0)
+		parameter = ft_substr(str, (i + 1), ft_strlen(str));
 	if (ret > 0)
 	{
-		env_str = ft_substr(str, (i + 1), (ret - i - 1)) ;
-		new_str2 = ft_substr(str, ret, len);					//Substr alles vanaf special char 		//to do:check of dit weer nieuwe expansion is
-		if (new_str2[0] == '$')
-			new_str2 = expand(new_str2, 0, _env);
+		parameter = ft_substr(str, (i + 1), (ret - i - 1)) ;
+		new_str2 = ft_substr(str, ret, ft_strlen(str));
+		new_str2 = check_for_more_expansion(new_str2, _env);
 	}
-	if (ret == 0)
-	{
-	// 	if (str[1] == '\0')			//mehhhh
-	// 		env_str = "$";
-	// 	else
-			env_str = ft_substr(str, (i + 1), len);					//i + 1 zodat $ eraf
-		
-	}
-	value = search_node(_env, env_str);
-	printf("[%s][%s][%s]\n", new_str1, env_str, new_str2);
-	value = join_strings(new_str1, value, new_str2);
-	return (value);
+	if (ret != -1)
+		parameter = search_node(_env, parameter);
+	parameter = join_strings(new_str1, parameter, new_str2);
+	return (parameter);
 }
 
+/*
+** ($?) Expands to the exit status of the most recently executed foreground pipeline.
+** Single quote cases will not be expanded.
+** Break out of first while loop when handled $. Optional other $ in
+** the array[y] are already handled.
+*/
 
-// static char			*expand(char *str, int i, t_env *_env)
-// {
-// 	char	*new_str1;
-// 	char	*env_str;
-// 	char	*new_str2;
-// 	char	*value;
-// 	int		len;
-// 	int		ret;
-
-// 	new_str1 = NULL;
-// 	env_str = NULL;
-// 	new_str2 = NULL;
-// 	len = ft_strlen(str);
-// 	if (i > 0)
-// 		new_str1 = ft_substr(str, 0, i);							//Substr alles voor $, mits er iets voor staat
-// 	ret = is_special_char(str, (i + 1));							//scan of rest van string nog speciale karakters heeft
-// 	printf("ret = %d\n", ret);
-// 	if (ret > 0)
-// 	{
-// 		printf("ret = %d\n", ret);
-// 		env_str = ft_substr(str, (i + 1), (ret - i - 1)) ;
-// 		printf("env_str = [%s]\n", env_str);
-// 		new_str2 = ft_substr(str, ret, len);					//Substr alles vanaf special char 		//to do:check of dit weer nieuwe expansion is
-// 		printf("new_str2= [%s]\n", new_str2);
-// 	}
-// 	if (ret == 0)
-// 		env_str = ft_substr(str, (i + 1), len);					//i + 1 zodat $ eraf
-// 	value = search_node(_env, env_str);
-// 	// if (value == NULL)
-// 	// printf("[%s][%s][%s]\n", new_str1, env_str, new_str2);
-// 	value = join_strings(new_str1, value, new_str2);
-// 	// printf("value[%s]\n", value);
-// 	return (value);
-// }
-
- 
-void			parameter_expansion(t_command **command, t_env *_env)
+static void		if_dollar(t_command **command, t_env *_env, int *y, int i)
 {
 	char	*value;
+
+	if (!ft_strcmp("$?", (*command)->array[*y]))
+		value = ft_itoa((*command)->exit_status);
+	else
+		value = expand((*command)->array[*y], i, _env);
+	if (value == NULL)
+		parameter_not_exist(command, y);
+	else
+		(*command)->array[*y] = value;
+}
+
+void			parameter_expansion(t_command **command, t_env *_env)
+{
 	int		y;
 	int		i;
-	int		len;
 
 	y = 0;
 	while ((*command)->array && (*command)->array[y])
@@ -259,19 +217,42 @@ void			parameter_expansion(t_command **command, t_env *_env)
 		{
 			if ((*command)->array[y][i] == '$' && (*command)->quote[y] != token_quote)
 			{
-				if (!ft_strcmp("$?", (*command)->array[y]))
-					value = ft_itoa((*command)->exit_status);
-				else
-					value = expand((*command)->array[y], i, _env);
-				if (value == NULL)
-					parameter_not_exist(command, &y);
-				else
-					(*command)->array[y] = value;
-				break ;								//moet uit eerste while loop
+				if_dollar(command, _env, &y, i);
+				break ;
 			}
 			i++;
 		}
 		y++;
-	}	
-	
+	}
 }
+
+// void			parameter_expansion(t_command **command, t_env *_env)
+// {
+// 	char	*value;
+// 	int		y;
+// 	int		i;
+// 	int		len;
+
+// 	y = 0;
+// 	while ((*command)->array && (*command)->array[y])
+// 	{
+// 		i = 0;
+// 		while((*command)->array[y][i])
+// 		{
+// 			if ((*command)->array[y][i] == '$' && (*command)->quote[y] != token_quote)
+// 			{
+// 				if (!ft_strcmp("$?", (*command)->array[y]))
+// 					value = ft_itoa((*command)->exit_status);
+// 				else
+// 					value = expand((*command)->array[y], i, _env);
+// 				if (value == NULL)
+// 					parameter_not_exist(command, &y);
+// 				else
+// 					(*command)->array[y] = value;
+// 				break ;
+// 			}
+// 			i++;
+// 		}
+// 		y++;
+// 	}
+// }

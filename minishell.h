@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/01 11:27:47 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/02 11:36:20 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,4 +188,5 @@ void        					execute_unset(t_command *command, t_env **_env);
 int      						execute_exit(t_command *command);
 
 void							parameter_expansion(t_command **command, t_env *_env);
+char							*expand(char *str, int i, t_env *_env);
 #endif
