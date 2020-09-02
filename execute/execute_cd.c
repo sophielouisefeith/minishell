@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/27 13:31:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/31 11:58:00 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/02 12:02:28 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,6 @@ static void		change_env_pwd(t_env **_env)
 		}
 		copy_env = copy_env->next;
 	}
-}
-
-static char		*search_node(t_env *_env, char *search)
-{
-	while (_env)
-	{
-		if (!ft_strcmp(search, _env->name))
-			return (_env->value);
-		_env = _env->next;
-	}
-	return (NULL);
 }
 
 /*

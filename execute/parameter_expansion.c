@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/02 11:52:35 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/02 11:57:17 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,6 @@
 	- Testen: Export expand hij ook name en value
 	- Functies te lang.
 */
-
-static char		*search_node(t_env *_env, char *search)
-{
-	while (_env)
-	{
-		if (!ft_strcmp(search, _env->name))
-			return (_env->value);
-		_env = _env->next;
-	}
-	return (NULL);
-}
 
 /*
 ** When the given parameter (ex. $POEP) doesn't exist in _env:
@@ -66,56 +55,18 @@ static void		parameter_not_exist(t_command **command, int *y)
 	}
 }
 
-static int		is_special_char(char *str, int i)
+static char 	*check_for_more_expansion(char *new_str2, t_env *_env)
 {
-	if (!str[i])
-		return (-1);
-	while (str[i])
+	int		i;
+
+	i = 0;
+	while (new_str2[i])
 	{
-		if (ft_isprint(str[i]) && !ft_isalnum(str[i]) && str[i] != '_')
-			return (i);
+		if (new_str2[i] == '$')
+			new_str2 = expand(new_str2, i, _env);
 		i++;
-
 	}
-	return (0);
-}
-
-/*
-	new_str1	parameter	new_str2
-	0			0			0
-	1			1			1
-	1			0			0
-	1			1			0
-	1			0			1
-	0			1			0
-	0			1			1
-	0			0			1
- */
- 
-static char		*join_strings(char *new_str1, char *parameter, char *new_str2)
-{
-	char 	*joined;
-
-	if (!new_str1 && !parameter && !new_str2)
-		return (NULL);
-	if (new_str1 && parameter && new_str2)
-	{
-		joined = ft_strjoin(new_str1, parameter);
-		joined = ft_strjoin(joined, new_str2);
-	}
-	if (new_str1 && !parameter && !new_str2)
-		joined = new_str1;
-	if (new_str1 && parameter && !new_str2)
-		joined = ft_strjoin(new_str1, parameter);
-	if (new_str1 && !parameter && new_str2)
-		joined = ft_strjoin(new_str1, new_str2);
-	if (!new_str1 && parameter && !new_str2)
-		joined = parameter;
-	if (!new_str1 && parameter && new_str2)
-		joined = ft_strjoin(parameter, new_str2);
-	if (!new_str1 && !parameter && new_str2)
-		joined = new_str2;
-	return (joined);
+	return (new_str2);
 }
 
 /*
@@ -139,20 +90,6 @@ static char		*join_strings(char *new_str1, char *parameter, char *new_str2)
 ** 5. If not immediate end of line, search for parameter in _env.
 ** 6. Join the 3 possible strings, and return this new value.
 */
-
-static char 	*check_for_more_expansion(char *new_str2, t_env *_env)
-{
-	int		i;
-
-	i = 0;
-	while (new_str2[i])
-	{
-		if (new_str2[i] == '$')
-			new_str2 = expand(new_str2, i, _env);
-		i++;
-	}
-	return (new_str2);
-}
 
 char			*expand(char *str, int i, t_env *_env)
 {
@@ -225,34 +162,3 @@ void			parameter_expansion(t_command **command, t_env *_env)
 		y++;
 	}
 }
-
-// void			parameter_expansion(t_command **command, t_env *_env)
-// {
-// 	char	*value;
-// 	int		y;
-// 	int		i;
-// 	int		len;
-
-// 	y = 0;
-// 	while ((*command)->array && (*command)->array[y])
-// 	{
-// 		i = 0;
-// 		while((*command)->array[y][i])
-// 		{
-// 			if ((*command)->array[y][i] == '$' && (*command)->quote[y] != token_quote)
-// 			{
-// 				if (!ft_strcmp("$?", (*command)->array[y]))
-// 					value = ft_itoa((*command)->exit_status);
-// 				else
-// 					value = expand((*command)->array[y], i, _env);
-// 				if (value == NULL)
-// 					parameter_not_exist(command, &y);
-// 				else
-// 					(*command)->array[y] = value;
-// 				break ;
-// 			}
-// 			i++;
-// 		}
-// 		y++;
-// 	}
-// }

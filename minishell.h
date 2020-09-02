@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/02 11:36:20 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/02 11:59:19 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,11 @@ char							**ft_split2(char const *s, char c);
 void        					execute_unset(t_command *command, t_env **_env);
 int      						execute_exit(t_command *command);
 
+/* parameter expansion */
 void							parameter_expansion(t_command **command, t_env *_env);
 char							*expand(char *str, int i, t_env *_env);
+char							*search_node(t_env *_env, char *search);
+int								is_special_char(char *str, int i);
+char							*join_strings(char *new_str1, char *parameter, char *new_str2);
+
 #endif
