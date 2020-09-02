@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/02 13:20:03 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/09/02 14:21:26 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 #include "libft/libft.h"
 #include <errno.h>
 #include <string.h>
-#include <signal.h> 
+#include <signal.h>
+#include <sys/stat.h>
 
 /*
 ** Checken of later verwijderen:
@@ -107,6 +108,8 @@ typedef struct				s_env{
 	struct		s_env   	*next;
 }							t_env;
 
+
+
 void            				tester(t_lexer *sort, t_command *command);
 
 t_env                 			*save_env(char **env);
@@ -141,7 +144,7 @@ int								check_builtin_node(t_lexer **head, t_env **_env, t_command **tmp);
 
 /*Check path */
 
-int							check_path(t_env **env, t_lexer **sort);
+int							check_path(t_env *env, char *str);
 
 t_command	    				*ll_new_node_command();
 void		    				ll_lstadd_back_command(t_command **command, t_command *new);
@@ -193,5 +196,11 @@ char							**ft_split2(char const *s, char c);
 void        					execute_unset(t_command *command, t_env **_env);
 int      						execute_exit(t_command *command);
 
+/* parameter expansion */
 void							parameter_expansion(t_command **command, t_env *_env);
+char							*expand(char *str, int i, t_env *_env);
+char							*search_node(t_env *_env, char *search);
+int								is_special_char(char *str, int i);
+char							*join_strings(char *new_str1, char *parameter, char *new_str2);
+
 #endif

@@ -21,7 +21,14 @@ echo hallo >file1 >file2 >>file3 maran siemons
 
 echo hallo <file1 >file2
 
-echo $USER" 
+
+
+
+echo $USER""			-->msiemons
+echo $USER"				-->not closed
+
+echo $USER_
+
 
 ***************************
 ** 			cd 			**
@@ -69,7 +76,19 @@ export 123$USER---
 ** 		Expansion		 **
 ***************************
 
+echo $
+echo $USER
+echo $USER'				--> not complete
+echo $USER_				--> underscore is alphanummeriek
+echo 123$USER----
+echo 123$USER----$
+
+echo abc$USERdef
+echo abc$USER123
+echo abc$POEPdef
+
 echo $USER "$USER" '$USER'
+export TEST_$USER=hallo$LOGNAME
 
 ***************************
 ** 		Flauw 			**
@@ -81,3 +100,10 @@ echo $USER "$USER" '$USER'
 4. cd $POEP $MEERPOEP ..
 
 Dus als er een $ voorstaat en hij bestaat niet, dan wordt deze gedelete.
+
+
+***************************
+** 		Remco			**
+***************************
+
+Iets met \ en ctrl D

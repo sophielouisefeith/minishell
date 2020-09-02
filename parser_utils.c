@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/02 13:19:42 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/09/02 14:12:29 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 	printf("builtin_type[%d]\n", builtin_type);
 	if(builtin_type == 0)
 	{
-		check_path(_env);
+		check_path(*_env, (*sort)->str);
 		(*tmp)->path = ft_strdup((*sort)->str);
 		//printf("mapath[%s]\n", (*tmp)->path);
 		printf("--------------------------je moet checken of je een echt path bent\n");
