@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/02 16:18:49 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/03 16:09:12 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void            execute(t_command **command, t_env **_env)
         int     fdin;
         int     fdout;
         int     ret;
-        int     i;
+		int     i;
         int     len_list;
         int     fdpipe[2];
 		
@@ -89,10 +89,13 @@ void            execute(t_command **command, t_env **_env)
                 	printf("ERROR IN FORK");
            		if (ret == 0)
             	{
-					if((*command)->builtin == builtin_no)
+					if ((*command)->builtin == builtin_no)
 					{
 						execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
+						{
 							printf("Je komt nooit hier terug, tenzij execve faalt\n");						
+							strerror(errno);
+						}
 						exit(1);														//welke exit code?
 					}
                 	execute_command(command, _env);
