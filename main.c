@@ -6,11 +6,12 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/08/31 15:09:35 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/04 13:13:10 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
 
 #define COLOR_PROMPT	"\033[1;34mminishell-$ \033[0m"
 
@@ -48,7 +49,7 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 	sort_copy = sort;
 	while (sort)
 	{
-		pipe_status = parser(&sort, &command, pipe_status);
+		pipe_status = parser(&sort, &command, pipe_status, _env);
 		if (sort)
 			sort = sort->next_sort;
 	}
@@ -70,7 +71,7 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 **
 ** if (line[i] != '\0') --> checks if line is empty.
 ** If not execute, else new prompt.
-*/
+*/ 
 
 
 // static void 		sighandler(int signum)
@@ -82,6 +83,14 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 // 		exit(1);
 // }
 
+static void			handle_sigint(int signum)
+{
+	//exit(0);
+	 write(1, "\n", 1);
+	//  printf("Caught signal %d, coming out...\n", signum);
+    
+}
+
 int					main(int argc, char **argv, char **env)
 {
 	t_env		*_env;	
@@ -92,14 +101,20 @@ int					main(int argc, char **argv, char **env)
 	ret = 1;
 	_env = save_env(env);
 
-	///
- 	// signal(SIGINT, sighandler);
+	
+ 	signal(SIGINT, handle_sigint); //ctrl c
+	// signal(SIGQUIT, handle_sigint); //ctrl \ //
+    // signal(SIGTSTP, handle_sigint); // crtl d
+
+
+
+ 	// signal(SIGINT, SIG_DFL); //sighandler);
 	// while(1)
 	// {
 	// 	printf("Going to sleep for a second...\n");
 	// 	sleep(1); 
 	// }
-	///
+	// //
 
 	while (ret > 0)
 	{

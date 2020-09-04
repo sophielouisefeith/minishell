@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/24 16:16:38 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/09/01 15:36:31 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,11 @@ static int			check_quotation_complete(char quote, char *line, int *i, int *token
 	if (line[*i] == quote)
 		return (0);
 	else
+	{
+		printf(" No closing qoutes\n");
 		return(0);
 		//error_free(103);						// Go to error function, exit vanuitdaar.
+	}
 	return(-1);												// Deze kan dan weg.
 }
 
@@ -91,9 +94,9 @@ static void			save_word(char *line, int *i, t_lexer **sort)
 	token = allocate_memory_int_string(12);
 	token[token_general] = 1;
 	check_meta_and_quote(line, i, token);
-	// if((line[*i]) == 92 && (line[*i++] )== '\"') ------------------------------------- echo \' still needs to work-----------------------
-	// 	str = "'";
-	// else
+	if((line[*i]) == 92 && (line[*i++] )== '\"')// ------------------------------------- echo \' still needs to work-----------------------
+		str = "'";
+	else
 		str = ft_substr(line, start, (*i - start));
 	tmp = ll_new_node_lexer(str, token);
 	// if(!tmp)

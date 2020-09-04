@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/31 15:11:47 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/09/04 11:59:52 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,28 @@ void            execute(t_command **command, t_env **_env)
                 fdout = dup(tmpout);
             dup2(fdout,1);
             close(fdout);
-			if ((*command)->builtin == builtin_echo || (*command)->builtin == builtin_env)
+			if ((*command)->builtin == builtin_echo || (*command)->builtin == builtin_env ||(*command)->builtin == builtin_no)
 			{
             	ret = fork();
             	if (ret == -1)
                 	printf("ERROR IN FORK");
            		if (ret == 0)
             	{
+					printf("FORKED ID == 0 [%5d]			Child-process\n", ret);
+					if((*command)->builtin == builtin_no)
+					{
+						printf("Child Pid = [%d]\n", getpid());
+						sleep(1);
+						execve((*command)->array[i], (*command)->array, env_ll_to_array(*_env));
+							printf("Je komt nooit hier terug, tenzij execve faalt\n");						
+						exit(1);														//welke exit code?
+					}
                 	execute_command(command, _env);
-                	printf("Komt nooit hier toch?\n");
             	}
             	if (ret != 0)
-				{                                            //new
+				{    
+					printf("Wait: Dit pas printen nadat child is afgerond\n");
+					printf("FORKED ID != 0 [%5d]			Parent-process\n", ret);                                        //new
                 	wait(NULL);
 				}
 			}

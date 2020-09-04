@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/14 16:27:28 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/02 17:33:14 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int				get_builtin_type(char *str)
 	else if (!ft_strcmp(str, "env"))
 		return (builtin_env);
    else if (!ft_strcmp(str, "exit"))
-		return (builtin_exit); 
-    else
+		return (builtin_exit);
+	else
         return (builtin_no);
 }
 
@@ -79,22 +79,36 @@ int				get_builtin_type(char *str)
 	- Kan dit mooier deze toevoeging?
 */
 
-int				check_builtin_node(t_lexer **sort)
+int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 {
 	char 	*newstr;
 	int 	builtin_type;
 
     if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
 	{
-	    newstr = trunc_quotes((*sort)->str);
+		newstr = trunc_quotes((*sort)->str);
 		builtin_type = get_builtin_type(newstr);
+///																			//new
+		if (builtin_type == 0)
+		{
+			(*sort)->str = check_path(*_env, (*sort)->str);
+			return (builtin_type);											//ga niet naar de volgende node
+		}
+///
 		free (newstr);
 		*sort = (*sort)->next_sort;
 		return (builtin_type);
 	}
-    else
-        newstr = (*sort)->str;
+	else
+		newstr = (*sort)->str;
 	builtin_type = get_builtin_type(newstr);
+///																			//new
+	if (builtin_type == 0)
+	{
+		(*sort)->str = check_path(*_env, (*sort)->str);
+		return (builtin_type);												//ga niet naar de volgende node
+	}
+///
 	*sort = (*sort)->next_sort;
 	return (builtin_type);
 }

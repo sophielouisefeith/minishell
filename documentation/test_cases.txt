@@ -24,8 +24,15 @@ echo hallo <file1 >file2
 
 
 
+echo $USER""			-->msiemons
+echo $USER"				-->not closed
 
-** cd **
+echo $USER_
+
+
+***************************
+** 			cd 			**
+***************************
 
 1 niveau omhoog:
 cd ..
@@ -41,19 +48,62 @@ Relatief pad:
 cd ../Documents/Git_maran
 
 
+***************************
+**		export			**
+***************************
+
+export
+export ZZZ
+export ZZZ=
+export ZZZ=new_value
+export ZZZ======new
+export ZZZ=new YYY=new2 XXX===new3
+export $USER
+export TEST=$USER4857987345
+export 123$USER---
+
+***************************
+**		export & env	**
+***************************
+1. export MARANSIEMONS
+2. env						--> Niet in env zichtbaar
+
+1. export MARANSIEMONS=lief
+2. env						--> Wel in env zichtbaar
 
 
+***************************
+** 		Expansion		 **
+***************************
 
-** Expansion **
+echo $
+echo $USER
+echo $USER'				--> not complete
+echo $USER_				--> underscore is alphanummeriek
+echo 123$USER----
+echo 123$USER----$
+
+echo abc$USERdef
+echo abc$USER123
+echo abc$POEPdef
+
 echo $USER "$USER" '$USER'
+export TEST_$USER=hallo$LOGNAME
 
+***************************
+** 		Flauw 			**
+***************************
 
-
-
-** Flauw **:
 1. export TEST=/Users/maran/Desktop/minishell
 2. cd $IETSONBESTAANDS				---> moet naar home Git_maran
 3  cd $IETSONBESTAANDS	.. 			--->ignores eerste en gaat naar niveau hoger
 4. cd $POEP $MEERPOEP ..
 
 Dus als er een $ voorstaat en hij bestaat niet, dan wordt deze gedelete.
+
+
+***************************
+** 		Remco			**
+***************************
+
+Iets met \ en ctrl D
