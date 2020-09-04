@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:15 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/31 21:02:39 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/04 13:29:33 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,34 +28,37 @@ env: The env utility exits 0 on success, and >0 if an error occurs.  An exit sta
 Simple shell command: echo
 */
 
+//OUD:
 
-void			execute_command(t_command **command, t_env **_env)
-{
-	// char	**env_array;
-	int 	ret;
+// void			execute_command(t_command **command, t_env **_env)
+// {
+// 	// char	**env_array;
+// 	// int 	ret;
 
-	ret = 0;
-	if ((*command)->builtin == builtin_echo)
-	{
-		ret = echo((*command)->array);
-		// ret = echo(*command, *_env);
-		if (ret == -1)
-			(*command)->exit_status = 1;				//new
-		exit((*command)->exit_status);
-	}
-	if ((*command)->builtin == builtin_env)
-	{
-		// env_array = env_ll_to_array(*_env);
-		// env(env_array);
-		// exit((*command)->exit_status);
-		env(*_env);
-		exit((*command)->exit_status);
-	}
+// 	// ret = 0;
+// 	// if ((*command)->builtin == builtin_echo)
+// 	// {
+// 	// 	ret = echo((*command)->array);
+// 	// 	// ret = echo(*command, *_env);
+// 	// 	if (ret == -1)
+// 	// 		(*command)->exit_status = 1;				//new
+// 	// 	exit((*command)->exit_status);
+// 	// }
+// 	// if ((*command)->builtin == builtin_env)
+// 	// {
+// 	// 	// env_array = env_ll_to_array(*_env);
+// 	// 	// env(env_array);
+// 	// 	// exit((*command)->exit_status);
+// 	// 	env(*_env);
+// 	// 	exit((*command)->exit_status);
+// 	// }
 	
-}
+// }
 
 void			execute_builtin(t_command **command, t_env **_env)
 {
+	int ret;
+
     if ((*command)->builtin == builtin_cd)
         execute_cd(*command, _env);
     if ((*command)->builtin == builtin_pwd)
@@ -68,5 +71,14 @@ void			execute_builtin(t_command **command, t_env **_env)
 	{
 		execute_export(_env, command);
 		// exit((*command)->exit_status);
+	}
+//Verplaatst:
+	if ((*command)->builtin == builtin_env)
+		env(*_env);
+	if ((*command)->builtin == builtin_echo)
+	{
+		ret = echo((*command)->array);
+		if (ret == -1)
+			(*command)->exit_status = 1;
 	}
 }

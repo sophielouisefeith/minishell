@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/02 15:53:46 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/04 13:34:15 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 ** \033				ESC
 ** [0m				reset
 */
-
 
 /*
 ** We loop through sort in parser, we make a copy beforehand.
@@ -72,15 +71,32 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 ** If not execute, else new prompt.
 */ 
 
+/*
+** CTRL C:
+	- The interrupt signal, sends SIGINT to the job running in the foreground. --> Dus stopt echt sleep, maar sluit niet heel de shell.
+	- exit_code 130
+** CTRL \:
+	- lijkt hetzelfde als ctrl-c, behalve (^\Quit: 3)
+	- exit_code 131.
+** CTRL D (End of File):
+	- lijkt running proces af te ronden en sluit dan de shell
+	- exit_code 0
+*/
 
-// static void 		sighandler(int signum)
+static void			ctrl_d(int ret)
+{
+	if (ret == 0)
+	{
+		printf("exit\n");
+		exit(0);
+	}
+}
+
+// void 		sighandler(int signum)
 // {
-//    printf("Caught signal %d, coming out...\n", signum);
-// 	if (signum == SIGINT)					///ctrl c
-// 		exit(1);
-// 	if (signum == SIGQUIT)					// ctrl \ //
-// 		exit(1);
+	
 // }
+
 
 int					main(int argc, char **argv, char **env)
 {
@@ -92,14 +108,8 @@ int					main(int argc, char **argv, char **env)
 	ret = 1;
 	_env = save_env(env);
 
-	//
- 	// signal(SIGINT, SIG_DFL); //sighandler);
-	// while(1)
-	// {
-	// 	printf("Going to sleep for a second...\n");
-	// 	sleep(1); 
-	// }
-	// //
+ 	// signal(SIGINT, sighandler);
+	// signal(SIGQUIT, sighandler);
 
 	while (ret > 0)
 	{
@@ -113,6 +123,7 @@ int					main(int argc, char **argv, char **env)
 		free(line);
 		line = NULL;
 	}
+	// ctrl_d(ret);
 	free_env(_env);												//new
 	return (0);
 }
