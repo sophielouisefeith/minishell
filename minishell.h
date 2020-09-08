@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/08 11:11:08 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/09/08 14:43:41 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <string.h>
 #include <signal.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
 /*
 ** Checken of later verwijderen:
@@ -26,9 +27,9 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <stdlib.h>
-#include <unistd.h>
 //#define errno (*error_free())
 
+int		g_exit_status;
 
 enum	token_type{
 	token_null = 0,
@@ -86,7 +87,6 @@ typedef struct				s_command {
 	int						pipe_before;
 	int						pipe_after;
 	int						sem;
-	int						exit_status; 				//new
 	struct		s_command 	*next_command;
 }							t_command;
 
@@ -166,7 +166,8 @@ void         					free_env(t_env *_env);
 /*error */						
 char                			*strerror_i(int errnum);
 int								error_free(int mistake);
-int								error(int mistake, char *str);
+int								error(t_command *command);
+char								*error_command(char *str);
 
 /*execute*/
 void            				execute(t_command **command, t_env **env);
@@ -175,16 +176,16 @@ void            				execute_command(t_command **command, t_env **_env);
 
 int								echo(char **array);
 // void							env(char **array);
-void							env(t_env *_env);
+int								env(t_env *_env);
 char							**env_ll_to_array(t_env *env);
 
-void             				execute_cd(t_command *command, t_env **_env);
+int             				execute_cd(t_command *command, t_env **_env);
 int                 			execute_pwd(t_command *command, t_env *_env);
 
 int            					execute_export(t_env **_env, t_command **command);
 char							**ft_split2(char const *s, char c);
 
-void        					execute_unset(t_command *command, t_env **_env);
+int    	    					execute_unset(t_command *command, t_env **_env);
 int      						execute_exit(t_command *command);
 
 /* parameter expansion */
@@ -195,5 +196,6 @@ int								is_special_char(char *str, int i);
 char							*join_strings(char *new_str1, char *parameter, char *new_str2);
 
 void 		sighandler(int signum);
+void 		sighandler2(int signum);
 
 #endif

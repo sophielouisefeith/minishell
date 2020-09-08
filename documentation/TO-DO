@@ -4,7 +4,11 @@
 3. Structuur execute (builtins in parent, child execve)							[			]
 4. exit_status functies															[			]
 5. Regulier freeen (let ook op aanpassingen in lexer, parser (zie //new)) 		[			]
-6. Error_functie																[			]
+6. Error_functie
+•ontvangen
+
+
+																[			]
 7. TESTEN!																		[			]
 8. Alles doorlopen, strakker, betere benamingen, checken op overbodige shizzle	[			]
 9. Norminetten																	[			]
@@ -12,3 +16,5 @@
 
 New to do:
 - Melding als geen builtin en ook geen execve functie --> nu nog seg
+- Tot welk detail errorchecking? Bijv ook na new_node etc?
+

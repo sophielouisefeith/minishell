@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/02 13:24:54 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/09/08 13:19:07 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ static void		if_dollar(t_command **command, t_env *_env, int *y, int i)
 	char	*value;
 
 	if (!ft_strcmp("$?", (*command)->array[*y]))
-		value = ft_itoa((*command)->exit_status);
+		value = ft_itoa(g_exit_status);
 	else
 		value = expand((*command)->array[*y], i, _env);
 	if (value == NULL)

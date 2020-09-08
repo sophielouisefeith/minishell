@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/09/03 14:23:27 by maran         ########   odam.nl          #
+#    Updated: 2020/09/08 13:48:28 by SophieLouis   ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		execute/parameter_expansion_utils.c\
 		execute/execute_export.c\
 		execute/ft_split2.c\
-		get_path.c
+		get_path.c\
+		error.c
 		# free.c error.c
 
 OBJ = $(SRC:.c=.o)

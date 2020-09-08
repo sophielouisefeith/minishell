@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 12:46:44 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/25 16:21:07 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/07 14:11:40 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ int				execute_pwd(t_command *command, t_env *_env)
 
 	path = getcwd(buf, sizeof(buf));
 	if (path == NULL)
-		perror("error");
+	{
+		strerror(errno);
+		return (-1);
+	}
 	write(1, path, ft_strlen(path));
 	write(1, "\n", 1);
 	return (0);

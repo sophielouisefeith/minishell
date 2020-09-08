@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/08 11:38:16 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/09/08 13:39:56 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <signal.h>
 
 #define COLOR_PROMPT	"\033[1;34mminishell-$ \033[0m"
+
+// int		g_exit_status;
 
 /*
 ** \033				Octal value of ESC (escape sequence)
@@ -77,12 +79,14 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 	- The interrupt signal, sends SIGINT to the job running in the foreground. --> Dus stopt echt sleep, maar sluit niet heel de shell.
 	- exit_code 130
 ** CTRL \:
+	- QUIT signal-  by default terminates an application
 	- lijkt hetzelfde als ctrl-c, behalve (^\Quit: 3)
 	- exit_code 131.
 ** CTRL D (End of File):
 	- lijkt running proces af te ronden en sluit dan de shell
 	- exit_code 0
 */
+
 
 static void			ctrl_d(int ret)
 {
@@ -93,68 +97,34 @@ static void			ctrl_d(int ret)
 	}
 }
 
-// void 		sighandler(int signum)
-// {
-	
-// }
-
-static void			handle_sigint_stop(int signum)
+void 		sighandler(int signum)
 {
-	//exit(0);
-	printf("d");
-	 write(1, "exit", 4);
-	 write(1, "\n", 1);
-	//  printf("Caught signal %d, coming out...\n", signum);
-    
-}
-static void			handle_sigint(int signum)
-{
-	if(signum == SIGINT)
-		printf("\n");
-	//exit(0);
-	//printf("c\n");
-	 write(1, "\n", 1);
-	
-	
-    
+	if (signum == SIGINT)
+		write(1, "\n", 1);
+	if (signum == SIGQUIT)
+		printf("Quit: 3\n");
 }
 
 int					main(int argc, char **argv, char **env)
 {
-	if(signal(SIGINT, handle_sigint))
-		printf("\n");
 		
 	t_env		*_env;	
 	char		*line;
 	int			ret;
 	int 		i;
 
+
 	ret = 1;
 	_env = save_env(env);
-
-	
- 	signal(SIGINT, handle_sigint); //ctrl c
-	signal(SIGQUIT, SIG_DFL); //ctrl \ //
-    signal(SIGTSTP, handle_sigint_stop); // crtl d
-	signal(SIGSTOP, handle_sigint); // crtl d
-
-
-
- 	// signal(SIGINT, SIG_DFL); //sighandler);
-	// while(1)
-	// {
-	// 	printf("Going to sleep for a second...\n");
-	// 	sleep(1); 
-	// }
-	// //
-
+ 	signal(SIGINT, sighandler);		// CTRL C
+	signal(SIGQUIT, sighandler);	// CTRL backslash
 	while (ret > 0)
 	{
-		//signal(SIGINT, handle_sigint); //ctrl c
-		signal(SIGSTOP, handle_sigint_stop); // crtl d
 		i = 0;
 		write(1, COLOR_PROMPT, 24);
 		ret = get_next_line(0, &line);
+		if (ret <= 0)
+			ctrl_d(ret);
 		//if (ret == -1)
 			//error(2, line); // ---------------here we say  No such file or directory
 		if (line[i] != '\0')
@@ -163,7 +133,6 @@ int					main(int argc, char **argv, char **env)
 		free(line);
 		line = NULL;
 	}
-	// ctrl_d(ret);
 	free_env(_env);												//new
 	return (0);
 }

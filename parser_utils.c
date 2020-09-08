@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/08 13:27:16 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/09/08 14:48:25 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,11 @@ int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 ///																			//new
 	if (builtin_type == 0)
 	{
+		printf("------------VOOR -----------\n");
 		(*sort)->str = check_path(*_env, (*sort)->str);
+		printf("------------NA -----------\n");
+		// printf("str[%s]\n", (*sort)->str);
+		
 		return (builtin_type);												//ga niet naar de volgende node
 	}
 ///

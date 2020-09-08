@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 16:22:20 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/26 18:14:45 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/07 14:51:24 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,22 +82,33 @@ static int		compare_after_first_node(t_env **_env, char *array_str)
 **		Evertime check if the next node, not the current, is a match. Because
 ** 		the current node has to be relinked if the next will be deleted
 **		(singly linked list).
+**
+** Not a valid identifier:
+	- number, sign execpt '_'
 */
 
-void			execute_unset(t_command *command, t_env **_env)
+
+// 
+
+int			execute_unset(t_command *command, t_env **_env)
 {
 	int		first_node;
 	int		y;
+	int 	ret;
 
 	y = 0;
     if (!command->array)
-		return ;
+		return (0);
 	while (command->array[y])
 	{
 		first_node = 0;
+		ret = is_special_char(command->array[y], 0);			//Naam wijzigen naar check_valid_identifier
+		if (ret > 0)
+			return (-1);
 		first_node = compare_first_node(_env, command->array[y]);
 		if (!first_node)
 			compare_after_first_node(_env, command->array[y]);
 		y++;
 	}
+	return (0);
 }

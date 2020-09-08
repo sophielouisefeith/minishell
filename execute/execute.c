@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/08 13:23:55 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/09/08 14:48:18 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,24 +46,21 @@ static int      fill_fdout(t_output *output, int tmpout)
     return (fdout);
 }
 
-
-
 static void		invoke_another_program(t_command **command, t_env **_env)
 {
     int     ret;
+    
 
     ret = fork();
     if (ret == -1)
             printf("ERROR IN FORK");
     if (ret == 0)
     {
-		//signal(SIGSTOP, SIG_DFL);
-		execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
-        {
-           
-			printf("Je komt nooit hier terug, tenzij execve faalt\n");
-        }						
-		exit(1);																		//welke exit code?
+			execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
+            printf("Je komt nooit hier terug, tenzij execve faalt\n");
+            printf("[%s]\n", strerror(errno));
+			// 	printf("Je komt nooit hier terug, tenzij execve faalt\n");						
+			exit(1);																		//welke exit code?
     }
 	if (ret != 0)
         wait(NULL);
@@ -71,10 +68,14 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 
 /*
 ** Printf's:
-		// printf("Parent Pid = [%d]\n", getpid());
-				// printf("Execute builtin Pid = [%d]\n", getpid());
+		// sleep(1);
+		// printf("To kill pid = [%d]\n", ret);
+		// kill(ret, SIGTERM);
 		// printf("FORKED ID == 0 [%5d]			Child-process\n", ret);
+	// printf("Parent Pid = [%d]\n", getpid());
 		// printf("Wait: Dit pas printen nadat child is afgerond\n");
+		// printf("Child Pid = [%d]\n", getpid());
+				// printf("Execute builtin Pid = [%d]\n", getpid());
 		// printf("FORKED ID != 0 [%5d]			Parent-process\n", ret);
 	// printf("-------THE END------ FORKED ID = [%d]\n", ret);	
 					// while (1)
@@ -86,6 +87,8 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 
 void            execute(t_command **command, t_env **_env)
 {
+
+        printf("------------KOM JE HIER-----------\n");
         int     tmpin;
         int     tmpout;
         int     fdin;

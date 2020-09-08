@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/27 13:31:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/02 12:02:28 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/08 13:52:03 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void		change_env_pwd(t_env **_env)
 	copy_env = *_env;
 	path = getcwd(NULL, 0);													//getcwd malloct if buf == NULL, FREE!
 	if (path == NULL)
-		perror("error with getcwd");
+		strerror(errno);
 	while (copy_env)
 	{
 		if (!ft_strcmp("PWD", copy_env->name))
@@ -72,32 +72,38 @@ static void		change_env_pwd(t_env **_env)
 **	- cd ~/
 ** cd only reads the first string in the array. When there is a 2nd string
 ** available it doesn't do anything with it. 
+** TO DO:
+	- Losse strerror of 1 centrale?
 */
 
-void			execute_cd(t_command *command, t_env **_env)
+int				execute_cd(t_command *command, t_env **_env)
 {
 	int		ret;
-	
+
+	ret = 0;
 	if (command->array)
 	{
 		if (!ft_strcmp(command->array[0], "~/"))
 		{
 			ret = chdir(search_node(*_env, "HOME"));
 			if (ret == -1)
-				perror("bash: cd:");
+				error(command);
+				//printf("[%s]\n", strerror(errno));
 			change_env_pwd(_env);
-			return ;
+			return (ret);
 		}
 		ret = chdir(command->array[0]);
 		if (ret == -1)
-			perror("bash: cd:");
+			error(command);
+			//printf("[%s]\n", strerror(errno));
 		change_env_pwd(_env);
 	}
 	else
 	{
 		ret = chdir(search_node(*_env, "HOME"));
 		if (ret == -1)
-			perror("bash: cd:");
+			//printf("[%s]\n", strerror(errno));
 		change_env_pwd(_env);
 	}
+	return (ret);
 }
