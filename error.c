@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/08 16:34:07 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/09/08 21:15:57 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,9 @@ static char 			*translate_builtin(int b)
     //     return (builtin_no);
 }
 
-char					*error_command(char *str)
+char				*error_command(char *str)
 {
 	g_exit_status = 127;
-	
 	write(1, "bash: ", 6 );
 	write(1, str, ft_strlen(str));
 	write(1, ": ", 2 );

@@ -6,14 +6,14 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/08 18:27:31 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 20:36:36 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <signal.h>
 
-#define COLOR_PROMPT	"\033[1;33mminishell-$ \033[0m"
+#define COLOR_PROMPT	"\033[1;34mminishell-$ \033[0m"
 
 // int		g_exit_status;
 

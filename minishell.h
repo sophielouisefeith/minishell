@@ -6,11 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-<<<<<<< HEAD
-/*   Updated: 2020/09/08 17:10:05 by maran         ########   odam.nl         */
-=======
-/*   Updated: 2020/09/08 17:20:10 by SophieLouis   ########   odam.nl         */
->>>>>>> 07b4bae724c40aced502b191ecd1c2a24b22a66e
+/*   Updated: 2020/09/08 21:16:36 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/08 18:27:19 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 21:47:15 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char            *trunc_quotes(char *str)
     return (newstr);
 }
 
-
 int				get_builtin_type(char *str)
 {   
     if (!ft_strcmp(str, "echo"))
@@ -63,7 +62,7 @@ int				get_builtin_type(char *str)
    else if (!ft_strcmp(str, "exit"))
 		return (builtin_exit);
 	else
-        return (builtin_no);
+		return (builtin_no);
 }
 
 /*
@@ -83,7 +82,8 @@ int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 {
 	char 	*newstr;
 	int 	builtin_type;
-	char 	*path;
+	// char 	*path;
+	char *str_before;
 
     if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
 	{
@@ -103,16 +103,15 @@ int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 	else
 		newstr = (*sort)->str;
 	builtin_type = get_builtin_type(newstr);
-///																			//new
+///	
+																		//new
 	if (builtin_type == builtin_no)
 	{
-	
-		path = (*sort)->str;
+		str_before = (*sort)->str;
 		(*sort)->str = check_path(*_env, (*sort)->str);
-		path = check_path(*_env, (*sort)->str);
-		if (!ft_strcmp(path, (*sort)->str))
+		if (!ft_strcmp(str_before, (*sort)->str))
 			builtin_type = builtin_no_com;
-		return (builtin_type);												//ga niet naar de volgende node
+		return (builtin_type);											//ga niet naar de volgende node
 	}
 ///
 	*sort = (*sort)->next_sort;

@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/13 10:17:35 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/08 12:07:02 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 21:23:02 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_command		*ll_new_node_command()
 	// 	error_(12); 
 	new->array = NULL;
 	new->quote = NULL;
-	new->builtin = 0;
+	new->builtin = -1;	//-1 zetten misschien want 0 is een value;
 	new->output = NULL;
 	new->input = NULL;
 	new->pipe_before = 0;

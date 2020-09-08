@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/08 18:27:05 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 21:41:17 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,9 @@ static int		general(t_lexer **sort, char **array, int *y, int *quote)
 			array[*y] = newstr;
 			quote[*y] = ((*sort)->token[token_quote]) ? token_quote : token_dquote;			//new
 		}
-		else
+		else if (array != NULL)
 			array[*y] = ft_strdup((*sort)->str);
-			// printf("kom je na strdup\n");
 		(*y)++;
-	
 		if ((*sort)->next_sort)
 			*sort = (*sort)->next_sort;
 		else
@@ -73,6 +71,13 @@ static int		general(t_lexer **sort, char **array, int *y, int *quote)
 /*
 ** TO DO:
 	- Door het moeten toevoegen van quote wordt de functie te groot. Is dit de beste plek?
+*/
+
+/*
+** num_nodes + 1:
+** This is needed in cases of no builtin. The non-builtin needs to be saved in the array,
+** because execve needs this to read it out. The builtins are not saved in the array because
+** we use a builtin_type to save the type.
 */
 
 static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp, t_env **_env)
@@ -88,9 +93,8 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp, t_env *
 	num_nodes = 0;
 	y = 0;
 	num_nodes = count_node(*sort);
-
 	(*tmp)->builtin = check_builtin_node(sort, _env, tmp);
-	num_nodes = ((*tmp)->builtin == 0) ? (num_nodes + 1) : num_nodes;			//new	//in count_nodes fixen?
+	num_nodes = ((*tmp)->builtin == builtin_no_com || (*tmp)->builtin == builtin_no) ? (num_nodes + 1) : num_nodes;			//new	//in count_nodes fixen?
 	if (num_nodes > 0)
 	{
 		array = (char **)malloc((num_nodes + 1) * sizeof(char *));
