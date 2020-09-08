@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/08 15:03:17 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 15:48:11 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ int					error(t_command *command)
 
 	str_built= translate_builtin((command->builtin));
 
-	
-	
 	write(1, "bash: ", 6 );
 	write(1, str_built, ft_strlen(str_built));
 	write(1, command->array[0], ft_strlen(command->array[0]));
@@ -60,6 +58,6 @@ int					error(t_command *command)
 	write(1, strerror(errno), ft_strlen(strerror(errno)));
 	write(1, "\n", 1 );
 	
-	return(-1);
+	return (-1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/27 13:31:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/07 16:49:43 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 15:54:58 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,20 +87,22 @@ int				execute_cd(t_command *command, t_env **_env)
 		{
 			ret = chdir(search_node(*_env, "HOME"));
 			if (ret == -1)
-				printf("[%s]\n", strerror(errno));
+				error(command);
+			// 	printf("[%s]\n", strerror(errno));
 			change_env_pwd(_env);
 			return (ret);
 		}
 		ret = chdir(command->array[0]);
 		if (ret == -1)
-			printf("[%s]\n", strerror(errno));
+			error(command);
+			// printf("[%s]\n", strerror(errno));
 		change_env_pwd(_env);
 	}
 	else
 	{
 		ret = chdir(search_node(*_env, "HOME"));
 		if (ret == -1)
-			printf("[%s]\n", strerror(errno));
+			error(command);
 		change_env_pwd(_env);
 	}
 	return (ret);
