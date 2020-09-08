@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/08 16:34:53 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/09/08 18:05:17 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,12 @@ int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 		newstr = (*sort)->str;
 	builtin_type = get_builtin_type(newstr);
 ///																			//new
-		// printf("%d\n", builtin_type);
 	if (builtin_type == builtin_no)
 	{
+	
 		path = (*sort)->str;
 		(*sort)->str = check_path(*_env, (*sort)->str);
+		path = check_path(*_env, (*sort)->str);
 		if (!ft_strcmp(path, (*sort)->str))
 			builtin_type = builtin_no_com;
 		return (builtin_type);												//ga niet naar de volgende node

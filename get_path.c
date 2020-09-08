@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/08 16:37:06 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/09/08 17:49:51 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ char			*check_path(t_env *_env, char *str)
 		}
 		i++;
 	}
+	printf("---------------GET PATH[%s}\n", str);
+	
 	return (error_command(str)); 							//Was NULL
+	//return(NULL);
 }
 
 /*
