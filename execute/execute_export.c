@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/08 10:23:08 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/09/08 10:26:19 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ static int          check_format(char *str)
     int i;
 	int ret;
 	
-    if (!ft_isalpha(str[0]))
-		return (1);
+    // if (!ft_isalpha(str[0]))
+	// 	return (1);
     i = 1;
     while((ft_isalnum(str[i])|| str[i] == '_') && str)
         i++;
-	//if((!ft_isalnum(str[i])|| str[i] != '_') && str[i] != '\0')  // hier moet dan nog een $bij ?
-	//	return(1);
+	if((!ft_isalnum(str[i])|| str[i] != '_') && str[i] != '\0')  // hier moet dan nog een $bij ?
+		return(1);
     if (str[i] == '=')
         return (0);
 	// if (str[i]== '\0')                           

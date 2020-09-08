@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/04 14:34:42 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/09/08 13:23:55 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ static void		invoke_another_program(t_command **command, t_env **_env)
     {
 		//signal(SIGSTOP, SIG_DFL);
 		execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
-			printf("Je komt nooit hier terug, tenzij execve faalt\n");						
+        {
+           
+			printf("Je komt nooit hier terug, tenzij execve faalt\n");
+        }						
 		exit(1);																		//welke exit code?
     }
 	if (ret != 0)

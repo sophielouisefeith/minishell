@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/03 17:42:11 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 11:11:08 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,6 @@ enum	builtin_type{
 	builtin_exit
 };
 
-enum	error_type{
-	erro_general,
-	error_malloc,					//	strerror(errno);
-	erroc_notavalidfile,			//	strerror(errno);
-	error_Multipleline,
-	error_notavalidentifier,		//	strerror(errno);
-	//error_fork,
-	//error_openingpipe,
-	
-};
 
 typedef struct				s_lexer{
 	char 					*str;

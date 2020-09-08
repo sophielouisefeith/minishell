@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/04 16:55:46 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/09/08 11:38:16 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ int					main(int argc, char **argv, char **env)
 			//error(2, line); // ---------------here we say  No such file or directory
 		if (line[i] != '\0')
 			lexer_parser_executer(line, i, &_env);
+		
 		free(line);
 		line = NULL;
 	}
