@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/04 13:13:10 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/09/04 16:55:46 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 ** \033				ESC
 ** [0m				reset
 */
-
 
 /*
 ** We loop through sort in parser, we make a copy beforehand.
@@ -73,26 +72,58 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 ** If not execute, else new prompt.
 */ 
 
+/*
+** CTRL C:
+	- The interrupt signal, sends SIGINT to the job running in the foreground. --> Dus stopt echt sleep, maar sluit niet heel de shell.
+	- exit_code 130
+** CTRL \:
+	- lijkt hetzelfde als ctrl-c, behalve (^\Quit: 3)
+	- exit_code 131.
+** CTRL D (End of File):
+	- lijkt running proces af te ronden en sluit dan de shell
+	- exit_code 0
+*/
 
-// static void 		sighandler(int signum)
+static void			ctrl_d(int ret)
+{
+	if (ret == 0)
+	{
+		printf("exit\n");
+		exit(0);
+	}
+}
+
+// void 		sighandler(int signum)
 // {
-//    printf("Caught signal %d, coming out...\n", signum);
-// 	if (signum == SIGINT)					///ctrl c
-// 		exit(1);
-// 	if (signum == SIGQUIT)					// ctrl \ //
-// 		exit(1);
+	
 // }
 
-static void			handle_sigint(int signum)
+static void			handle_sigint_stop(int signum)
 {
 	//exit(0);
+	printf("d");
+	 write(1, "exit", 4);
 	 write(1, "\n", 1);
 	//  printf("Caught signal %d, coming out...\n", signum);
+    
+}
+static void			handle_sigint(int signum)
+{
+	if(signum == SIGINT)
+		printf("\n");
+	//exit(0);
+	//printf("c\n");
+	 write(1, "\n", 1);
+	
+	
     
 }
 
 int					main(int argc, char **argv, char **env)
 {
+	if(signal(SIGINT, handle_sigint))
+		printf("\n");
+		
 	t_env		*_env;	
 	char		*line;
 	int			ret;
@@ -103,8 +134,9 @@ int					main(int argc, char **argv, char **env)
 
 	
  	signal(SIGINT, handle_sigint); //ctrl c
-	// signal(SIGQUIT, handle_sigint); //ctrl \ //
-    // signal(SIGTSTP, handle_sigint); // crtl d
+	signal(SIGQUIT, SIG_DFL); //ctrl \ //
+    signal(SIGTSTP, handle_sigint_stop); // crtl d
+	signal(SIGSTOP, handle_sigint); // crtl d
 
 
 
@@ -118,6 +150,8 @@ int					main(int argc, char **argv, char **env)
 
 	while (ret > 0)
 	{
+		//signal(SIGINT, handle_sigint); //ctrl c
+		signal(SIGSTOP, handle_sigint_stop); // crtl d
 		i = 0;
 		write(1, COLOR_PROMPT, 24);
 		ret = get_next_line(0, &line);
@@ -128,6 +162,7 @@ int					main(int argc, char **argv, char **env)
 		free(line);
 		line = NULL;
 	}
+	// ctrl_d(ret);
 	free_env(_env);												//new
 	return (0);
 }

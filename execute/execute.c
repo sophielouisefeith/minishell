@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/04 11:59:52 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/09/04 14:34:42 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,48 @@ static int      fill_fdout(t_output *output, int tmpout)
     return (fdout);
 }
 
+
+
+static void		invoke_another_program(t_command **command, t_env **_env)
+{
+    int     ret;
+
+    ret = fork();
+    if (ret == -1)
+            printf("ERROR IN FORK");
+    if (ret == 0)
+    {
+		//signal(SIGSTOP, SIG_DFL);
+		execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
+			printf("Je komt nooit hier terug, tenzij execve faalt\n");						
+		exit(1);																		//welke exit code?
+    }
+	if (ret != 0)
+        wait(NULL);
+}
+
+/*
+** Printf's:
+		// printf("Parent Pid = [%d]\n", getpid());
+				// printf("Execute builtin Pid = [%d]\n", getpid());
+		// printf("FORKED ID == 0 [%5d]			Child-process\n", ret);
+		// printf("Wait: Dit pas printen nadat child is afgerond\n");
+		// printf("FORKED ID != 0 [%5d]			Parent-process\n", ret);
+	// printf("-------THE END------ FORKED ID = [%d]\n", ret);	
+					// while (1)
+					// {
+						// printf("Child Pid = [%d]\n", getpid());
+						// sleep(1);
+					// }	
+*/
+
 void            execute(t_command **command, t_env **_env)
 {
         int     tmpin;
         int     tmpout;
         int     fdin;
         int     fdout;
-        int     ret;
-        int     i;
+		int     i;
         int     len_list;
         int     fdpipe[2];
 		
@@ -82,32 +116,10 @@ void            execute(t_command **command, t_env **_env)
                 fdout = dup(tmpout);
             dup2(fdout,1);
             close(fdout);
-			if ((*command)->builtin == builtin_echo || (*command)->builtin == builtin_env ||(*command)->builtin == builtin_no)
-			{
-            	ret = fork();
-            	if (ret == -1)
-                	printf("ERROR IN FORK");
-           		if (ret == 0)
-            	{
-					printf("FORKED ID == 0 [%5d]			Child-process\n", ret);
-					if((*command)->builtin == builtin_no)
-					{
-						printf("Child Pid = [%d]\n", getpid());
-						sleep(1);
-						execve((*command)->array[i], (*command)->array, env_ll_to_array(*_env));
-							printf("Je komt nooit hier terug, tenzij execve faalt\n");						
-						exit(1);														//welke exit code?
-					}
-                	execute_command(command, _env);
-            	}
-            	if (ret != 0)
-				{    
-					printf("Wait: Dit pas printen nadat child is afgerond\n");
-					printf("FORKED ID != 0 [%5d]			Parent-process\n", ret);                                        //new
-                	wait(NULL);
-				}
-			}
-			execute_builtin(command, _env);
+			if ((*command)->builtin == builtin_no)
+				invoke_another_program(command, _env);
+			else
+				execute_builtin(command, _env);
            	*command = (*command)->next_command;
             i++;
         }
@@ -115,5 +127,11 @@ void            execute(t_command **command, t_env **_env)
         dup2(tmpout, 1);
         close(tmpin);
         close(tmpout);
-        //waitpid(ret, NULL, 0);                                       //Lijkt niks meer toe te voegen?
 }
+
+
+
+
+
+
+//waitpid(ret, NULL, 0);                                       //Lijkt niks meer toe te voegen?

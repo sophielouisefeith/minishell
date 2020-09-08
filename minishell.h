@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/02 16:04:32 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/09/03 17:42:11 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,5 +203,7 @@ char							*expand(char *str, int i, t_env *_env);
 char							*search_node(t_env *_env, char *search);
 int								is_special_char(char *str, int i);
 char							*join_strings(char *new_str1, char *parameter, char *new_str2);
+
+void 		sighandler(int signum);
 
 #endif
