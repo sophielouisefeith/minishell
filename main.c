@@ -6,13 +6,14 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/08 18:24:33 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 18:27:31 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
 
-#define COLOR_PROMPT	"\033[1;34mminishell-$ \033[0m"
+#define COLOR_PROMPT	"\033[1;33mminishell-$ \033[0m"
 
 // int		g_exit_status;
 
@@ -105,6 +106,7 @@ void 		sighandler(int signum)
 
 int					main(int argc, char **argv, char **env)
 {
+		
 	t_env		*_env;	
 	char		*line;
 	int			ret;
@@ -126,6 +128,7 @@ int					main(int argc, char **argv, char **env)
 			//error(2, line); // ---------------here we say  No such file or directory
 		if (line[i] != '\0')
 			lexer_parser_executer(line, i, &_env);
+		
 		free(line);
 		line = NULL;
 	}

@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/08 18:22:37 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 18:31:03 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,17 @@ static void		invoke_another_program(t_command **command, t_env **_env)
     int     ret;
 	// int 	n;
 
-	printf("Command NO\n");
+	//printf("Command NO\n");
     ret = fork();
     if (ret == -1)
             printf("ERROR IN FORK");
     if (ret == 0)
     {
-			// printf("n = %d\n", n);
-			execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
-				printf("ERROR \n");
+		execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
+				//printf("ERROR \n");
 				
-			// // printf("[%s]", strerror(errno));
+			// printf("n = %d\n", n);
+			//printf("[%s]", strerror(errno));
 			// g_exit_status = 1;
 			
 			// 	printf("Je komt nooit hier terug, tenzij execve faalt\n");						
@@ -136,9 +136,7 @@ void            execute(t_command **command, t_env **_env)
                 fdout = dup(tmpout);
             dup2(fdout,1);
             close(fdout);
-			printf(" %d\n", (*command)->builtin);
-			
-			if ((*command)->builtin == builtin_no)
+			if ((*command)->builtin == builtin_no || (*command)->builtin == builtin_no_com ) // add builtin_no_com
 				invoke_another_program(command, _env);
 			if ((*command)->builtin != builtin_no_com && (*command)->builtin != builtin_no)
 				execute_builtin(command, _env);

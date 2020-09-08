@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/08 18:13:38 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 18:27:19 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,10 @@ int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 ///																			//new
 	if (builtin_type == builtin_no)
 	{
-		path = ft_strdup((*sort)->str);
+	
+		path = (*sort)->str;
 		(*sort)->str = check_path(*_env, (*sort)->str);
+		path = check_path(*_env, (*sort)->str);
 		if (!ft_strcmp(path, (*sort)->str))
 			builtin_type = builtin_no_com;
 		return (builtin_type);												//ga niet naar de volgende node
