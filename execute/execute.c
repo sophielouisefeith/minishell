@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/08 13:13:37 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 15:02:48 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static int      fill_fdout(t_output *output, int tmpout)
 static void		invoke_another_program(t_command **command, t_env **_env)
 {
     int     ret;
+	// int 	n;
 
     ret = fork();
     if (ret == -1)

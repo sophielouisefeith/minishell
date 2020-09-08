@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/08 13:24:18 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 15:00:45 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char			*check_path(t_env *_env, char *str)
 		}
 		i++;
 	}
-	return (str); 							//Was NULL
+	return (error_command(str)); 							//Was NULL
 }
 
 /*
