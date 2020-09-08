@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:15 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/04 13:29:33 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 12:06:47 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,64 +21,45 @@ echo : The return status is 0 unless a write error occurs
 cd: The return status is zero if the directory is successfully changed, non-zero otherwise.
 pwd: The return status is zero unless an error is encountered while determining the name of the current directory or an invalid option is supplied.
 export: The return status is zero unless an invalid option is supplied or one of the names is not a valid shell variable name
-unset: The return status is zero unless a name is readonly.
+unset: The return status is zero unless a name is readonly or does not exist.
 env: The env utility exits 0 on success, and >0 if an error occurs.  An exit status of 126 indicates that utility was found, but could not be executed.  An exit status of 127 indicates that utility could not be found.
 -----------
 
 Simple shell command: echo
 */
 
-//OUD:
-
-// void			execute_command(t_command **command, t_env **_env)
-// {
-// 	// char	**env_array;
-// 	// int 	ret;
-
-// 	// ret = 0;
-// 	// if ((*command)->builtin == builtin_echo)
-// 	// {
-// 	// 	ret = echo((*command)->array);
-// 	// 	// ret = echo(*command, *_env);
-// 	// 	if (ret == -1)
-// 	// 		(*command)->exit_status = 1;				//new
-// 	// 	exit((*command)->exit_status);
-// 	// }
-// 	// if ((*command)->builtin == builtin_env)
-// 	// {
-// 	// 	// env_array = env_ll_to_array(*_env);
-// 	// 	// env(env_array);
-// 	// 	// exit((*command)->exit_status);
-// 	// 	env(*_env);
-// 	// 	exit((*command)->exit_status);
-// 	// }
-	
-// }
+/*
+** Echo: write returns -1 when error + errno is set. Check
+** Cd: chdir returns -1 if not succesful + errno is set. Check
+** Pwd: getcwd NULL als onsuccesvol (pwd < 0) + errno is set. Check
+** Export: 
+** Unset: -1 if not a valid identifier, invalid option ommit, does not exit still returns 0. Check?
+** Env: write returns -1 when error. Check?
+** Export: -1 wanneer invalid identifier. Check? 
+** Exit: ------- werkt anders qua exit_status. Zie functie.
+*/
 
 void			execute_builtin(t_command **command, t_env **_env)
 {
 	int ret;
 
+	ret = 0;
+	if ((*command)->builtin == builtin_echo)
+		ret = echo((*command)->array);
     if ((*command)->builtin == builtin_cd)
-        execute_cd(*command, _env);
+        ret = execute_cd(*command, _env);
     if ((*command)->builtin == builtin_pwd)
-        execute_pwd(*command, *_env);
+        ret = execute_pwd(*command, *_env);
+	if ((*command)->builtin == builtin_export)
+		ret = execute_export(_env, command);
 	if ((*command)->builtin == builtin_unset)
-	 	execute_unset(*command, _env);
+	 	ret = execute_unset(*command, _env);
+	if ((*command)->builtin == builtin_env)
+		ret = env(*_env);
     if ((*command)->builtin == builtin_exit)
         execute_exit(*command);
-	if ((*command)->builtin == builtin_export)
-	{
-		execute_export(_env, command);
-		// exit((*command)->exit_status);
-	}
-//Verplaatst:
-	if ((*command)->builtin == builtin_env)
-		env(*_env);
-	if ((*command)->builtin == builtin_echo)
-	{
-		ret = echo((*command)->array);
-		if (ret == -1)
-			(*command)->exit_status = 1;
-	}
+	if (ret == -1)
+		g_exit_status = 1;
+	else
+		g_exit_status = 0;
 }

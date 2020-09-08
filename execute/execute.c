@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/04 13:53:06 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 13:13:37 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ static int      fill_fdout(t_output *output, int tmpout)
     return (fdout);
 }
 
-
-
 static void		invoke_another_program(t_command **command, t_env **_env)
 {
     int     ret;
@@ -57,9 +55,10 @@ static void		invoke_another_program(t_command **command, t_env **_env)
             printf("ERROR IN FORK");
     if (ret == 0)
     {
-		execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
-			printf("Je komt nooit hier terug, tenzij execve faalt\n");						
-		exit(1);																		//welke exit code?
+			execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
+			printf("[%s]", strerror(errno));
+				printf("Je komt nooit hier terug, tenzij execve faalt\n");						
+			exit(1);																		//welke exit code?
     }
 	if (ret != 0)
         wait(NULL);
@@ -67,10 +66,14 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 
 /*
 ** Printf's:
-		// printf("Parent Pid = [%d]\n", getpid());
-				// printf("Execute builtin Pid = [%d]\n", getpid());
+		// sleep(1);
+		// printf("To kill pid = [%d]\n", ret);
+		// kill(ret, SIGTERM);
 		// printf("FORKED ID == 0 [%5d]			Child-process\n", ret);
+	// printf("Parent Pid = [%d]\n", getpid());
 		// printf("Wait: Dit pas printen nadat child is afgerond\n");
+		// printf("Child Pid = [%d]\n", getpid());
+				// printf("Execute builtin Pid = [%d]\n", getpid());
 		// printf("FORKED ID != 0 [%5d]			Parent-process\n", ret);
 	// printf("-------THE END------ FORKED ID = [%d]\n", ret);	
 					// while (1)

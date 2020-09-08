@@ -6,13 +6,15 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/04 13:34:15 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 13:20:11 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 #define COLOR_PROMPT	"\033[1;34mminishell-$ \033[0m"
+
+// int		g_exit_status;
 
 /*
 ** \033				Octal value of ESC (escape sequence)
@@ -76,12 +78,14 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 	- The interrupt signal, sends SIGINT to the job running in the foreground. --> Dus stopt echt sleep, maar sluit niet heel de shell.
 	- exit_code 130
 ** CTRL \:
+	- QUIT signal-  by default terminates an application
 	- lijkt hetzelfde als ctrl-c, behalve (^\Quit: 3)
 	- exit_code 131.
 ** CTRL D (End of File):
 	- lijkt running proces af te ronden en sluit dan de shell
 	- exit_code 0
 */
+
 
 static void			ctrl_d(int ret)
 {
@@ -92,11 +96,13 @@ static void			ctrl_d(int ret)
 	}
 }
 
-// void 		sighandler(int signum)
-// {
-	
-// }
-
+void 		sighandler(int signum)
+{
+	if (signum == SIGINT)
+		write(1, "\n", 1);
+	if (signum == SIGQUIT)
+		printf("Quit: 3\n");
+}
 
 int					main(int argc, char **argv, char **env)
 {
@@ -105,17 +111,18 @@ int					main(int argc, char **argv, char **env)
 	int			ret;
 	int 		i;
 
+
 	ret = 1;
 	_env = save_env(env);
-
- 	// signal(SIGINT, sighandler);
-	// signal(SIGQUIT, sighandler);
-
+ 	signal(SIGINT, sighandler);		// CTRL C
+	signal(SIGQUIT, sighandler);	// CTRL backslash
 	while (ret > 0)
 	{
 		i = 0;
 		write(1, COLOR_PROMPT, 24);
 		ret = get_next_line(0, &line);
+		if (ret <= 0)
+			ctrl_d(ret);
 		//if (ret == -1)
 			//error(2, line); // ---------------here we say  No such file or directory
 		if (line[i] != '\0')
@@ -123,7 +130,6 @@ int					main(int argc, char **argv, char **env)
 		free(line);
 		line = NULL;
 	}
-	// ctrl_d(ret);
 	free_env(_env);												//new
 	return (0);
 }

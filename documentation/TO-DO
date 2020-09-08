@@ -12,3 +12,5 @@
 
 New to do:
 - Melding als geen builtin en ook geen execve functie --> nu nog seg
+- Tot welk detail errorchecking? Bijv ook na new_node etc?
+

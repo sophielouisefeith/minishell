@@ -107,3 +107,24 @@ Dus als er een $ voorstaat en hij bestaat niet, dan wordt deze gedelete.
 ***************************
 
 Iets met \ en ctrl D
+
+***************************
+** 		Exit_codes		**
+***************************
+- Invalid identifiers testen: getallen, tekens, $ etc.
+- Testen met echo $?
+- 
+
+
+echojhdfjhjdkh				-->127		bash: echojhdfjhjdkh: command not found
+
+echo	[Weet niet hoe te testen]
+cd poep						--> 1
+pwd -k						--> 1		+ bash: pwd: -k: invalid option
+
+
+
+unset -k					--> 2		+ ash: unset: -k: invalid option
+unset						--> 0		Ik had foutcode verwacht, maar is niet.
+unset %						--> 1		bash: unset: `%': not a valid identifier
+unset 3						--> 1

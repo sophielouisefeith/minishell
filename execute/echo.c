@@ -6,11 +6,11 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:30 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/08/28 12:01:32 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/07 15:19:04 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+// #include <unistd.h>
 #include "../minishell.h"
 
 static int		write_echo(char **array, int y)
@@ -34,14 +34,14 @@ static int		write_echo(char **array, int y)
 int				echo(char **array)
 {
 	int		flag_n;
-	int		y;
 	int		ret;
+	int		y;
 
-	ret = 0;
 	flag_n = 0;
+	ret = 0;
 	y = 0;
 	if (!array)							//new
-			write(1, "\n", 1);
+		ret = write(1, "\n", 1);
 	if (!ft_strcmp(array[0], "-n"))
 	{
 		flag_n = 1;
