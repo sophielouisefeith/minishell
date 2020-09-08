@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/08 13:20:11 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 18:24:33 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 	- lijkt running proces af te ronden en sluit dan de shell
 	- exit_code 0
 */
-
 
 static void			ctrl_d(int ret)
 {

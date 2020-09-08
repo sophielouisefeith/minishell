@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/08 16:31:06 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 18:22:37 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int      fill_fdout(t_output *output, int tmpout)
 static void		invoke_another_program(t_command **command, t_env **_env)
 {
     int     ret;
-	int 	n;
+	// int 	n;
 
 	printf("Command NO\n");
     ret = fork();
@@ -57,15 +57,15 @@ static void		invoke_another_program(t_command **command, t_env **_env)
             printf("ERROR IN FORK");
     if (ret == 0)
     {
-			if (execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env)))
+			// printf("n = %d\n", n);
+			execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
 				printf("ERROR \n");
 				
-			// printf("n = %d\n", n);
 			// // printf("[%s]", strerror(errno));
 			// g_exit_status = 1;
-			// printf("g_exit: %d\n", g_exit_status);
+			
 			// 	printf("Je komt nooit hier terug, tenzij execve faalt\n");						
-			// exit(1);																		//welke exit code?
+			exit(1);																		//welke exit code?
     }
 	if (ret != 0)
 	{
@@ -110,6 +110,7 @@ void            execute(t_command **command, t_env **_env)
         int     len_list;
         int     fdpipe[2];
 		
+
         len_list = lstsize(*command);
         tmpin = dup(0);
         tmpout = dup(1);
@@ -135,10 +136,13 @@ void            execute(t_command **command, t_env **_env)
                 fdout = dup(tmpout);
             dup2(fdout,1);
             close(fdout);
+			printf(" %d\n", (*command)->builtin);
+			
 			if ((*command)->builtin == builtin_no)
 				invoke_another_program(command, _env);
 			if ((*command)->builtin != builtin_no_com && (*command)->builtin != builtin_no)
 				execute_builtin(command, _env);
+			// else
            	*command = (*command)->next_command;
             i++;
         }
