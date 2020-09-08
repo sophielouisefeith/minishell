@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:30 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/07 15:19:04 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 22:25:23 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,11 @@ int				echo(char **array)
 	flag_n = 0;
 	ret = 0;
 	y = 0;
-	if (!array)							//new
+	if (array == NULL)
+	{
 		ret = write(1, "\n", 1);
+		return (ret);
+	}							//new
 	if (!ft_strcmp(array[0], "-n"))
 	{
 		flag_n = 1;

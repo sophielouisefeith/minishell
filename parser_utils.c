@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/08 21:47:15 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 23:16:48 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 /*
 ** Counts number of general nodes
-** To do:
-** - Testen of het in alle gevallen goed gaat door op -1 te beginnen.
+** Changelog 08/09:
+	- Count_node aangepast zodat we van ? af zijn in fill_builtin_redirec_array
+	- Big changes in check_builtin_node: quotes veel korter (gaat dit goed?), check_path toevoeging.
 */
 
-int				count_node(t_lexer *sort)
+int				count_node(t_lexer *sort, int type_builtin)
 {
 	int 	i;
 
-	i = -1;
+	i = 0;
 	while (sort && !sort->token[token_pipe] && !sort->token[token_semicolon])
 	{
         if (sort->token[token_general])
@@ -31,6 +32,9 @@ int				count_node(t_lexer *sort)
 		    sort = sort->next_sort;
         sort = sort->next_sort;
 	}
+	if (type_builtin >= builtin_echo && type_builtin <= builtin_exit)
+		i--;
+	// printf("i = %d \n", i);
 	return (i);
 }
 
@@ -65,6 +69,61 @@ int				get_builtin_type(char *str)
 		return (builtin_no);
 }
 
+/* Waarom hadden we eerst:
+if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
+	{
+		newstr = trunc_quotes((*sort)->str);
+		builtin_type = get_builtin_type(newstr);
+		printf("(*sort)->str = [%s]\n", (*sort)->str);
+		free (newstr);
+		return (builtin_type);
+	}
+	--> Waarom niet direct sort->str ontdoen van quotes? Hier was vast een reden voor.
+*/
+
+int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
+{
+	char 	*newstr;
+	int 	builtin_type;
+	char 	*str_before;
+
+    if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
+	{
+		free((*sort)->str);
+		(*sort)->str = trunc_quotes((*sort)->str);
+	}
+	builtin_type = get_builtin_type((*sort)->str);
+	if (builtin_type == builtin_no)
+	{
+		str_before = (*sort)->str;
+		(*sort)->str = check_path(*_env, (*sort)->str);
+		if (!ft_strcmp(str_before, (*sort)->str))
+			builtin_type = builtin_no_com;
+	}
+	return (builtin_type);
+}
+
+
+//OLD
+
+// int				count_node(t_lexer *sort)
+// {
+// 	int 	i;
+
+// 	i = -1;
+// 	while (sort && !sort->token[token_pipe] && !sort->token[token_semicolon])
+// 	{
+//         if (sort->token[token_general])
+// 		    i++;
+//         if (sort->token[token_redirection])
+// 		    sort = sort->next_sort;
+//         sort = sort->next_sort;
+// 	}
+// 	return (i);
+// }
+
+	// printf("(*sort)->str = [%s]\n", (*sort)->str);
+
 /*
 ** Removes quotation and returns builtin_type
 **
@@ -78,42 +137,41 @@ int				get_builtin_type(char *str)
 	- Kan dit mooier deze toevoeging?
 */
 
-int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
-{
-	char 	*newstr;
-	int 	builtin_type;
-	// char 	*path;
-	char *str_before;
+// int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
+// {
+// 	char 	*newstr;
+// 	int 	builtin_type;
+// 	char *str_before;
 
-    if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
-	{
-		newstr = trunc_quotes((*sort)->str);
-		builtin_type = get_builtin_type(newstr);
-///																			//new
-		if (builtin_type == 0)
-		{
-			(*sort)->str = check_path(*_env, (*sort)->str);
-			return (builtin_type);											//ga niet naar de volgende node
-		}
-///
-		free (newstr);
-		*sort = (*sort)->next_sort;
-		return (builtin_type);
-	}
-	else
-		newstr = (*sort)->str;
-	builtin_type = get_builtin_type(newstr);
-///	
-																		//new
-	if (builtin_type == builtin_no)
-	{
-		str_before = (*sort)->str;
-		(*sort)->str = check_path(*_env, (*sort)->str);
-		if (!ft_strcmp(str_before, (*sort)->str))
-			builtin_type = builtin_no_com;
-		return (builtin_type);											//ga niet naar de volgende node
-	}
-///
-	*sort = (*sort)->next_sort;
-	return (builtin_type);
-}
+//     if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
+// 	{
+// 		newstr = trunc_quotes((*sort)->str);
+// 		builtin_type = get_builtin_type(newstr);
+// ///																			//new
+// 		if (builtin_type == 0)
+// 		{
+// 			(*sort)->str = check_path(*_env, (*sort)->str);
+// 			return (builtin_type);											//ga niet naar de volgende node
+// 		}
+// ///
+// 		free (newstr);
+// 		// *sort = (*sort)->next_sort;
+// 		return (builtin_type);
+// 	}
+// 	else
+// 		newstr = (*sort)->str;
+// 	builtin_type = get_builtin_type(newstr);
+// ///	
+// 																		//new
+// 	if (builtin_type == builtin_no)
+// 	{
+// 		str_before = (*sort)->str;
+// 		(*sort)->str = check_path(*_env, (*sort)->str);
+// 		if (!ft_strcmp(str_before, (*sort)->str))
+// 			builtin_type = builtin_no_com;
+// 		return (builtin_type);											//ga niet naar de volgende node
+// 	}
+// ///
+// 	// *sort = (*sort)->next_sort;
+// 	return (builtin_type);
+// }

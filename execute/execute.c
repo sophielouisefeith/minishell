@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/08 21:22:50 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 23:21:58 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 				//printf("ERROR \n");
 				
 			// printf("n = %d\n", n);
-			//printf("[%s]", strerror(errno));
+			printf("[%s]", strerror(errno));
 			// g_exit_status = 1;
 			
 			// 	printf("Je komt nooit hier terug, tenzij execve faalt\n");						
@@ -136,7 +136,7 @@ void            execute(t_command **command, t_env **_env)
                 fdout = dup(tmpout);
             dup2(fdout,1);
             close(fdout);
-			if ((*command)->builtin == builtin_no) 
+			if ((*command)->builtin == builtin_no)
 				invoke_another_program(command, _env);
 			if ((*command)->builtin != builtin_no_com && (*command)->builtin != builtin_no)
 				execute_builtin(command, _env);
