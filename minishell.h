@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/08 14:43:41 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/09/08 16:34:43 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ enum	token_type{
 };
 
 enum	builtin_type{
+	builtin_no_com,
 	builtin_no,
 	builtin_echo,
 	builtin_cd,
@@ -164,10 +165,10 @@ void         					free_env(t_env *_env);
 // void        				    free_list_command(t_command **command);
 
 /*error */						
-char                			*strerror_i(int errnum);
-int								error_free(int mistake);
+// char                			*strerror_i(int errnum);
+// int								error_free(int mistake);
+char							*error_command(char *str);
 int								error(t_command *command);
-char								*error_command(char *str);
 
 /*execute*/
 void            				execute(t_command **command, t_env **env);

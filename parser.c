@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/08 14:51:38 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/09/08 16:40:48 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp, t_env *
 	num_nodes = ((*tmp)->builtin == 0) ? (num_nodes + 1) : num_nodes;			//new	//in count_nodes fixen?
 	if (num_nodes > 0)
 	{
-		printf("------------na fill builtin_red_arr----------\n");
 		array = (char **)malloc((num_nodes + 1) * sizeof(char *));
 		// if (array == NULL)
 		// 	error_free(12);
@@ -99,7 +98,6 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp, t_env *
 	while (*sort && ((*sort)->token[token_general]
 				|| (*sort)->token[token_redirection]))
 	{
-		printf("------------while loop na fill builtin_red_arr----------\n");
 		ret = redirection(sort, tmp);
 		if (ret == 1)
 			return (close_and_save_array(tmp, array, y, quote));

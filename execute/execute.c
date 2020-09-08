@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/08 14:48:18 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/09/08 16:36:36 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,36 @@ static int      fill_fdout(t_output *output, int tmpout)
 static void		invoke_another_program(t_command **command, t_env **_env)
 {
     int     ret;
-    
+	int 	n;
 
+	printf("Command NO\n");
     ret = fork();
     if (ret == -1)
             printf("ERROR IN FORK");
     if (ret == 0)
     {
-			execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
-            printf("Je komt nooit hier terug, tenzij execve faalt\n");
-            printf("[%s]\n", strerror(errno));
+			if (execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env)))
+				printf("ERROR \n");
+				
+			// printf("n = %d\n", n);
+			// // printf("[%s]", strerror(errno));
+			// g_exit_status = 1;
+			// printf("g_exit: %d\n", g_exit_status);
 			// 	printf("Je komt nooit hier terug, tenzij execve faalt\n");						
-			exit(1);																		//welke exit code?
+			// exit(1);																		//welke exit code?
     }
 	if (ret != 0)
+	{
+		// 	printf("in errno\n");
+		// printf("errno = %d\n", errno);
+		// if (errno)
+		// {
+		// 	g_exit_status = 1;
+		// }
+		// else
+			g_exit_status = 0;
         wait(NULL);
+	}
 }
 
 /*
@@ -124,7 +139,7 @@ void            execute(t_command **command, t_env **_env)
             close(fdout);
 			if ((*command)->builtin == builtin_no)
 				invoke_another_program(command, _env);
-			else
+			if ((*command)->builtin != builtin_no_com && (*command)->builtin != builtin_no)
 				execute_builtin(command, _env);
            	*command = (*command)->next_command;
             i++;

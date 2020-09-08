@@ -1,20 +1,20 @@
 
-1. Execve																		[	Check	][ WARNING terminal is not fully functional]
-2. Signals (ctrl-C, ctrl-D and ctrl-\)											[			]
-3. Structuur execute (builtins in parent, child execve)							[			]
-4. exit_status functies															[			]
-5. Regulier freeen (let ook op aanpassingen in lexer, parser (zie //new)) 		[			]
-6. Error_functie
-•ontvangen
+1. Execve																		[	Check	]
+2. Signals (ctrl-C, ctrl-D and ctrl-\)											[ Sop:vragen aan Wester]
+3. Structuur execute (builtins in parent, child execve)							[	the end	]
+4. exit_status functies															[check		]
+	- ls poep																		Sop: vragen	
 
+5. Regulier freeen (let ook op aanpassingen in lexer, parser (zie //new)) 		[ Samen		]
+6. Error_functie																[ Sop		]
+	- Overal neerzetten
 
-																[			]
-7. TESTEN!																		[			]
-8. Alles doorlopen, strakker, betere benamingen, checken op overbodige shizzle	[			]
-9. Norminetten																	[			]
+7. TESTEN!																		[ Sop		]
+8. Alles doorlopen, strakker, betere benamingen, checken op overbodige shizzle	[ 	the end	]
+9. Norminetten																	[	the end	]
+10 echo \" en echo \'															[			]																
 
 
 New to do:
 - Melding als geen builtin en ook geen execve functie --> nu nog seg
 - Tot welk detail errorchecking? Bijv ook na new_node etc?
-
