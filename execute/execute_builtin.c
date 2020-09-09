@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:15 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/08 22:25:41 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/09 18:29:48 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,15 @@ Simple shell command: echo
 ** Exit: ------- werkt anders qua exit_status. Zie functie.
 */
 
+
+/*
+** LET OP: PLaats van execute_exit belangrijk! niet boven:
+if (ret == -1)
+		g_exit_status = 1;
+	else
+		g_exit_status = 0;
+*/
+
 void			execute_builtin(t_command **command, t_env **_env)
 {
 	int ret;
@@ -56,10 +65,10 @@ void			execute_builtin(t_command **command, t_env **_env)
 	 	ret = execute_unset(*command, _env);
 	if ((*command)->builtin == builtin_env)
 		ret = env(*_env);
-    if ((*command)->builtin == builtin_exit)
-        execute_exit(*command);
-	if (ret == -1)
+	if ((*command)->builtin == builtin_exit)
+		execute_exit(*command);
+	if (ret == -1 && (*command)->builtin != builtin_exit)
 		g_exit_status = 1;
-	else
+	else if (ret != -1 && (*command)->builtin != builtin_exit)
 		g_exit_status = 0;
 }

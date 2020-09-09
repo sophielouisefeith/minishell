@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/30 13:54:44 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/08 13:24:31 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/09 19:06:30 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,60 +29,49 @@
 **
 ** Mijn functie:
 ** exit_status = default 0, otherwise a set exit_status.
-** Als geen argumenten dan status laatste command, anders 0.
-** Als wel argumenten dan overruled hij de exit_status
-** Max 1 argumenten, meer dan exit_status op 1. Hij exit niet!
+** Als geen argumenten dan status laatste command.
+** Als wel argumenten dan overruled hij de exit_status:
+	- 1. Check of nummeriek
+	- 2. Check aantal argumenten, meer dan 1 exit_status op 1. Hij exit niet!
+	- 3. Als maar 1 argument en deze is nummeriek, dan exit met deze exitstatus.
+
+** LET OP: volgorde van exit functie belangrijk.
 */
 
 int        execute_exit(t_command *command)
 {
 	int		argument_0;
+	int 	i;
+	int		ret;
 
+	i = 0;
 	if (!command->array)
-		exit(g_exit_status);
-	else if (command->array[1])
 	{
-		printf("exit\nbash: exit: too many arguments\n");
+		write(1, "exit\n", 6);
+		exit(g_exit_status);
+	}
+	if (command->array[0])
+	{
+		while (command->array[0][i])
+		{
+			ret = ft_isdigit(command->array[0][i]);
+			if (ret == 0)
+			{
+				write(1, "exit\nbash: exit: numeric argument required\n", 44);		//Moet nog errormessage waarbij argument door wordt gegeven
+				exit(255);
+			}
+			i++;
+		}
+	}
+	if (command->array[1])
+	{
+		write(1, "exit\nbash: exit: too many arguments\n", 37);
 		return (g_exit_status = 1);
 	}
 	else
 	{
-		argument_0 = ft_atoi(command->array[0]);
-		if (ft_isalnum(argument_0))
-		{
-			printf("exit\nbash: exit: numeric argument required\n");
-			g_exit_status = 255;
-		}
-		else
-			g_exit_status = argument_0;
+		g_exit_status = ft_atoi(command->array[0]);
+		write(1, "exit\n", 6);
 		exit(g_exit_status);
 	}
 }
-
-
-// OUD:
-
-// int        execute_exit(t_command *command)
-// {
-// 	int		argument_0;
-
-// 	if (!command->array)
-// 		exit(command->exit_status);
-// 	else if (command->array[1])
-// 	{
-// 		printf("exit\nbash: exit: too many arguments\n");
-// 		return (command->exit_status = 1);
-// 	}
-// 	else
-// 	{
-// 		argument_0 = ft_atoi(command->array[0]);
-// 		if (ft_isalnum(argument_0))
-// 		{
-// 			printf("exit\nbash: exit: numeric argument required\n");
-// 			command->exit_status = 255;
-// 		}
-// 		else
-// 			command->exit_status = argument_0;
-// 		exit(command->exit_status);	
-// 	}
-// }

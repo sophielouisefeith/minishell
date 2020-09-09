@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/08 23:21:58 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/09 17:51:43 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,38 +46,31 @@ static int      fill_fdout(t_output *output, int tmpout)
     return (fdout);
 }
 
+/*
+** Waitpid: It suspends execution of the calling process until a child specified by pid argument has changed state.
+** WIFEXITED(status): returns true if the child terminated normally.
+** WEXITSTATUS(status): returns the exit status of the child. This macro should be employed only if WIFEXITED returned true.
+*/
+
 static void		invoke_another_program(t_command **command, t_env **_env)
 {
-    int     ret;
-	// int 	n;
+    int     pid;	
+	int 	status;
 
-	//printf("Command NO\n");
-    ret = fork();
-    if (ret == -1)
-            printf("ERROR IN FORK");
-    if (ret == 0)
+	pid = fork();
+    if (pid == -1)
+           printf("[%s]", strerror(errno));
+    if (pid == 0)
     {
 		execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
-				//printf("ERROR \n");
-				
-			// printf("n = %d\n", n);
-			printf("[%s]", strerror(errno));
-			// g_exit_status = 1;
-			
-			// 	printf("Je komt nooit hier terug, tenzij execve faalt\n");						
-			exit(1);																		//welke exit code?
+		printf("[%s]", strerror(errno));					
+		exit(1);																		//welke exit code?
     }
-	if (ret != 0)
+	if (pid != 0)
 	{
-		// 	printf("in errno\n");
-		// printf("errno = %d\n", errno);
-		// if (errno)
-		// {
-		// 	g_exit_status = 1;
-		// }
-		// else
-		g_exit_status = 0;
-        wait(NULL);
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+        	g_exit_status = WEXITSTATUS(status);
 	}
 }
 

@@ -140,3 +140,17 @@ cd poep
 ls 
 "ls"
 test
+
+
+
+***************************
+** 		Exit + exit_codes**
+***************************
+- Let op error_message + exit_code
+
+exit
+exit a
+exit a 1
+exit 99
+exit 3 a
+exit 55 99
