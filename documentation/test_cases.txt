@@ -128,3 +128,15 @@ unset -k					--> 2		+ ash: unset: -k: invalid option
 unset						--> 0		Ik had foutcode verwacht, maar is niet.
 unset %						--> 1		bash: unset: `%': not a valid identifier
 unset 3						--> 1
+
+
+
+
+***************************
+** 		breek de boel		**
+***************************
+ echo | poep
+
+ echo | cd .. | pwd
+
+ echo
