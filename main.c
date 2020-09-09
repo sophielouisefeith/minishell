@@ -6,14 +6,14 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/08 16:47:07 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/09/08 22:23:20 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <signal.h>
 
-#define COLOR_PROMPT	"\033[1;33mminishell-$ \033[0m"
+#define COLOR_PROMPT	"\033[1;34mminishell-$ \033[0m"
 
 // int		g_exit_status;
 
@@ -86,7 +86,6 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 	- lijkt running proces af te ronden en sluit dan de shell
 	- exit_code 0
 */
-
 
 static void			ctrl_d(int ret)
 {

@@ -130,6 +130,7 @@ unset %						--> 1		bash: unset: `%': not a valid identifier
 unset 3						--> 1
 
 
+<<<<<<< HEAD
 
 
 ***************************
@@ -140,3 +141,15 @@ unset 3						--> 1
  echo | cd .. | pwd
 
  echo
+=======
+***************************
+** 		Maak helemaal kapot	**
+***************************
+
+echo
+echo hoi
+cd poep
+ls 
+"ls"
+test
+>>>>>>> e4202bb85e0139dd23d5af74546975df0e018983
