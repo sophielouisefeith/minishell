@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/08 23:16:48 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/28 17:20:32 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char            *trunc_quotes(char *str)
 
 int				get_builtin_type(char *str)
 {   
+	// printf("builtin_type = [%s]\n", str);
     if (!ft_strcmp(str, "echo"))
 		return (builtin_echo);
 	else if (!ft_strcmp(str, "cd"))
@@ -65,6 +66,10 @@ int				get_builtin_type(char *str)
 		return (builtin_env);
    else if (!ft_strcmp(str, "exit"))
 		return (builtin_exit);
+	// New (na vakantie)
+	else if (!ft_strncmp(str, "/", 1) || !ft_strncmp(str, "./", 2))
+		return (executable);
+	//
 	else
 		return (builtin_no);
 }

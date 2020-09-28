@@ -1,8 +1,10 @@
 eval sheet Minishell
+
 Simple Command
 - Execute a simple command with an absolute path like /bin/ls or any other command without options
  Yes
  No
+
 Arguments
 - Execute a simple command with an absolute path like /bin/ls or any other command with arguments but without quotes and double quotes
 - Repeat multiple times with different commands and arguments

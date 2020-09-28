@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/08 22:04:07 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/28 17:23:42 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ enum	token_type{
 	token_dollar,
 };
 
+/*
+** TO DO: beschrijven wanneer no_com en no
+*/
+
 enum	builtin_type{
 	builtin_no_com,
 	builtin_no,
@@ -55,7 +59,8 @@ enum	builtin_type{
 	builtin_export,
 	builtin_unset,
 	builtin_env,
-	builtin_exit
+	builtin_exit,
+	executable								//new (na vakantie)
 };
 
 

@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/09 17:51:43 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/28 17:33:27 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void		invoke_another_program(t_command **command, t_env **_env)
     if (pid == 0)
     {
 		execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
-		printf("[%s]", strerror(errno));					
+		printf("[%s]\n", strerror(errno));					
 		exit(1);																		//welke exit code?
     }
 	if (pid != 0)
@@ -129,9 +129,9 @@ void            execute(t_command **command, t_env **_env)
                 fdout = dup(tmpout);
             dup2(fdout,1);
             close(fdout);
-			if ((*command)->builtin == builtin_no)
+			if ((*command)->builtin == builtin_no || (*command)->builtin == executable)
 				invoke_another_program(command, _env);
-			if ((*command)->builtin != builtin_no_com && (*command)->builtin != builtin_no)
+			if ((*command)->builtin != builtin_no_com && (*command)->builtin != builtin_no && (*command)->builtin != executable)
 				execute_builtin(command, _env);
            	*command = (*command)->next_command;
             i++;

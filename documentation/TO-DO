@@ -24,3 +24,8 @@ New to do:
 - Tot welk detail errorchecking? Bijv ook na new_node etc?
 - Enkel $? 			->zonder echo
 
+
+Fixen:
+-	/bin/ls																		[	Check?	]	
+	Als start met ./ of / dan is het een EXECUTABLE of ABSOLUTE PATH VAN EXECUTABLE. Als executable dan hoeft path niet gecheck.
+	Kan je meteen gaan executen. Want execve checkt of path bestaat.
