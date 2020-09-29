@@ -10,28 +10,33 @@ Arguments
 - Repeat multiple times with different commands and arguments
  Yes
  No
+
 echo
 - Execute the echo command with or without arguments or options
 - Repeat multiple times with different arguments
  Yes
  No
+
 exit
 - Execute exit command with or without arguments
 - Repeat multiple times with different arguments
 - Don't forget to relaunch the minishell
  Yes
  No
+
 Return value of a process
 - Execute a simple command with absolute path like /bin/ls or any other command with arguments but without quotes and double quotes then execute echo $?
 - Check the printed value. You can repeat the same in bash and compare it.
 - Repeat multiple times with different commands and arguments, use some failing commands like '/bin/ls filethatdoesntexist'
  Yes
  No
+
 Semicolons
 - Execute multiple simple commands with absolute path with arguments but separate them with semicolons
 - Repeat multiple times with different commands and don't forget to try with or without whitespaces around the semicolons
  Yes
  No
+
 Signals
 - Try ctrl-C in an empty prompt
 - Try ctrl-\ in an empty prompt
@@ -45,6 +50,7 @@ Signals
 - Repeat multiple times with different commands
  Yes
  No
+
 Double Quotes
 - Execute a simple command with absolute path with arguments but this time double quotes (you should include whitespaces and semicolons in the quotes)
 - Think about empty arguments or a weird use of '\'
@@ -52,9 +58,11 @@ Double Quotes
  Yes
  No
 env
+
 - Check if env shows you the current environment variables
  Yes
  No
+
 export
 - Export environment variables, create new ones and replace old ones
 - Check them with env

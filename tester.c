@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/13 10:46:14 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/27 20:52:36 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/29 14:14:35 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 void            tester(t_lexer *sort, t_command *command)
 {
     // LEXER TESTER
+	// printf("--------------------Node------------------------------:\n");
 	// while (sort)
 	// {
 	// 	printf("node-str = [%s], token_general = [%d]\n", sort->str, sort->token[token_general]);

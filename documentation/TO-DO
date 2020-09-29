@@ -25,7 +25,8 @@ New to do:
 - Enkel $? 			->zonder echo
 
 
-Fixen:
+Fixen n.a.v. eval_sheet:
 -	/bin/ls																		[	Check?	]	
 	Als start met ./ of / dan is het een EXECUTABLE of ABSOLUTE PATH VAN EXECUTABLE. Als executable dan hoeft path niet gecheck.
 	Kan je meteen gaan executen. Want execve checkt of path bestaat.
+-  /bin/echo "hallo"															[Hersteld naar oude variant]

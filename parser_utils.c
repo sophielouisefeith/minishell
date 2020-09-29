@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/28 17:20:32 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/29 14:35:09 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,26 @@ int				count_node(t_lexer *sort, int type_builtin)
 	return (i);
 }
 
+/*
+** Changelog:
+	- Added 29/09(na vak):
+	free(str);				//freet dit de (*sort)->str) goed?
+*/
+
 char            *trunc_quotes(char *str)
 {
     int     len;
     char     *newstr;
-    
+
     len = ft_strlen(str);
     len = len - 2;
 	newstr = ft_substr(str, 1, len);
+	free(str);
     return (newstr);
 }
 
 int				get_builtin_type(char *str)
 {   
-	// printf("builtin_type = [%s]\n", str);
     if (!ft_strcmp(str, "echo"))
 		return (builtin_echo);
 	else if (!ft_strcmp(str, "cd"))
@@ -66,10 +72,8 @@ int				get_builtin_type(char *str)
 		return (builtin_env);
    else if (!ft_strcmp(str, "exit"))
 		return (builtin_exit);
-	// New (na vakantie)
-	else if (!ft_strncmp(str, "/", 1) || !ft_strncmp(str, "./", 2))
+	else if (!ft_strncmp(str, "/", 1) || !ft_strncmp(str, "./", 2)) 			// New (na vak)
 		return (executable);
-	//
 	else
 		return (builtin_no);
 }
@@ -84,19 +88,17 @@ if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
 		return (builtin_type);
 	}
 	--> Waarom niet direct sort->str ontdoen van quotes? Hier was vast een reden voor.
+** TO DO:
+	- We moeten nu 2x quotes truncen (general en hieronder). Kunnen we structuur aanpassen zodat dit maar 1x hoeft?
 */
 
 int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 {
-	char 	*newstr;
 	int 	builtin_type;
 	char 	*str_before;
 
     if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
-	{
-		free((*sort)->str);
 		(*sort)->str = trunc_quotes((*sort)->str);
-	}
 	builtin_type = get_builtin_type((*sort)->str);
 	if (builtin_type == builtin_no)
 	{

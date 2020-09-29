@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/08 22:23:20 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/29 13:37:37 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ int					main(int argc, char **argv, char **env)
 
 	ret = 1;
 	_env = save_env(env);
- 	signal(SIGINT, sighandler);		// CTRL C
 	signal(SIGQUIT, sighandler);	// CTRL backslash
+ 	signal(SIGINT, sighandler);		// CTRL C
 	while (ret > 0)
 	{
 		i = 0;

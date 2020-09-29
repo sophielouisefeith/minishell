@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/08 23:21:06 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/29 14:11:57 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,22 @@ static int		redirection(t_lexer **sort, t_command **tmp)
 	- Removed 08/09:
 			// newstr = trunc_quotes((*sort)->str);		--> worden nu al definitief verwijderd in check_builtin_node
 			// array[*y] = newstr;
+	- Added 29/09 (na vak): 
+			(*sort)->str = trunc_quotes((*sort)->str);	--> Kan niet al worden verwijderd in check_builtin_node,
+			want als een builtin dan gaat hij al naar de volgende node. Dus "hallo", komt nooit meer in check_builtin_node.
+			Lelijke structuur. Maar voor nu even weer hersteld naar soort van de oude variant.
 	
 */
 
 static int		general(t_lexer **sort, char **array, int *y, int *quote)
 {
-    char		*newstr;
-
     while (*sort && (*sort)->token[token_general]) 											//dit er nog bij?  && array != NULL)
 	{
 		if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
+		{
+			(*sort)->str = trunc_quotes((*sort)->str);
 			quote[*y] = ((*sort)->token[token_quote]) ? token_quote : token_dquote;			//new
+		}
 		array[*y] = ft_strdup((*sort)->str);
 		(*y)++;
 		if ((*sort)->next_sort)
@@ -65,11 +70,6 @@ static int		general(t_lexer **sort, char **array, int *y, int *quote)
 	}
     return (0);
 }
-
-/*
-** TO DO:
-	- Door het moeten toevoegen van quote wordt de functie te groot. Is dit de beste plek?
-*/
 
 /*
 ** Changelog 09/09:
