@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/09/01 15:36:31 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/10/01 19:14:52 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,25 @@
 ** If the closing quotation is found return, otherwise error.
 */
 
-static int			check_quotation_complete(char quote, char *line, int *i, int *token)
+static void			check_quotation_complete(char quote, char *line, int *i, int *token)
 {
 
 	(*i)++;
 	while (line[*i] != quote && line[*i])
 	{
-		if (line[*i] == '$')
-			token[token_dollar] = 1;
-		if (line[*i] == 92 && line[(*i)++] == '\"')
+		if (line[*i] == '\\' && line[(*i) + 1] == '\"') 			// || line[(*i) + 1] == '\''))
 			(*i)++;
 		(*i)++;
 	}
 	if (line[*i] == quote)
-		return (0);
+		return ;
 	else
 	{
-		printf(" No closing qoutes\n");
-		return(0);
-		//error_free(103);						// Go to error function, exit vanuitdaar.
+		printf(" No closing quotes\n");
+		g_exit_status = 1; //eigen code want hij moet nog wel na andere foutmeldingen executen
+		g_own_exit = 1;
+		return ;
 	}
-	return(-1);												// Deze kan dan weg.
 }
 
 /*
@@ -57,20 +55,10 @@ static int			check_quotation_complete(char quote, char *line, int *i, int *token
 
 static int		check_meta_and_quote(char *line, int *i, int *token)
 {
-	while ((!is_metachar(line[*i]))&& line[*i])
+	while ((!is_metachar(line[*i])) && line[*i])
 	{
-		if (is_single_quote(line[*i]))
-		{
-			token[token_quote] = 1;
+		if ((is_single_quote(line[*i]) || is_double_quote(line[*i])) && line[(*i) - 1] != '\\')
 			check_quotation_complete(line[*i], line, i, token);
-		}
-		if (is_double_quote(line[*i]))
-		{
-			token[token_dquote] = 1;
-			check_quotation_complete(line[*i], line, i, token);
-		}
-		if (line[*i] == '$')
-			token[token_dollar] = 1;
 		(*i)++;
 	}
 	return (0);
@@ -94,13 +82,8 @@ static void			save_word(char *line, int *i, t_lexer **sort)
 	token = allocate_memory_int_string(12);
 	token[token_general] = 1;
 	check_meta_and_quote(line, i, token);
-	if((line[*i]) == 92 && (line[*i++] )== '\"')// ------------------------------------- echo \' still needs to work-----------------------
-		str = "'";
-	else
-		str = ft_substr(line, start, (*i - start));
+	str = ft_substr(line, start, (*i - start));
 	tmp = ll_new_node_lexer(str, token);
-	// if(!tmp)
-	// 	free_list(sort, NULL);
 	ll_lstadd_back_lexer(sort, tmp);
 }
 
@@ -124,34 +107,22 @@ static void			save_operator(char *line, int *i, int type, t_lexer **sort)
 	int			*token;
 
 	token = allocate_memory_int_string(12);
-	//if(!token)
-		//free(token);
-		//error_free(1);
 	if (type == token_redirection_greater && line[*i + 1] == '>')
 	{
 		(*i)++;
 		token[token_redirection_dgreater] = 1;
 		str = str_redirection_dgreater();
-		// if(!str)
-		// 	free_list(sort, NULL);				//FREE!
 	}
 	else
 	{
 		token[type] = 1;
 		str = str_from_char(line[*i]);
-		// if(!str)
-		// 	free_list(sort, NULL);					//FREE!
 	}
 	if (type >= token_redirection_greater &&
 			type <= token_redirection_dgreater)
 		token[token_redirection] = 1;
 	tmp = ll_new_node_lexer(str, token);
-	// if(!tmp)
-	// 	free_list(sort, NULL);
 	ll_lstadd_back_lexer(sort, tmp);
-	// if(!tmp)
-	// 	free_list(sort, NULL);
-	//free_str(str);  //hoeven we hier maar een str te freen of meerdere? //1, Niet hier
 	(*i)++;
 }
 

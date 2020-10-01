@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/09/08 16:34:22 by SophieLouis   ########   odam.nl          #
+#    Updated: 2020/10/01 18:04:32 by maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		tester.c\
 		output.c input.c\
 		execute/execute.c\
+		execute/check_specials.c\
 		execute/execute_builtin.c\
 		execute/echo.c\
 		execute/execute_cd.c  execute/execute_pwd.c\
@@ -38,6 +39,7 @@ SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		execute/ft_split2.c\
 		get_path.c\
 		error.c
+		
 		# free.c 
 
 OBJ = $(SRC:.c=.o)

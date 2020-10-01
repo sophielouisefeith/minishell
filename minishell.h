@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/28 17:23:42 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/01 21:38:32 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 //#define errno (*error_free())
 
 int		g_exit_status;
+int		g_own_exit;
 
 enum	token_type{
 	token_null = 0,
@@ -204,5 +205,11 @@ char							*join_strings(char *new_str1, char *parameter, char *new_str2);
 
 void 		sighandler(int signum);
 void 		sighandler2(int signum);
+
+/*new*/
+
+char							*delete_quotes(char *src, char garbage);
+void							check_specials(t_command **command, t_env *_env);
+char							*if_dollar(char *str, int i, t_env *_env);
 
 #endif

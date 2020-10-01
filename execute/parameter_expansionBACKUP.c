@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/01 22:27:12 by maran         ########   odam.nl         */
+/*   Updated: 2020/09/08 16:35:08 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static char 	*check_for_more_expansion(char *new_str2, t_env *_env)
 **    ret == 0  --> no special chars found, so no string after the $parameter 
 **    ret > 0   --> special char found, so new_str after $parameter, save in 
 **		new_str2. Ret is position of special char.
-** 4. If there is a new_str2 (ret > 0) check if special char is a $. If so this		//wat als nog $? erachter
+** 4. If there is a new_str2 (ret > 0) check if special char is a $. If so this
 ** one should be expanded as wel (recursive).
 ** 5. If not immediate end of line, search for parameter in _env.
 ** 6. Join the 3 possible strings, and return this new value.
@@ -103,28 +103,20 @@ char			*expand(char *str, int i, t_env *_env)
 	new_str2 = NULL;
 	if (i > 0)
 		new_str1 = ft_substr(str, 0, i);
-	// printf("new_str1 = [%s]\n", new_str1); 
 	ret = is_special_char(str, (i + 1));
-	// printf("ret = %d\n", ret);
 	if (ret == -1)
 		parameter = "$";
 	if (ret == 0)
-	{
 		parameter = ft_substr(str, (i + 1), ft_strlen(str));
-		// printf("NO special char: parameter = [%s]\n", parameter); 
-	}
 	if (ret > 0)
 	{
-		parameter = ft_substr(str, (i + 1), (ret - i - 1));
-		// printf("Special char found: parameter = [%s]\n", parameter); 
+		parameter = ft_substr(str, (i + 1), (ret - i - 1)) ;
 		new_str2 = ft_substr(str, ret, ft_strlen(str));
-		// printf("Special char found: new_str2 = [%s]\n", new_str2);
-		// new_str2 = check_for_more_expansion(new_str2, _env);
+		new_str2 = check_for_more_expansion(new_str2, _env);
 	}
 	if (ret != -1)
 		parameter = search_node(_env, parameter);
 	parameter = join_strings(new_str1, parameter, new_str2);
-	// printf("Return = [%s]\n", parameter);
 	return (parameter);
 }
 
@@ -135,39 +127,38 @@ char			*expand(char *str, int i, t_env *_env)
 ** the array[y] are already handled.
 */
 
-char		*if_dollar(char *str, int i, t_env *_env)
+static void		if_dollar(t_command **command, t_env *_env, int *y, int i)
 {
 	char	*value;
 
-	if (str[i + 1] == '?')
+	if (!ft_strcmp("$?", (*command)->array[*y]))
 		value = ft_itoa(g_exit_status);
 	else
-		value = expand(str, i, _env);
-	// if (value == NULL)
-	// 	parameter_not_exist(command, y);			//later nog even naar kijken!!!.
-	// else
-		// str = value;
-	return (value);
+		value = expand((*command)->array[*y], i, _env);
+	if (value == NULL)
+		parameter_not_exist(command, y);
+	else
+		(*command)->array[*y] = value;
 }
 
-// void			parameter_expansion(t_command **command, t_env *_env)
-// {
-// 	int		y;
-// 	int		i;
+void			parameter_expansion(t_command **command, t_env *_env)
+{
+	int		y;
+	int		i;
 
-// 	y = 0;
-// 	while ((*command)->array && (*command)->array[y])
-// 	{
-// 		i = 0;
-// 		while((*command)->array[y][i])
-// 		{
-// 			if ((*command)->array[y][i] == '$' && (*command)->quote[y] != token_quote)
-// 			{
-// 				if_dollar(command, _env, &y, i);
-// 				break ;
-// 			}
-// 			i++;
-// 		}
-// 		y++;
-// 	}
-// }
+	y = 0;
+	while ((*command)->array && (*command)->array[y])
+	{
+		i = 0;
+		while((*command)->array[y][i])
+		{
+			if ((*command)->array[y][i] == '$' && (*command)->quote[y] != token_quote)
+			{
+				if_dollar(command, _env, &y, i);
+				break ;
+			}
+			i++;
+		}
+		y++;
+	}
+}

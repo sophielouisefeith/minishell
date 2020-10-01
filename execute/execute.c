@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/28 17:33:27 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/01 17:40:43 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,9 @@ void            execute(t_command **command, t_env **_env)
         i = 0;
         while (i < len_list)
         {
-			parameter_expansion(command, *_env);
+			check_specials(command, *_env);
+			// parameter_expansion(command, *_env);
+			
             dup2(fdin, 0);
             close(fdin);
             if (i == len_list - 1)
@@ -129,6 +131,7 @@ void            execute(t_command **command, t_env **_env)
                 fdout = dup(tmpout);
             dup2(fdout,1);
             close(fdout);
+			// printf("IN EXECUTE\n");
 			if ((*command)->builtin == builtin_no || (*command)->builtin == executable)
 				invoke_another_program(command, _env);
 			if ((*command)->builtin != builtin_no_com && (*command)->builtin != builtin_no && (*command)->builtin != executable)

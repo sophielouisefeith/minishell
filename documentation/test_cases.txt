@@ -171,3 +171,112 @@ exit 55 99
 ***************************
 /bin/ls
 /binn/ls			--> No such file or directory
+
+
+
+
+***************************
+** 		Single quotes	**
+***************************
+echo hallo 'ma\"ran' siemons				\" inside letterlijk
+hallo ma\"ran siemons
+
+echo hallo 'ma\'ran' siemons
+Multiple line error
+
+echo hallo 'ma\'ran'' siemons							
+hallo ma\ran siemons						Hij ziet de \ niet als escape, print gewoon \
+
+echo 'ma\'									Hij ziet de \ niet als escape, print gewoon \
+ma\
+
+echo 'hallo$USER'							
+hallo$USER
+
+echo 'hallo\$USER'
+hallo\$USER
+
+echo '\$?'
+\$?
+
+echo '$USER'
+$USER
+
+
+***************************
+** 		Double quotes	**
+***************************
+
+echo "\poep"
+\poep
+echo \poep
+poep
+
+echo "poep\""
+poep"
+echo "poep\'"
+poep\'
+
+echo "poep\"
+multiple line error
+
+echo "hallo\"\poep"
+hallo"\poep
+
+
+
+
+
+
+
+echo \"						--> check
+
+echo "123\'456"				--> nu alleen als binnen quotes en na de backslash ook een quote komt.
+
+echo \$?					--> check
+
+----
+
+ echo '$USER'$USER
+
+ echo '$USER'$USER\$USER/"$USER"
+
+
+
+
+----
+echo 123\poep		--> verwijdert \
+123poep
+
+echo "123\poep"		--> verwijdert helemaal niks??
+123\poep
+
+echo "123\$USER"	--> voor $ wel
+
+
+ ---
+echo "$USER"
+maran
+
+ echo "\$USER"		Verwijdert \ en werking $ is weg door \
+$USER
+
+
+ echo '\$USER'		letterlijk binnen de haakjes (Singel quotes belangrijker dan \)
+\$USER
+
+ echo "'\$USER'"	In dubbel quote werkt \ nog wel (verwijder + werking $ weg), ziet single quotes gewoon als tekst?
+'$USER'				Dus eerst op compleetheid dubbel checken, dan \ en negeer '
+					Singel quotes hoeven zelfs niet compleet te zijn.
+
+echo '"\$USER"'		Andersom alles letterlijk
+"\$USER"
+
+----brain fart----
+echo ' poep'123' '		Toch niet alles letterlijk. Single quotes binnen single quotes werken wel.
+ poep123 				Deze moeten worden verwijderd. NEE KLOPT NIET>
+
+echo ' poep'123 '		Moeten zelfs compleet zijn (geldt enkel voor single quotes)
+> multiple line			Logisch want hij ziet 3e quote als alleen
+
+-------------------

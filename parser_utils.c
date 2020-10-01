@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/29 14:35:09 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/01 20:30:46 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,57 @@ if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
 	- We moeten nu 2x quotes truncen (general en hieronder). Kunnen we structuur aanpassen zodat dit maar 1x hoeft?
 */
 
+/*
+"\echo" hallo
+bash: \echo: command not found
+
+echohallo: command not found
+"echo"hallo
+
+
+*/
+
+
+char		*delete_quotes(char *src, char garbage)
+{
+	char *dst;
+	int dst_i;
+	int src_i;
+	int len;
+	int count;
+
+	src_i = 0;
+	dst_i = 0;
+	count = 0;
+	len = ft_strlen(src) - 2;
+	dst = (char *)malloc(sizeof(char) * (len + 1));			//New: gaat dit goed, moet ik wel opnieuw mallocen. Let op bij freeen. 
+	while (src[src_i] != '\0')
+	{
+		if (src[src_i] == garbage && count < 2)
+		{
+			src_i++;
+			count++;
+		}
+		dst[dst_i] = src[src_i];
+		src_i++;
+		dst_i++;
+	}
+    dst[len] = '\0';
+	return (dst);
+}
+
+	// printf("(*sort)->str = [%s]\n", (*sort)->str);
 int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 {
 	int 	builtin_type;
 	char 	*str_before;
 
-    if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
-		(*sort)->str = trunc_quotes((*sort)->str);
+    // if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])		//
+	
+	// printf("(*sort)->str = [%s]\n", (*sort)->str);
+	if (is_single_quote((*sort)->str[0]) || is_double_quote((*sort)->str[0]))		//mag alleen bij het eerste woord worden getrunct (hoezo komt hij niet bij volgende woorden?)
+		(*sort)->str = delete_quotes((*sort)->str, (*sort)->str[0]);
+		// (*sort)->str = trunc_quotes((*sort)->str);
 	builtin_type = get_builtin_type((*sort)->str);
 	if (builtin_type == builtin_no)
 	{

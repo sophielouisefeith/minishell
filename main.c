@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/29 13:37:37 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/01 19:14:12 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 	if (line[i] != '\0')
 		lexer(&sort, line);
 	sort_copy = sort;
-	while (sort)
+	while (sort && g_own_exit == 0)
 	{
 		pipe_status = parser(&sort, &command, pipe_status, _env);
 		if (sort)
@@ -60,7 +60,8 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 	free_list_lexer(&sort_copy);
 	
 	//EXECUTOR
-	execute(&command, _env);
+	if (g_own_exit == 0)
+		execute(&command, _env);
 
 	//FREE COMMAND
 	free_list_parser(&command);
@@ -128,7 +129,8 @@ int					main(int argc, char **argv, char **env)
 			//error(2, line); // ---------------here we say  No such file or directory
 		if (line[i] != '\0')
 			lexer_parser_executer(line, i, &_env);
-		
+		g_exit_status = g_own_exit > 0 ? g_own_exit : g_exit_status;
+		g_own_exit = 0;
 		free(line);
 		line = NULL;
 	}

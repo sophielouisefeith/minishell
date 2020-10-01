@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/29 14:11:57 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/01 17:06:58 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ static int		general(t_lexer **sort, char **array, int *y, int *quote)
 {
     while (*sort && (*sort)->token[token_general]) 											//dit er nog bij?  && array != NULL)
 	{
-		if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
-		{
-			(*sort)->str = trunc_quotes((*sort)->str);
-			quote[*y] = ((*sort)->token[token_quote]) ? token_quote : token_dquote;			//new
-		}
+		// if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
+		// {
+		// 	(*sort)->str = trunc_quotes((*sort)->str);
+		// 	quote[*y] = ((*sort)->token[token_quote]) ? token_quote : token_dquote;			//new //Weet niet meer waarvoor dit was, wel belangrijk denk ik?
+		// }
 		array[*y] = ft_strdup((*sort)->str);
 		(*y)++;
 		if ((*sort)->next_sort)
