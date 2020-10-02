@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/28 17:23:42 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/01 16:02:30 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ void         					free_env(t_env *_env);
 // int								error_free(int mistake);
 char							*error_command(char *str);
 int								error(t_command *command);
+int								error_no_sub();
 
 /*execute*/
 void            				execute(t_command **command, t_env **env);

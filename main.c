@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/09/29 13:37:37 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/02 11:32:18 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,11 @@ static void			lexer_parser_executer(char *line, int i, t_env **_env)
 
 static void			ctrl_d(int ret)
 {
+	printf("dan kom je dus ook hier \n");
 	if (ret == 0)
 	{
 		printf("exit\n");
+		//write(1, "exit\n", 6);
 		exit(0);
 	}
 }
@@ -99,7 +101,11 @@ static void			ctrl_d(int ret)
 void 		sighandler(int signum)
 {
 	if (signum == SIGINT)
-		write(1, "\n", 1);
+	{
+		
+		write(1, "\b\b  \n", 6);
+		write(1, COLOR_PROMPT, 24);
+	}
 	if (signum == SIGQUIT)
 		printf("Quit: 3\n");
 }
@@ -122,7 +128,7 @@ int					main(int argc, char **argv, char **env)
 		i = 0;
 		write(1, COLOR_PROMPT, 24);
 		ret = get_next_line(0, &line);
-		if (ret <= 0)
+		if (ret == 0)
 			ctrl_d(ret);
 		//if (ret == -1)
 			//error(2, line); // ---------------here we say  No such file or directory

@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/09 18:43:50 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/01 16:02:05 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ char				*error_command(char *str)
 	write(1, ": ", 2 );
 	write(1, "command not found\n", 18);
 	return (str);
+}
+
+int			error_no_sub()
+{
+	g_exit_status = 1;  // dit betekend dus dat hij niet in de executor moet
+	write(1,"error: multiline command, is not part of subject\n",49); 
+	return(-1);
 }
 
 int					error(t_command *command)

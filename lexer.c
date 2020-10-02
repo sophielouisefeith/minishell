@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/09/01 15:36:31 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/10/01 16:09:54 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static int			check_quotation_complete(char quote, char *line, int *i, int *token
 	else
 	{
 		printf(" No closing qoutes\n");
+		//return(error_no_sub();
 		return(0);
 		//error_free(103);						// Go to error function, exit vanuitdaar.
 	}

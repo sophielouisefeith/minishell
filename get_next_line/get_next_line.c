@@ -6,11 +6,13 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/08 16:37:30 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/09/04 16:57:08 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/02 11:38:53 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
+#define errno
 
 size_t			ft_strlen_gnl(const char *s)
 {
@@ -41,11 +43,32 @@ static char		*ft_cut(char *new_line, char **line, int *r)
 	return (tmp);
 }
 
-static char		*ft_read(int fd, char *new_line, int ret)
+static int	ft_strlen(const char *s)
+{
+	int i;
+
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
+static void	ft_putstr(char *str)
+{
+	int len;
+
+	len = ft_strlen(str);
+	write(1, str, len);
+	return ;
+}
+
+
+
+static char		*ft_read(int fd, char *new_line, int *ret)
 {
 	char			*buf;
 
-	while (ret > 0)
+
+	while (*ret > 0)
 	{
 		buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 		if (buf == NULL)
@@ -53,20 +76,32 @@ static char		*ft_read(int fd, char *new_line, int ret)
 			free(new_line);
 			return (NULL);
 		}
-		ret = read(fd, buf, BUFFER_SIZE);
-		if (ret == -1)
+		*ret = read(fd, buf, BUFFER_SIZE);
+		//printf("-------ret[%d]\n", *ret);
+		if (*ret == -1)
 		{
 			free(new_line);
 			free(buf);
 			return (NULL);
 		}
-		buf[ret] = '\0';
+		if(*ret == 1)
+			ft_putstr("  \b\b");
+		if(*ret == 0 && ft_strlen(new_line))
+		{
+			ft_putstr("  \b\b");
+			return(NULL);
+		}
+		else
+			ft_putstr("  \b\b");
+		buf[*ret] = '\0';
 		new_line = ft_strjoin_gnl(new_line, buf);
 		if (new_line == NULL)
 			return (NULL);
 		if (ft_strchr_gnl(new_line, '\n'))
 			break ;
 	}
+	
+		
 	return (new_line);
 }
 
@@ -84,9 +119,12 @@ int				get_next_line(int fd, char **line)
 		new_line = ft_strdup_gnl("");
 	if (new_line == NULL)
 		return (-1);
-	new_line = ft_read(fd, new_line, ret);
+	new_line = ft_read(fd, new_line, &ret);
 	if (new_line == NULL)
+	{
+		//write(1, "\b\b  \n", 6);
 		return (-1);
+	}
 	new_line = ft_cut(new_line, line, &r);
 	if (new_line == NULL)
 		return (-1);
