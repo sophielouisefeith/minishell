@@ -179,7 +179,6 @@ exit 55 99
 /bin/ls
 /binn/ls			--> No such file or directory
 
-
 ***************************
 ** 		Single quotes	**
 ***************************
@@ -262,6 +261,8 @@ echo "\poep"
 echo "123\'456"
 123\'456
 
+echo "hallo$"
+hallo$
 ***************************
 ** 		Escape character**
 ***************************
@@ -285,14 +286,25 @@ $USERmaran
 echo '$USER'$USER\$USER/"$USER"
 $USERmaran$USER/maran
 
-
-echo hallo"1234"maran"$USER"'/$USER'"/$USER"'poep''poep2'"maran"'ellende'END	---> check
+echo hallo"1234"maran"$USER"'/$USER'"/$USER"'poep''poep2'"maran"'ellende'END
 hallo1234maranmaran/$USER/maranpoeppoep2maranellendeEND
 
-echo "$USER"'/$USER' 						--> check
-echo 'poep''poep2'"maran"'ellende'END		--> check
-echo 'poep2'"maran"'ellende'				--> check
+echo "$USER"'/$USER'
+maran/$USER
 
--------------------------------
-Sophie vondsten:
-“$USER”‘/$USER’
+echo 'poep''poep2'"maran"'ellende'END
+poeppoep2maranellendeEND
+
+echo 'poep2'"maran"'ellende'
+poep2maranellende
+
+echo 123"hallo$"456
+123hallo$456
+
+
+***************************
+** 		Sophies vondsten **			NOG OP TE LOSSEN
+***************************
+echo “$USER”‘/$USER’
+
+./

@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/02 13:02:33 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/02 16:47:14 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,32 +21,6 @@
 	- Testen: Export expand hij ook name en value
 	- Functies te lang.
 */
-
-
-//Original:
-// static void		parameter_not_exist(t_command **command, int *y)
-// {
-// 	int		new_y;
-
-// 	if (!(*command)->array[*y + 1])
-// 	{
-// 		free((*command)->array[*y]);
-// 		free((*command)->array);
-// 		(*command)->array[*y] = NULL;
-// 		(*command)->array = NULL;
-// 	}
-// 	else
-// 	{
-// 		new_y = *y - 1;
-// 		while ((*command)->array[*y + 1])
-// 		{
-// 			(*command)->array[*y] = (*command)->array[*y + 1];
-// 			(*y)++;
-// 		}
-// 		(*command)->array[*y] = NULL;
-// 		(*y) = new_y;
-// 	}
-// }
 
 /*
 ** When the given parameter (ex. $POEP) doesn't exist in _env:
@@ -81,7 +55,6 @@ void		parameter_not_exist(t_command **command, int *y)
 	}
 }
 
-
 /*
 ** parameter --> $parameter
 ** new_str1	-->	 string before $parameter
@@ -104,6 +77,13 @@ void		parameter_not_exist(t_command **command, int *y)
 ** 6. Join the 3 possible strings, and return this new value.
 */
 
+	// printf("str[%d] = [%c]\n", ret, str[ret]);
+	// printf("new_str1 = [%s]\n", new_str1); 
+		// printf("NO special char: parameter = [%s]\n", parameter); 
+		// printf("Special char found: parameter = [%s]\n", parameter); 
+		// printf("Special char found: new_str2 = [%s]\n", new_str2);
+	// printf("Return = [%s]\n", parameter);
+
 char			*expand(char *str, int i, t_env *_env)
 {
 	char	*new_str1;
@@ -116,27 +96,25 @@ char			*expand(char *str, int i, t_env *_env)
 	new_str2 = NULL;
 	if (i > 0)
 		new_str1 = ft_substr(str, 0, i);
-	// printf("new_str1 = [%s]\n", new_str1); 
 	ret = is_special_char(str, (i + 1));
-	// printf("ret = %d\n", ret);
 	if (ret == -1)
 		parameter = "$";
 	if (ret == 0)
-	{
 		parameter = ft_substr(str, (i + 1), ft_strlen(str));
-		// printf("NO special char: parameter = [%s]\n", parameter); 
+	if (ret > 0 && str[ret - 1] == '$' && str[ret] == '\"')		//new execption (nu wel te lang)
+	{
+		parameter = "$";
+		new_str2 = ft_substr(str, ret, ft_strlen(str));
+		ret = -1;
 	}
 	if (ret > 0)
 	{
 		parameter = ft_substr(str, (i + 1), (ret - i - 1));
-		// printf("Special char found: parameter = [%s]\n", parameter); 
 		new_str2 = ft_substr(str, ret, ft_strlen(str));
-		// printf("Special char found: new_str2 = [%s]\n", new_str2);
 	}
 	if (ret != -1)
 		parameter = search_node(_env, parameter);
 	parameter = join_strings(new_str1, parameter, new_str2);
-	// printf("Return = [%s]\n", parameter);
 	return (parameter);
 }
 
@@ -155,9 +133,5 @@ char		*if_dollar(char *str, int i, t_env *_env)
 		value = ft_itoa(g_exit_status);
 	else
 		value = expand(str, i, _env);
-	// if (value == NULL)
-	// 	parameter_not_exist(command, y);			//later nog even naar kijken!!!.
-	// else
-		// str = value;
 	return (value);
 }

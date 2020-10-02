@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/02 14:25:18 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/02 16:41:47 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ Nadat echo "hallo\"\poep" --> \ wordt verwijderd, maar \poep wordt nog wel gepri
 ** 	- Inner single quotes are considered as text, don't have to be complete.
 */
 
-static char			*treat_double_quote(char *str, int *i, t_env *_env)
+static char			*treat_double_quote(char *str, int *i, t_env *_env, int *flag)
 {
 	int start;
 	int end;
@@ -98,10 +98,11 @@ static char			*treat_double_quote(char *str, int *i, t_env *_env)
 	end = *i;										// waarom stond dit erachter? ++;
 	str = delete_double_quotes(str, start, end);
 	*i = end - 2; 					// beter niet -1 want beter laten eindigen op laatste char van deze reeks.
+	*flag = 1;
 	return (str);
 }
 
-static char			*treat_single_quote(char *str, int *i)
+static char			*treat_single_quote(char *str, int *i, int *flag)
 {
 	int end;
 
@@ -111,6 +112,7 @@ static char			*treat_single_quote(char *str, int *i)
 	end = *i;
 	str = delete_quotes(str, '\'');				//Freeen oude malloc?
 	*i = end - 2;
+	*flag = 1;
 	return (str);
 }
 
@@ -118,20 +120,20 @@ void							check_specials(t_command **command, t_env *_env)
 {
 	int y;
 	int i;
+	int flag;
 
 	y = 0;
 	while ((*command)->array && (*command)->array[y])
 	{
 		i = 0;
-		while((*command)->array && (*command)->array[y] && (*command)->array[y][i]) //of gewoon break gebruiken?
+		while((*command)->array && (*command)->array[y] && (*command)->array[y][i]) 			//of gewoon break gebruiken?
 		{
-			if (is_single_quote((*command)->array[y][i]))
-				(*command)->array[y] = treat_single_quote((*command)->array[y], &i);
-			if (is_double_quote((*command)->array[y][i]))
-				(*command)->array[y] = treat_double_quote((*command)->array[y], &i, _env);
-			// printf("*** (*command)->array[y][%d] = [%c] --> [%s]\n", i, (*command)->array[y][i], (*command)->array[y]);
-			// printf("*** (*command)->array[y]= [%s] en i[%d] = [%c]\n", (*command)->array[y], i, (*command)->array[y][i]);
-			if (!is_single_quote((*command)->array[y][i]) && !is_double_quote((*command)->array[y][i]))
+			flag = 0;
+			if (is_single_quote((*command)->array[y][i]) && !flag)
+				(*command)->array[y] = treat_single_quote((*command)->array[y], &i, &flag);
+			if (is_double_quote((*command)->array[y][i]) && !flag)
+				(*command)->array[y] = treat_double_quote((*command)->array[y], &i, _env, &flag);
+			if (!is_single_quote((*command)->array[y][i]) && !is_double_quote((*command)->array[y][i]) && !flag)
 			{
 				if ((*command)->array[y][i] == '\\')
 				{
@@ -142,12 +144,11 @@ void							check_specials(t_command **command, t_env *_env)
 					(*command)->array[y]  = if_dollar((*command)->array[y] , i, _env);
 			}
 			if ((*command)->array[y] == NULL)
-			{
 				parameter_not_exist(command, &y);
-				// break;
-			}
 			i++;
 		}
 		y++;
 	}
 }
+			// printf("*** (*command)->array[y][%d] = [%c] --> [%s]\n", i, (*command)->array[y][i], (*command)->array[y]);
+			// printf("*** (*command)->array[y]= [%s] en i[%d] = [%c]\n", (*command)->array[y], i, (*command)->array[y][i]);
