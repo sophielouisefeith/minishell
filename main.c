@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/01 19:14:12 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/02 09:34:20 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,10 @@ static void			ctrl_d(int ret)
 void 		sighandler(int signum)
 {
 	if (signum == SIGINT)
-		write(1, "\n", 1);
+	{
+		write(1, "\b\b  \n", 6);
+		write(1, COLOR_PROMPT, 24);
+	}
 	if (signum == SIGQUIT)
 		printf("Quit: 3\n");
 }
