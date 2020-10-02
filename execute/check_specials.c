@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/02 12:35:28 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/02 14:25:18 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ static char			*treat_double_quote(char *str, int *i, t_env *_env)
 	{
 		if (str[*i] == '\\')
 		{
-			// printf(" [%d] [%c]\n", *i, str[*i]);
 			if (str[(*i) + 1] == '\"' || str[(*i) + 1] == '$')
 				str = delete_escape_char(str, *i);
 			if (str[(*i)] == '$')
@@ -96,19 +95,22 @@ static char			*treat_double_quote(char *str, int *i, t_env *_env)
 			str = if_dollar(str, *i, _env);
 		(*i)++;
 	}
-	end = (*i)++;
+	end = *i;										// waarom stond dit erachter? ++;
 	str = delete_double_quotes(str, start, end);
-	*i = end--;
+	*i = end - 2; 					// beter niet -1 want beter laten eindigen op laatste char van deze reeks.
 	return (str);
 }
 
 static char			*treat_single_quote(char *str, int *i)
 {
+	int end;
+
 	(*i)++;
 	while (str[*i] && str[*i] != '\'')
 		(*i)++;
-	(*i)--;
+	end = *i;
 	str = delete_quotes(str, '\'');				//Freeen oude malloc?
+	*i = end - 2;
 	return (str);
 }
 
@@ -125,9 +127,10 @@ void							check_specials(t_command **command, t_env *_env)
 		{
 			if (is_single_quote((*command)->array[y][i]))
 				(*command)->array[y] = treat_single_quote((*command)->array[y], &i);
-			// printf("*** (*command)->array[y][%d] = [%c]\n", i, (*command)->array[y][i]);
 			if (is_double_quote((*command)->array[y][i]))
 				(*command)->array[y] = treat_double_quote((*command)->array[y], &i, _env);
+			// printf("*** (*command)->array[y][%d] = [%c] --> [%s]\n", i, (*command)->array[y][i], (*command)->array[y]);
+			// printf("*** (*command)->array[y]= [%s] en i[%d] = [%c]\n", (*command)->array[y], i, (*command)->array[y][i]);
 			if (!is_single_quote((*command)->array[y][i]) && !is_double_quote((*command)->array[y][i]))
 			{
 				if ((*command)->array[y][i] == '\\')

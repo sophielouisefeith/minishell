@@ -98,6 +98,9 @@ echo $POEP $MEERPOEP
 echo hallo $POEP
 hallo
 
+echo $POEP hallo
+hallo
+
 ***************************
 ** 		Flauw 			**
 ***************************
@@ -136,10 +139,6 @@ unset -k					--> 2		+ ash: unset: -k: invalid option
 unset						--> 0		Ik had foutcode verwacht, maar is niet.
 unset %						--> 1		bash: unset: `%': not a valid identifier
 unset 3						--> 1
-
-
-<<<<<<< HEAD
-
 
 ***************************
 ** 		breek de boel		**
@@ -285,3 +284,15 @@ $USERmaran
 
 echo '$USER'$USER\$USER/"$USER"
 $USERmaran$USER/maran
+
+
+echo hallo"1234"maran"$USER"'/$USER'"/$USER"'poep''poep2'"maran"'ellende'END	---> check
+hallo1234maranmaran/$USER/maranpoeppoep2maranellendeEND
+
+echo "$USER"'/$USER' 						--> check
+echo 'poep''poep2'"maran"'ellende'END		--> check
+echo 'poep2'"maran"'ellende'				--> check
+
+-------------------------------
+Sophie vondsten:
+“$USER”‘/$USER’

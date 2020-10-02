@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/02 12:30:51 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/02 13:02:33 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void		parameter_not_exist(t_command **command, int *y)
 {
 	int		new_y;
 
-	if (!(*command)->array[*y + 1])
+	if (!(*command)->array[*y + 1] && !(*command)->array[*y - 1])
 	{
 		free((*command)->array[*y]);
 		free((*command)->array);
