@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/01 22:27:08 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/02 12:35:28 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,16 @@ Nadat echo "hallo\"\poep" --> \ wordt verwijderd, maar \poep wordt nog wel gepri
 ** Kijken of andere methode ook naar start end methode kan.
 */
 
+/*
+** In dubbel quotes:
+**	- Outer dubbel quotes have te be complete (checked in lexer)
+**	- Escape character stills work in case of $ and \": 
+**		* $: Operation of $ is gone and \ will be deleted.
+**		* \":  the \ will be deleted. And " doesn't count as "has to be complete"
+**		* Other: the \ will not be deleted.
+** 	- Inner single quotes are considered as text, don't have to be complete.
+*/
+
 static char			*treat_double_quote(char *str, int *i, t_env *_env)
 {
 	int start;
@@ -74,12 +84,12 @@ static char			*treat_double_quote(char *str, int *i, t_env *_env)
 	(*i)++; 
 	while (str[*i] && str[*i] != '\"')
 	{
-		// printf(" [%d] [%c]\n", *i, str[*i]);
 		if (str[*i] == '\\')
 		{
+			// printf(" [%d] [%c]\n", *i, str[*i]);
 			if (str[(*i) + 1] == '\"' || str[(*i) + 1] == '$')
 				str = delete_escape_char(str, *i);
-			if (str[(*i) + 1] == '$')
+			if (str[(*i)] == '$')
 				(*i)++;
 		}
 		if (str[*i] == '$')
@@ -102,7 +112,6 @@ static char			*treat_single_quote(char *str, int *i)
 	return (str);
 }
 
-//GEBLEVEN BIJ DOUBLE EN GEEN QUOTES: TESTEN
 void							check_specials(t_command **command, t_env *_env)
 {
 	int y;
@@ -112,13 +121,13 @@ void							check_specials(t_command **command, t_env *_env)
 	while ((*command)->array && (*command)->array[y])
 	{
 		i = 0;
-		while((*command)->array[y][i])
+		while((*command)->array && (*command)->array[y] && (*command)->array[y][i]) //of gewoon break gebruiken?
 		{
 			if (is_single_quote((*command)->array[y][i]))
 				(*command)->array[y] = treat_single_quote((*command)->array[y], &i);
 			// printf("*** (*command)->array[y][%d] = [%c]\n", i, (*command)->array[y][i]);
 			if (is_double_quote((*command)->array[y][i]))
-				(*command)->array[y] = treat_double_quote((*command)->array[y], &i, _env);		//wat als na "" single quotes komen?
+				(*command)->array[y] = treat_double_quote((*command)->array[y], &i, _env);
 			if (!is_single_quote((*command)->array[y][i]) && !is_double_quote((*command)->array[y][i]))
 			{
 				if ((*command)->array[y][i] == '\\')
@@ -128,6 +137,11 @@ void							check_specials(t_command **command, t_env *_env)
 				}
 				if ((*command)->array[y][i] == '$')
 					(*command)->array[y]  = if_dollar((*command)->array[y] , i, _env);
+			}
+			if ((*command)->array[y] == NULL)
+			{
+				parameter_not_exist(command, &y);
+				// break;
 			}
 			i++;
 		}

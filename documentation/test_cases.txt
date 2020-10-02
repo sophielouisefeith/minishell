@@ -90,6 +90,14 @@ echo abc$POEPdef
 echo $USER "$USER" '$USER'
 export TEST_$USER=hallo$LOGNAME
 
+----------Niet bestaande $---------
+echo $POEP
+
+echo $POEP $MEERPOEP
+
+echo hallo $POEP
+hallo
+
 ***************************
 ** 		Flauw 			**
 ***************************
@@ -173,12 +181,10 @@ exit 55 99
 /binn/ls			--> No such file or directory
 
 
-
-
 ***************************
 ** 		Single quotes	**
 ***************************
-echo hallo 'ma\"ran' siemons				\" inside letterlijk
+echo hallo 'ma\"ran' siemons				--> X (Inconsistent?)
 hallo ma\"ran siemons
 
 echo hallo 'ma\'ran' siemons
@@ -202,10 +208,18 @@ echo '\$?'
 echo '$USER'
 $USER
 
+echo '\$USER'
+\$USER
+
+echo '"\$USER"'
+"\$USER"
 
 ***************************
 ** 		Double quotes	**
 ***************************
+
+echo "hallo"maran"
+Multiple line error
 
 echo "\poep"
 \poep
@@ -223,60 +237,51 @@ multiple line error
 echo "hallo\"\poep"
 hallo"\poep
 
+echo hallo""
+hallo
 
+echo "hoi$USERmaran"					--> !
+hoi
 
-
-
-
-
-echo \"						--> check
-
-echo "123\'456"				--> nu alleen als binnen quotes en na de backslash ook een quote komt.
-
-echo \$?					--> check
-
-----
-
- echo '$USER'$USER
-
- echo '$USER'$USER\$USER/"$USER"
-
-
-
-
-----
-echo 123\poep		--> verwijdert \
-123poep
-
-echo "123\poep"		--> verwijdert helemaal niks??
-123\poep
-
-echo "123\$USER"	--> voor $ wel
-
-
- ---
 echo "$USER"
 maran
 
- echo "\$USER"		Verwijdert \ en werking $ is weg door \
+echo "'\$USER'"
+'$USER'				
+
+------------------------
+echo "\$USER"							
 $USER
 
+echo "123\"456"
+123"456
 
- echo '\$USER'		letterlijk binnen de haakjes (Singel quotes belangrijker dan \)
-\$USER
+echo "\poep"
+\poep
+------------------------
 
- echo "'\$USER'"	In dubbel quote werkt \ nog wel (verwijder + werking $ weg), ziet single quotes gewoon als tekst?
-'$USER'				Dus eerst op compleetheid dubbel checken, dan \ en negeer '
-					Singel quotes hoeven zelfs niet compleet te zijn.
+echo "123\'456"
+123\'456
 
-echo '"\$USER"'		Andersom alles letterlijk
-"\$USER"
+***************************
+** 		Escape character**
+***************************
 
-----brain fart----
-echo ' poep'123' '		Toch niet alles letterlijk. Single quotes binnen single quotes werken wel.
- poep123 				Deze moeten worden verwijderd. NEE KLOPT NIET>
+echo \"
+"
 
-echo ' poep'123 '		Moeten zelfs compleet zijn (geldt enkel voor single quotes)
-> multiple line			Logisch want hij ziet 3e quote als alleen
+echo \$?
+$?
 
--------------------
+echo 123\poep
+123poep
+
+***************************
+** 		Combined		**					MEER COMBINED TESTEN, LANGERE ZINNEN
+***************************
+
+echo '$USER'$USER
+$USERmaran
+
+echo '$USER'$USER\$USER/"$USER"
+$USERmaran$USER/maran

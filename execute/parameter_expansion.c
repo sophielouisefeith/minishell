@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/01 22:27:12 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/02 12:30:51 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,32 @@
 	- Functies te lang.
 */
 
+
+//Original:
+// static void		parameter_not_exist(t_command **command, int *y)
+// {
+// 	int		new_y;
+
+// 	if (!(*command)->array[*y + 1])
+// 	{
+// 		free((*command)->array[*y]);
+// 		free((*command)->array);
+// 		(*command)->array[*y] = NULL;
+// 		(*command)->array = NULL;
+// 	}
+// 	else
+// 	{
+// 		new_y = *y - 1;
+// 		while ((*command)->array[*y + 1])
+// 		{
+// 			(*command)->array[*y] = (*command)->array[*y + 1];
+// 			(*y)++;
+// 		}
+// 		(*command)->array[*y] = NULL;
+// 		(*y) = new_y;
+// 	}
+// }
+
 /*
 ** When the given parameter (ex. $POEP) doesn't exist in _env:
 ** check if there a more parameters coming, if so delete the non_existing one
@@ -31,7 +57,7 @@
 	- LET OP BIJ FREEEN, gaat dit dan goed?
 */
 
-static void		parameter_not_exist(t_command **command, int *y)
+void		parameter_not_exist(t_command **command, int *y)
 {
 	int		new_y;
 
@@ -55,19 +81,6 @@ static void		parameter_not_exist(t_command **command, int *y)
 	}
 }
 
-static char 	*check_for_more_expansion(char *new_str2, t_env *_env)
-{
-	int		i;
-
-	i = 0;
-	while (new_str2[i])
-	{
-		if (new_str2[i] == '$')
-			new_str2 = expand(new_str2, i, _env);
-		i++;
-	}
-	return (new_str2);
-}
 
 /*
 ** parameter --> $parameter
@@ -85,8 +98,8 @@ static char 	*check_for_more_expansion(char *new_str2, t_env *_env)
 **    ret == 0  --> no special chars found, so no string after the $parameter 
 **    ret > 0   --> special char found, so new_str after $parameter, save in 
 **		new_str2. Ret is position of special char.
-** 4. If there is a new_str2 (ret > 0) check if special char is a $. If so this		//wat als nog $? erachter
-** one should be expanded as wel (recursive).
+// ** 4. If there is a new_str2 (ret > 0) check if special char is a $. If so this		//wat als nog $? erachter
+// ** one should be expanded as wel (recursive).
 ** 5. If not immediate end of line, search for parameter in _env.
 ** 6. Join the 3 possible strings, and return this new value.
 */
@@ -119,7 +132,6 @@ char			*expand(char *str, int i, t_env *_env)
 		// printf("Special char found: parameter = [%s]\n", parameter); 
 		new_str2 = ft_substr(str, ret, ft_strlen(str));
 		// printf("Special char found: new_str2 = [%s]\n", new_str2);
-		// new_str2 = check_for_more_expansion(new_str2, _env);
 	}
 	if (ret != -1)
 		parameter = search_node(_env, parameter);
@@ -149,25 +161,3 @@ char		*if_dollar(char *str, int i, t_env *_env)
 		// str = value;
 	return (value);
 }
-
-// void			parameter_expansion(t_command **command, t_env *_env)
-// {
-// 	int		y;
-// 	int		i;
-
-// 	y = 0;
-// 	while ((*command)->array && (*command)->array[y])
-// 	{
-// 		i = 0;
-// 		while((*command)->array[y][i])
-// 		{
-// 			if ((*command)->array[y][i] == '$' && (*command)->quote[y] != token_quote)
-// 			{
-// 				if_dollar(command, _env, &y, i);
-// 				break ;
-// 			}
-// 			i++;
-// 		}
-// 		y++;
-// 	}
-// }
