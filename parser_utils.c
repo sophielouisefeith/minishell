@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/01 20:30:46 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/05 15:22:54 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 
     // if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])		//
 	
-	// printf("(*sort)->str = [%s]\n", (*sort)->str);
+	printf("(*sort)->str = [%s]\n", (*sort)->str);
 	if (is_single_quote((*sort)->str[0]) || is_double_quote((*sort)->str[0]))		//mag alleen bij het eerste woord worden getrunct (hoezo komt hij niet bij volgende woorden?)
 		(*sort)->str = delete_quotes((*sort)->str, (*sort)->str[0]);
 		// (*sort)->str = trunc_quotes((*sort)->str);

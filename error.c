@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/09/09 18:43:50 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/05 15:21:52 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,22 @@ static char 			*translate_builtin(int b)
 	return (NULL);
 }
 
+
 char				*error_command(char *str)
 {
-	g_exit_status = 127;
+	
 	write(1, "bash: ", 6 );
+	if(!strncmp(str, ";", 1))
+	{
+		
+		write(1, " syntax error near unexpected token `;'\n", 40);
+		g_exit_status = 258;
+		return(str);
+	}
 	write(1, str, ft_strlen(str));
 	write(1, ": ", 2 );
 	write(1, "command not found\n", 18);
+	g_exit_status = 127;
 	return (str);
 }
 
