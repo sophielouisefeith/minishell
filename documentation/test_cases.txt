@@ -303,8 +303,61 @@ echo 123"hallo$"456
 
 
 ***************************
-** 		Sophies vondsten **			NOG OP TE LOSSEN
+** 	TESTS VAN BORIS      **
 ***************************
+
+export kip=ei=koe===melk											check
+echo $1234															X segfault
+echo $_1234															check
+export 1hello_world													check	[Wel naar foutmelding kijken]
+echo "\""															check
+echo "\"															check
+exit 1 2 3															check
+exit hello															check
+exit 1 hello														check
+export LS="ls -la";$LS												X laat geen lijst zien
+echo > file1 hello >file2 world! > file3 | cat -e					X maakt files niet aan en cat werk niet goed
+ls >> file3 | cat < file3											X cat doet het in bash niet. Ik snap niet waarom niet.
+;																	X niet de juiste foutmelding
+> file																X maakt geen file aan en foutmelding
+ls >>>>>>>>>>> file													X bij ons maakt hij onterecht files aan met de naam >
+echo hoi -n															check
+cd "\$HOME"															check
+unset PATH;ls														X bij ons doet ls het nog, maar is dat niet logisch omdat het een builtin is?				(/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin)
+
+check exit status everywhere, for example try and chmod 000 an executable and then try to execute it and check the exit status.					X wij krijgen exit status 1 ipv 126
+try to type something after your prompt then sending EOF (ctrl-d)																				[Sophie mee bezig]	
+
+***************************
+** 	NOG OP TE LOSSEN (?) **
+***************************
+----------------
+SOWIESO OPLOSSEN
+----------------
+export YYY=echo
+$YYY hallo
+
+Relative Path																					
+- Execute commands but this time use a relative path
+- Repeat multiple times in multiple directories with complex relative path (lots of ..)
+
+getest met:
+Vanuit /Users
+../bin/echo poep										-->zou het moeten doen.
+
+echo DOET HET NIET >> test1 | cat test1					--> DOET HET NIET wordt niet toegevoegd aan test1 !!!
+echo maran >test6 | cat <test6							-->	Bij ons maakt hij nu geen nieuwe test6 aan?
+
+echo $1234
+
+--------------
+DEZE OOK?
+--------------
+$USER
+bash: maran: command not found					--> voor foutmelding al expanden?
+
 echo “$USER”‘/$USER’
 
 ./
+bash: ./: is a directory
+

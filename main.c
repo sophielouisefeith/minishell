@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/02 09:34:20 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/05 15:40:30 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int					main(int argc, char **argv, char **env)
 		i = 0;
 		write(1, COLOR_PROMPT, 24);
 		ret = get_next_line(0, &line);
-		if (ret <= 0)
+		if (ret == 0)
 			ctrl_d(ret);
 		//if (ret == -1)
 			//error(2, line); // ---------------here we say  No such file or directory

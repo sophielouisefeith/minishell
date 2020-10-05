@@ -12,7 +12,7 @@
 7. TESTEN!																		[ Sop		]
 8. Alles doorlopen, strakker, betere benamingen, checken op overbodige shizzle	[ 	the end	]
 9. Norminetten																	[	the end	]
-10 echo \" en echo \'															[			]
+10 echo \" en echo \'															[	check	]
 11. Makefile																	[			]
 	- Waarom bij Maran 2.o files etc?																
 12. Exit_functie fixen															[	Check	]
@@ -23,6 +23,7 @@
 New to do:
 - Tot welk detail errorchecking? Bijv ook na new_node etc?
 - Enkel $? 			->zonder echo
+- Zie sophies vondsten in test_cases
 
 
 Fixen n.a.v. eval_sheet:

@@ -57,8 +57,8 @@ Double Quotes
 - Do not try multiline strings
  Yes
  No
-env
 
+env
 - Check if env shows you the current environment variables
  Yes
  No
@@ -68,51 +68,60 @@ export
 - Check them with env
  Yes
  No
+
 unset
 - Export environment variables, create new ones and replace old ones
 - Use unset to remove some of them
 - Check the result with env
  Yes
  No
+
 Environment Variables
 - Execute echo with some $ variables as arguments
 - Check if double quotes around $ variables is working correctly (like in bash)
  Yes
  No
+
 cd
 - Use the command cd to move the working directory and check if you are in the right directory with /bin/ls
 - Repeat multiple times with working and not working cd
 - try '.' '..' as arguments too
  Yes
  No
+
 pwd
 - Use the command pwd
 - Repeat multiple times in multiple directories
  Yes
  No
+
 Relative Path
 - Execute commands but this time use a relative path
 - Repeat multiple times in multiple directories with complex relative path (lots of ..)
  Yes
  No
+
 Environment Path
 - Execute commands but this time without any path. (ls, wc, awk etc...)
 - Unset the $PATH and check if it is not working anymore
 - Set the $PATH to a multiple directory value (directory1:directory2) and check that directories are checked in order from left to right
  Yes
  No
+
 Simple Quotes
 - Execute commands with simple quotes as argument
 - Try empty arguments
 - Try environment variables, whitespaces and semicolons in the simple quotes
  Yes
  No
+
 Redirection
 - Execute commands with redirections < and/or >
 - Repeat multiple times with different commands and arguments and sometimes change > with >>
 - Check if multiple of the same redirections fail
  Yes
  No
+ 
 Pipes
 - Execute commands with pipes like 'cat file | grep bla | more'
 - Repeat multiple times with different commands and arguments
