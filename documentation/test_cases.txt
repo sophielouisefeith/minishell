@@ -350,6 +350,9 @@ echo maran >test6 | cat <test6							-->	Bij ons maakt hij nu geen nieuwe test6 
 
 echo $1234
 
+
+echo $???
+echo $/
 --------------
 DEZE OOK?
 --------------
@@ -361,3 +364,69 @@ echo “$USER”‘/$USER’
 ./
 bash: ./: is a directory
 
+
+*********************
+Rijtje testen: (rm y1 y2 x1 x2 x3)
+
+echo hallo
+echo hallo | echo hoi
+echo hallo ; echo hoi
+
+echo hallo >x1 >x2 >x3 | echo hoi
+echo hallo >x1 >x2 >x3 ; echo hoi
+
+echo hallo | echo poep >x1 >x2
+echo hallo ; echo poep >x1 >x2
+
+echo hallo | echo hoi | cat						-->	V
+echo hallo | echo hoi > y1 >y2 | cat -e			--> V
+echo hoi > y1 >y2 ; cat -e						--> V
+echo hallo | echo hoi > y1 >y2 ; cat -e			--> KAPOT HIER MORGEN VERDER
+
+ls > x1 | cat x1 | grep makefile				--> inconsistent in de echt bash
+cat x1 | grep Makefile
+ls > x1 ; cat x1 | grep main					--> V
+
+Wat als met andere comments dan echo?
+Testen on <
+
+
+
+
+
+
+
+***************************
+** Start positie  		**
+***************************
+0 XstdinX	"fdin"-[tmpin] 
+1 XstdoutX
+2 stderror
+3 tmpin
+4 tmpout
+5 XfdinX
+6
+
+
+
+***************************
+** 	echo hoi > y1 >y2 ; cat **
+***************************
+0 XstdinX	"fdin"-[tmpin] tmpin
+1 XstdoutX	"fdout"-[> hoi]	fdout-[tmpout]	fdout-[tmpout]	tmpout
+2 stderror
+3 XtmpinX
+4 XtmpoutX
+5 XfdinX	Xfdout-[>]X		Xfdout-[tmpout]X	Xfdin-[0]X	Xfdout-[tmpout]X	Xfdin-[0]X
+6
+
+***************************
+** Start positie  		**
+***************************
+0 XstdinX	"fdin"-[tmpin] 	fdin-[0]
+1 XstdoutX	"fdout"-[> hoi]	fdout-[tmpout]	fdout-[tmpout]
+2 stderror
+3 tmpin
+4 tmpout
+5 XfdinX	Xfdout-[>]X		Xfdout-[tmpout]X	Xfdin-[0]X	Xfdout-[tmpout]X	Xfdin-[0]X
+6
