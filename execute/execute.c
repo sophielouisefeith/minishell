@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/06 23:36:07 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/07 16:30:36 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,14 +154,10 @@ void            execute(t_command **command, t_env **_env)
             close(fdout);
 			if (!(((*command)->sem || (*command)->pipe_after) && (*command)->output))
 				builtin_another_program(command, _env);		//in deze wordt er echt al geschreven.
-			///
-			// if ((*command)->output)		//HEEL VREEMD MAAR WEKRT, bij pipe niet kapot? en moet enkel semi er niet bij
 			if ((*command)->sem)
-				fdin = dup(0);
-			///
+				fdin = dup(tmpin);
            	*command = (*command)->next_command;
             i++;
-			// printf("round [%d]\n", i);
         }
         dup2(tmpin, 0);
         dup2(tmpout, 1);

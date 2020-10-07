@@ -372,16 +372,16 @@ echo hallo
 echo hallo | echo hoi
 echo hallo ; echo hoi
 
-echo hallo >x1 >x2 >x3 | echo hoi
-echo hallo >x1 >x2 >x3 ; echo hoi
+echo hallo >x1 >x2 >x3 | echo hoi					V
+echo hallo >x1 >x2 >x3 ; echo hoi					V
 
-echo hallo | echo poep >x1 >x2
-echo hallo ; echo poep >x1 >x2
+echo hallo | echo poep >x1 >x2						V
+echo hallo ; echo poep >x1 >x2						V
 
 echo hallo | echo hoi | cat						-->	V
 echo hallo | echo hoi > y1 >y2 | cat -e			--> V
 echo hoi > y1 >y2 ; cat -e						--> V
-echo hallo | echo hoi > y1 >y2 ; cat -e			--> KAPOT HIER MORGEN VERDER
+echo hallo | echo hoi > y1 >y2 ; cat -e			--> V
 
 ls > x1 | cat x1 | grep makefile				--> inconsistent in de echt bash
 cat x1 | grep Makefile
@@ -430,3 +430,18 @@ Testen on <
 4 tmpout
 5 XfdinX	Xfdout-[>]X		Xfdout-[tmpout]X	Xfdin-[0]X	Xfdout-[tmpout]X	Xfdin-[0]X
 6
+
+
+***************************
+**  echo hallo | echo hoi > y1 >y2 ; cat -e		**
+***************************
+0 XstdinX	"fdin"-[tmpin] "fdin-[pipe0 hallo]"
+1 XstdoutX	"fdout-[pipe1 hallo]"  "fdout-[> hoi]"	fdout-[tmpout]
+2 stderror
+3 tmpin
+4 tmpout
+5 XfdinX Xfdout-[pipe1]X Xfdout-[>]X	Xfdout-[tmpout]X fdin-[pipe0 hallo]	<-- DE REDEN
+6 Xfdin-[pipe0]X
+
+Bij pipe > gebleven
+
