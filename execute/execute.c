@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/07 16:30:36 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/07 19:18:39 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,17 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 
 void			builtin_another_program(t_command **command, t_env **_env)
 {
+	// printf("in distri\n");
 	if ((*command)->builtin == builtin_no || (*command)->builtin == executable)
+	{
+		// printf("Invoke: [%s]\n", (*command)->array[0]);
 		invoke_another_program(command, _env);
+	}
 	if ((*command)->builtin != builtin_no_com && (*command)->builtin != builtin_no && (*command)->builtin != executable)
+	{
+		// printf("in execute_builtin\n");
 		execute_builtin(command, _env);
+	}
 }
 
 void            execute(t_command **command, t_env **_env)
@@ -111,7 +118,6 @@ void            execute(t_command **command, t_env **_env)
         int     len_list;
         int     fdpipe[2];
 		
-
         len_list = lstsize(*command);
         tmpin = dup(0);
         tmpout = dup(1);
@@ -122,9 +128,11 @@ void            execute(t_command **command, t_env **_env)
         i = 0;
         while (i < len_list)
         {
+			// tester(NULL, (*command));		//
 			check_specials(command, *_env);
             dup2(fdin, 0);
             close(fdin);
+			// printf("1. i = %d\n", i);
             if (i == len_list - 1)
                 fdout = fill_fdout((*command)->output, tmpout);
 			else if ((*command)->sem && (*command)->output)
@@ -153,11 +161,13 @@ void            execute(t_command **command, t_env **_env)
             dup2(fdout,1);
             close(fdout);
 			if (!(((*command)->sem || (*command)->pipe_after) && (*command)->output))
-				builtin_another_program(command, _env);		//in deze wordt er echt al geschreven.
+				builtin_another_program(command, _env);					//in deze wordt er echt al geschreven.
 			if ((*command)->sem)
 				fdin = dup(tmpin);
            	*command = (*command)->next_command;
+			// printf("2.i = %d\n", i);
             i++;
+			// printf("3. i = %d\n", i);
         }
         dup2(tmpin, 0);
         dup2(tmpout, 1);

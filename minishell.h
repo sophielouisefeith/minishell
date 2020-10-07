@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/02 12:18:28 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/07 17:40:15 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,5 +212,8 @@ char							*delete_quotes(char *src, char garbage);
 void							check_specials(t_command **command, t_env *_env);
 char							*if_dollar(char *str, int i, t_env *_env);
 void							parameter_not_exist(t_command **command, int *y);
+
+
+void				check_builtin_again(t_command **command, t_env *_env, int y);
 
 #endif

@@ -316,8 +316,8 @@ exit 1 2 3															check
 exit hello															check
 exit 1 hello														check
 export LS="ls -la";$LS												X laat geen lijst zien
-echo > file1 hello >file2 world! > file3 | cat -e					X maakt files niet aan en cat werk niet goed
-ls >> file3 | cat < file3											X cat doet het in bash niet. Ik snap niet waarom niet.
+echo > file1 hello >file2 world! > file3 | cat -e					Check
+ls >> file3 | cat < file3											Check
 ;																	X niet de juiste foutmelding
 > file																X maakt geen file aan en foutmelding
 ls >>>>>>>>>>> file													X bij ons maakt hij onterecht files aan met de naam >
@@ -348,8 +348,6 @@ Vanuit /Users
 echo DOET HET NIET >> test1 | cat test1					--> DOET HET NIET wordt niet toegevoegd aan test1 !!!
 echo maran >test6 | cat <test6							-->	Bij ons maakt hij nu geen nieuwe test6 aan?
 
-echo $1234
-
 
 echo $???
 echo $/
@@ -366,82 +364,64 @@ bash: ./: is a directory
 
 
 *********************
+*	New ontdekt *
+*********************
+$echo hallo										--> Segt deze of kwam dit door printfs?
+export $POEP									--> Seg?
+export $POEP="ls -la"
+
+*********************
+*	Pipes and semi's *
+*********************
 Rijtje testen: (rm y1 y2 x1 x2 x3)
 
 echo hallo
 echo hallo | echo hoi
 echo hallo ; echo hoi
 
-echo hallo >x1 >x2 >x3 | echo hoi					V
-echo hallo >x1 >x2 >x3 ; echo hoi					V
+echo hallo >x1 >x2 >x3 | echo hoi					
+echo hallo >x1 >x2 >x3 ; echo hoi					
 
-echo hallo | echo poep >x1 >x2						V
-echo hallo ; echo poep >x1 >x2						V
+echo hallo | echo poep >x1 >x2						
+echo hallo ; echo poep >x1 >x2						
 
-echo hallo | echo hoi | cat						-->	V
-echo hallo | echo hoi > y1 >y2 | cat -e			--> V
-echo hoi > y1 >y2 ; cat -e						--> V
-echo hallo | echo hoi > y1 >y2 ; cat -e			--> V
+echo hallo | echo hoi | cat
+echo hallo | echo hoi > y1 >y2 | cat -e
+echo hoi > y1 >y2 ; cat -e
+echo hallo | echo hoi > y1 >y2 ; cat -e
 
 ls > x1 | cat x1 | grep makefile				--> inconsistent in de echt bash
 cat x1 | grep Makefile
-ls > x1 ; cat x1 | grep main					--> V
+ls > x1 ; cat x1 | grep main
 
+TO DO:
 Wat als met andere comments dan echo?
 Testen on <
 
 
+----------
+Deze ook nog fixen:
+-------------------
 
+Die echo $???  heb ik trouwens wel een idee over.
+In de expand functie check ik heel goed of er nog iets na de env var komt. Bijv. $USERhallosophie.
+Dit gebeurt bij vraagteken natuurlijk niet.
 
+15:49
+Ik denk dat we die $? $getal breder moeten fixen. Want dit geldt ook voor echo $*hallo
+15:49
+Moeten we gewoon allemaal in expand gaan checken denk ik
 
+sfeith  15:50
+oke you right was die value nu aan het vullen if =? en dan zegmaar verdeer vullen met een substr.
+15:50
+maar indd *hallo zelfde principe.
+15:51
+eentje eraf.
+15:51
+oke.
 
+msiemons  15:51
+en echo $A*aap  ook. Dus het is echt alle tekst na onbestaande $ of niet geldige $
 
-***************************
-** Start positie  		**
-***************************
-0 XstdinX	"fdin"-[tmpin] 
-1 XstdoutX
-2 stderror
-3 tmpin
-4 tmpout
-5 XfdinX
-6
-
-
-
-***************************
-** 	echo hoi > y1 >y2 ; cat **
-***************************
-0 XstdinX	"fdin"-[tmpin] tmpin
-1 XstdoutX	"fdout"-[> hoi]	fdout-[tmpout]	fdout-[tmpout]	tmpout
-2 stderror
-3 XtmpinX
-4 XtmpoutX
-5 XfdinX	Xfdout-[>]X		Xfdout-[tmpout]X	Xfdin-[0]X	Xfdout-[tmpout]X	Xfdin-[0]X
-6
-
-***************************
-** Start positie  		**
-***************************
-0 XstdinX	"fdin"-[tmpin] 	fdin-[0]
-1 XstdoutX	"fdout"-[> hoi]	fdout-[tmpout]	fdout-[tmpout]
-2 stderror
-3 tmpin
-4 tmpout
-5 XfdinX	Xfdout-[>]X		Xfdout-[tmpout]X	Xfdin-[0]X	Xfdout-[tmpout]X	Xfdin-[0]X
-6
-
-
-***************************
-**  echo hallo | echo hoi > y1 >y2 ; cat -e		**
-***************************
-0 XstdinX	"fdin"-[tmpin] "fdin-[pipe0 hallo]"
-1 XstdoutX	"fdout-[pipe1 hallo]"  "fdout-[> hoi]"	fdout-[tmpout]
-2 stderror
-3 tmpin
-4 tmpout
-5 XfdinX Xfdout-[pipe1]X Xfdout-[>]X	Xfdout-[tmpout]X fdin-[pipe0 hallo]	<-- DE REDEN
-6 Xfdin-[pipe0]X
-
-Bij pipe > gebleven
-
+----------------------------

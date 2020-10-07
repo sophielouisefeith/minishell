@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/01 20:30:46 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/07 17:16:48 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,13 @@ char		*delete_quotes(char *src, char garbage)
 }
 
 	// printf("(*sort)->str = [%s]\n", (*sort)->str);
+/*
+** Check path checks the env variable path for commands, and completes the path.
+** For example "ls" --> "/bin/ls".
+** If there is no match the builtin type will be set to builtin_no_com. If there is a match
+** it stays "builtin_no".
+*/
+
 int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 {
 	int 	builtin_type;

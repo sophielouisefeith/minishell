@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/02 16:41:47 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/07 19:19:40 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void							check_specials(t_command **command, t_env *_env)
 	int flag;
 
 	y = 0;
+	// printf("(*command)->array[y][%s]\n", (*command)->array[0]);
 	while ((*command)->array && (*command)->array[y])
 	{
 		i = 0;
@@ -141,7 +142,11 @@ void							check_specials(t_command **command, t_env *_env)
 					i++;
 				}
 				if ((*command)->array[y][i] == '$')
+				{
 					(*command)->array[y]  = if_dollar((*command)->array[y] , i, _env);
+					check_builtin_again(command, _env, y);		//Testje
+				}
+				// printf("(*command)->array[y]= %s\n", (*command)->array[y]);
 			}
 			if ((*command)->array[y] == NULL)
 				parameter_not_exist(command, &y);

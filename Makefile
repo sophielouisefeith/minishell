@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/10/01 18:04:32 by maran         ########   odam.nl          #
+#    Updated: 2020/10/07 17:42:06 by maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		execute/execute_export.c\
 		execute/ft_split2.c\
 		get_path.c\
-		error.c
+		error.c\
+		execute/check_builtin_again.c\
 		
 		# free.c 
 

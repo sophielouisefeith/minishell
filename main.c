@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/05 15:40:30 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/07 18:16:20 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 	- Wss ook nog een copy van command nodig na execute. Later naar kijken.
 */
 
-static void			lexer_parser_executer(char *line, int i, t_env **_env)
+void			lexer_parser_executer(char *line, int i, t_env **_env)
 {
 	t_lexer		*sort;
 	t_lexer		*sort_copy;
@@ -108,6 +108,8 @@ void 		sighandler(int signum)
 		printf("Quit: 3\n");
 }
 
+
+//Waarom hebben wij een i in de loop?
 int					main(int argc, char **argv, char **env)
 {
 		
