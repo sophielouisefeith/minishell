@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/08 16:25:06 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/08 16:55:59 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,17 +139,16 @@ char		*delete_quotes(char *src, char garbage)
 ** it stays "builtin_no".
 */
 
+		// printf("(*sort)->str = [%s]\n", (*sort)->str);
+
 int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 {
 	int 	builtin_type;
 	char 	*str_before;
 
-    // if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])		//
 	
-	printf("(*sort)->str = [%s]\n", (*sort)->str);
 	if (is_single_quote((*sort)->str[0]) || is_double_quote((*sort)->str[0]))		//mag alleen bij het eerste woord worden getrunct (hoezo komt hij niet bij volgende woorden?)
 		(*sort)->str = delete_quotes((*sort)->str, (*sort)->str[0]);
-		// (*sort)->str = trunc_quotes((*sort)->str);
 	builtin_type = get_builtin_type((*sort)->str);
 	if (builtin_type == builtin_no)
 	{

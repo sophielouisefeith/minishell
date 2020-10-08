@@ -307,7 +307,7 @@ echo 123"hallo$"456
 ***************************
 
 export kip=ei=koe===melk											check
-echo $1234															X segfault
+echo $1234															X segfault [Sop]
 echo $_1234															check
 export 1hello_world													check	[Wel naar foutmelding kijken]
 echo "\""															check
@@ -318,8 +318,8 @@ exit 1 hello														check
 export LS="ls -la";$LS												check
 echo > file1 hello >file2 world! > file3 | cat -e					Check
 ls >> file3 | cat < file3											Check
-;																	X niet de juiste foutmelding
-> file																X maakt geen file aan en foutmelding
+;																	X niet de juiste foutmelding	[Sop]
+> file																Check
 ls >>>>>>>>>>> file													X bij ons maakt hij onterecht files aan met de naam >
 echo hoi -n															check
 cd "\$HOME"															check
@@ -369,6 +369,7 @@ bash: ./: is a directory
 $echo hallo										--> Segt deze of kwam dit door printfs?
 export $POEP									--> Seg?
 export $POEP="ls -la"
+< POEP
 
 *********************
 *	Pipes and semi's *
