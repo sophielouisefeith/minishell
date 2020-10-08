@@ -315,7 +315,7 @@ echo "\"															check
 exit 1 2 3															check
 exit hello															check
 exit 1 hello														check
-export LS="ls -la";$LS												X laat geen lijst zien
+export LS="ls -la";$LS												check
 echo > file1 hello >file2 world! > file3 | cat -e					Check
 ls >> file3 | cat < file3											Check
 ;																	X niet de juiste foutmelding
@@ -425,3 +425,13 @@ msiemons  15:51
 en echo $A*aap  ook. Dus het is echt alle tekst na onbestaande $ of niet geldige $
 
 ----------------------------
+
+*******************************
+*	Strange pipe dilemma 8/10 *
+*******************************
+Werkt niet:
+export POEP="ls -la"
+echo hoi | $POEP
+
+export POEP="grep main"
+ls > x1 ; cat x1 | $POEP

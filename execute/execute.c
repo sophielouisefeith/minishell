@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/07 19:18:39 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/08 16:14:34 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,39 +74,22 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 	}
 }
 
-/*
-** Printf's:
-		// sleep(1);
-		// printf("To kill pid = [%d]\n", ret);
-		// kill(ret, SIGTERM);
-		// printf("FORKED ID == 0 [%5d]			Child-process\n", ret);
-	// printf("Parent Pid = [%d]\n", getpid());
-		// printf("Wait: Dit pas printen nadat child is afgerond\n");
-		// printf("Child Pid = [%d]\n", getpid());
-				// printf("Execute builtin Pid = [%d]\n", getpid());
-		// printf("FORKED ID != 0 [%5d]			Parent-process\n", ret);
-	// printf("-------THE END------ FORKED ID = [%d]\n", ret);	
-					// while (1)
-					// {
-						// printf("Child Pid = [%d]\n", getpid());
-						// sleep(1);
-					// }	
-*/
-
 void			builtin_another_program(t_command **command, t_env **_env)
 {
-	// printf("in distri\n");
 	if ((*command)->builtin == builtin_no || (*command)->builtin == executable)
-	{
-		// printf("Invoke: [%s]\n", (*command)->array[0]);
 		invoke_another_program(command, _env);
-	}
 	if ((*command)->builtin != builtin_no_com && (*command)->builtin != builtin_no && (*command)->builtin != executable)
-	{
-		// printf("in execute_builtin\n");
 		execute_builtin(command, _env);
-	}
 }
+
+/*
+** Changelog:
+	- Big changes 8/10:
+	Om de test cases van boris op te lossen. Mochten er issues zijn de laatste git versie van voor verandering is "solved ctrl d"
+** TO DO:
+	- korter maken, let op fragiel!
+*/
+
 
 void            execute(t_command **command, t_env **_env)
 {
@@ -117,7 +100,7 @@ void            execute(t_command **command, t_env **_env)
 		int     i;
         int     len_list;
         int     fdpipe[2];
-		
+
         len_list = lstsize(*command);
         tmpin = dup(0);
         tmpout = dup(1);
@@ -128,13 +111,11 @@ void            execute(t_command **command, t_env **_env)
         i = 0;
         while (i < len_list)
         {
-			// tester(NULL, (*command));		//
 			check_specials(command, *_env);
             dup2(fdin, 0);
             close(fdin);
-			// printf("1. i = %d\n", i);
             if (i == len_list - 1)
-                fdout = fill_fdout((*command)->output, tmpout);
+				fdout = fill_fdout((*command)->output, tmpout);
 			else if ((*command)->sem && (*command)->output)
 			{
 					fdout = fill_fdout((*command)->output, tmpout);
@@ -158,26 +139,17 @@ void            execute(t_command **command, t_env **_env)
             }
             else                                                        // ; 
                 fdout = dup(tmpout);
-            dup2(fdout,1);
+			dup2(fdout,1);
             close(fdout);
 			if (!(((*command)->sem || (*command)->pipe_after) && (*command)->output))
-				builtin_another_program(command, _env);					//in deze wordt er echt al geschreven.
+				builtin_another_program(command, _env);
 			if ((*command)->sem)
 				fdin = dup(tmpin);
            	*command = (*command)->next_command;
-			// printf("2.i = %d\n", i);
             i++;
-			// printf("3. i = %d\n", i);
         }
         dup2(tmpin, 0);
         dup2(tmpout, 1);
         close(tmpin);
         close(tmpout);
 }
-
-
-
-
-
-
-//waitpid(ret, NULL, 0);                                       //Lijkt niks meer toe te voegen?

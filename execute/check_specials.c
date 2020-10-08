@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/07 19:19:40 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/08 16:12:19 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,14 @@ static char			*treat_single_quote(char *str, int *i, int *flag)
 	return (str);
 }
 
+/*
+** Check_builtin_again: check _env variables ($) for commands.
+** Ex. export LS="ls -la" 
+**
+TO DO:
+- Check_builtin_again:  Misschien in if_dollar zetten. Zo niet ook onder andere if_dollars zetten! (wacht op andere aanpassingen).
+*/
+
 void							check_specials(t_command **command, t_env *_env)
 {
 	int y;
@@ -123,7 +131,6 @@ void							check_specials(t_command **command, t_env *_env)
 	int flag;
 
 	y = 0;
-	// printf("(*command)->array[y][%s]\n", (*command)->array[0]);
 	while ((*command)->array && (*command)->array[y])
 	{
 		i = 0;
@@ -144,9 +151,8 @@ void							check_specials(t_command **command, t_env *_env)
 				if ((*command)->array[y][i] == '$')
 				{
 					(*command)->array[y]  = if_dollar((*command)->array[y] , i, _env);
-					check_builtin_again(command, _env, y);		//Testje
+					check_builtin_again(command, _env, y);
 				}
-				// printf("(*command)->array[y]= %s\n", (*command)->array[y]);
 			}
 			if ((*command)->array[y] == NULL)
 				parameter_not_exist(command, &y);
@@ -155,5 +161,3 @@ void							check_specials(t_command **command, t_env *_env)
 		y++;
 	}
 }
-			// printf("*** (*command)->array[y][%d] = [%c] --> [%s]\n", i, (*command)->array[y][i], (*command)->array[y]);
-			// printf("*** (*command)->array[y]= [%s] en i[%d] = [%c]\n", (*command)->array[y], i, (*command)->array[y][i]);
