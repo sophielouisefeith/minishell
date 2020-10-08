@@ -370,6 +370,7 @@ $echo hallo										--> Segt deze of kwam dit door printfs?
 export $POEP									--> Seg?
 export $POEP="ls -la"
 < POEP
+ascii 96 grave accent ` checken of deze ook wordt gezien als quote
 
 *********************
 *	Pipes and semi's *

@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 15:51:41 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/28 14:53:48 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/08 19:21:50 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,39 @@
 		return (is_operator(line[*i]));
 */
 
+// TO DO: Segt nog bij <.
+int				check_redirections(char *line, int *i, int type)
+{
+	(*i)++;
+	while (is_whitespace(line[*i]))
+		(*i)++;
+	if (type >= token_redirection_greater && type <= token_redirection_dgreater)
+	{
+		if (line[*i] == '\n' || line[*i] == '#' || line[*i] == '&' ||
+			line[*i] == '(' || line[*i] == ')' || line[*i] == ';' ||
+			line[*i] == '>' || line[*i] == '<' || line[*i] == '|')
+			return (error_redirections(line[*i], 1));
+		if (line[*i] == '*')
+			return (error_redirections(line[*i], 2));
+	}
+	if (type == token_redirection_greater || type == token_redirection_dgreater)
+	{
+		if (line[*i] == '/' || line[*i] == '.' || line[*i] == '~')
+			return (error_redirections(line[*i], 3));
+	}
+	return (1);
+}
+
 int				get_token_type(char *line, int *i)
 {
 	int 	operator;
 
 	operator = 0;
-	operator = is_operator(line[*i]); 
+	operator = is_operator(line[*i]);
+	// ///
+	// if (operator == token_redirection_greater || operator == token_redirection_lesser)
+	// 	check_redirections(line[*i], i, operator);
+	// ///
 	if (operator)
 		return (operator);
 	else if (line[*i] == '\0')

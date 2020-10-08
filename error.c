@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/08 16:24:34 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/08 19:20:05 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,3 +66,34 @@ int					error(t_command *command)
 	return (-1);
 }
 
+/* 
+** Quick and dirty solution. Afhankelijk van hoe we errors gaan handelen.
+** Nu returnt 1 omdat hij in token[token_redirection] terecht komt in save operator
+*/
+
+int				error_redirections(char c, int error_num)
+{
+	write(1, "bash: ", 6 );
+	if (error_num == 1)
+	{
+		write(1, "syntax error near unexpected token '", 36);
+		write(1, &c, 1);
+		write(1, "'\n", 2);
+		g_exit_status = 258;
+		g_own_exit = 258;
+		return (1);
+	}
+	else if (error_num == 2)
+	{
+		write(1, &c, 1);
+		write(1, ": ambiguous redirect\n", 22);
+	}
+	if (error_num == 3)
+	{
+		write(1, &c, 1);
+		write(1, ": Is a directory\n", 18);
+	}
+	g_exit_status = 1;
+	g_own_exit = 1;
+	return (1);
+}
