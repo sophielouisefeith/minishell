@@ -306,27 +306,27 @@ echo 123"hallo$"456
 ** 	TESTS VAN BORIS      **
 ***************************
 
-export kip=ei=koe===melk											check
-echo $1234															X segfault [Sop]
-echo $_1234															check
-export 1hello_world													check	[Wel naar foutmelding kijken]
-echo "\""															check
-echo "\"															check
-exit 1 2 3															check
-exit hello															check
-exit 1 hello														check
-export LS="ls -la";$LS												check
+export kip=ei=koe===melk											Check
+echo $1234															X segfault 								[Sop]
+echo $_1234															Check
+export 1hello_world													Check	[Wel naar foutmelding kijken] 	[Sop]
+echo "\""															Check
+echo "\"															Check
+exit 1 2 3															Check
+exit hello															Check
+exit 1 hello														Check
+export LS="ls -la";$LS												Check
 echo > file1 hello >file2 world! > file3 | cat -e					Check
 ls >> file3 | cat < file3											Check
-;																	X niet de juiste foutmelding	[Sop]
+;																	X niet de juiste foutmelding			[Sop]
 > file																Check
 ls >>>>>>>>>>> file													Semi-check (nu nog 5x foutmelding door niet bestaande error structuur)
-echo hoi -n															check
-cd "\$HOME"															check
-unset PATH;ls														X bij ons doet ls het nog, maar is dat niet logisch omdat het een builtin is?				(/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin)
+echo hoi -n															Check
+cd "\$HOME"															Check
+unset PATH;ls														Check
 
-check exit status everywhere, for example try and chmod 000 an executable and then try to execute it and check the exit status.					X wij krijgen exit status 1 ipv 126
-try to type something after your prompt then sending EOF (ctrl-d)																				[Sophie mee bezig]	
+check exit status everywhere, for example try and chmod 000 an executable and then try to execute it and check the exit status.				X wij krijgen exit status 1 ipv 126
+try to type something after your prompt then sending EOF (ctrl-d)																			Check	
 
 ***************************
 ** 	NOG OP TE LOSSEN (?) **

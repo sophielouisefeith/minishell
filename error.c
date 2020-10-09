@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/09 12:36:12 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/09 13:04:02 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char				*error_command(char *str)
 	}
 	write(1, str, ft_strlen(str));
 	write(1, ": ", 2 );
-	write(1, "command not found\n", 18);
+	write(1, "command not found\n", 18);			//No such file or directory (127)
 	g_exit_status = 127;
 	g_own_exit = 127;		//? Quick and dirty solution voor $POEP. Naar kijken als we errormeldignen fixen
 	return (str);
@@ -100,4 +100,18 @@ int				error_redirections(char c, int error_num)
 	g_exit_status = 1;
 	g_own_exit = 1;
 	return (1);
+}
+
+
+// Misschien beter om met error_nums te werken, nu veel overlap de hele tijd.
+
+char				*error_no_path(char *str)
+{
+	write(1, "bash: ", 6 );
+	write(1, str, ft_strlen(str));
+	write(1, ": ", 2 );
+	write(1, "No such file or directory\n", 27);
+	g_exit_status = 127;
+	g_own_exit = 127;
+	return (str);
 }

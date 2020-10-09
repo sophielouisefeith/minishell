@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/09 12:00:37 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/09 13:05:33 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ char			*check_path(t_env *_env, char *str)
 	int				i;
 	
 	i = 0;
-	// printf("----path[%s]\n", path );
 	path = search_node(_env, "PATH");
 	if (!path)
-		printf("No PATH in env\n");
+		return (error_no_path(str));
 	patharray = ft_split(path, ':');			//FREE
 	while (patharray && patharray[i])
 	{
