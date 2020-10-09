@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/09 13:04:02 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/09 18:41:22 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int				error_redirections(char c, int error_num)
 	if (error_num == 3)
 	{
 		write(1, &c, 1);
-		write(1, ": Is a directory\n", 18);
+		write(1, ": Is a directory\n", 18);		//errno 	EISDIR --> omschrijven naar errno_error?
 	}
 	g_exit_status = 1;
 	g_own_exit = 1;
@@ -103,15 +103,35 @@ int				error_redirections(char c, int error_num)
 }
 
 
-// Misschien beter om met error_nums te werken, nu veel overlap de hele tijd.
+// MARAN ERRORS:
 
-char				*error_no_path(char *str)
+void				set_exit_status(void)
+{
+	if (errno == ENOENT)	// "No such file or directory\n"
+	{
+		g_exit_status = 127;
+		g_own_exit = 127;
+	}
+	if (errno == EACCES)
+	{
+		g_exit_status = 126;
+		g_own_exit = 126;
+	}
+	else
+	{
+		g_exit_status = 1;
+		g_own_exit = 1;
+	}
+	return ;
+}
+
+void				*errno_error(char *str)
 {
 	write(1, "bash: ", 6 );
 	write(1, str, ft_strlen(str));
 	write(1, ": ", 2 );
-	write(1, "No such file or directory\n", 27);
-	g_exit_status = 127;
-	g_own_exit = 127;
+	write(1, strerror(errno), ft_strlen(strerror(errno)));
+	write(1, "\n", 1);
+	set_exit_status();
 	return (str);
 }

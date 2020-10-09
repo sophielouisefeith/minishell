@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/09 13:04:19 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/09 18:39:40 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "get_next_line/get_next_line.h"
 #include "libft/libft.h"
+
 #include <errno.h>
 #include <string.h>
 #include <signal.h>
@@ -221,6 +222,7 @@ void							lexer_parser_executer(char *line, int i, t_env **_env);
 /* >>>>>>>>>>> */
 int								check_redirections(char *line, int i, int type);
 int								error_redirections(char c, int error_num);
-char							*error_no_path(char *str);
+void				*errno_error(char *str);
+void				set_exit_status(void);
 
 #endif

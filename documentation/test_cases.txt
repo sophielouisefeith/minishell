@@ -325,7 +325,7 @@ echo hoi -n															Check
 cd "\$HOME"															Check
 unset PATH;ls														Check
 
-check exit status everywhere, for example try and chmod 000 an executable and then try to execute it and check the exit status.				X wij krijgen exit status 1 ipv 126
+check exit status everywhere, for example try and chmod 000 an executable and then try to execute it and check the exit status.				Check [Nog niet everywhere getest, wel de chmod 000]
 try to type something after your prompt then sending EOF (ctrl-d)																			Check	
 
 ***************************
@@ -371,6 +371,10 @@ export $POEP									--> Seg?
 export $POEP="ls -la"
 < POEP
 ascii 96 grave accent ` checken of deze ook wordt gezien als quote
+
+Dubbel quotes in " " bijv "\\poep"
+
+echo $> 		-> segt
 
 *********************
 *	Pipes and semi's *
