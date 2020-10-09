@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/01 17:06:58 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/09 12:43:47 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,12 @@ static int		redirection(t_lexer **sort, t_command **tmp)
 			(*sort)->str = trunc_quotes((*sort)->str);	--> Kan niet al worden verwijderd in check_builtin_node,
 			want als een builtin dan gaat hij al naar de volgende node. Dus "hallo", komt nooit meer in check_builtin_node.
 			Lelijke structuur. Maar voor nu even weer hersteld naar soort van de oude variant.
+	- Remove vanwege new_trunc structure:
+		// if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
+		// {
+		// 	(*sort)->str = trunc_quotes((*sort)->str);
+		// 	quote[*y] = ((*sort)->token[token_quote]) ? token_quote : token_dquote;			//new //Weet niet meer waarvoor dit was, wel belangrijk denk ik?
+		// }
 	
 */
 

@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/08 19:20:05 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/09 12:36:12 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,10 @@ int					error(t_command *command)
 /* 
 ** Quick and dirty solution. Afhankelijk van hoe we errors gaan handelen.
 ** Nu returnt 1 omdat hij in token[token_redirection] terecht komt in save operator
+
+** TO DO:
+	- Nu komt hij bij ls >>>>>>>>>>> file nog 5 x in de foutmelding. Eigenlijk moet hij er naar 1 error al uitklappen.
+	Heeft met onze error structuur te maken die nog niet werkt.
 */
 
 int				error_redirections(char c, int error_num)
@@ -83,7 +87,7 @@ int				error_redirections(char c, int error_num)
 		g_own_exit = 258;
 		return (1);
 	}
-	else if (error_num == 2)
+	if (error_num == 2)
 	{
 		write(1, &c, 1);
 		write(1, ": ambiguous redirect\n", 22);

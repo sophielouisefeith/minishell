@@ -320,7 +320,7 @@ echo > file1 hello >file2 world! > file3 | cat -e					Check
 ls >> file3 | cat < file3											Check
 ;																	X niet de juiste foutmelding	[Sop]
 > file																Check
-ls >>>>>>>>>>> file													X bij ons maakt hij onterecht files aan met de naam >
+ls >>>>>>>>>>> file													Semi-check (nu nog 5x foutmelding door niet bestaande error structuur)
 echo hoi -n															check
 cd "\$HOME"															check
 unset PATH;ls														X bij ons doet ls het nog, maar is dat niet logisch omdat het een builtin is?				(/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin)

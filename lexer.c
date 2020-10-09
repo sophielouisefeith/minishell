@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/08 19:14:46 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/09 12:31:06 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ static void			save_word(char *line, int *i, t_lexer **sort)
 ** 	- Aangepast:
 	 11 -> 12. Was er een reden voor mallocen andere size (12) 
 	 voor int *token dan bij save_word (11)?
+	- New check_redirections v.w ls >>>>>>>>>>> file. De oude  token[token_redirection] = 1; wordt nu gereturned door de functie.
 */
 
 static void			save_operator(char *line, int *i, int type, t_lexer **sort)
@@ -120,8 +121,7 @@ static void			save_operator(char *line, int *i, int type, t_lexer **sort)
 	}
 	if (type >= token_redirection_greater &&
 			type <= token_redirection_dgreater)
-		token[token_redirection]= check_redirections(line, i, type);
-		// token[token_redirection] = 1;
+		token[token_redirection]= check_redirections(line, *i, type);			//new
 	tmp = ll_new_node_lexer(str, token);
 	ll_lstadd_back_lexer(sort, tmp);
 	(*i)++;
