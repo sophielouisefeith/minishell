@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parameter_expansion.c                              :+:    :+:            */
+/*   parameter_expansionBACKUP.c                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/08 16:35:08 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/05 18:19:52 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ static void		if_dollar(t_command **command, t_env *_env, int *y, int i)
 {
 	char	*value;
 
+	printf("je komt in dollar\n");
 	if (!ft_strcmp("$?", (*command)->array[*y]))
 		value = ft_itoa(g_exit_status);
 	else
@@ -154,7 +155,7 @@ void			parameter_expansion(t_command **command, t_env *_env)
 		{
 			if ((*command)->array[y][i] == '$' && (*command)->quote[y] != token_quote)
 			{
-				if_dollar(command, _env, &y, i);
+				(command, _env, &y, i);
 				break ;
 			}
 			i++;

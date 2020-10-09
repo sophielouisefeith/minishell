@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:54:16 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/02 11:59:38 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/09 09:33:49 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int				is_special_char(char *str, int i)
 		return (-1);
 	while (str[i])
 	{
+		printf("special char\n");
 		if (ft_isprint(str[i]) && !ft_isalnum(str[i]) && str[i] != '_')
 			return (i);
 		i++;

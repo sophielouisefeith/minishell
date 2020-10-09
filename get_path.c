@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/05 15:05:49 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/09 10:58:28 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,25 @@ char			*check_path(t_env *_env, char *str)
 	int				i;
 	
 	i = 0;
-	// printf("----path[%s]\n", path );
+	//printf("----path[%s]\n", path );
 	path = search_node(_env, "PATH");
 	if (!path)
-		printf("No PATH in env\n");
+		printf("No PATH in env\n"); // error melding voor komen 
 	patharray = ft_split(path, ':');			//FREE
 	while (patharray && patharray[i])
 	{
+		//printf("----path array[%s]\n", patharray[i] );
 		folder = opendir(patharray[i]);
 		if (folder != 0)
 		{
+			//printf("----path array[%s]\n", patharray[i] );
 			while ((next_entry = readdir(folder)) != NULL)
 			{
 				if (ft_strcmp(next_entry->d_name, str) == 0)
 				{
 					patharray[i] = make_path_complete(patharray[i], str);
 					closedir(folder);
+					// printf("----path array[%s]\n", patharray[i] );
 					return (patharray[i]);
 				}
 			}
@@ -61,8 +64,13 @@ char			*check_path(t_env *_env, char *str)
 		}
 		i++;
 	}
+	if (str[0] != '$' && str[0] != '>' && str[0] != '<')										//LET OP: we mogen niet hier al erroren als $ nog niet expanded is //Ook niet bij > file
+		return (error_command(str));
+	else 
+		return (str);
+	//printf("ben je hier gekomen dan\n");
 	return (error_command(str)); 							//Was NULL
-	// return (NULL);
+	//return (NULL);
 }
 
 /*

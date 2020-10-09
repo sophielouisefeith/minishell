@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/02 16:41:47 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/09 16:56:19 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char		*delete_escape_char(char *src, int n)
 		dst_i++;
 	}
     dst[len] = '\0';
+	printf("dst[%s]\n", dst);
 	return (dst);
 }
 
@@ -79,11 +80,21 @@ static char			*treat_double_quote(char *str, int *i, t_env *_env, int *flag)
 {
 	int start;
 	int end;
+	int  dollar;
 
+	// printf("je bent dubbel\n");
+	// printf("str in dubbel[%s]\n", str);
+	// printf("i[%c]\n", str[(*i)--]);
 	start = *i;
+	// if(str[(*i)--] == '$')
+	// {
+	// 	dollar = 1;
+	// 	printf("je moet nog ervoorgeplakt worden\n");
+	// }
+	
 	(*i)++; 
 	while (str[*i] && str[*i] != '\"')
-	{
+	{		
 		if (str[*i] == '\\')
 		{
 			if (str[(*i) + 1] == '\"' || str[(*i) + 1] == '$')
@@ -92,13 +103,19 @@ static char			*treat_double_quote(char *str, int *i, t_env *_env, int *flag)
 				(*i)++;
 		}
 		if (str[*i] == '$')
+		{
 			str = if_dollar(str, *i, _env);
+			//printf("str om te printen[%s]\n", str);
+		}
 		(*i)++;
 	}
 	end = *i;										// waarom stond dit erachter? ++;
 	str = delete_double_quotes(str, start, end);
 	*i = end - 2; 					// beter niet -1 want beter laten eindigen op laatste char van deze reeks.
 	*flag = 1;
+	//printf("einde dubbel str[%s]\n", str);
+	// if(dollar == 1)
+	// 	str = ft_strjoin("$", str);
 	return (str);
 }
 
@@ -121,13 +138,14 @@ void							check_specials(t_command **command, t_env *_env)
 	int y;
 	int i;
 	int flag;
-
+	
 	y = 0;
 	while ((*command)->array && (*command)->array[y])
 	{
 		i = 0;
 		while((*command)->array && (*command)->array[y] && (*command)->array[y][i]) 			//of gewoon break gebruiken?
 		{
+			printf("------------------check specials[%s]\n",(*command)->array[y]);
 			flag = 0;
 			if (is_single_quote((*command)->array[y][i]) && !flag)
 				(*command)->array[y] = treat_single_quote((*command)->array[y], &i, &flag);
@@ -135,13 +153,26 @@ void							check_specials(t_command **command, t_env *_env)
 				(*command)->array[y] = treat_double_quote((*command)->array[y], &i, _env, &flag);
 			if (!is_single_quote((*command)->array[y][i]) && !is_double_quote((*command)->array[y][i]) && !flag)
 			{
-				if ((*command)->array[y][i] == '\\')
+
+				if ((*command)->array[y][i] == '$' && (*command)->array[y][i+1] == '\\')
+				{
+					printf("je moet nog een doller plakken\n");
+					(*command)->array[y]  = if_dollar((*command)->array[y] , i, _env);
+					(*command)->array[y] = ft_strjoin("$",(*command)->array[y]);
+				}
+				else if ((*command)->array[y][i] == '\\')
 				{
 					(*command)->array[y] = delete_escape_char((*command)->array[y], i);
 					i++;
 				}
-				if ((*command)->array[y][i] == '$')
+				else if ((*command)->array[y][i] == '$')
+				{
+					printf("------------------arrayifdollar[%s]\n",(*command)->array[y]);
 					(*command)->array[y]  = if_dollar((*command)->array[y] , i, _env);
+					
+				}
+				
+				
 			}
 			if ((*command)->array[y] == NULL)
 				parameter_not_exist(command, &y);

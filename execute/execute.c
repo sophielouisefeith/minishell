@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/01 17:40:43 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/09 16:57:22 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void		invoke_another_program(t_command **command, t_env **_env)
            printf("[%s]", strerror(errno));
     if (pid == 0)
     {
+		printf("-------------invoke another program?\n");
 		execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
 		printf("[%s]\n", strerror(errno));					
 		exit(1);																		//welke exit code?
@@ -114,8 +115,10 @@ void            execute(t_command **command, t_env **_env)
         i = 0;
         while (i < len_list)
         {
+			
+			//printf("Value **Commmand = [%p] > naar adres > *command= [%p] (= HEAD NODE)\n", command, *command);
 			check_specials(command, *_env);
-			// parameter_expansion(command, *_env);
+			//parameter_expansion(command, *_env);
 			
             dup2(fdin, 0);
             close(fdin);
