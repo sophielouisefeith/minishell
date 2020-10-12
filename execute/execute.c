@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/12 13:31:36 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/12 16:33:57 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void			builtin_another_program(t_command **command, t_env **_env)
 */
 
 
-void            execute(t_command **command, t_env **_env)
+void            *execute(t_command **command, t_env **_env)
 {
         int     tmpin;
         int     tmpout;
@@ -109,7 +109,11 @@ void            execute(t_command **command, t_env **_env)
         while (i < len_list)
         {
 			if ((*command)->input)
+			{
             	fdin = open((*command)->input->str_input, O_RDONLY);
+				if (fdin == -1)
+					return (errno = ENOENT, errno_error((*command)->input->str_input));
+			}
 			check_specials(command, *_env);
             dup2(fdin, 0);
             close(fdin);
@@ -151,4 +155,5 @@ void            execute(t_command **command, t_env **_env)
         dup2(tmpout, 1);
         close(tmpin);
         close(tmpout);
+		return (0);
 }

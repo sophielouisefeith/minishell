@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/09 18:39:40 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/12 16:33:48 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ char							*error_command(char *str);
 int								error(t_command *command);
 
 /*execute*/
-void            				execute(t_command **command, t_env **env);
+void            				*execute(t_command **command, t_env **env);
 void             				execute_builtin(t_command **command, t_env **_env);
 void            				execute_command(t_command **command, t_env **_env);  
 

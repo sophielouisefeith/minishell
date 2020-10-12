@@ -361,7 +361,7 @@ cat test6 | grep POEP												Check
 
 echo $???															[Sop]
 echo $/																[Sop]
-	
+
 --------------
 DEZE OOK?
 --------------
@@ -380,12 +380,12 @@ bash: ./: is a directory
 $echo hallo										--> Segt deze of kwam dit door printfs?
 export $POEP									--> Seg?
 export $POEP="ls -la"
-< POEP
-ascii 96 grave accent ` checken of deze ook wordt gezien als quote
+< POEP																Check
+ascii 96 grave accent ` checken of deze ook wordt gezien als quote	[NIET BEHANDELEN]
 
 Dubbel \\ in " " bijv "\\poep"
 
-echo $> 		-> segt
+echo $> 															Check
 
 *********************
 *	Pipes and semi's *
@@ -452,3 +452,10 @@ echo hoi | $POEP
 
 export POEP="grep main"
 ls > x1 ; cat x1 | $POEP
+
+
+*******************************
+*	TO DO: exit statussen checken *
+*******************************
+
+< poep			1
