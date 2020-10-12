@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/12 13:12:15 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/12 13:31:36 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,11 @@ void            execute(t_command **command, t_env **_env)
         tmpin = dup(0);
         tmpout = dup(1);
         i = 0;
+        fdin = dup(tmpin);
         while (i < len_list)
         {
 			if ((*command)->input)
             	fdin = open((*command)->input->str_input, O_RDONLY);
-        	else
-            	fdin = dup(tmpin);
 			check_specials(command, *_env);
             dup2(fdin, 0);
             close(fdin);
@@ -143,7 +142,7 @@ void            execute(t_command **command, t_env **_env)
             close(fdout);
 			if (!(((*command)->sem || (*command)->pipe_after) && (*command)->output))
 				builtin_another_program(command, _env);
-			if ((*command)->sem)
+			if ((*command)->sem)			//gaat dit nog goed?
 				fdin = dup(tmpin);
            	*command = (*command)->next_command;
             i++;

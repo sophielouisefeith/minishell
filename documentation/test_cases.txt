@@ -356,9 +356,8 @@ $YYY hallo
 echo DOET HET NIET >> test1 | cat test1								Check
 echo maran >test6 | cat <test6										Check
 
-echo POEP >>test6 | cat < test6 |grep POEP						--> kom in een soort loop?
-cat test6 | grep POEP											--> komt door deze
-
+echo POEP >>test6 | cat < test6 |grep P1OEP							Check
+cat test6 | grep POEP												Check
 
 echo $???
 echo $/
@@ -383,7 +382,7 @@ export $POEP="ls -la"
 < POEP
 ascii 96 grave accent ` checken of deze ook wordt gezien als quote
 
-Dubbel quotes in " " bijv "\\poep"
+Dubbel \\ in " " bijv "\\poep"
 
 echo $> 		-> segt
 
