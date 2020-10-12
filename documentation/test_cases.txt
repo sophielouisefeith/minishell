@@ -334,7 +334,7 @@ try to type something after your prompt then sending EOF (ctrl-d)															
 ----------------
 SOWIESO OPLOSSEN
 ----------------
-export YYY=echo
+export YYY=echo														Check
 $YYY hallo
 
 Relative Path																					
