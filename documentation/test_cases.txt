@@ -359,8 +359,9 @@ echo maran >test6 | cat <test6										Check
 echo POEP >>test6 | cat < test6 |grep P1OEP							Check
 cat test6 | grep POEP												Check
 
-echo $???
-echo $/
+echo $???															[Sop]
+echo $/																[Sop]
+	
 --------------
 DEZE OOK?
 --------------
