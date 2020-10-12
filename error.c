@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/09 18:41:22 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/12 15:47:58 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ int				error_redirections(char c, int error_num)
 	if (error_num == 1)
 	{
 		write(1, "syntax error near unexpected token '", 36);
-		write(1, &c, 1);
+		if (c == '\n' || c == '\0' || c == '#')
+			write(1, "newline", 8);
+		else
+			write(1, &c, 1);
 		write(1, "'\n", 2);
 		g_exit_status = 258;
 		g_own_exit = 258;
