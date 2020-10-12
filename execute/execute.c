@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/12 12:38:55 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/12 13:12:15 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,13 +104,13 @@ void            execute(t_command **command, t_env **_env)
         len_list = lstsize(*command);
         tmpin = dup(0);
         tmpout = dup(1);
-        if ((*command)->input)
-            fdin = open((*command)->input->str_input, O_RDONLY);
-        else
-            fdin = dup(tmpin);
         i = 0;
         while (i < len_list)
         {
+			if ((*command)->input)
+            	fdin = open((*command)->input->str_input, O_RDONLY);
+        	else
+            	fdin = dup(tmpin);
 			check_specials(command, *_env);
             dup2(fdin, 0);
             close(fdin);

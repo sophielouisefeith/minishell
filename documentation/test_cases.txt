@@ -354,7 +354,11 @@ export YYY=echo														Check
 $YYY hallo
 
 echo DOET HET NIET >> test1 | cat test1								Check
-echo maran >test6 | cat <test6									--> Geen input
+echo maran >test6 | cat <test6										Check
+
+echo POEP >>test6 | cat < test6 |grep POEP						--> kom in een soort loop?
+cat test6 | grep POEP											--> komt door deze
+
 
 echo $???
 echo $/
