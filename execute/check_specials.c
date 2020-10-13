@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/12 15:44:03 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/13 13:31:12 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,10 @@ void							check_specials(t_command **command, t_env *_env)
 				}
 			}
 			if ((*command)->array[y] == NULL)
+			{
 				parameter_not_exist(command, &y);
+				break;				//MOETEN BREAK HEBBEN v.w. seg
+			}
 			i++;
 		}
 		y++;

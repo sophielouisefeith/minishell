@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/09 16:58:44 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/13 11:31:30 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,14 @@ void		parameter_not_exist(t_command **command, int *y)
 		(*command)->array[*y] = NULL;
 		(*y) = new_y;
 	}
+///
+	// int n = 0;
+	// while ((*command)->array[n])
+	// 	{
+	// 		printf("Not exist print: [%d][%s]\n", n, (*command)->array[n]);
+	// 		n++;
+	// 	}
+///	
 }
 
 /*
@@ -114,7 +122,7 @@ char			*expand(char *str, int i, t_env *_env)
 	}
 	if (ret != -1)
 		parameter = search_node(_env, parameter);
-	parameter = join_strings(new_str1, parameter, new_str2);
+	parameter = join_strings(new_str1, parameter, new_str2); 
 	return (parameter);
 }
 

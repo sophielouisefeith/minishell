@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/12 16:33:57 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/13 13:30:01 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void			builtin_another_program(t_command **command, t_env **_env)
 		invoke_another_program(command, _env);
 	if ((*command)->builtin != builtin_no_com && (*command)->builtin != builtin_no && (*command)->builtin != executable)
 		execute_builtin(command, _env);
+	if ((*command)->builtin == builtin_no_com)		//Twijfel of dit goed gaat. Toegevoegd vanwege $echo hallo
+		error_command((*command)->array[0]);
 }
 
 /*
@@ -115,6 +117,8 @@ void            *execute(t_command **command, t_env **_env)
 					return (errno = ENOENT, errno_error((*command)->input->str_input));
 			}
 			check_specials(command, *_env);
+			if ((*command)->builtin == builtin_no_com && (!(*command)->array || !(*command)->array[0])) //$echo //lijkt of de 2d huls niet wordt gedelete, naar kijken
+				return (0);
             dup2(fdin, 0);
             close(fdin);
             if (i == len_list - 1)

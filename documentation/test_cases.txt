@@ -377,13 +377,14 @@ bash: ./: is a directory
 *********************
 *	New ontdekt *
 *********************
-$echo hallo										--> Segt deze of kwam dit door printfs?
+$echo hallo															Check
+$echo																Check [Werkend, maar wel nog kijken waarom array huls niet goed verwijderd wordt]
 export $POEP									--> Seg?
 export $POEP="ls -la"
 < POEP																Check
 ascii 96 grave accent ` checken of deze ook wordt gezien als quote	[NIET BEHANDELEN]
 
-Dubbel \\ in " " bijv "\\poep"
+Dubbel \\ in " " bijv "\\poep"										...
 
 echo $> 															Check
 

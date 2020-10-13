@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/07 17:31:13 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/12 10:58:21 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/12 17:27:56 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void				check_builtin_again(t_command **command, t_env *_env, int y)
 			(*command)->array[0] = ft_strjoin((*command)->array[0], (*command)->array[y + 1]);
 			y++;
 		}
-		lexer_parser_executer((*command)->array[0], 0, &_env);
+		if ((*command)->array[0]) //?
+			lexer_parser_executer((*command)->array[0], 0, &_env);
 	}
 }
