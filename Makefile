@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/10/07 17:42:06 by maran         ########   odam.nl          #
+#    Updated: 2020/10/09 18:12:47 by maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,26 +46,28 @@ SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
-
+	
 $(NAME): $(OBJ) lib_ft
 	@ar rcs $(LIB) $(OBJ)
-	$(CC) $(LIB)
+	@$(CC) $(CFLAGS) $(LIB)
 	@echo "\n>>>>>Finished making<<<<<"
 
 lib_ft:
+	@echo "\n>>>>>Making lib_ft<<<<<"
 	@make -C $(LIBFT)
 	@make bonus -C $(LIBFT)
 	@cp libft/libft.a ./$(LIB)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@ -D BUFFER_SIZE=128
+	@echo $@
+	@$(CC) $(CFLAGS) -c $< -o $@ -D BUFFER_SIZE=128
 
 clean:
 	$(RM) $(OBJ)
 	@make clean -C $(LIBFT)
 
 fclean: clean
-	$(RM) $(LIB) a.out file* execute/echo execute/env
+	@$(RM) $(LIB) a.out
 	@make fclean -C $(LIBFT)
 
 re: fclean all

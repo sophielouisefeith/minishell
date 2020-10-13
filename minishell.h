@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/12 12:25:35 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/13 12:51:44 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "get_next_line/get_next_line.h"
 #include "libft/libft.h"
+
 #include <errno.h>
 #include <string.h>
 #include <signal.h>
@@ -178,7 +179,7 @@ char							*error_command(char *str);
 int								error(t_command *command);
 
 /*execute*/
-void            				execute(t_command **command, t_env **env);
+void            				*execute(t_command **command, t_env **env);
 void             				execute_builtin(t_command **command, t_env **_env);
 void            				execute_command(t_command **command, t_env **_env);  
 

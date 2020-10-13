@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/12 09:12:30 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/13 12:53:24 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ static void		invoke_another_program(t_command **command, t_env **_env)
     {
 		printf("-------------invoke another program?\n");
 		execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
-		printf("[%s]\n", strerror(errno));					
-		exit(1);																		//welke exit code?
+		errno_error((*command)->array[0]);					
+		exit(g_exit_status);																		//welke exit code?
     }
 	if (pid != 0)
 	{
@@ -81,6 +81,8 @@ void			builtin_another_program(t_command **command, t_env **_env)
 		invoke_another_program(command, _env);
 	if ((*command)->builtin != builtin_no_com && (*command)->builtin != builtin_no && (*command)->builtin != executable)
 		execute_builtin(command, _env);
+	if ((*command)->builtin == builtin_no_com)		//Twijfel of dit goed gaat. Toegevoegd vanwege $echo hallo
+		error_command((*command)->array[0]);
 }
 
 /*
@@ -92,7 +94,7 @@ void			builtin_another_program(t_command **command, t_env **_env)
 */
 
 
-void            execute(t_command **command, t_env **_env)
+void            *execute(t_command **command, t_env **_env)
 {
         int     tmpin;
         int     tmpout;
@@ -105,16 +107,19 @@ void            execute(t_command **command, t_env **_env)
         len_list = lstsize(*command);
         tmpin = dup(0);
         tmpout = dup(1);
-        if ((*command)->input)
-            fdin = open((*command)->input->str_input, O_RDONLY);
-        else
-            fdin = dup(tmpin);
         i = 0;
+        fdin = dup(tmpin);
         while (i < len_list)
         {
-			
-			//printf("Value **Commmand = [%p] > naar adres > *command= [%p] (= HEAD NODE)\n", command, *command);
+			if ((*command)->input)
+			{
+            	fdin = open((*command)->input->str_input, O_RDONLY);
+				if (fdin == -1)
+					return (errno = ENOENT, errno_error((*command)->input->str_input));
+			}
 			check_specials(command, *_env);
+			if ((*command)->builtin == builtin_no_com && (!(*command)->array || !(*command)->array[0])) //$echo //lijkt of de 2d huls niet wordt gedelete, naar kijken
+				return (0);
             dup2(fdin, 0);
             close(fdin);
             if (i == len_list - 1)
@@ -146,7 +151,7 @@ void            execute(t_command **command, t_env **_env)
             close(fdout);
 			if (!(((*command)->sem || (*command)->pipe_after) && (*command)->output))
 				builtin_another_program(command, _env);
-			if ((*command)->sem)
+			if ((*command)->sem)			//gaat dit nog goed?
 				fdin = dup(tmpin);
            	*command = (*command)->next_command;
             i++;
@@ -155,4 +160,5 @@ void            execute(t_command **command, t_env **_env)
         dup2(tmpout, 1);
         close(tmpin);
         close(tmpout);
+		return (0);
 }

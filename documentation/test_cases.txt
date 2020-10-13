@@ -325,32 +325,43 @@ echo hoi -n															Check
 cd "\$HOME"															Check
 unset PATH;ls														Check
 
-check exit status everywhere, for example try and chmod 000 an executable and then try to execute it and check the exit status.				X wij krijgen exit status 1 ipv 126
+check exit status everywhere, for example try and chmod 000 an executable and then try to execute it and check the exit status.				Check [Nog niet everywhere getest, wel de chmod 000]
 try to type something after your prompt then sending EOF (ctrl-d)																			Check	
+
+***************************
+** 	Meer executables/commands **
+***************************
+Relative Path																					
+- Execute commands but this time use a relative path				Check
+
+Getest met:
+Vanuit /Users
+../bin/echo poep													Check
+
+Vanuit THE_minishell
+../../../../bin/echo hallo											Check
+../../../../bin/ls													Check
+
+In Users/maran executable hello_world
+Vanuit THE_minishell
+ ../../hello_world													Check
 
 ***************************
 ** 	NOG OP TE LOSSEN (?) **
 ***************************
-----------------
-SOWIESO OPLOSSEN
-----------------
-export YYY=echo
+
+export YYY=echo														Check
 $YYY hallo
 
-Relative Path																					
-- Execute commands but this time use a relative path
-- Repeat multiple times in multiple directories with complex relative path (lots of ..)
+echo DOET HET NIET >> test1 | cat test1								Check
+echo maran >test6 | cat <test6										Check
 
-getest met:
-Vanuit /Users
-../bin/echo poep										-->zou het moeten doen.
+echo POEP >>test6 | cat < test6 |grep P1OEP							Check
+cat test6 | grep POEP												Check
 
-echo DOET HET NIET >> test1 | cat test1					--> DOET HET NIET wordt niet toegevoegd aan test1 !!!
-echo maran >test6 | cat <test6							-->	Bij ons maakt hij nu geen nieuwe test6 aan?
+echo $???															[Sop]
+echo $/																[Sop]
 
-
-echo $???
-echo $/
 --------------
 DEZE OOK?
 --------------
@@ -366,11 +377,16 @@ bash: ./: is a directory
 *********************
 *	New ontdekt *
 *********************
-$echo hallo										--> Segt deze of kwam dit door printfs?
+$echo hallo															Check
+$echo																Check [Werkend, maar wel nog kijken waarom array huls niet goed verwijderd wordt]
 export $POEP									--> Seg?
 export $POEP="ls -la"
-< POEP
-ascii 96 grave accent ` checken of deze ook wordt gezien als quote
+< POEP																Check
+ascii 96 grave accent ` checken of deze ook wordt gezien als quote	[NIET BEHANDELEN]
+
+Dubbel \\ in " " bijv "\\poep"										...
+
+echo $> 															Check
 
 *********************
 *	Pipes and semi's *

@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/13 12:46:49 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/13 12:50:35 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,14 @@ void		parameter_not_exist(t_command **command, int *y)
 		(*command)->array[*y] = NULL;
 		(*y) = new_y;
 	}
+///
+	// int n = 0;
+	// while ((*command)->array[n])
+	// 	{
+	// 		printf("Not exist print: [%d][%s]\n", n, (*command)->array[n]);
+	// 		n++;
+	// 	}
+///	
 }
 
 static char 	*check_for_more_expansion(char *new_str2, t_env *_env)

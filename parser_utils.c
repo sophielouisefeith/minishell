@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/09 17:20:40 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/13 12:52:14 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ char            *trunc_quotes(char *str)
     return (newstr);
 }
 
+/*
+**	../ toevoeging bij executables beetjes spannend of dat goed is.
+*/
+
 int				get_builtin_type(char *str)
 {   
     if (!ft_strcmp(str, "echo"))
@@ -72,7 +76,8 @@ int				get_builtin_type(char *str)
 		return (builtin_env);
    else if (!ft_strcmp(str, "exit"))
 		return (builtin_exit);
-	else if (!ft_strncmp(str, "/", 1) || !ft_strncmp(str, "./", 2)) 			// New (na vak)
+	else if (!ft_strncmp(str, "/", 1) || !ft_strncmp(str, "./", 2) ||
+				!ft_strncmp(str, "../", 3)) 			// New (na vak)
 		return (executable);
 	else
 		return (builtin_no);
