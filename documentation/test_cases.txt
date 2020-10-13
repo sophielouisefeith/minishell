@@ -77,7 +77,7 @@ export 123$USER---
 ***************************
 
 echo $
-echo $USER
+echo $USER              --> moet nog een foutmelding voor komen 
 echo $USER'				--> not complete
 echo $USER_				--> underscore is alphanummeriek
 echo 123$USER----
@@ -261,7 +261,7 @@ echo "\poep"
 echo "123\'456"
 123\'456
 
-echo "hallo$"
+echo "hallo$"                                                   check
 hallo$
 ***************************
 ** 		Escape character**
@@ -270,10 +270,10 @@ hallo$
 echo \"
 "
 
-echo \$?
+echo \$?                                                        check
 $?
 
-echo 123\poep
+echo 123\poep                                                    check
 123poep
 
 ***************************
@@ -306,27 +306,27 @@ echo 123"hallo$"456
 ** 	TESTS VAN BORIS      **
 ***************************
 
-export kip=ei=koe===melk											check
-echo $1234															X segfault
-echo $_1234															check
-export 1hello_world													check	[Wel naar foutmelding kijken]
-echo "\""															check
-echo "\"															check
-exit 1 2 3															check
-exit hello															check
-exit 1 hello														check
-export LS="ls -la";$LS												X laat geen lijst zien
-echo > file1 hello >file2 world! > file3 | cat -e					X maakt files niet aan en cat werk niet goed
-ls >> file3 | cat < file3											X cat doet het in bash niet. Ik snap niet waarom niet.
-;																	X niet de juiste foutmelding
-> file																X maakt geen file aan en foutmelding
-ls >>>>>>>>>>> file													X bij ons maakt hij onterecht files aan met de naam >
-echo hoi -n															check
-cd "\$HOME"															check
-unset PATH;ls														X bij ons doet ls het nog, maar is dat niet logisch omdat het een builtin is?				(/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin)
+export kip=ei=koe===melk											Check
+echo $1234															X segfault 								[Sop]
+echo $_1234															Check
+export 1hello_world													Check	[Wel naar foutmelding kijken] 	[Sop]
+echo "\""															Check
+echo "\"															Check
+exit 1 2 3															Check
+exit hello															Check
+exit 1 hello														Check
+export LS="ls -la";$LS												Check
+echo > file1 hello >file2 world! > file3 | cat -e					Check
+ls >> file3 | cat < file3											Check
+;																	X niet de juiste foutmelding			[Sop]
+> file																Check
+ls >>>>>>>>>>> file													Semi-check (nu nog 5x foutmelding door niet bestaande error structuur)
+echo hoi -n															Check
+cd "\$HOME"															Check
+unset PATH;ls														Check
 
-check exit status everywhere, for example try and chmod 000 an executable and then try to execute it and check the exit status.					X wij krijgen exit status 1 ipv 126
-try to type something after your prompt then sending EOF (ctrl-d)																				[Sophie mee bezig]	
+check exit status everywhere, for example try and chmod 000 an executable and then try to execute it and check the exit status.				X wij krijgen exit status 1 ipv 126
+try to type something after your prompt then sending EOF (ctrl-d)																			Check	
 
 ***************************
 ** 	NOG OP TE LOSSEN (?) **
@@ -348,8 +348,9 @@ Vanuit /Users
 echo DOET HET NIET >> test1 | cat test1					--> DOET HET NIET wordt niet toegevoegd aan test1 !!!
 echo maran >test6 | cat <test6							-->	Bij ons maakt hij nu geen nieuwe test6 aan?
 
-echo $1234
 
+echo $???
+echo $/
 --------------
 DEZE OOK?
 --------------
@@ -361,3 +362,99 @@ echo “$USER”‘/$USER’
 ./
 bash: ./: is a directory
 
+
+*********************
+*	New ontdekt *
+*********************
+$echo hallo										--> Segt deze of kwam dit door printfs?
+export $POEP									--> Seg?
+export $POEP="ls -la"
+< POEP
+ascii 96 grave accent ` checken of deze ook wordt gezien als quote
+
+*********************
+*	Pipes and semi's *
+*********************
+Rijtje testen: (rm y1 y2 x1 x2 x3)
+
+echo hallo
+echo hallo | echo hoi
+echo hallo ; echo hoi
+
+echo hallo >x1 >x2 >x3 | echo hoi					
+echo hallo >x1 >x2 >x3 ; echo hoi					
+
+echo hallo | echo poep >x1 >x2						
+echo hallo ; echo poep >x1 >x2						
+
+echo hallo | echo hoi | cat
+echo hallo | echo hoi > y1 >y2 | cat -e
+echo hoi > y1 >y2 ; cat -e
+echo hallo | echo hoi > y1 >y2 ; cat -e
+
+ls > x1 | cat x1 | grep makefile				--> inconsistent in de echt bash
+cat x1 | grep Makefile
+ls > x1 ; cat x1 | grep main
+
+TO DO:
+Wat als met andere comments dan echo?
+Testen on <
+
+
+----------
+Deze ook nog fixen:
+-------------------
+
+Die echo $???  heb ik trouwens wel een idee over.
+In de expand functie check ik heel goed of er nog iets na de env var komt. Bijv. $USERhallosophie.
+Dit gebeurt bij vraagteken natuurlijk niet.
+
+15:49
+Ik denk dat we die $? $getal breder moeten fixen. Want dit geldt ook voor echo $*hallo
+15:49
+Moeten we gewoon allemaal in expand gaan checken denk ik
+
+sfeith  15:50
+oke you right was die value nu aan het vullen if =? en dan zegmaar verdeer vullen met een substr.
+15:50
+maar indd *hallo zelfde principe.
+15:51
+eentje eraf.
+15:51
+oke.
+
+msiemons  15:51
+en echo $A*aap  ook. Dus het is echt alle tekst na onbestaande $ of niet geldige $
+
+----------------------------
+
+*******************************
+*	Strange pipe dilemma 8/10 *
+*******************************
+Werkt niet:
+export POEP="ls -la"
+echo hoi | $POEP
+
+export POEP="grep main"
+ls > x1 ; cat x1 | $POEP
+
+
+
+
+
+
+
+
+
+
+
+
+• $halllo###
+• $hallo>       deze lijkt te seggen voordat hij parameter expansion in gaat
+• echo $"rlwjkrw\\"
+• 
+• 
+• $USER9582309582529  segt.
+• hallo$USER
+bash: hallo$USER: command not found
+moet een andere foutmelding geven 

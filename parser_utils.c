@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/09 08:53:55 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/09 17:20:40 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,17 +132,23 @@ char		*delete_quotes(char *src, char garbage)
 }
 
 	// printf("(*sort)->str = [%s]\n", (*sort)->str);
+/*
+** Check path checks the env variable path for commands, and completes the path.
+** For example "ls" --> "/bin/ls".
+** If there is no match the builtin type will be set to builtin_no_com. If there is a match
+** it stays "builtin_no".
+*/
+
+		// printf("(*sort)->str = [%s]\n", (*sort)->str);
+
 int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 {
 	int 	builtin_type;
 	char 	*str_before;
 
-    // if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])		//
 	
-	//printf("(*sort)->str in check_builtin = [%s]\n", (*sort)->str);
 	if (is_single_quote((*sort)->str[0]) || is_double_quote((*sort)->str[0]))		//mag alleen bij het eerste woord worden getrunct (hoezo komt hij niet bij volgende woorden?)
 		(*sort)->str = delete_quotes((*sort)->str, (*sort)->str[0]);
-		// (*sort)->str = trunc_quotes((*sort)->str);
 	builtin_type = get_builtin_type((*sort)->str);
 	if (builtin_type == builtin_no)
 	{

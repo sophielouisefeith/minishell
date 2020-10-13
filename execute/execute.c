@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/09 16:57:22 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/12 09:12:30 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,24 +75,22 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 	}
 }
 
+void			builtin_another_program(t_command **command, t_env **_env)
+{
+	if ((*command)->builtin == builtin_no || (*command)->builtin == executable)
+		invoke_another_program(command, _env);
+	if ((*command)->builtin != builtin_no_com && (*command)->builtin != builtin_no && (*command)->builtin != executable)
+		execute_builtin(command, _env);
+}
+
 /*
-** Printf's:
-		// sleep(1);
-		// printf("To kill pid = [%d]\n", ret);
-		// kill(ret, SIGTERM);
-		// printf("FORKED ID == 0 [%5d]			Child-process\n", ret);
-	// printf("Parent Pid = [%d]\n", getpid());
-		// printf("Wait: Dit pas printen nadat child is afgerond\n");
-		// printf("Child Pid = [%d]\n", getpid());
-				// printf("Execute builtin Pid = [%d]\n", getpid());
-		// printf("FORKED ID != 0 [%5d]			Parent-process\n", ret);
-	// printf("-------THE END------ FORKED ID = [%d]\n", ret);	
-					// while (1)
-					// {
-						// printf("Child Pid = [%d]\n", getpid());
-						// sleep(1);
-					// }	
+** Changelog:
+	- Big changes 8/10:
+	Om de test cases van boris op te lossen. Mochten er issues zijn de laatste git versie van voor verandering is "solved ctrl d"
+** TO DO:
+	- korter maken, let op fragiel!
 */
+
 
 void            execute(t_command **command, t_env **_env)
 {
@@ -103,7 +101,6 @@ void            execute(t_command **command, t_env **_env)
 		int     i;
         int     len_list;
         int     fdpipe[2];
-		
 
         len_list = lstsize(*command);
         tmpin = dup(0);
@@ -118,27 +115,39 @@ void            execute(t_command **command, t_env **_env)
 			
 			//printf("Value **Commmand = [%p] > naar adres > *command= [%p] (= HEAD NODE)\n", command, *command);
 			check_specials(command, *_env);
-			//parameter_expansion(command, *_env);
-			
             dup2(fdin, 0);
             close(fdin);
             if (i == len_list - 1)
-                fdout = fill_fdout((*command)->output, tmpout);
-            else if ((*command)->pipe_after)                            //new
+				fdout = fill_fdout((*command)->output, tmpout);
+			else if ((*command)->sem && (*command)->output)
+			{
+					fdout = fill_fdout((*command)->output, tmpout);
+					dup2(fdout,1);
+					close(fdout);
+					builtin_another_program(command, _env);
+					fdout = dup(tmpout);
+			}
+            else if ((*command)->pipe_after)
             {
+				if ((*command)->pipe_after && (*command)->output)
+				{
+					fdout = fill_fdout((*command)->output, tmpout);
+					dup2(fdout,1);
+					close(fdout);
+					builtin_another_program(command, _env);
+				}
                 pipe(fdpipe);
                 fdout = fdpipe[1];
                 fdin  = fdpipe[0];
             }
-            else                                                        //new (overbodig wel mooier)
+            else                                                        // ; 
                 fdout = dup(tmpout);
-            dup2(fdout,1);
+			dup2(fdout,1);
             close(fdout);
-			// printf("IN EXECUTE\n");
-			if ((*command)->builtin == builtin_no || (*command)->builtin == executable)
-				invoke_another_program(command, _env);
-			if ((*command)->builtin != builtin_no_com && (*command)->builtin != builtin_no && (*command)->builtin != executable)
-				execute_builtin(command, _env);
+			if (!(((*command)->sem || (*command)->pipe_after) && (*command)->output))
+				builtin_another_program(command, _env);
+			if ((*command)->sem)
+				fdin = dup(tmpin);
            	*command = (*command)->next_command;
             i++;
         }
@@ -147,10 +156,3 @@ void            execute(t_command **command, t_env **_env)
         close(tmpin);
         close(tmpout);
 }
-
-
-
-
-
-
-//waitpid(ret, NULL, 0);                                       //Lijkt niks meer toe te voegen?

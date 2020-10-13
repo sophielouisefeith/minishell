@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/09 16:56:19 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/13 12:02:14 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,10 @@ static char			*treat_double_quote(char *str, int *i, t_env *_env, int *flag)
 	int end;
 	int  dollar;
 
-	// printf("je bent dubbel\n");
-	// printf("str in dubbel[%s]\n", str);
-	// printf("i[%c]\n", str[(*i)--]);
+	printf("dubbel\n");
 	start = *i;
-	// if(str[(*i)--] == '$')
-	// {
-	// 	dollar = 1;
-	// 	printf("je moet nog ervoorgeplakt worden\n");
-	// }
-	
+	if(str[*i -1] == '$')
+		dollar = 1;
 	(*i)++; 
 	while (str[*i] && str[*i] != '\"')
 	{		
@@ -105,7 +99,6 @@ static char			*treat_double_quote(char *str, int *i, t_env *_env, int *flag)
 		if (str[*i] == '$')
 		{
 			str = if_dollar(str, *i, _env);
-			//printf("str om te printen[%s]\n", str);
 		}
 		(*i)++;
 	}
@@ -113,16 +106,18 @@ static char			*treat_double_quote(char *str, int *i, t_env *_env, int *flag)
 	str = delete_double_quotes(str, start, end);
 	*i = end - 2; 					// beter niet -1 want beter laten eindigen op laatste char van deze reeks.
 	*flag = 1;
-	//printf("einde dubbel str[%s]\n", str);
-	// if(dollar == 1)
-	// 	str = ft_strjoin("$", str);
+	if(dollar == 1)
+		str = ft_substr(str, 1, ft_strlen(str));
 	return (str);
 }
 
 static char			*treat_single_quote(char *str, int *i, int *flag)
 {
 	int end;
-
+	int  dollar;
+	
+	if(str[*i -1] == '$')
+		dollar = 1;
 	(*i)++;
 	while (str[*i] && str[*i] != '\'')
 		(*i)++;
@@ -130,8 +125,18 @@ static char			*treat_single_quote(char *str, int *i, int *flag)
 	str = delete_quotes(str, '\'');				//Freeen oude malloc?
 	*i = end - 2;
 	*flag = 1;
+	if(dollar == 1)
+		str = ft_substr(str, 1, ft_strlen(str));
 	return (str);
 }
+
+/*
+** Check_builtin_again: check _env variables ($) for commands.
+** Ex. export LS="ls -la" 
+**
+TO DO:
+- Check_builtin_again:  Misschien in if_dollar zetten. Zo niet ook onder andere if_dollars zetten! (wacht op andere aanpassingen).
+*/
 
 void							check_specials(t_command **command, t_env *_env)
 {
@@ -165,14 +170,11 @@ void							check_specials(t_command **command, t_env *_env)
 					(*command)->array[y] = delete_escape_char((*command)->array[y], i);
 					i++;
 				}
-				else if ((*command)->array[y][i] == '$')
+				if ((*command)->array[y][i] == '$')
 				{
-					printf("------------------arrayifdollar[%s]\n",(*command)->array[y]);
 					(*command)->array[y]  = if_dollar((*command)->array[y] , i, _env);
-					
+					check_builtin_again(command, _env, y);
 				}
-				
-				
 			}
 			if ((*command)->array[y] == NULL)
 				parameter_not_exist(command, &y);
@@ -181,5 +183,3 @@ void							check_specials(t_command **command, t_env *_env)
 		y++;
 	}
 }
-			// printf("*** (*command)->array[y][%d] = [%c] --> [%s]\n", i, (*command)->array[y][i], (*command)->array[y]);
-			// printf("*** (*command)->array[y]= [%s] en i[%d] = [%c]\n", (*command)->array[y], i, (*command)->array[y][i]);

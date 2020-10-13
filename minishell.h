@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/09 13:45:39 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/12 12:25:35 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,5 +213,16 @@ void							check_specials(t_command **command, t_env *_env);
 char							*if_dollar(char *str, int i, t_env *_env);
 void							parameter_not_exist(t_command **command, int *y);
 char							*delete_escape_char(char *src, int n);
+
+
+void							check_builtin_again(t_command **command, t_env *_env, int y);
+void							lexer_parser_executer(char *line, int i, t_env **_env);
+
+
+/* >>>>>>>>>>> */
+int								check_redirections(char *line, int i, int type);
+int								error_redirections(char c, int error_num);
+char							*error_no_path(char *str);
+char							*error_parameter(char *str);
 
 #endif
