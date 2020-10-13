@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/08 16:35:19 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/06 10:47:35 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,8 +201,11 @@ int            execute_export(t_env **_env, t_command **command)
 		ret = check_format(array[0]);
 		if (ret == -1)
 		{
-			printf(" export: `arg1': not a valid identifier\n");
-			return (-1);
+			//printf("command-[%s]", (*command)->array[i]);
+			//printf(" export: `arg1': not a valid identifier\n");
+			//error((*command)->array[i]);  
+			return(error(*command));				//new
+			//return (-1);                         //new
 		}
    		check_present_in_env(array, _env, equal);
 		free(array);

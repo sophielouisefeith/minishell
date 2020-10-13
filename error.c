@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/12 16:29:05 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/13 12:54:20 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ char				*error_command(char *str)
 	write(1, "bash: ", 6 );
 	if(!strncmp(str, ";", 1))
 	{
-		
 		write(1, " syntax error near unexpected token `;'\n", 40);
 		g_exit_status = 258;
 		return(str);
@@ -59,10 +58,18 @@ int					error(t_command *command)
 	str_built= translate_builtin((command->builtin));
 	write(1, "bash: ", 6 );
 	write(1, str_built, ft_strlen(str_built));
+	write(1, "'", 1);
 	write(1, command->array[0], ft_strlen(command->array[0]));
+	write(1, "'", 1);
 	write(1, ": ", 2 );
-	write(1, strerror(errno), ft_strlen(strerror(errno)));
-	write(1, "\n", 1 );
+	if(!strncmp(str_built, "export", 1))
+	{
+		write(1, "not a valid identifier", 22);
+		//g_exit_status = 1;
+	}
+	else
+		write(1, strerror(errno), ft_strlen(strerror(errno)));
+		write(1, "\n", 1 );
 	return (-1);
 }
 
@@ -137,4 +144,14 @@ void				*errno_error(char *str)
 	write(1, "\n", 1);
 	set_exit_status();
 	return (str);
+}
+
+char			*error_parameter(char *str)
+{
+	write(1, "bash: ", 6 );
+	write(1, str, ft_strlen(str));
+	write(1, ": ", 2 );
+	write(1, "Not part of the subject\n", 27);
+	return(NULL);
+	
 }

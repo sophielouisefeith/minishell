@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/13 13:31:12 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/13 12:50:49 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char		*delete_escape_char(char *src, int n)
 		dst_i++;
 	}
     dst[len] = '\0';
+	printf("dst[%s]\n", dst);
 	return (dst);
 }
 
@@ -79,11 +80,15 @@ static char			*treat_double_quote(char *str, int *i, t_env *_env, int *flag)
 {
 	int start;
 	int end;
+	int  dollar;
 
+	printf("dubbel\n");
 	start = *i;
+	if(str[*i -1] == '$')
+		dollar = 1;
 	(*i)++; 
 	while (str[*i] && str[*i] != '\"')
-	{
+	{		
 		if (str[*i] == '\\')
 		{
 			if (str[(*i) + 1] == '\"' || str[(*i) + 1] == '$')
@@ -92,20 +97,27 @@ static char			*treat_double_quote(char *str, int *i, t_env *_env, int *flag)
 				(*i)++;
 		}
 		if (str[*i] == '$')
+		{
 			str = if_dollar(str, *i, _env);
+		}
 		(*i)++;
 	}
 	end = *i;										// waarom stond dit erachter? ++;
 	str = delete_double_quotes(str, start, end);
 	*i = end - 2; 					// beter niet -1 want beter laten eindigen op laatste char van deze reeks.
 	*flag = 1;
+	if(dollar == 1)
+		str = ft_substr(str, 1, ft_strlen(str));
 	return (str);
 }
 
 static char			*treat_single_quote(char *str, int *i, int *flag)
 {
 	int end;
-
+	int  dollar;
+	
+	if(str[*i -1] == '$')
+		dollar = 1;
 	(*i)++;
 	while (str[*i] && str[*i] != '\'')
 		(*i)++;
@@ -113,6 +125,8 @@ static char			*treat_single_quote(char *str, int *i, int *flag)
 	str = delete_quotes(str, '\'');				//Freeen oude malloc?
 	*i = end - 2;
 	*flag = 1;
+	if(dollar == 1)
+		str = ft_substr(str, 1, ft_strlen(str));
 	return (str);
 }
 
@@ -129,13 +143,14 @@ void							check_specials(t_command **command, t_env *_env)
 	int y;
 	int i;
 	int flag;
-
+	
 	y = 0;
 	while ((*command)->array && (*command)->array[y])
 	{
 		i = 0;
 		while((*command)->array && (*command)->array[y] && (*command)->array[y][i]) 			//of gewoon break gebruiken?
 		{
+			printf("------------------check specials[%s]\n",(*command)->array[y]);
 			flag = 0;
 			if (is_single_quote((*command)->array[y][i]) && !flag)
 				(*command)->array[y] = treat_single_quote((*command)->array[y], &i, &flag);
@@ -143,7 +158,14 @@ void							check_specials(t_command **command, t_env *_env)
 				(*command)->array[y] = treat_double_quote((*command)->array[y], &i, _env, &flag);
 			if (!is_single_quote((*command)->array[y][i]) && !is_double_quote((*command)->array[y][i]) && !flag)
 			{
-				if ((*command)->array[y][i] == '\\')
+
+				if ((*command)->array[y][i] == '$' && (*command)->array[y][i+1] == '\\')
+				{
+					printf("je moet nog een doller plakken\n");
+					(*command)->array[y]  = if_dollar((*command)->array[y] , i, _env);
+					(*command)->array[y] = ft_strjoin("$",(*command)->array[y]);
+				}
+				else if ((*command)->array[y][i] == '\\')
 				{
 					(*command)->array[y] = delete_escape_char((*command)->array[y], i);
 					i++;

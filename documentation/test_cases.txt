@@ -77,7 +77,7 @@ export 123$USER---
 ***************************
 
 echo $
-echo $USER
+echo $USER              --> moet nog een foutmelding voor komen 
 echo $USER'				--> not complete
 echo $USER_				--> underscore is alphanummeriek
 echo 123$USER----
@@ -261,7 +261,7 @@ echo "\poep"
 echo "123\'456"
 123\'456
 
-echo "hallo$"
+echo "hallo$"                                                   check
 hallo$
 ***************************
 ** 		Escape character**
@@ -270,10 +270,10 @@ hallo$
 echo \"
 "
 
-echo \$?
+echo \$?                                                        check
 $?
 
-echo 123\poep
+echo 123\poep                                                    check
 123poep
 
 ***************************
@@ -455,8 +455,22 @@ export POEP="grep main"
 ls > x1 ; cat x1 | $POEP
 
 
-*******************************
-*	TO DO: exit statussen checken *
-*******************************
 
-< poep			1
+
+
+
+
+
+
+
+
+
+• $halllo###
+• $hallo>       deze lijkt te seggen voordat hij parameter expansion in gaat
+• echo $"rlwjkrw\\"
+• 
+• 
+• $USER9582309582529  segt.
+• hallo$USER
+bash: hallo$USER: command not found
+moet een andere foutmelding geven 

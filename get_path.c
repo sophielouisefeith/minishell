@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/12 12:30:47 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/13 12:53:58 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,18 @@ char			*check_path(t_env *_env, char *str)
 	patharray = ft_split(path, ':');			//FREE
 	while (patharray && patharray[i])
 	{
+		//printf("----path array[%s]\n", patharray[i] );
 		folder = opendir(patharray[i]);
 		if (folder != 0)
 		{
+			//printf("----path array[%s]\n", patharray[i] );
 			while ((next_entry = readdir(folder)) != NULL)
 			{
 				if (ft_strcmp(next_entry->d_name, str) == 0)
 				{
 					patharray[i] = make_path_complete(patharray[i], str);
 					closedir(folder);
+					// printf("----path array[%s]\n", patharray[i] );
 					return (patharray[i]);
 				}
 			}

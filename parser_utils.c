@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/12 12:31:37 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/13 12:52:14 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 	builtin_type = get_builtin_type((*sort)->str);
 	if (builtin_type == builtin_no)
 	{
+		//printf("------je bent geen builtin\n");
 		str_before = (*sort)->str;
 		(*sort)->str = check_path(*_env, (*sort)->str);
 		if (!ft_strcmp(str_before, (*sort)->str))

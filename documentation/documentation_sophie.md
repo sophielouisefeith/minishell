@@ -219,3 +219,28 @@ DESCRIPTION
      When an interpreter file is execve()'d, the system runs the specified interpreter.  If any optional args are specified, they become the first (second, ...) argument to the interpreter. The name of the originally execve()'d
      file becomes the subsequent argument; otherwise, the name of the originally execve()'d file is the first argument.  The original arguments to the invocation of the interpreter are shifted over to become the final arguments.
      The zeroth argument, normally the name of the execve()'d file, is left unchanged.
+
+
+
+
+echo $*hallo                                 
+echo $A*aap
+echo  $\$
+
+echo $5hallo                  check
+
+oke dus wanneer bestaat hij niet 
+dan moet hij ergens in en het eerste dingetje weghalen
+
+alle tekst na niet bestaande of geldige $
+
+
+
+
+
+ERROR 
+
+no closing qoute 
+ unexpected EOF while looking for matching `"'
+bash: syntax error: unexpected end of file
+
