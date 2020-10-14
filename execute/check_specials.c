@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/13 12:50:49 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/14 13:26:15 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static char			*treat_double_quote(char *str, int *i, t_env *_env, int *flag)
 	int end;
 	int  dollar;
 
-	printf("dubbel\n");
+	//printf("dubbel\n");
 	start = *i;
 	if(str[*i -1] == '$')
 		dollar = 1;
@@ -150,7 +150,7 @@ void							check_specials(t_command **command, t_env *_env)
 		i = 0;
 		while((*command)->array && (*command)->array[y] && (*command)->array[y][i]) 			//of gewoon break gebruiken?
 		{
-			printf("------------------check specials[%s]\n",(*command)->array[y]);
+			//printf("------------------check specials[%s]\n",(*command)->array[y]);
 			flag = 0;
 			if (is_single_quote((*command)->array[y][i]) && !flag)
 				(*command)->array[y] = treat_single_quote((*command)->array[y], &i, &flag);
@@ -161,7 +161,7 @@ void							check_specials(t_command **command, t_env *_env)
 
 				if ((*command)->array[y][i] == '$' && (*command)->array[y][i+1] == '\\')
 				{
-					printf("je moet nog een doller plakken\n");
+					//printf("je moet nog een doller plakken\n");
 					(*command)->array[y]  = if_dollar((*command)->array[y] , i, _env);
 					(*command)->array[y] = ft_strjoin("$",(*command)->array[y]);
 				}

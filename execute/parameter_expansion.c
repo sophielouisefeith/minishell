@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/13 12:50:35 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/14 16:12:50 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,28 +150,39 @@ static char			*exception(char *str, int ret, char *parameter)
 
 char			*expand(char *str, int i, t_env *_env)
 {
+	//printf("str[%s]\n", str);
 	//printf("expand\n");
 	char	*new_str1;
 	char	*new_str2;
+	char 	*str_behoud;
 	char	*parameter;
 	int		ret;
 	int 	except;
+	//char	*value;
 
 	new_str1 = NULL;
 	parameter = NULL;
 	new_str2 = NULL;
 	if (i > 0)
 	{
+		//printf("ben je hier \n");
 		new_str1 = ft_substr(str, 0, i);
 		//printf("new_str1[%s]\n", new_str1);
 	}
 	ret = is_special_char(str, (i + 1));
 	if (ret == -1)
 	{
-		//printf("-------------ret == -1[%d]\n", ret);
+		//printf("-------------ret dit == -1[%d]\n", ret);
 		// if(str[i+1] == '>')
 		// 	printf("bash: syntax error near unexpected token `>'\n");
 		parameter = "$";
+		if(new_str2 == NULL) //&& ft_strcmp(parameter ,"$"
+		{
+			parameter = join_strings(new_str1, parameter, new_str2);
+			//printf("parameter for extra [%s]\n", parameter);
+			return(parameter);
+		}
+		
 	}
 	if (ret == 0)
 	{
@@ -190,29 +201,46 @@ char			*expand(char *str, int i, t_env *_env)
 		parameter = join_strings(new_str1, parameter, new_str2);
 		
 		return(new_str2);
-		//return(parameter);
+		return(parameter);
 		ret = -1;
 	}
+	
 	if (ret > 0)
 	{
-		// printf("-------------ret > 0[%d]\n", ret);
+		//printf("str/before[%s]\n", str);
+		str_behoud = ft_substr(str, 0, ret);
+		//printf("str/behoud[%s]\n", str_behoud);
+		//printf("-------------ret > 0[%d]\n", ret);
 		// printf("str[%s]\n", str);
 		// printf("str[%c]\n", str[ret]);
 		parameter = ft_substr(str, (i + 1), (ret - i - 1)) ;
 		new_str2 = ft_substr(str, ret, ft_strlen(str));
+		//new_str1 = ft_substr(str, 0, ft_strlen(str));
 		new_str2 = check_for_more_expansion(new_str2, _env);
 		except = 1;
 		if(str[ret] == '%')
 			return(str);
+		if(str[ret] == '?')
+		{
+			return(str);
+			//printf("ik ben vraagteken\n");
+			parameter = ft_itoa(g_exit_status);
+			//printf("str[%s]\n", str);
+			new_str1 = ft_substr(new_str1, ret, ft_strlen(str));
+			parameter = join_strings(str_behoud, parameter, new_str2);
+			// printf("parameter vraagteken[%s]\n", parameter);
+			// printf("new_str1 vraagteken[%s]\n", new_str1);
+			// printf("new_str2 vraagteken[%s]\n", new_str2);
+			
+		}
 		//if(str[ret] == '\"' && )
 		parameter = ft_substr(str, (i + 1), (ret - i - 1));
-		new_str2 = ft_substr(str, ret, ft_strlen(str));
-		if(new_str2[0] == '\\')
-			printf("backje\n"); 
+		//new_str2 = ft_substr(str, ret, ft_strlen(str));
+		//if(new_str2[0] == '\\')
+			//printf("backje\n"); 
 	}
 	if (ret != -1)
 	{
-
 		parameter = search_node(_env, parameter);
 		parameter = join_strings(new_str1, parameter, new_str2);
 		if(str[ret] == '^')
@@ -239,6 +267,11 @@ char			*expand(char *str, int i, t_env *_env)
 		(str[ret] == '\"' && ft_isalpha(str[ret +1]) && !parameter))
 			return(join_strings(new_str1, 0, new_str2));
 		
+		
+
+
+
+		
 		// printf("-------------ret != -1[%d]\n", ret);
 		// parameter = search_node(_env, parameter);
 		// printf("parameter[%s]\n", parameter);
@@ -256,15 +289,19 @@ char			*expand(char *str, int i, t_env *_env)
 	// printf("parameter[%s]\n", parameter);
 	// printf("new_str1[%s]\n", new_str1);
 	// printf("new_str2[%s]\n", new_str2);
-	//parameter = search_node(_env, parameter);
-	if(new_str2 == NULL)
-		parameter = join_strings(new_str1, parameter, new_str2);
-	else
+
+	// if(new_str2 == NULL && ft_strcmp(parameter ,"$" )) //&& ft_strcmp(parameter ,"$"
+	// {
+	// 	parameter = join_strings(new_str1, parameter, new_str2);
+	// 	printf("parameter for extra [%s]\n", parameter);
+	// 	return(parameter);
+	// }
+	if(parameter == NULL)
 	{
 		error_parameter(str);
 		//printf("not part of the subject");
 	}
-	
+	//parameter = search_node(_env, parameter);
 	return (parameter);
 }
 
@@ -289,11 +326,11 @@ char		*if_dollar(char *str, int i, t_env *_env)
 		if(str[i] == '?')
 		{
 			str = ft_substr(str, 2, ft_strlen(str));
-			printf("str[%s]\n", str);
+			//printf("str[%s]\n", str);
 			return(value = ft_strjoin(value, str));
 		}
 	}
-	else if(str [i + 1] >= '0' && str [i + 1] <= '9' && str[i + 1] != '?' ) 
+	if(str [i + 1] >= '0' && str [i + 1] <= '9' && str[i + 1] != '?' ) 
 		value = ft_substr(str, 2, ft_strlen(str));
 	else
 		value = expand(str, i, _env);

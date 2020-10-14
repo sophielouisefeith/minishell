@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/13 12:53:24 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/14 15:08:18 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void		invoke_another_program(t_command **command, t_env **_env)
            printf("[%s]", strerror(errno));
     if (pid == 0)
     {
-		printf("-------------invoke another program?\n");
+		//printf("-------------invoke another program?\n");
 		execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
 		errno_error((*command)->array[0]);					
 		exit(g_exit_status);																		//welke exit code?
