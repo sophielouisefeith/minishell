@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/13 12:53:24 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/14 16:10:07 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void		invoke_another_program(t_command **command, t_env **_env)
            printf("[%s]", strerror(errno));
     if (pid == 0)
     {
-		printf("-------------invoke another program?\n");
+		// printf("-------------invoke another program?\n");
 		execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
 		errno_error((*command)->array[0]);					
 		exit(g_exit_status);																		//welke exit code?
@@ -118,6 +118,7 @@ void            *execute(t_command **command, t_env **_env)
 					return (errno = ENOENT, errno_error((*command)->input->str_input));
 			}
 			check_specials(command, *_env);
+			// tester(NULL, *command);
 			if ((*command)->builtin == builtin_no_com && (!(*command)->array || !(*command)->array[0])) //$echo //lijkt of de 2d huls niet wordt gedelete, naar kijken
 				return (0);
             dup2(fdin, 0);
@@ -160,5 +161,6 @@ void            *execute(t_command **command, t_env **_env)
         dup2(tmpout, 1);
         close(tmpin);
         close(tmpout);
+		// printf("EIND EXECUTE\n");
 		return (0);
 }

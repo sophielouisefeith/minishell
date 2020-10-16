@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:30 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/09/08 22:25:23 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/14 18:09:18 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static int		write_echo(char **array, int y)
 {
 	int		space;
 	int 	ret;
+	int		exception;
 
 	ret = 0;
 	space = 0;

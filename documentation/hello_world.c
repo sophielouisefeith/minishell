@@ -6,14 +6,16 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/05 12:55:47 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/12 12:19:53 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/14 18:05:16 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <unistd.h>
 
 int			 main()
 {
 	printf("HELLO WORLD\n");
+	// write(1, "123", 4);
 	return (0);
 }

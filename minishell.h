@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/13 12:51:44 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/14 11:54:18 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,9 @@ int      						execute_exit(t_command *command);
 
 /* parameter expansion */
 void							parameter_expansion(t_command **command, t_env *_env);
-char							*expand(char *str, int i, t_env *_env);
+// char							*expand(char *str, int i, t_env *_env);
+char							*if_dollar(char *str, int *i, t_env *_env);
+
 char							*search_node(t_env *_env, char *search);
 int								is_special_char(char *str, int i);
 char							*join_strings(char *new_str1, char *parameter, char *new_str2);
@@ -211,7 +213,6 @@ void 		sighandler2(int signum);
 
 char							*delete_quotes(char *src, char garbage);
 void							check_specials(t_command **command, t_env *_env);
-char							*if_dollar(char *str, int i, t_env *_env);
 void							parameter_not_exist(t_command **command, int *y);
 char							*delete_escape_char(char *src, int n);
 
@@ -223,7 +224,13 @@ void							lexer_parser_executer(char *line, int i, t_env **_env);
 /* >>>>>>>>>>> */
 int								check_redirections(char *line, int i, int type);
 int								error_redirections(char c, int error_num);
-char							*error_no_path(char *str);
+// char							*error_no_path(char *str);
+void							*errno_error(char *str);
+void							set_exit_status(void);
+
 char							*error_parameter(char *str);
+
+int				expand_is_special_char(char *str, int i);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:54:16 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/13 12:47:11 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/16 15:02:55 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ char		*search_node(t_env *_env, char *search)
 	}
 	return (NULL);
 }
-
 int				is_special_char(char *str, int i)
 {
+	int save_i;
+
+	save_i = i;
 	if (!str[i])
 		return (-1);
 	while (str[i])
@@ -37,8 +39,30 @@ int				is_special_char(char *str, int i)
 		//printf("special char\n");
 		// if(str[i+1] == '$' && str[i +2] == '\0')
 		// 	return(5);
-		if (ft_isprint(str[i]) && !ft_isalnum(str[i]) && str[i] != '_')
+		if (ft_isprint(str[i]) && !ft_isalnum(str[i]) && str[i] != '_')			//niet alphanummeriek
 			return (i);
+		i++;
+
+	}
+	return (0);
+}
+
+//new voor expand
+int				expand_is_special_char(char *str, int i)
+{
+	int save_i;
+
+	save_i = i;
+	if (!str[i])
+		return (-1);
+	while (str[i])
+	{
+		if (ft_isprint(str[i]) && !ft_isalnum(str[i]) && str[i] != '_')			//niet alphanummeriek
+			return (i);
+		/// new
+		if (ft_isdigit(str[i]) && i == save_i)
+			return (i);
+		///
 		i++;
 
 	}

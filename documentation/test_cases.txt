@@ -388,6 +388,8 @@ Dubbel \\ in " " bijv "\\poep"										...
 
 echo $> 															Check
 
+export _YYY=----------------------------------------				--> start met underscore moet wel worden toegevoegd
+
 *********************
 *	Pipes and semi's *
 *********************
@@ -442,6 +444,145 @@ oke.
 msiemons  15:51
 en echo $A*aap  ook. Dus het is echt alle tekst na onbestaande $ of niet geldige $
 
+
+
+
+-----------------------
+Expand/if_dollar test:
+-----------------------
+echo $USERhallo
+
+echo $2$*
+echo $hallo"poep"
+echo /$"123$USER"
+
+
+
+echo $!$*						[$! is special, we don't treat this case]
+
+echo $222
+echo hallo$USER****$USER$2$*
+echo $_poep						--> Segt somt --> testen buiten VS!
+echo $a5aap
+-----
+echo $halllo###
+echo $USER9582309582529
+hallo$USER						--> Nog expanden?
+echo $
+echo $USER
+echo $USER'	
+echo $USER_						--> Segt soms (na 5x)?????
+echo 123$USER----
+echo 123$USER----$		
+echo abc$USERdef
+echo abc$USER123
+echo abc$POEPdef
+echo $%%%%jlkjtwejt				
+echo %%$
+echo $####jgklj					[$# is special, we don't treat this case]
+echo $####jgklj$USER
+echo $@@@lkgj
+------Same maar met $ in quotes:----------
+echo $"USERhallo"
+echo "$2$*"
+echo "$!$*"						[$! is special]
+echo "$222"
+echo "hallo$USER****$USER$2$*"
+echo "$_poep"
+echo "$a5aap"
+
+echo "$halllo###"
+echo "$USER9582309582529"
+"hallo$USER"					--> Nog expanden?		
+echo "$"
+echo "$USER"
+echo "$USER'"	
+echo "$USER_"
+echo "123$USER----"				--> MALLOC ERROR (Malloc errors alleen op comp maran?)
+
+echo "123$USER----$"			--> MALLOC ERROR
+echo "abc$USERdef"
+echo "abc$USER123"
+echo "abc$POEPdef"
+
+echo "$%%%%jlkjtwejt"
+echo "%%$"
+echo "$####jgklj"				[$# is special]
+
+echo "$####jgklj$USER"			--> MALLOC ERROR
+echo "$123456789$USER"			--> MALLOC ERROR
+
+echo "$@@@lkgj"
+
+echo $"hallo"
+echo $hallo
+
+$"etet"
+
+echo $hallo"poep"				
+
+echo $"etet"
+“$rewtwet”
+echo "$53535"
+----------------------
+$"
+$'
+echo “$\hallo”
+echo $"\hallo"
+\hallo
+
+------------
+Dubbel backslash in dubbel quotes:
+echo "\\hallo"
+\hallo
+echo "hallo\\hoi"
+hallo\hoi
+echo "\\$USER"
+\maran
+
+----
+Delete scape char alleen binnen dubbel quotes bij:
+
+echo "123\"456"
+123"456
+echo "123\$456"
+123$456
+echo "123\`456"
+123`456
+echo "123\\456"
+123\456
+
+TOV bijv:
+echo "123\!456"
+123\!456
+
+----
+echo $\USER
+$USER
+echo $\POEP
+$POEP
+echo $AB\CD
+CD
+
+echo "$\USER"		
+$\USER
+echo "$\POEP"		
+$\POEP
+echo poep"$\USER"
+poep$\USER
+
+
+echo "\hallo"
+\hallo
+---------------------------
+Specials dus we dus NIET meer behandelen:
+#
+echo #
+echo $#
+echo *
+echo !!
+!2
+echo $_
 ----------------------------
 
 *******************************

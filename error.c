@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/13 12:54:20 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/14 18:24:28 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int				error_redirections(char c, int error_num)
 	write(1, "bash: ", 6 );
 	if (error_num == 1)
 	{
-		write(1, "syntax error near unexpected token '", 36);
+		write(1, "syntax error near unexpected token '", 35);
 		if (c == '\n' || c == '\0' || c == '#')
 			write(1, "newline", 8);
 		else
@@ -100,12 +100,12 @@ int				error_redirections(char c, int error_num)
 	if (error_num == 2)
 	{
 		write(1, &c, 1);
-		write(1, ": ambiguous redirect\n", 22);
+		write(1, ": ambiguous redirect\n", 21);
 	}
 	if (error_num == 3)
 	{
 		write(1, &c, 1);
-		write(1, ": Is a directory\n", 18);		//errno 	EISDIR --> omschrijven naar errno_error?
+		write(1, ": Is a directory\n", 17);		//errno 	EISDIR --> omschrijven naar errno_error?
 	}
 	g_exit_status = 1;
 	g_own_exit = 1;
@@ -148,10 +148,10 @@ void				*errno_error(char *str)
 
 char			*error_parameter(char *str)
 {
-	write(1, "bash: ", 6 );
+	write(1, "bash: ", 6);
 	write(1, str, ft_strlen(str));
 	write(1, ": ", 2 );
-	write(1, "Not part of the subject\n", 27);
+	write(1, "Not part of the subject\n", 24);
+	set_exit_status();
 	return(NULL);
-	
 }
