@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/19 13:02:42 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/19 18:32:53 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,13 @@ void			lexer_parser_executer(char *line, int i, t_env **_env)
 	}
 	// tester(sort, command);
 	
+	// printf("array = %p | y[0] [%p] = [%s]\n", &command->array, &command->array[0], command->array[0]);
 	//FREE LEXER
 	free_list_lexer(&sort_copy);
 
 	//EXECUTOR
 	if (g_own_exit == 0)
 		execute(&command, _env);
-	
-	// printf("Hier\n");
 
 	//FREE COMMAND
 	free_list_parser(&command);

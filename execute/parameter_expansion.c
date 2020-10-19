@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/19 13:03:59 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/19 16:55:31 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 	- echo $USER|			--> Merel doet niks, gewoon nieuwe prompt
 	- Moeten we dit nog verplaatsen naar lexer/parser?
 	- Testen: Export expand hij ook name en value
-	- Functies te lang.
+	- Volgens mijn substringen we niet de goede len (ft_strlen - ret)
 */
 
 /*
@@ -27,27 +27,28 @@
 ** check if there a more parameters coming, if so delete the non_existing one
 ** and move the others in the array. If there are no other parameters,
 ** the non_existing one will be deleted and the whole 2D array also.
-** TO DO:
-	- LET OP BIJ FREEEN, gaat dit dan goed?
 */
 
-void		parameter_not_exist(t_command **command, int *y)
+static int		check_for_other_parameters(char **array, int y)
 {
-	int		new_y;
-	int 	flag_all;
-	
-	flag_all = 0;
-	if (*y > 0)
+	if (y > 0)
 	{
-		if (!(*command)->array[*y + 1] && !(*command)->array[*y - 1])
-			flag_all = 1;
+		if (!array[y + 1] && !array[y - 1])
+			return (1);
 	}
 	else
 	{
-		if (!(*command)->array[*y + 1])
-			flag_all = 1;
+		if (!array[y + 1])
+			return (1);
 	}
-	if (flag_all)
+	return (0);
+}
+
+void			parameter_not_exist(t_command **command, int *y)
+{
+	int			new_y;
+	
+	if (check_for_other_parameters((*command)->array, *y))
 	{
 		free((*command)->array[*y]);
 		free((*command)->array);
@@ -68,6 +69,80 @@ void		parameter_not_exist(t_command **command, int *y)
 }
 
 /*
+** Group 0 - 4: immediately behind $ is a special char
+** 	-Group 0: $ stays, remove first special char
+**	-Group 1 and 3: remove $ and first special char
+**	---------------------------------------------------------------------------
+** 	Group 3 are special variables with a function in the real bash. These don't
+**  have to be handled in this project. We treat them as group1 characters.
+** 	For example:
+** 	echo $!, !!, !<anything behind it>, &, &&, echo $$, #, echo #, echo $#,
+**  echo $-, echo *
+** 	We don't handle those cases, meaning also no error. To present an error we
+** 	should know all the cases we shouldn't treat. We only treat what the subject
+** 	tells us to treat.
+**	---------------------------------------------------------------------------
+**	-Group 2: $ and first special char stay
+** 	($?) Expands to the exit status of the most recently executed foreground
+** 	pipeline.
+** Group 5: No special char immediately behind $.
+**	$ stays, remove first special char
+*/
+
+static int		group_and_start_newstr2(char *str, char ret, int i, int *start)
+{
+	int			group;
+
+	if (str[ret - 1] == '$')
+	{
+		if (str[ret] == '\"' || str[ret] == '\'' || str[ret] == '\\')
+			group = 0;
+		if ((str [ret] >= '0' && str[ret] <= '9') || str[ret] == '*'
+			|| str[ret] == '@' || str[ret] == '!' || str[ret] == '&'
+			|| str[ret] == '$' || str[ret] == '#'
+			|| str[ret] == '-')
+			group = 1;
+		if (str[ret] == '%' || str[ret] == '^' || str[ret] == '+' ||
+			str[ret] == ',' || str[ret] == '.' || str[ret] == '/' ||
+			str[ret] == ':' || str[ret] == '=' || str[ret] == ']' ||
+			str[ret] == '}' || str[ret] == '~')
+			group = 2;
+		if (str[ret] == '?')
+			group = 4;
+	}
+	else
+		group = 5;
+	*start = (group == 1 || group == 4) ? (ret + 1) : ret;
+	*start = (group == 2) ? i : (*start);												
+	return (group);
+}	
+
+static void		special_char_found(t_dollar **dollar, char *str, int i)
+{
+	int 		group;
+	int 		start;
+
+	group = group_and_start_newstr2(str, (*dollar)->ret, i, &start);
+	if (group == 0 && (*dollar)->quote)
+	{
+			(*dollar)->flag_group2 = 1;
+			(*dollar)->ret = -1;
+			(*dollar)->parameter = ft_strdup("$");
+	}
+	if (group == 2)
+		(*dollar)->flag_group2 = 1;
+	if (group == 4)
+	{
+		(*dollar)->flag_qm = 1;
+		(*dollar)->parameter = ft_itoa(g_exit_status);
+	}
+	if (group == 5)
+		(*dollar)->parameter = ft_substr(str, (i + 1),
+			((*dollar)->ret - i - 1));
+	(*dollar)->new_str2 = ft_substr(str, start, ft_strlen(str));
+}
+
+/*
 ** parameter --> $parameter
 ** new_str1	-->	 string before $parameter
 ** new_str2 -->  string after $parameter
@@ -83,184 +158,34 @@ void		parameter_not_exist(t_command **command, int *y)
 **    ret == 0  --> no special chars found, so no string after the $parameter 
 **    ret > 0   --> special char found, so new_str after $parameter, save in 
 **		new_str2. Ret is position of special char.
-// ** 4. If there is a new_str2 (ret > 0) check if special char is a $. If so this		//wat als nog $? erachter
-// ** one should be expanded as wel (recursive).
-** 5. If not immediate end of line, search for parameter in _env.
+** 4. If there is a new_str2 (ret > 0) check if special char is a exception
+** character (see groups).
+** 5. If not immediate end of line, search for parameter in _env. Except for $?
+** this is a special which shows the exit_status.  
 ** 6. Join the 3 possible strings, and return this new value.
 */
 
-//cijfers mogen in _env naam alleen niet op de eerste plaats!
-//DUs als op eerste plaats ret > 0
-
-
-
-
-/*
-** ** Exceptions:
-** Quote: $" $' $\ return the whole string (ex. )
-** 			if (ret > 0 && str[ret - 1] == '$' && (str[ret] == '\"' || str[ret] == '\'' || str[ret] == '\\'))	
-	//Quote exception + $\ exception(only for quotes)
-	/$"poep" returnt de hele string min de $
-**
-*/
-
-/*
-** TO DO:
-** - Volgens mijn substringen we niet de goede len (ft_strlen - ret)
-
-*/
-
-
-
 char			*if_dollar(char *str, int *i, t_env *_env, int quote)
 {
-	char	*new_str1;
-	char	*new_str2;
-	char	*parameter;
-	int		ret;
+	t_dollar	*dollar;
 
-	int flag_qm;
-	int flag_group2;
-	flag_qm = 0;
-	flag_group2 = 0;
-
-	new_str1 = NULL;
-	parameter = NULL;
-	new_str2 = NULL;
+	dollar = (t_dollar *)malloc(sizeof(t_dollar));
+	initiate_dollar(dollar, quote);
 	if (*i > 0)
-		new_str1 = ft_substr(str, 0, *i);
-	ret = expand_is_special_char(str, (*i + 1));
-	// printf("ret = %d\n", ret);
-	// printf("ret[%d]= %c -> %s\n", ret, str[ret], str);
-	if (ret == -1)
-		parameter = "$";
-	if (ret == 0)
-		parameter = ft_substr(str, (*i + 1), ft_strlen(str));
-	if (ret > 0)
-	{
-		if (str[ret - 1] == '$')
-		{
-			if (str[ret] == '\"' || str[ret] == '\'' || str[ret] == '\\')			//GROEP 0: Verwijder enkel $ en i--
-			{
-				new_str2 = ft_substr(str, ret, ft_strlen(str));
-				if (quote)				//echo "$\USER"	 Eigenlijk een groep 2: laat alles staan
-				{
-					parameter = "$";
-					flag_group2 = 1;	//echo "$" echo hallo"$POEP"abc
-					ret = -1;
-				}
-				// printf("newstr2: %s\n", new_str2);	
-				// printf("newstr2: %s\n", new_str2);
-			}	
-			if ((str [ret] >= '0' && str[ret] <= '9') || str[ret] == '*'
-				|| str[ret] == '@' || str[ret] == '!' || str[ret] == '&'
-				|| str[ret] == '$' || str[ret] == '#'
-				|| str[ret] == '-')																//Groep 1 (en 3 specials): verwijder $ + eerste teken
-				new_str2 = ft_substr(str, (ret + 1), ft_strlen(str)); //malloc freet niet
-			if (str[ret] == '%' || str[ret] == '^' || str[ret] == '+' || str[ret] == ',' ||		//Groep 2: print alles
-				str[ret] == '.' || str[ret] == '/' || str[ret] == ':' || str[ret] == '=' || 
-				str[ret] == ']' || str[ret] == '}' || str[ret] == '~')
-				{
-					flag_group2 = 1; //mag niet i--
-					new_str2 = ft_substr(str, *i, ft_strlen(str));
-				}
-			if (str[ret] == '?')																//Groep 4: vervang $? voor exitstatus
-			{
-				flag_qm = 1;
-				parameter = ft_itoa(g_exit_status);
-				new_str2 = ft_substr(str, (ret + 1), ft_strlen(str));
-			}
-		}
-		else
-		{
-			parameter = ft_substr(str, (*i + 1), (ret - *i - 1));
-			new_str2 = ft_substr(str, ret, ft_strlen(str));
-		}
-	}
-	if (ret != -1 && parameter && !flag_qm)
-		parameter = search_node(_env, parameter);
-	if (new_str2 && !flag_group2 && (new_str2[0] == '$' || new_str2[0] == '\'' || new_str2[0] == '\"'))
-	{
-		// printf("IN i--\n");
+		dollar->new_str1 = ft_substr(str, 0, *i);
+	dollar->ret = dollar_is_special_char(str, (*i + 1));
+	if (dollar->ret == -1)
+		dollar->parameter = ft_strdup("$");
+	if (dollar->ret == 0)
+		dollar->parameter = ft_substr(str, (*i + 1), ft_strlen(str));
+	if (dollar->ret > 0)
+		special_char_found(&dollar, str, *i);
+	if (dollar->ret != -1 && dollar->parameter && !dollar->flag_qm)
+		dollar->parameter = search_node(_env, dollar->parameter);
+	if (dollar->new_str2 && !dollar->flag_group2 && (dollar->new_str2[0] == '$'
+		|| dollar->new_str2[0] == '\'' || dollar->new_str2[0] == '\"'))
 		(*i)--;
-		// (*i)--;
-	} //vw bijv echo $2$* of echo $hallo"poep"
-	// printf("newstr1: %s\n", new_str1);
-	// printf("parameter: %s\n", parameter);
-	// printf("new_str2= %s\n",new_str2);
-	parameter = join_strings(new_str1, parameter, new_str2);
-	// printf("return = %s\n", parameter);
-	// free(str); // TEST
-	// str = NULL; //
-	return (parameter);
+	dollar->parameter = join_strings(dollar->new_str1, dollar->parameter,
+		dollar->new_str2);
+	return (dollar->parameter);
 }
-
-//TO DO: backslash wel naar kijken
-
-	// printf("ret = %d\n", ret);
-	// printf("parameter: %s\n", parameter);
-
-/*
-** In bash there are multiple functions/special variables/event we don't have to treat. For example:
-** echo $! --> process ID (PID), !!, !<anything behind it>
-** & --> run in the background, && --> AND, run left and right in sequence.
-** echo $$ --> process ID (PID)
-** #, echo #, echo $# --> number of arguments
-** echo $- --> prints the current set of options in your current shell.
-** echo *	--> wildcard
-** We don't handle those cases, meaning also no error. To present an error we should know
-** all the cases we shouldn't treat. We only treat what the subject tells us to treat.
-**/
-
-/*
-			if ((str[ret] == '!' || str[ret] == '&' || str[ret] == '$' || str[ret] == '\\' ||	//Groep 3: specials, geen onderdeel van subject // (str[ret] == '!' && str[ret + 1]) 
-				str[ret] == '#' || str[ret] == '-')
-			{
-				error_parameter(ft_substr(str, ret - 1, 2));
-				(*i)++;
-				return (str);	
-			}
-
-			// if (str[ret] == '\\')		//alleen als buiten haakjes
-			// {
-			// 	flag = 1;
-			// 	parameter = "$";
-			// 	new_str2 = ft_substr(str, (ret + 1), ft_strlen(str));
-			// }
-*/
-
-
-/*
-Removed " en ' exception:
-	// parameter = "$";
-		// new_str2 = ft_substr(str, ret, ft_strlen(str));
-		// printf("new_str2 = %s\n", new_str2);
-		// ret = -1;
-
-
-*/
-
-
-
-
-
-
-
-
-
-// echo $USER_			segt na tijdje
-
-/*
-** ($?) Expands to the exit status of the most recently executed foreground pipeline.
-** Single quote cases will not be expanded.
-** Break out of first while loop when handled $. Optional other $ in
-** the array[y] are already handled.
-*/
-
-// char		*if_dollar(char *str, int i, t_env *_env)
-// {
-// 	char	*value;
-
-// 	value = expand(str, i, _env);
-// 	return (value);
-// }

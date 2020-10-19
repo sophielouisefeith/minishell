@@ -505,7 +505,7 @@ echo abc$USER123
 echo abc$POEPdef
 echo $%%%%jlkjtwejt				
 echo %%$
-echo $####jgklj$USER
+echo $####jgklj$USER		[special]
 echo $@@@lkgj
 ------Same maar met $ in quotes:----------
 echo $"USERhallo"
@@ -536,7 +536,8 @@ echo "$@@@lkgj"
 echo $"hallo"
 echo $hallo
 
-echo $hallo"poep"				
+echo $hallo"poep"	
+echo "hallo\"\poep"			
 echo $"etet"
 “$rewtwet”
 echo "$53535"
@@ -576,7 +577,7 @@ echo $\USER
 $USER
 echo $\POEP
 $POEP
-echo $AB\CD
+echo $AB\CD				X [Backslash hoeven we alleen binnen quotes]
 CD
 
 Tussen dubbel quotes blijft \ staan na $ (groep 2);
@@ -592,6 +593,9 @@ $\poep
 
 echo "\hallo"
 \hallo
+
+
+
 ---------------------------
 Specials dus we dus NIET meer behandelen:
 #
@@ -602,6 +606,8 @@ echo !!
 !2
 echo $_
 ----------------------------
+Niet zoveel getest met single quotes!
+
 
 *******************************
 *	Strange pipe dilemma 8/10 *

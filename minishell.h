@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/19 10:20:53 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/19 18:17:34 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,17 @@ typedef struct				s_env{
 	int						equal;
 	struct		s_env   	*next;
 }							t_env;
+
+typedef struct				s_dollar{
+	char 					*new_str1;
+	char					*parameter;
+	char 					*new_str2;
+	int						ret;
+
+	int						flag_qm;			//questionmark
+	int 					flag_group2;
+	int						quote;
+}							t_dollar;
 
 
 
@@ -210,9 +221,15 @@ void 		sighandler(int signum);
 void 		sighandler2(int signum);
 
 /*new*/
+void							check_specials(t_command **command, t_env *_env);
+char							*check_backslash_and_dollar(char *str, int *i, t_env *_env);
+char							*delete_double_quotes(char *src, int start, int end);
+char							*delete_escape_char(char *src, int n);
+
+
+
 
 char							*delete_quotes(char *src, char garbage);
-void							check_specials(t_command **command, t_env *_env);
 void							parameter_not_exist(t_command **command, int *y);
 char							*delete_escape_char(char *src, int n);
 
@@ -230,7 +247,8 @@ void							set_exit_status(void);
 
 char							*error_parameter(char *str);
 
-int				expand_is_special_char(char *str, int i);
+int				dollar_is_special_char(char *str, int i);
+void			initiate_dollar(t_dollar *dollar, int quote);
 
 
 #endif
