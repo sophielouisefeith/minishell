@@ -445,33 +445,59 @@ msiemons  15:51
 en echo $A*aap  ook. Dus het is echt alle tekst na onbestaande $ of niet geldige $
 
 
-
-
 -----------------------
 Expand/if_dollar test:
 -----------------------
 echo $USERhallo
-
 echo $2$*
 echo $hallo"poep"
 echo /$"123$USER"
-
-
-
-echo $!$*						[$! is special, we don't treat this case]
-
 echo $222
 echo hallo$USER****$USER$2$*
-echo $_poep						--> Segt somt --> testen buiten VS!
 echo $a5aap
+----
+echo $_poep						--> Check
+echo $USER_						-->Check, seg zat in parameter_not_exist
+hallo$USER						--> Nog expanden?
+echo $!$*						[$! is special, we don't treat this case]
+echo "$!$*"						[$! is special]
+echo $####jgklj					[$# is special, we don't treat this case]
+echo "$####jgklj"				[$# is special]
+echo "123$USER----"				--> MALLOC ERROR (Malloc errors alleen op comp maran?)
+echo "$####jgklj$USER"			--> MALLOC ERROR
+echo "$123456789$USER"			--> MALLOC ERROR
+echo "123$USER----$"			--> MALLOC ERROR
+$"etet"						X		[Wacht op error afwerking]			
+-----
+Groep 0 tests:
+
+echo hallo$\abc
+hallo$abc
+echo hallo$\\abc
+hallo$\abc
+
+echo hallo$"USER"
+halloUSER
+echo hallo$"POEP"
+halloPOEP
+echo hallo$'USER'
+halloUSER
+----------
+echo hallo\$USER
+hallo$USER
+---------
+Groep 1 tests:
+echo /$"123$USER"
+/123maran
+
+echo hallo/$USER
+hallo/maran
 -----
 echo $halllo###
 echo $USER9582309582529
-hallo$USER						--> Nog expanden?
 echo $
 echo $USER
 echo $USER'	
-echo $USER_						--> Segt soms (na 5x)?????
 echo 123$USER----
 echo 123$USER----$		
 echo abc$USERdef
@@ -479,48 +505,38 @@ echo abc$USER123
 echo abc$POEPdef
 echo $%%%%jlkjtwejt				
 echo %%$
-echo $####jgklj					[$# is special, we don't treat this case]
 echo $####jgklj$USER
 echo $@@@lkgj
 ------Same maar met $ in quotes:----------
 echo $"USERhallo"
 echo "$2$*"
-echo "$!$*"						[$! is special]
 echo "$222"
 echo "hallo$USER****$USER$2$*"
 echo "$_poep"
 echo "$a5aap"
-
 echo "$halllo###"
 echo "$USER9582309582529"
 "hallo$USER"					--> Nog expanden?		
-echo "$"
+
+echo "$"						
+echo hallo"$"abc				
+hallo$abc
+echo hallo"$POEP"abc			!
+echo hallo"$USER"abc
+
 echo "$USER"
 echo "$USER'"	
 echo "$USER_"
-echo "123$USER----"				--> MALLOC ERROR (Malloc errors alleen op comp maran?)
-
-echo "123$USER----$"			--> MALLOC ERROR
 echo "abc$USERdef"
 echo "abc$USER123"
 echo "abc$POEPdef"
-
 echo "$%%%%jlkjtwejt"
 echo "%%$"
-echo "$####jgklj"				[$# is special]
-
-echo "$####jgklj$USER"			--> MALLOC ERROR
-echo "$123456789$USER"			--> MALLOC ERROR
-
 echo "$@@@lkgj"
-
 echo $"hallo"
 echo $hallo
 
-$"etet"
-
 echo $hallo"poep"				
-
 echo $"etet"
 “$rewtwet”
 echo "$53535"
@@ -530,7 +546,6 @@ $'
 echo “$\hallo”
 echo $"\hallo"
 \hallo
-
 ------------
 Dubbel backslash in dubbel quotes:
 echo "\\hallo"
@@ -564,13 +579,16 @@ $POEP
 echo $AB\CD
 CD
 
-echo "$\USER"		
+Tussen dubbel quotes blijft \ staan na $ (groep 2);
+echo "$\USER"						
 $\USER
-echo "$\POEP"		
+echo "$\POEP"				
 $\POEP
-echo poep"$\USER"
+echo poep"$\USER"			
 poep$\USER
 
+echo '$\poep'
+$\poep
 
 echo "\hallo"
 \hallo

@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/16 17:41:59 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/19 12:31:13 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,11 @@ static char		*delete_double_quotes(char *src, int start, int end)
 	while (src[src_i] != '\0')
 	{
 		if (src_i == start || src_i == end)
+		{
 			src_i++;
+			if (src_i == end)
+				src_i++;
+		}
 		dst[dst_i] = src[src_i];
 		src_i++;
 		dst_i++;
@@ -89,6 +93,7 @@ static char			*treat_double_quote(char *str, int *i, t_env *_env, int *flag)
 	int start;
 	int end;
 	int  dollar;
+	// char *new_str;
 
 	start = *i;
 	dollar = 0;
@@ -97,7 +102,8 @@ static char			*treat_double_quote(char *str, int *i, t_env *_env, int *flag)
 	(*i)++; 
 	while (str[*i] && str[*i] != '\"')
 	{	
-		// printf("in loop\n");	
+		// printf("in loop\n");
+		// printf("BEGIN LOOP:[%d][%c]\n", *i, str[*i]);	
 		if (str[*i] == '\\')
 		{
 			if (str[(*i) + 1] == '\"' || str[(*i) + 1] == '$' || str[(*i) + 1] == '\\' || str[(*i) + 1] == 96)		//Alleen bij "  of $ of \ deleten? Andere tekens? ` ook
@@ -106,10 +112,13 @@ static char			*treat_double_quote(char *str, int *i, t_env *_env, int *flag)
 				(*i)++;
 		}
 		if (str[*i] == '$')
-			str = if_dollar(str, i, _env);			//Dollar binnen quotes
-		// printf("[%d][%c]\n", *i, str[*i]);
+			str = if_dollar(str, i, _env, 1);			//Dollar binnen quotes
+		// printf("NA: {%s} [%d][%c], Next = [%d][%c] = \n", str, *i, str[*i], *i + 1, str[*i + 1]);
 		(*i)++;
+		// printf("EIND LOOP:[%d][%c]\n", *i, str[*i]);
+		// printf("EIND LOOP:[%d][%c]\n", *i, str[*i]);
 	}
+	// printf("UIT LOOP\n");
 	end = *i;							// waarom stond dit erachter? ++;
 	// printf(" str DQ: [%s] [%c] [%c]\n", str, str[start], str[end]);									
 	str = delete_double_quotes(str, start, end);
@@ -185,7 +194,7 @@ void							check_specials(t_command **command, t_env *_env)
 				if ((*command)->array[y][i] == '$')
 				{
 					// printf("hier\n");
-					(*command)->array[y]  = if_dollar((*command)->array[y] , &i, _env); //new &i
+					(*command)->array[y]  = if_dollar((*command)->array[y] , &i, _env, 0); //new &i
 					// printf("(*command)->array[y][%d] = [%c] --> [%s]\n", i, (*command)->array[y][i],  (*command)->array[y]); 
 					check_builtin_again(command, _env, y);
 				}
@@ -200,6 +209,7 @@ void							check_specials(t_command **command, t_env *_env)
 		}
 		y++;
 	}
+	// printf("Hier\n");
 }
 
 	// printf("UIT CHECK SPECIAL\n");

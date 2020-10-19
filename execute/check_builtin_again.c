@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/07 17:31:13 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/16 16:32:48 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/19 11:28:56 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ void				check_builtin_again(t_command **command, t_env *_env, int y)
 			y++;
 		}
 		if ((*command)->array[0] && (*command)->array[0][0] != '$')
-		{
-			printf("IN CHECK_BUILTIN_AGIAN\n");
 			lexer_parser_executer((*command)->array[0], 0, &_env);
-		} //? 		// && (*command)->array[0][0] != '$' toegevoegd v.w. $"poep"
+		 //? 		// && (*command)->array[0][0] != '$' toegevoegd v.w. $"poep"
 	}
 }

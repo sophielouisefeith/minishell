@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/14 16:10:07 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/19 13:03:19 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void            *execute(t_command **command, t_env **_env)
 			}
 			check_specials(command, *_env);
 			// tester(NULL, *command);
-			if ((*command)->builtin == builtin_no_com && (!(*command)->array || !(*command)->array[0])) //$echo //lijkt of de 2d huls niet wordt gedelete, naar kijken
+			if ((*command)->builtin == builtin_no_com && (!(*command)->array || !(*command)->array[0])) //$echo
 				return (0);
             dup2(fdin, 0);
             close(fdin);

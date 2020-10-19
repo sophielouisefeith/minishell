@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/16 18:11:07 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/19 13:03:59 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,20 @@
 void		parameter_not_exist(t_command **command, int *y)
 {
 	int		new_y;
-
-	if (!(*command)->array[*y + 1] && !(*command)->array[*y - 1])
+	int 	flag_all;
+	
+	flag_all = 0;
+	if (*y > 0)
+	{
+		if (!(*command)->array[*y + 1] && !(*command)->array[*y - 1])
+			flag_all = 1;
+	}
+	else
+	{
+		if (!(*command)->array[*y + 1])
+			flag_all = 1;
+	}
+	if (flag_all)
 	{
 		free((*command)->array[*y]);
 		free((*command)->array);
@@ -52,15 +64,7 @@ void		parameter_not_exist(t_command **command, int *y)
 		}
 		(*command)->array[*y] = NULL;
 		(*y) = new_y;
-	}
-///
-	// int n = 0;
-	// while ((*command)->array[n])
-	// 	{
-	// 		printf("Not exist print: [%d][%s]\n", n, (*command)->array[n]);
-	// 		n++;
-	// 	}
-///	
+	}	
 }
 
 /*
@@ -100,9 +104,15 @@ void		parameter_not_exist(t_command **command, int *y)
 **
 */
 
+/*
+** TO DO:
+** - Volgens mijn substringen we niet de goede len (ft_strlen - ret)
+
+*/
 
 
-char			*if_dollar(char *str, int *i, t_env *_env)
+
+char			*if_dollar(char *str, int *i, t_env *_env, int quote)
 {
 	char	*new_str1;
 	char	*new_str2;
@@ -120,17 +130,28 @@ char			*if_dollar(char *str, int *i, t_env *_env)
 	if (*i > 0)
 		new_str1 = ft_substr(str, 0, *i);
 	ret = expand_is_special_char(str, (*i + 1));
+	// printf("ret = %d\n", ret);
+	// printf("ret[%d]= %c -> %s\n", ret, str[ret], str);
 	if (ret == -1)
 		parameter = "$";
 	if (ret == 0)
 		parameter = ft_substr(str, (*i + 1), ft_strlen(str));
-	if (ret > 0 && str[ret - 1] == '$' &&
-		(str[ret] == '\"' || str[ret] == '\'' || str[ret] == '\\'))			//GROEP 0: Verwijder enkel $ en i--. // meer testen! echo /$"123$USER" of echo $\abc // SNAP NIET DTA WERKT
-			new_str2 = ft_substr(str, ret, ft_strlen(str));			//volgens mijn substringen we niet de goede len!!!! ft_strlen - ret.
 	if (ret > 0)
 	{
 		if (str[ret - 1] == '$')
 		{
+			if (str[ret] == '\"' || str[ret] == '\'' || str[ret] == '\\')			//GROEP 0: Verwijder enkel $ en i--
+			{
+				new_str2 = ft_substr(str, ret, ft_strlen(str));
+				if (quote)				//echo "$\USER"	 Eigenlijk een groep 2: laat alles staan
+				{
+					parameter = "$";
+					flag_group2 = 1;	//echo "$" echo hallo"$POEP"abc
+					ret = -1;
+				}
+				// printf("newstr2: %s\n", new_str2);	
+				// printf("newstr2: %s\n", new_str2);
+			}	
 			if ((str [ret] >= '0' && str[ret] <= '9') || str[ret] == '*'
 				|| str[ret] == '@' || str[ret] == '!' || str[ret] == '&'
 				|| str[ret] == '$' || str[ret] == '#'
@@ -138,7 +159,7 @@ char			*if_dollar(char *str, int *i, t_env *_env)
 				new_str2 = ft_substr(str, (ret + 1), ft_strlen(str)); //malloc freet niet
 			if (str[ret] == '%' || str[ret] == '^' || str[ret] == '+' || str[ret] == ',' ||		//Groep 2: print alles
 				str[ret] == '.' || str[ret] == '/' || str[ret] == ':' || str[ret] == '=' || 
-				str[ret] == ']' || str[ret] == '}' || str[ret] == '~')//str[ret] == '\"' || str[ret] == '\'' || str[ret] == '\\')		//laatste 3 experiment
+				str[ret] == ']' || str[ret] == '}' || str[ret] == '~')
 				{
 					flag_group2 = 1; //mag niet i--
 					new_str2 = ft_substr(str, *i, ft_strlen(str));
@@ -158,21 +179,25 @@ char			*if_dollar(char *str, int *i, t_env *_env)
 	}
 	if (ret != -1 && parameter && !flag_qm)
 		parameter = search_node(_env, parameter);
-	if (new_str2 && !flag_group2 && (new_str2[0] == '$' || new_str2[0] == '\'' || new_str2[0] == '\"')) //vw bijv echo $2$* of echo $hallo"poep"
+	if (new_str2 && !flag_group2 && (new_str2[0] == '$' || new_str2[0] == '\'' || new_str2[0] == '\"'))
+	{
+		// printf("IN i--\n");
 		(*i)--;
+		// (*i)--;
+	} //vw bijv echo $2$* of echo $hallo"poep"
 	// printf("newstr1: %s\n", new_str1);
 	// printf("parameter: %s\n", parameter);
 	// printf("new_str2= %s\n",new_str2);
 	parameter = join_strings(new_str1, parameter, new_str2);
+	// printf("return = %s\n", parameter);
+	// free(str); // TEST
+	// str = NULL; //
 	return (parameter);
 }
 
 //TO DO: backslash wel naar kijken
 
-	// printf("ret[%d]= %c\n", ret, str[ret]);
-				// printf("newstr2: %s\n", new_str2);
 	// printf("ret = %d\n", ret);
-	// printf("return = %s\n", parameter);
 	// printf("parameter: %s\n", parameter);
 
 /*
