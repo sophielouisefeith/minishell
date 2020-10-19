@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/06 10:47:35 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/14 11:55:11 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,10 @@ static int          check_format(char *str)
 {
     int i;
 	
-    if (!ft_isalpha(str[0]))
+    if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (-1);
     i = 1;
+	//printf("kom je hier nog\n");
     while ((ft_isalnum(str[i])|| str[i] == '_') && str)
         i++;
 	if ((!ft_isalnum(str[i])|| str[i] != '_') && str[i] != '\0')  // hier moet dan nog een $bij ?
@@ -201,6 +202,7 @@ int            execute_export(t_env **_env, t_command **command)
 		ret = check_format(array[0]);
 		if (ret == -1)
 		{
+			// if((*command)->array[i], '_'
 			//printf("command-[%s]", (*command)->array[i]);
 			//printf(" export: `arg1': not a valid identifier\n");
 			//error((*command)->array[i]);  

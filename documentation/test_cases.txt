@@ -307,9 +307,9 @@ echo 123"hallo$"456
 ***************************
 
 export kip=ei=koe===melk											Check
-echo $1234															X segfault 								[Sop]
+echo $1234														    check								[Sop]
 echo $_1234															Check
-export 1hello_world													Check	[Wel naar foutmelding kijken] 	[Sop]
+export 1hello_world													Check	[Wel naar foutmelding kijken] 	[Sop] deze is check
 echo "\""															Check
 echo "\"															Check
 exit 1 2 3															Check
@@ -354,12 +354,13 @@ export YYY=echo														Check
 $YYY hallo
 
 echo DOET HET NIET >> test1 | cat test1								Check
-echo maran >test6 | cat <test6										Check
+
+echo DOET HET NIET >> test1 | cat test1										Check
 
 echo POEP >>test6 | cat < test6 |grep P1OEP							Check
 cat test6 | grep POEP												Check
 
-echo $???															[Sop]
+echo $???															[check]
 echo $/																[Sop]
 
 --------------
@@ -620,17 +621,38 @@ export POEP="grep main"
 ls > x1 ; cat x1 | $POEP
 
 
+echo hallo | echo hoi > y1 >y2 ; cat -e
 
 
 
 
+t
 
 
 
 
+• echo $halllo###
+• $USER9582309582529 
+• hallo$USER
+echo $
+echo $USER              --> moet nog een foutmelding voor komen 
+echo $USER'				--> not complete
+echo $USER_				--> underscore is alphanummeriek
+echo 123$USER----
+echo 123$USER----$
+
+echo abc$USERdef
+echo abc$USER123
+echo abc$POEPdef
+echo $%%%%jlkjtwejt
+echo %%$
+echo $####jgklj
+echo $@@@lkgj
+echo $*
+
+• 
 
 
-• $halllo###
 • $hallo>       deze lijkt te seggen voordat hij parameter expansion in gaat
 • echo $"rlwjkrw\\"
 • 
@@ -639,3 +661,22 @@ ls > x1 ; cat x1 | $POEP
 • hallo$USER
 bash: hallo$USER: command not found
 moet een andere foutmelding geven 
+
+
+
+
+------------------
+
+
+GEEFT EEN LEGE REGEL
+
+ echo $* 
+
+
+ ------------------
+
+error placing and things who still dont work 
+ --------------------
+ ./
+
+ Of tenminste dat zijn de 3 die ik bestempel als executable in get_builtin_type
