@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/19 18:17:34 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 11:47:30 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,15 @@ typedef struct				s_dollar{
 	int						quote;
 }							t_dollar;
 
+typedef struct				s_execute{
+	int     				tmpin;
+    int    					tmpout;
+    int     				fdin;
+    int     				fdout;
+	int    					i;
+    int     				len_list;
+    int     				fdpipe[2];
+}							t_execute;
 
 
 void            				tester(t_lexer *sort, t_command *command);
@@ -192,7 +201,13 @@ int								error(t_command *command);
 /*execute*/
 void            				*execute(t_command **command, t_env **env);
 void             				execute_builtin(t_command **command, t_env **_env);
-void            				execute_command(t_command **command, t_env **_env);  
+void            				execute_command(t_command **command, t_env **_env);
+int								lstsize(t_command *command);
+void							initialise_execute(t_command *command, t_execute **exe);
+void							close_execute(t_execute **exe);
+void							execute_output(t_command **command, t_execute **exe,t_env **_env);
+int								fill_fdout(t_output *output, int tmpout);
+void							builtin_another_program(t_command **command, t_env **_env);
 
 int								echo(char **array);
 // void							env(char **array);

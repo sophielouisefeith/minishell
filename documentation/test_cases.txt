@@ -315,7 +315,7 @@ echo "\"															Check
 exit 1 2 3															Check
 exit hello															Check
 exit 1 hello														Check
-export LS="ls -la";$LS												Check
+export LS="ls -la";$LS												X Foutmelding is weer terug		-> bash: ls -la: command not found
 echo > file1 hello >file2 world! > file3 | cat -e					Check
 ls >> file3 | cat < file3											Check
 ;																	X niet de juiste foutmelding			[Sop]
@@ -391,6 +391,9 @@ echo $> 															Check
 
 export _YYY=----------------------------------------				--> start met underscore moet wel worden toegevoegd
 
+
+
+cat < x1				(met onbestaande x1)						Blijft in foutmelding hangen!
 *********************
 *	Pipes and semi's *
 *********************
@@ -401,7 +404,7 @@ echo hallo | echo hoi
 echo hallo ; echo hoi
 
 echo hallo >x1 >x2 >x3 | echo hoi					
-echo hallo >x1 >x2 >x3 ; echo hoi					
+echo hallo >x1 >x2 >x3 ; echo hoi				
 
 echo hallo | echo poep >x1 >x2						
 echo hallo ; echo poep >x1 >x2						
@@ -419,6 +422,9 @@ TO DO:
 Wat als met andere comments dan echo?
 Testen on <
 
+
+----------------
+echo hoi ; cat < x1 | grep main
 
 ----------
 Deze ook nog fixen:
