@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/10/16 14:41:47 by SophieLouis   ########   odam.nl          #
+#    Updated: 2020/10/20 15:22:56 by SophieLouis   ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,9 @@ SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		tester.c\
 		output.c input.c\
 		execute/execute.c\
+		execute/execute_utils.c\
 		execute/check_specials.c\
+		execute/check_specials_utils.c\
 		execute/execute_builtin.c\
 		execute/echo.c\
 		execute/execute_cd.c  execute/execute_pwd.c\

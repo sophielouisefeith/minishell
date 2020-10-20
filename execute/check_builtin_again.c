@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/07 17:31:13 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/12 17:27:56 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/19 11:28:56 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,25 @@ TO DO:
 ** When there is a $ sign. And there is no known command yet the _env variable should be checked on comments inside the variable.
 ** >$ export LS="ls -la" 
 ** >$ $LS
+
+PAS OP: 
+(*command)->array[0][0] != '$' toegevoegd v.w. $"poep" --> Kan niet overzien of dit alles dekt, te beperkt? 
+
 */
 
 void				check_builtin_again(t_command **command, t_env *_env, int y)
 {
 	if ((*command)->builtin == builtin_no_com && y == 0)
 	{
+		// tester(NULL, *command);
 		while ((*command)->array && (*command)->array[y + 1])
 		{
 			(*command)->array[0] = ft_strjoin((*command)->array[y], " ");
 			(*command)->array[0] = ft_strjoin((*command)->array[0], (*command)->array[y + 1]);
 			y++;
 		}
-		if ((*command)->array[0]) //?
+		if ((*command)->array[0] && (*command)->array[0][0] != '$')
 			lexer_parser_executer((*command)->array[0], 0, &_env);
+		 //? 		// && (*command)->array[0][0] != '$' toegevoegd v.w. $"poep"
 	}
 }

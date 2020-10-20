@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/20 13:54:22 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/20 15:22:24 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,14 @@ void			lexer_parser_executer(char *line, int i, t_env **_env)
 	while (sort && g_own_exit == 0)
 	{
 		pipe_status = parser(&sort, &command, pipe_status, _env);
-		if(pipe_status == 12)
-			printf("malloc failed\n"); /// dit is overbodig word al een error gegeven en gefreet omdat g_own_exit =1 
+		//if(pipe_status == 12)// slaat nergens op even voor eigen dingen
+			//printf("malloc failed\n"); /// dit is overbodig word al een error gegeven en gefreet omdat g_own_exit =1 
 		if (sort)
 			sort = sort->next_sort;
 	}
 	// tester(sort, command);
 	
+	// printf("array = %p | y[0] [%p] = [%s]\n", &command->array, &command->array[0], command->array[0]);
 	//FREE LEXER
 	free_list_lexer(&sort_copy);
 

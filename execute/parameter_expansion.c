@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/16 13:21:20 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/20 15:40:45 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 	- echo $USER|			--> Merel doet niks, gewoon nieuwe prompt
 	- Moeten we dit nog verplaatsen naar lexer/parser?
 	- Testen: Export expand hij ook name en value
-	- Functies te lang.
+	- Volgens mijn substringen we niet de goede len (ft_strlen - ret)
 */
 
 /*
@@ -27,15 +27,28 @@
 ** check if there a more parameters coming, if so delete the non_existing one
 ** and move the others in the array. If there are no other parameters,
 ** the non_existing one will be deleted and the whole 2D array also.
-** TO DO:
-	- LET OP BIJ FREEEN, gaat dit dan goed?
 */
 
-void		parameter_not_exist(t_command **command, int *y)
+static int		check_for_other_parameters(char **array, int y)
 {
-	int		new_y;
+	if (y > 0)
+	{
+		if (!array[y + 1] && !array[y - 1])
+			return (1);
+	}
+	else
+	{
+		if (!array[y + 1])
+			return (1);
+	}
+	return (0);
+}
 
-	if (!(*command)->array[*y + 1] && !(*command)->array[*y - 1])
+void			parameter_not_exist(t_command **command, int *y)
+{
+	int			new_y;
+	
+	if (check_for_other_parameters((*command)->array, *y))
 	{
 		free((*command)->array[*y]);
 		free((*command)->array);
@@ -52,31 +65,82 @@ void		parameter_not_exist(t_command **command, int *y)
 		}
 		(*command)->array[*y] = NULL;
 		(*y) = new_y;
-	}
-///
-	// int n = 0;
-	// while ((*command)->array[n])
-	// 	{
-	// 		printf("Not exist print: [%d][%s]\n", n, (*command)->array[n]);
-	// 		n++;
-	// 	}
-///	
+	}	
 }
 
-static char 	*check_for_more_expansion(char *new_str2, t_env *_env)
+/*
+** Group 0 - 4: immediately behind $ is a special char
+** 	-Group 0: $ stays, remove first special char
+**	-Group 1 and 3: remove $ and first special char
+**	---------------------------------------------------------------------------
+** 	Group 3 are special variables with a function in the real bash. These don't
+**  have to be handled in this project. We treat them as group1 characters.
+** 	For example:
+** 	echo $!, !!, !<anything behind it>, &, &&, echo $$, #, echo #, echo $#,
+**  echo $-, echo *
+** 	We don't handle those cases, meaning also no error. To present an error we
+** 	should know all the cases we shouldn't treat. We only treat what the subject
+** 	tells us to treat.
+**	---------------------------------------------------------------------------
+**	-Group 2: $ and first special char stay
+** 	($?) Expands to the exit status of the most recently executed foreground
+** 	pipeline.
+** Group 5: No special char immediately behind $.
+**	$ stays, remove first special char
+*/
+
+static int		group_and_start_newstr2(char *str, char ret, int i, int *start)
 {
-	int		i;
+	int			group;
 
-	i = 0;
-	while (new_str2[i])
+	if (str[ret - 1] == '$')
 	{
-		if (new_str2[i] == '$')
-			new_str2 = expand(new_str2, i, _env);
-		i++;
+		if (str[ret] == '\"' || str[ret] == '\'' || str[ret] == '\\')
+			group = 0;
+		if ((str [ret] >= '0' && str[ret] <= '9') || str[ret] == '*'
+			|| str[ret] == '@' || str[ret] == '!' || str[ret] == '&'
+			|| str[ret] == '$' || str[ret] == '#'
+			|| str[ret] == '-')
+			group = 1;
+		if (str[ret] == '%' || str[ret] == '^' || str[ret] == '+' ||
+			str[ret] == ',' || str[ret] == '.' || str[ret] == '/' ||
+			str[ret] == ':' || str[ret] == '=' || str[ret] == ']' ||
+			str[ret] == '}' || str[ret] == '~')
+			group = 2;
+		if (str[ret] == '?')
+			group = 4;
 	}
-	return (new_str2);
-}
+	else
+		group = 5;
+	*start = (group == 1 || group == 4) ? (ret + 1) : ret;
+	*start = (group == 2) ? i : (*start);												
+	return (group);
+}	
 
+static void		special_char_found(t_dollar **dollar, char *str, int i)
+{
+	int 		group;
+	int 		start;
+
+	group = group_and_start_newstr2(str, (*dollar)->ret, i, &start);
+	if (group == 0 && (*dollar)->quote)
+	{
+			(*dollar)->flag_group2 = 1;
+			(*dollar)->ret = -1;
+			(*dollar)->parameter = ft_strdup("$");
+	}
+	if (group == 2)
+		(*dollar)->flag_group2 = 1;
+	if (group == 4)
+	{
+		(*dollar)->flag_qm = 1;
+		(*dollar)->parameter = ft_itoa(g_exit_status);
+	}
+	if (group == 5)
+		(*dollar)->parameter = ft_substr(str, (i + 1),
+			((*dollar)->ret - i - 1));
+	(*dollar)->new_str2 = ft_substr(str, start, ft_strlen(str));
+}
 
 /*
 ** parameter --> $parameter
@@ -94,328 +158,34 @@ static char 	*check_for_more_expansion(char *new_str2, t_env *_env)
 **    ret == 0  --> no special chars found, so no string after the $parameter 
 **    ret > 0   --> special char found, so new_str after $parameter, save in 
 **		new_str2. Ret is position of special char.
-// ** 4. If there is a new_str2 (ret > 0) check if special char is a $. If so this		//wat als nog $? erachter
-// ** one should be expanded as wel (recursive).
-** 5. If not immediate end of line, search for parameter in _env.
+** 4. If there is a new_str2 (ret > 0) check if special char is a exception
+** character (see groups).
+** 5. If not immediate end of line, search for parameter in _env. Except for $?
+** this is a special which shows the exit_status.  
 ** 6. Join the 3 possible strings, and return this new value.
 */
 
-	// printf("str[%d] = [%c]\n", ret, str[ret]);
-	// printf("new_str1 = [%s]\n", new_str1); 
-		// printf("NO special char: parameter = [%s]\n", parameter); 
-		// printf("Special char found: parameter = [%s]\n", parameter); 
-		// printf("Special char found: new_str2 = [%s]\n", new_str2);
-	// printf("Return = [%s]\n", parameter);
-
-
-static char			*exception(char *str, int ret, char *parameter)
+char			*if_dollar(char *str, int *i, t_env *_env, int quote)
 {
-	int count;
-	char *new_str1;
-	char *new_str2;
-	count = 0;
-	// printf("exeption\n");
-	// printf("-------------parameter[%s]\n", parameter);
-	// printf("-------------str[%s]\n", str);
-	// printf("ret[%d]\n", ret);
-	// if(parameter)
-	// {
-	// 	printf("str[%c]\n", str[count]);
-	// 	while(str[count]!= '$' && str[count] != '\0')
-	// 		count ++;
-	// 	new_str1 = ft_substr(str, 0, count);
-	// 	new_str2 = ft_substr(str, ret, ft_strlen(str));
-	// 	printf("-------------new_str[%s]\n", parameter);
-	// 	parameter = join_strings(new_str1, parameter, new_str2);
-	// 	printf("-------------pr[%s]\n", parameter);
-	// 	return(parameter);
-	// }
-	if(str[ret] == '^')
-		return(str);
-	else if(str[ret] == '#')
-	{
-		str[ret] = '0';
-		parameter = ft_substr(str, 1, ft_strlen(str));
-		return(parameter);
-	}
-	else if(str[ret] == '@')
-	{
-		parameter = ft_substr(str, 2, ft_strlen(str));
-		return(parameter);
-	}
-	else
-		return(error_parameter(str));
-	return(parameter);
+	t_dollar	*dollar;
+
+	dollar = (t_dollar *)malloc(sizeof(t_dollar));
+	initiate_dollar(dollar, quote);
+	if (*i > 0)
+		dollar->new_str1 = ft_substr(str, 0, *i);
+	dollar->ret = dollar_is_special_char(str, (*i + 1));
+	if (dollar->ret == -1)
+		dollar->parameter = ft_strdup("$");
+	if (dollar->ret == 0)
+		dollar->parameter = ft_substr(str, (*i + 1), ft_strlen(str));
+	if (dollar->ret > 0)
+		special_char_found(&dollar, str, *i);
+	if (dollar->ret != -1 && dollar->parameter && !dollar->flag_qm)
+		dollar->parameter = search_node(_env, dollar->parameter);
+	if (dollar->new_str2 && !dollar->flag_group2 && (dollar->new_str2[0] == '$'
+		|| dollar->new_str2[0] == '\'' || dollar->new_str2[0] == '\"'))
+		(*i)--;
+	dollar->parameter = join_strings(dollar->new_str1, dollar->parameter,
+		dollar->new_str2);
+	return (dollar->parameter);
 }
-
-char			*expand(char *str, int i, t_env *_env)
-{
-	//printf("str[%s]\n", str);
-	//printf("expand\n");
-	char	*new_str1;
-	char	*new_str2;
-	char 	*str_behoud;
-	char	*parameter;
-	int		ret;
-	int 	except;
-	//char	*value;
-
-	new_str1 = NULL;
-	parameter = NULL;
-	new_str2 = NULL;
-	if (i > 0)
-	{
-		//printf("ben je hier \n");
-		new_str1 = ft_substr(str, 0, i);
-		//printf("new_str1[%s]\n", new_str1);
-	}
-	ret = is_special_char(str, (i + 1));
-	if (ret == -1)
-	{
-		//printf("-------------ret dit == -1[%d]\n", ret);
-		// if(str[i+1] == '>')
-		// 	printf("bash: syntax error near unexpected token `>'\n");
-		parameter = "$";
-		if(new_str2 == NULL) //&& ft_strcmp(parameter ,"$"
-		{
-			parameter = join_strings(new_str1, parameter, new_str2);
-			//printf("parameter for extra [%s]\n", parameter);
-			return(parameter);
-		}
-		
-	}
-	if (ret == 0)
-	{
-		//printf("-------------ret == 0[%d]\n", ret);
-		parameter = ft_substr(str, (i + 1), ft_strlen(str));
-	}
-	if((ret > 0 && str[ret - 1] == '$' && str[ret] == '\"') \
-		|| (ret > 0 && str[ret - 1] == '$' && str[ret] == '\'' ))	
-	{
-		//printf("qoutes\n");
-		parameter = "$";
-		new_str2 = ft_substr(str, 0, ft_strlen(str));
-		// printf("parameter[%s]\n", parameter);
-		// printf("new_str1[%s]\n", new_str1);
-		// printf("new_str2[%s]\n", new_str2);
-		parameter = join_strings(new_str1, parameter, new_str2);
-		
-		return(new_str2);
-		return(parameter);
-		ret = -1;
-	}
-	
-	if (ret > 0)
-	{
-		//printf("str/before[%s]\n", str);
-		str_behoud = ft_substr(str, 0, ret);
-		//printf("str/behoud[%s]\n", str_behoud);
-		//printf("-------------ret > 0[%d]\n", ret);
-		// printf("str[%s]\n", str);
-		// printf("str[%c]\n", str[ret]);
-		parameter = ft_substr(str, (i + 1), (ret - i - 1)) ;
-		new_str2 = ft_substr(str, ret, ft_strlen(str));
-		//new_str1 = ft_substr(str, 0, ft_strlen(str));
-		new_str2 = check_for_more_expansion(new_str2, _env);
-		except = 1;
-		if(str[ret] == '%')
-			return(str);
-		//if(str[ret] == '?')
-		//{
-		//	return(str);
-			//printf("ik ben vraagteken\n");
-			//parameter = ft_itoa(g_exit_status);
-			//printf("str[%s]\n", str);
-			//new_str1 = ft_substr(new_str1, ret, ft_strlen(str));
-			//parameter = join_strings(str_behoud, parameter, new_str2);
-			// printf("parameter vraagteken[%s]\n", parameter);
-			// printf("new_str1 vraagteken[%s]\n", new_str1);
-			// printf("new_str2 vraagteken[%s]\n", new_str2);
-			
-		//}
-		//if(str[ret] == '\"' && )
-		parameter = ft_substr(str, (i + 1), (ret - i - 1));
-		//new_str2 = ft_substr(str, ret, ft_strlen(str));
-		//if(new_str2[0] == '\\')
-			//printf("backje\n"); 
-	}
-	if (ret != -1)
-	{
-		parameter = search_node(_env, parameter);
-		parameter = join_strings(new_str1, parameter, new_str2);
-		if(str[ret] == '^')
-			return(str);
-		if(str[ret] == '#')
-		{
-			if(str[ret-1] != '#' && str[ret -1] != '$')
-			{
-				parameter = ft_substr(str, ret, ft_strlen(str));
-				return(parameter);
-			}
-			else
-				str[ret] = '0';
-				parameter = ft_substr(str, 1, ft_strlen(str));
-			return(parameter);
-		}
-		if(str[ret] == '@' ||( str[ret] == '*' && str[ret +1] != '*') \
-		|| (str[ret] == '!' && str[ret +1] != '!'))
-		{
-			parameter = ft_substr(str, 2, ft_strlen(str));
-			return(parameter);
-		}
-		if((ft_isalpha(str[ret +1]) && !parameter)||\
-		(str[ret] == '\"' && ft_isalpha(str[ret +1]) && !parameter))
-			return(join_strings(new_str1, 0, new_str2));
-		
-		
-
-
-
-		
-		// printf("-------------ret != -1[%d]\n", ret);
-		// parameter = search_node(_env, parameter);
-		// printf("parameter[%s]\n", parameter);
-		// printf("str[%c]", str[ret]);
-		
-		// else if(parameter && str[ret] =='$')
-		// 	return(parameter);
-		// 	//printf("alleen env\n");
-		// else if(except)
-		// 	return(exception(str, ret, parameter));
-	}
-	// printf("je bent gewoon cijfers\n");
-	// if(ret == 5)
-	// 	printf("je bent twee keer een dollar\n");
-	// printf("parameter[%s]\n", parameter);
-	// printf("new_str1[%s]\n", new_str1);
-	// printf("new_str2[%s]\n", new_str2);
-
-	// if(new_str2 == NULL && ft_strcmp(parameter ,"$" )) //&& ft_strcmp(parameter ,"$"
-	// {
-	// 	parameter = join_strings(new_str1, parameter, new_str2);
-	// 	printf("parameter for extra [%s]\n", parameter);
-	// 	return(parameter);
-	// }
-	if(parameter == NULL)
-	{
-		error_parameter(str);
-		//printf("not part of the subject");
-	}
-	//parameter = search_node(_env, parameter);
-	return (parameter);
-}
-
-/*
-** ($?) Expands to the exit status of the most recently executed foreground pipeline.
-** Single quote cases will not be expanded.
-** Break out of first while loop when handled $. Optional other $ in
-** the array[y] are already handled.
-*/
-
-char		*if_dollar(char *str, int i, t_env *_env)
-{
-	char	*value;
-	char	*number;
-	int		back;
-
-	number = &str[i +1];
-	if (str[i + 1] == '?')
-	{
-		value = ft_itoa(g_exit_status);
-		//i = 2;
-		// if(str[i] == '?')
-		// {
-		// 	str = ft_substr(str, 2, ft_strlen(str));
-		// 	//printf("str[%s]\n", str);
-		// 	return(value = ft_strjoin(value, str));
-		// }
-	}
-	else if(str [i + 1] >= '0' && str [i + 1] <= '9' && str[i + 1] != '?' ) 
-		value = ft_substr(str, 2, ft_strlen(str));
-	else
-		value = expand(str, i, _env);
-	return (value);
-}
-
-
-
-// 
-
-//en echo $A*aap  ook. Dus het is echt alle tekst na onbestaande $ of niet geldige $
-
-
-// if(str[i] == '\\')
-	// {
-	// 	printf("back in dollar\n");
-	// 	back = 1;
-	// 	while(str[i] == '\\')
-	// 	{
-	// 		str = delete_escape_char(str, i);
-	// 		printf("--------strhir[%s]\n", str);
-	// 		//printf("--------backslash[%s]\n", parameter);
-	// 		i++;
-	// 		return(str);
-	// 	}
-			
-	// }
-	// else if( str [i + 1] >= '0' && str [i + 1] <= '9')
-	// 	value = ft_substr(str, 2, ft_strlen(str));
-
-
-// 	char			*expand(char *str, int i, t_env *_env)
-// {
-// 	char	*new_str1;
-// 	char	*new_str2;
-// 	char	*parameter;
-// 	int		ret;
-// 	int 	except;
-
-// 	new_str1 = NULL;
-// 	parameter = NULL;
-// 	new_str2 = NULL;
-// 	if (i > 0)
-// 		new_str1 = ft_substr(str, 0, i);
-// 	ret = is_special_char(str, (i + 1));
-// 	if (ret == -1)
-// 	{
-// 		if(str[i+1] == '>')
-// 			printf("bash: syntax error near unexpected token `>'\n");
-// 		parameter = "$";
-// 	}
-// 	if (ret == 0)
-// 		parameter = ft_substr(str, (i + 1), ft_strlen(str));
-// 	if (ret > 0 && str[ret - 1] == '$' && str[ret] == '\"')		
-// 	{
-// 		parameter = "$";
-// 		new_str2 = ft_substr(str, ret, ft_strlen(str));
-// 		ret = -1;
-// 	}
-// 	if (ret > 0)
-// 	{
-// 		except = 1;
-// 		if(str[ret] == '%')
-// 			return(str);
-// 		parameter = ft_substr(str, (i + 1), (ret - i - 1));
-// 		new_str2 = ft_substr(str, ret, ft_strlen(str));
-// 		if(new_str2[0] == '\\')
-// 			printf("backje\n");   //dit wel of niet behandelen
-// 	}
-// 	if (ret != -1)
-// 	{
-// 		parameter = search_node(_env, parameter);
-// 		if(ft_isalpha(str[ret +1]))
-// 		{
-// 			// parameter = search_node(_env, parameter);
-// 			parameter = join_strings(new_str1, parameter, new_str2);
-// 			return (parameter);
-// 		}
-// 		//else
-// 		if(except)
-// 		{
-// 			//parameter = search_node(_env, parameter);
-// 			return(exception(str, ret, parameter));
-// 		}
-// 	}
-// 	parameter = join_strings(new_str1, parameter, new_str2);
-// 	return (parameter);
-// }

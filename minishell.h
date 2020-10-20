@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/20 13:15:38 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/20 15:23:06 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,26 @@ typedef struct				s_env{
 	struct		s_env   	*next;
 }							t_env;
 
+typedef struct				s_dollar{
+	char 					*new_str1;
+	char					*parameter;
+	char 					*new_str2;
+	int						ret;
+
+	int						flag_qm;			//questionmark
+	int 					flag_group2;
+	int						quote;
+}							t_dollar;
+
+typedef struct				s_execute{
+	int     				tmpin;
+    int    					tmpout;
+    int     				fdin;
+    int     				fdout;
+	int    					i;
+    int     				len_list;
+    int     				fdpipe[2];
+}							t_execute;
 
 
 void            				tester(t_lexer *sort, t_command *command);
@@ -184,7 +204,13 @@ int								malloc_fail(int er);
 /*execute*/
 void            				*execute(t_command **command, t_env **env);
 void             				execute_builtin(t_command **command, t_env **_env);
-void            				execute_command(t_command **command, t_env **_env);  
+void            				execute_command(t_command **command, t_env **_env);
+int								lstsize(t_command *command);
+void							initialise_execute(t_command *command, t_execute **exe);
+void							close_execute(t_execute **exe);
+void							execute_output(t_command **command, t_execute **exe,t_env **_env);
+int								fill_fdout(t_output *output, int tmpout);
+void							builtin_another_program(t_command **command, t_env **_env);
 
 int								echo(char **array);
 // void							env(char **array);
@@ -202,7 +228,9 @@ int      						execute_exit(t_command *command);
 
 /* parameter expansion */
 void							parameter_expansion(t_command **command, t_env *_env);
-char							*expand(char *str, int i, t_env *_env);
+// char							*expand(char *str, int i, t_env *_env);
+char							*if_dollar(char *str, int *i, t_env *_env, int quote);
+
 char							*search_node(t_env *_env, char *search);
 int								is_special_char(char *str, int i);
 char							*join_strings(char *new_str1, char *parameter, char *new_str2);
@@ -211,10 +239,15 @@ void 		sighandler(int signum);
 void 		sighandler2(int signum);
 
 /*new*/
+void							check_specials(t_command **command, t_env *_env);
+char							*check_backslash_and_dollar(char *str, int *i, t_env *_env);
+char							*delete_double_quotes(char *src, int start, int end);
+char							*delete_escape_char(char *src, int n);
+
+
+
 
 char							*delete_quotes(char *src, char garbage);
-void							check_specials(t_command **command, t_env *_env);
-char							*if_dollar(char *str, int i, t_env *_env);
 void							parameter_not_exist(t_command **command, int *y);
 char							*delete_escape_char(char *src, int n);
 
@@ -226,7 +259,14 @@ void							lexer_parser_executer(char *line, int i, t_env **_env);
 /* >>>>>>>>>>> */
 int								check_redirections(char *line, int i, int type);
 int								error_redirections(char c, int error_num);
-char							*error_no_path(char *str);
+// char							*error_no_path(char *str);
+void							*errno_error(char *str);
+void							set_exit_status(void);
+
 char							*error_parameter(char *str);
+
+int				dollar_is_special_char(char *str, int i);
+void			initiate_dollar(t_dollar *dollar, int quote);
+
 
 #endif
