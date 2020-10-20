@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/14 16:12:50 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/16 13:21:20 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,19 +220,19 @@ char			*expand(char *str, int i, t_env *_env)
 		except = 1;
 		if(str[ret] == '%')
 			return(str);
-		if(str[ret] == '?')
-		{
-			return(str);
+		//if(str[ret] == '?')
+		//{
+		//	return(str);
 			//printf("ik ben vraagteken\n");
-			parameter = ft_itoa(g_exit_status);
+			//parameter = ft_itoa(g_exit_status);
 			//printf("str[%s]\n", str);
-			new_str1 = ft_substr(new_str1, ret, ft_strlen(str));
-			parameter = join_strings(str_behoud, parameter, new_str2);
+			//new_str1 = ft_substr(new_str1, ret, ft_strlen(str));
+			//parameter = join_strings(str_behoud, parameter, new_str2);
 			// printf("parameter vraagteken[%s]\n", parameter);
 			// printf("new_str1 vraagteken[%s]\n", new_str1);
 			// printf("new_str2 vraagteken[%s]\n", new_str2);
 			
-		}
+		//}
 		//if(str[ret] == '\"' && )
 		parameter = ft_substr(str, (i + 1), (ret - i - 1));
 		//new_str2 = ft_substr(str, ret, ft_strlen(str));
@@ -322,15 +322,15 @@ char		*if_dollar(char *str, int i, t_env *_env)
 	if (str[i + 1] == '?')
 	{
 		value = ft_itoa(g_exit_status);
-		i = 2;
-		if(str[i] == '?')
-		{
-			str = ft_substr(str, 2, ft_strlen(str));
-			//printf("str[%s]\n", str);
-			return(value = ft_strjoin(value, str));
-		}
+		//i = 2;
+		// if(str[i] == '?')
+		// {
+		// 	str = ft_substr(str, 2, ft_strlen(str));
+		// 	//printf("str[%s]\n", str);
+		// 	return(value = ft_strjoin(value, str));
+		// }
 	}
-	if(str [i + 1] >= '0' && str [i + 1] <= '9' && str[i + 1] != '?' ) 
+	else if(str [i + 1] >= '0' && str [i + 1] <= '9' && str[i + 1] != '?' ) 
 		value = ft_substr(str, 2, ft_strlen(str));
 	else
 		value = expand(str, i, _env);

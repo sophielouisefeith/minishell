@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/13 12:51:44 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/20 13:15:38 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,10 @@ void         					free_env(t_env *_env);
 // int								error_free(int mistake);
 char							*error_command(char *str);
 int								error(t_command *command);
-
+char 							*error_qoute(char *str);
+void							set_exit_status(void);
+void							*errno_error(char *str);
+int								malloc_fail(int er);
 /*execute*/
 void            				*execute(t_command **command, t_env **env);
 void             				execute_builtin(t_command **command, t_env **_env);

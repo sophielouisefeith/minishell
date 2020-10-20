@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   execute.c                                          :+:    :+:            */
+/*   execute_kapot.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/06 14:18:27 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/15 10:30:52 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 
 	pid = fork();
     if (pid == -1)
-           printf("[%s]", strerror(errno));
+           printf("[%s]", strerror(errno)); //error_check
     if (pid == 0)
     {
 		execve((*command)->array[0], (*command)->array, env_ll_to_array(*_env));
-		printf("[%s]\n", strerror(errno));					
+		printf("[[%s]\n", strerror(errno));		//error_check			
 		exit(1);																		//welke exit code?
     }
 	if (pid != 0)

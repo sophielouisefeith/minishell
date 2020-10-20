@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/09 12:43:47 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 13:51:48 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ static int		general(t_lexer **sort, char **array, int *y, int *quote)
 		// 	quote[*y] = ((*sort)->token[token_quote]) ? token_quote : token_dquote;			//new //Weet niet meer waarvoor dit was, wel belangrijk denk ik?
 		// }
 		array[*y] = ft_strdup((*sort)->str);
+		if(array[*y] == NULL)
+		{
+			malloc_fail(errno = ENOMEM);
+			//return(malloc_fail(errno = ENOMEM));
+		}
 		(*y)++;
 		if ((*sort)->next_sort)
 			*sort = (*sort)->next_sort;
@@ -110,8 +115,10 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp, t_env *
 	if (num_nodes > 0)
 	{
 		array = (char **)malloc((num_nodes + 1) * sizeof(char *));
-		// if (array == NULL)
-		// 	error(*tmp);
+		if(array == NULL)
+			malloc_fail(errno = ENOMEM);
+			//return(malloc_fail(ENOMEM));   ///--free 
+			//return(ENOMEM);
 		quote = allocate_memory_int_string(num_nodes);							//new
 	}
 	while (*sort && ((*sort)->token[token_general]
@@ -139,6 +146,8 @@ int				parser(t_lexer **sort, t_command **command, int pipe_status, t_env **_env
 
 	tmp = NULL;
 	tmp = ll_new_node_command();
+	if(tmp == NULL)
+		return(malloc_fail(ENOMEM)); //malloc
     fill_builtin_redirec_array(sort, &tmp, _env);
 	if (*sort && (*sort)->token[token_semicolon])
     	(tmp)->sem = 1;

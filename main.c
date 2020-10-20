@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/12 17:30:30 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 13:54:22 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void			lexer_parser_executer(char *line, int i, t_env **_env)
 	while (sort && g_own_exit == 0)
 	{
 		pipe_status = parser(&sort, &command, pipe_status, _env);
+		if(pipe_status == 12)
+			printf("malloc failed\n"); /// dit is overbodig word al een error gegeven en gefreet omdat g_own_exit =1 
 		if (sort)
 			sort = sort->next_sort;
 	}
@@ -62,6 +64,10 @@ void			lexer_parser_executer(char *line, int i, t_env **_env)
 	//EXECUTOR
 	if (g_own_exit == 0)
 		execute(&command, _env);
+	// else
+	// {
+	// 	free(lexer);
+	// }
 
 	//FREE COMMAND
 	free_list_parser(&command);
@@ -109,7 +115,7 @@ void 		sighandler(int signum)
 }
 
 
-//Waarom hebben wij een i in de loop?
+//Waarom hebben wij een i in de loop?  ///--- denk dat dat wel weg mag die i 
 int					main(int argc, char **argv, char **env)
 {
 		
@@ -130,8 +136,8 @@ int					main(int argc, char **argv, char **env)
 		ret = get_next_line(0, &line);
 		if (ret == 0)
 			ctrl_d(ret);
-		//if (ret == -1)
-			//error(2, line); // ---------------here we say  No such file or directory
+		if (ret == -1)
+			set_exit_status(); ///-----new
 		if (line[i] != '\0')
 			lexer_parser_executer(line, i, &_env);
 		g_exit_status = g_own_exit > 0 ? g_own_exit : g_exit_status;

@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/13 12:53:58 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/20 13:09:33 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,19 @@ char			*check_path(t_env *_env, char *str)
 	if (!path)
 		return (errno = ENOENT, errno_error(str));
 	patharray = ft_split(path, ':');			//FREE
+	if(!patharray)
+		return(NULL);
 	while (patharray && patharray[i])
 	{
-		//printf("----path array[%s]\n", patharray[i] );
 		folder = opendir(patharray[i]);
 		if (folder != 0)
 		{
-			//printf("----path array[%s]\n", patharray[i] );
 			while ((next_entry = readdir(folder)) != NULL)
 			{
 				if (ft_strcmp(next_entry->d_name, str) == 0)
 				{
 					patharray[i] = make_path_complete(patharray[i], str);
 					closedir(folder);
-					// printf("----path array[%s]\n", patharray[i] );
 					return (patharray[i]);
 				}
 			}
@@ -68,40 +67,3 @@ char			*check_path(t_env *_env, char *str)
 	else 
 		return (str);
 }
-
-/*
-** Methode met Stat:
-*/
-
-// char			*check_path(t_env *_env, char *str)
-// {
-// 	struct stat	buf;
-// 	char 		**patharray;
-// 	char		*current_dir;
-// 	char		*path;
-// 	int 		ret;
-// 	int			i;
-
-// 	i = 0;
-// 	path = search_node(_env, "PATH");
-// 	current_dir = search_node(_env, "PWD");
-// 	if (!path)
-// 		printf("No PATH in env");
-// 	patharray = ft_split(path, ':');
-// 	while (patharray && patharray[i])
-// 	{
-// 		ret = chdir(patharray[i]);
-// 		if (ret == 0)
-// 		{
-// 			patharray[i] = make_path_complete(patharray[i], str);
-// 			ret = stat(patharray[i], &buf);
-// 			if (ret == 0)
-// 			{
-// 				chdir(current_dir);
-// 				return (patharray[i]);
-// 			}
-// 		}
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
