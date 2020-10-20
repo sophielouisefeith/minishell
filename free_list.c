@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/12 16:34:52 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/27 21:18:49 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 17:37:10 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void        free_array(char **array)
         y++;
     }
     free(array);
+	array = NULL;	//
 }
 
 /*
@@ -91,7 +92,20 @@ void        free_array(char **array)
     - Een van mijn eerste tests was kijken of jouw copy maken iets met de leaks te maken had.
     Je mag het terugschrijven naar die variant als je dat prettiger lezen vindt.
     - Zelfde bij input en output.
+
+Mallocs parser:
+	- t_command
+	- delete_quotes 				*dst 				//new
+	- check_path					**patharray			//new
+										*patharray[y]
+	- fill_builtin_redirec_array	**array
+	- allocate_memory_int_string	quote = *int_str
+	- Output_fill					*str
+	- ll_new_node_output			*new
+	- input_fill					*str
+	- general						array[y]
 */ 
+
 
 void        free_list_parser(t_command **command)
 {
@@ -120,7 +134,7 @@ void        free_list_lexer(t_lexer **sort)
     t_lexer     *tmp;
 
     tmp = NULL;
-    while(*sort)
+    while (*sort)
     {
         tmp = (*sort)->next_sort;
         if((*sort)->str)
@@ -132,6 +146,36 @@ void        free_list_lexer(t_lexer **sort)
     }
     *sort = NULL; 
 }
+
+
+/*
+Mallocs in executer:
+execute			t_execute *exe;						V
+treat_single_quotes
+		delete_quotes ->dst							V
+		substr			->str						Twijfel (testcases vinden)
+treat_double_quotes
+		check_backslash_and_dollar
+			delete_escape_char		->dst			V
+			if_dollar								V
+		delete_double_quotes 	->dst				V
+		substr					->str				Twijfel (meer testen)
+if_no_quote
+		delete_escape_char		->dst				V
+		delete_escape_char		->dst				V
+
+if_dollar
+	t_dollar					-> dollar
+	ft_substr					-> dollar->new_str1 en dollar->parameter
+	ft_strdup					-> dollar->parameter
+	Special_char_found
+			strdup				-> dollar->parameter
+			itoa				-> dollar->parameter
+			ft_substr			-> (*dollar)->parameter	en (*dollar)->new_str2
+	join_strings				
+			ft_strjoin			->joined
+*/
+
 
 /*
 ** Onderstaand functie is alleen interessant bij error functies, niet bij regulier freeen.

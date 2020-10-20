@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/27 13:31:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/09 18:40:25 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 16:40:54 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int				execute_cd(t_command *command, t_env **_env)
 	{
 		if (!ft_strcmp(command->array[0], "~/"))
 		{
-			ret = chdir(search_node(*_env, "HOME"));
+			ret = chdir(search_node(*_env, ft_strdup("HOME")));		//ft_strdup vanwege free in search node
 			if (ret == -1)
 				error(command);
 			// 	printf("[%s]\n", strerror(errno));
@@ -100,7 +100,7 @@ int				execute_cd(t_command *command, t_env **_env)
 	}
 	else
 	{
-		ret = chdir(search_node(*_env, "HOME"));
+		ret = chdir(search_node(*_env, ft_strdup("HOME")));		//^
 		if (ret == -1)
 			error(command);
 		change_env_pwd(_env);

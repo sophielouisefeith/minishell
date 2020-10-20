@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/20 11:46:55 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 16:05:23 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,10 @@ void			*execute(t_command **command, t_env **_env)
 		check_specials(command, *_env);
 		if ((*command)->builtin == builtin_no_com &&
 				(!(*command)->array || !(*command)->array[0]))
-			return (0);
+				{
+					free(exe);		//LEAKS
+					return (0);
+				}
 		determine_fdout(command, &exe, _env, exe->i);
 		if (!(((*command)->sem || (*command)->pipe_after) &&
 				(*command)->output))
@@ -121,5 +124,6 @@ void			*execute(t_command **command, t_env **_env)
 		exe->i++;
 	}
 	close_execute(&exe);
+	free(exe);	//LEAKS
 	return (0);
 }

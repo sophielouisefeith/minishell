@@ -6,12 +6,11 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/08 16:37:30 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/05 15:04:12 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 12:45:57 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h> 		//weghalen
 
 size_t			ft_strlen_gnl(const char *s)
 {
@@ -65,7 +64,7 @@ static char		*ft_cut(char *new_line, char **line, int *r)
 static char		*ft_read(int fd, char *new_line, int ret)
 {
 	char			*buf;
-	int flag;
+	int 			flag;
 
 	flag = 0;
 	while (ret > 0)
@@ -77,16 +76,16 @@ static char		*ft_read(int fd, char *new_line, int ret)
 			return (NULL);
 		}
 		ret = read(fd, buf, BUFFER_SIZE);
-		if (ret > 0)						//new
-			flag = ret;						//
-		if (ret == 0 && flag)				//
-			ret = flag;						//
 		if (ret == -1)
 		{
 			free(new_line);
 			free(buf);
 			return (NULL);
 		}
+		if (ret > 0)						//new
+			flag = ret;						//
+		if (ret == 0 && flag)				//
+			ret = flag;						//
 		ft_putstr("  \b\b");				//new
 		buf[ret] = '\0';
 		new_line = ft_strjoin_gnl(new_line, buf);
@@ -118,7 +117,6 @@ int				get_next_line(int fd, char **line)
 	new_line = ft_cut(new_line, line, &r);
 	if (new_line == NULL)
 		return (-1);
-	// printf("GNL: r after cut [%d] 1 = enter, 0 = EOF(0) \n", r);
 	if (r == 0)
 	{
 		free(new_line);

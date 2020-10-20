@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/19 18:45:25 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 17:14:46 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,18 @@ static void		special_char_found(t_dollar **dollar, char *str, int i)
 ** 6. Join the 3 possible strings, and return this new value.
 */
 
+
+void			free_if_dollar(t_dollar **dollar)
+{
+	if ((*dollar)->new_str1)
+		free((*dollar)->new_str1);
+	if ((*dollar)->parameter)
+		free((*dollar)->parameter);
+	if ((*dollar)->new_str2)
+		free((*dollar)->new_str2);
+	free(*dollar);
+}
+
 char			*if_dollar(char *str, int *i, t_env *_env, int quote)
 {
 	t_dollar	*dollar;
@@ -185,7 +197,15 @@ char			*if_dollar(char *str, int *i, t_env *_env, int quote)
 	if (dollar->new_str2 && !dollar->flag_group2 && (dollar->new_str2[0] == '$'
 		|| dollar->new_str2[0] == '\'' || dollar->new_str2[0] == '\"'))
 		(*i)--;
-	dollar->parameter = join_strings(dollar->new_str1, dollar->parameter,
+	/// LEAKS
+	free(str);
+	str = join_strings(dollar->new_str1, dollar->parameter,
 		dollar->new_str2);
-	return (dollar->parameter);
+	free_if_dollar(&dollar);
+	///
+	return (str);
 }
+
+	// return (dollar->parameter);
+	// dollar->parameter = join_strings(dollar->new_str1, dollar->parameter,
+	// 	dollar->new_str2);

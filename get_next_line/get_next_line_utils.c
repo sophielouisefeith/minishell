@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/08 16:37:28 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/05 15:13:49 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 12:45:39 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,9 @@ char			*ft_strjoin_gnl(char *s1, char *s2)
 		return (NULL);
 	}
 	ft_strpaste(str, s1, s2);
-	s1 = NULL;	//
-	s2 = NULL;	//
 	free(s1);
 	free(s2);
+	s1 = NULL;
+	s2 = NULL;
 	return (str);
 }

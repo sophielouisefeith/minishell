@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/19 18:42:32 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 17:25:29 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void		if_no_quote(t_command **command, t_env *_env, int y, int *i)
 		(*i)++;
 	}
 	if ((*command)->array[y][*i] == '$' &&
-			(*command)->array[y][*i + 1] == '\\')
+			(*command)->array[y][*i + 1] == '\\')							//Deze kan ik nog samenvoegen met die daarboven
 	{
 		(*command)->array[y] = delete_escape_char((*command)->array[y],
 													 (*i + 1));

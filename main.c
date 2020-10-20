@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/19 18:32:53 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 16:03:57 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void			lexer_parser_executer(char *line, int i, t_env **_env)
 	t_lexer		*sort;
 	t_lexer		*sort_copy;
 	t_command 	*command;
+	t_command	*command_copy;
 	int			pipe_status;
 
 	pipe_status = 0;
@@ -55,17 +56,17 @@ void			lexer_parser_executer(char *line, int i, t_env **_env)
 			sort = sort->next_sort;
 	}
 	// tester(sort, command);
-	
-	// printf("array = %p | y[0] [%p] = [%s]\n", &command->array, &command->array[0], command->array[0]);
 	//FREE LEXER
+	command_copy = command;
 	free_list_lexer(&sort_copy);
 
-	//EXECUTOR
+	// //EXECUTOR
 	if (g_own_exit == 0)
 		execute(&command, _env);
 
-	//FREE COMMAND
-	free_list_parser(&command);
+	// //FREE COMMAND
+	free_list_parser(&command_copy);		//LEAKS
+	// free_list_executer();
 }
 
 /*
@@ -131,8 +132,8 @@ int					main(int argc, char **argv, char **env)
 		ret = get_next_line(0, &line);
 		if (ret == 0)
 			ctrl_d(ret);
-		//if (ret == -1)
-			//error(2, line); // ---------------here we say  No such file or directory
+		// if (ret == -1)
+		// 	error(2, line); // ---------------here we say  No such file or directory
 		if (line[i] != '\0')
 			lexer_parser_executer(line, i, &_env);
 		g_exit_status = g_own_exit > 0 ? g_own_exit : g_exit_status;

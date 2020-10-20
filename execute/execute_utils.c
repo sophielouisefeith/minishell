@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/20 11:24:12 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/20 11:36:26 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 15:26:31 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,26 @@ int				lstsize(t_command *command)
 		c++;
 	}
 	return (c);
+}
+
+int				fill_fdout(t_output *output, int tmpout)
+{
+	int		fdout;
+
+	if(output)
+	{
+		while(output)
+		{
+			if (output && output->token == token_redirection_greater)
+				fdout = open(output->str_output,  O_RDWR | O_CREAT | O_TRUNC, 0644);
+			else if (output && output->token ==  token_redirection_dgreater)
+				fdout = open(output->str_output, O_RDWR | O_CREAT | O_APPEND, 0644);
+			output = output->next_output;
+		}
+	}
+	else
+		fdout = dup(tmpout);
+	return (fdout);
 }
 
 void			execute_output(t_command **command, t_execute **exe,
@@ -48,25 +68,5 @@ void			close_execute(t_execute **exe)
 	dup2((*exe)->tmpin, 0);
 	dup2((*exe)->tmpout, 1);
 	close((*exe)->tmpin);
-	close((*exe)->tmpout);	
-}
-
-int				fill_fdout(t_output *output, int tmpout)
-{
-	int		fdout;
-
-	if(output)
-	{
-		while(output)
-		{
-			if (output && output->token == token_redirection_greater)
-				fdout = open(output->str_output,  O_RDWR | O_CREAT | O_TRUNC, 0644);
-			else if (output && output->token ==  token_redirection_dgreater)
-				fdout = open(output->str_output, O_RDWR | O_CREAT | O_APPEND, 0644);
-			output = output->next_output;
-		}
-	}
-	else
-		fdout = dup(tmpout);
-	return (fdout);
+	close((*exe)->tmpout);
 }

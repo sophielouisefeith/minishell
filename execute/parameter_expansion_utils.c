@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:54:16 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/19 16:56:46 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 17:19:21 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 */
 
 /*
-** Search_node also used by execute_cd
+** Search_node used by execute_cd, get_path and if_dollar
 */
 
 char			*search_node(t_env *_env, char *search)
@@ -27,9 +27,13 @@ char			*search_node(t_env *_env, char *search)
 	while (_env)
 	{
 		if (!ft_strcmp(search, _env->name))
-			return (_env->value);
+		{
+			free(search);		//LEAKS gaat dit goed op andere plekken?
+			return (ft_strdup(_env->value));		//gaat dit goed?
+		}
 		_env = _env->next;
 	}
+	free(search);				//LEAKS
 	return (NULL);
 }
 int				is_special_char(char *str, int i)
@@ -99,26 +103,28 @@ void			initiate_dollar(t_dollar *dollar, int quote)
  
 char			*join_strings(char *new_str1, char *parameter, char *new_str2)
 {
+	char	*joined1;
 	char	*joined;
 
 	if (!new_str1 && !parameter && !new_str2)
 		return (NULL);
 	if (new_str1 && parameter && new_str2)
 	{
-		joined = ft_strjoin(new_str1, parameter);
-		joined = ft_strjoin(joined, new_str2);
+		joined1 = ft_strjoin(new_str1, parameter);
+		joined = ft_strjoin(joined1, new_str2);
+		free(joined1);							//LEAKS
 	}
 	if (new_str1 && !parameter && !new_str2)
-		joined = new_str1;
+		joined = ft_strdup(new_str1);			//LEAKS
 	if (new_str1 && parameter && !new_str2)
 		joined = ft_strjoin(new_str1, parameter);
 	if (new_str1 && !parameter && new_str2)
 		joined = ft_strjoin(new_str1, new_str2);
 	if (!new_str1 && parameter && !new_str2)
-		joined = parameter;
+		joined = ft_strdup(parameter);			//LEAKS
 	if (!new_str1 && parameter && new_str2)
 		joined = ft_strjoin(parameter, new_str2);
 	if (!new_str1 && !parameter && new_str2)
-		joined = new_str2;
+		joined = ft_strdup(new_str2);			//LEAKS
 	return (joined);
 }

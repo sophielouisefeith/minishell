@@ -1,11 +1,13 @@
-** echo **
+***************************
+** 			cd 			**
+***************************
 echo
 
 echo hallo daar
 
 "echo" hallo daar
 
-echo "hallo daar"
+echo "hallo daar"				
 
 "echo' hallo daar                   --> Error multiple line command (wacht op error functie sophie)
 
@@ -21,10 +23,33 @@ echo hallo >file1 >file2 >>file3 maran siemons
 
 echo hallo <file1 >file2
 
+--------no quote-----------
+echo $USER
+echo $POEP			
+echo hallo$USER
+echo hallo$USER***meertekst
+----Backslash-----
+echo \poep
+echo $\USER
+--------single quote--------
+echo 'hallo'
+echo $'USER'
+--------double quote--------
+echo "hallo"
+echo "hallo\\maran"
+echo "hallo$USER"
+echo $"USER"
+--------Special char--------
+echo $\USER 		\\groep 0
+echo $123			\\groep 1
+echo $%maran		\\groep 2
+echo $?				\\groep4
+echo $USER*			\\groep 5
+echo "hallo$\aap"	\\groep 0 en quote
+---------------------------
 
 
-
-echo $USER""			-->msiemons
+echo $USER""			-->msiemons		L
 echo $USER"				-->not closed
 
 echo $USER_
@@ -35,7 +60,7 @@ echo $USER_
 ***************************
 
 1 niveau omhoog:
-cd ..
+cd ..					LEAK
 
 HOME:
 cd
@@ -156,7 +181,7 @@ unset 3						--> 1
 echo
 echo hoi
 cd poep
-ls 
+ls
 "ls"
 test
 
@@ -686,3 +711,17 @@ error placing and things who still dont work
  ./
 
  Of tenminste dat zijn de 3 die ik bestempel als executable in get_builtin_type
+
+
+
+
+
+
+*******************************
+*	LEAKS TEST 				*
+*******************************
+Nog naar kijken:
+
+v	 
+command not foutmelding				Leak
+

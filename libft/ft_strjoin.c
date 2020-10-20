@@ -6,7 +6,7 @@
 /*   By: msiemons <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/05 09:38:37 by msiemons      #+#    #+#                 */
-/*   Updated: 2019/11/18 15:24:12 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/10/20 14:16:22 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ char			*ft_strjoin(char const *s1, char const *s2)
 	str = (char *)malloc((len + 1) * sizeof(char));
 	if (str == NULL)
 		return (NULL);
-	ft_strcpy(str, s1, s2);
+	str = ft_strcpy(str, s1, s2);
 	return (str);
 }

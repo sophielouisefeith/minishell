@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/19 18:32:17 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 17:23:24 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char			*delete_escape_char(char *src, int n)
 		dst_i++;
 	}
     dst[len] = '\0';
+	free(src);		//leaks
 	return (dst);
 }
 
@@ -64,6 +65,8 @@ char			*delete_double_quotes(char *src, int start, int end)
 		dst_i++;
 	}
 	dst[len] = '\0';
+	free(src);	//LEAKS
+	src = NULL;	//LEAKS
 	return (dst);
 }
 

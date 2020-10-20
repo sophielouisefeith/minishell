@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/13 12:52:14 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/20 13:06:17 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ char		*delete_quotes(char *src, char garbage)
 		dst_i++;
 	}
     dst[len] = '\0';
+	free(src);		// gaat dit goed?
+	src = NULL;		//
 	return (dst);
 }
 
@@ -157,7 +159,6 @@ int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 	builtin_type = get_builtin_type((*sort)->str);
 	if (builtin_type == builtin_no)
 	{
-		//printf("------je bent geen builtin\n");
 		str_before = (*sort)->str;
 		(*sort)->str = check_path(*_env, (*sort)->str);
 		if (!ft_strcmp(str_before, (*sort)->str))
