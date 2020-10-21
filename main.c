@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/21 16:31:55 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/21 18:59:14 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int					main(int argc, char **argv, char **env)
 			set_exit_status(); ///-----new // gaat het hier nou mis met./ nee want het is een executable
 		if (line[i] != '\0')
 			lexer_parser_executer(line, i, &_env);
-		g_exit_status = g_own_exit > 0 ? g_own_exit : g_exit_status;
+		g_exit_status = (g_own_exit > 0 && g_own_exit != 999) ? g_own_exit : g_exit_status;
 		g_own_exit = 0;
 		free(line);
 		line = NULL;

@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/07 17:31:13 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/19 11:28:56 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/21 19:04:03 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,34 @@ TO DO:
 PAS OP: 
 (*command)->array[0][0] != '$' toegevoegd v.w. $"poep" --> Kan niet overzien of dit alles dekt, te beperkt? 
 
+//[0] != '$' toegevoegd v.w. $"poep"
 */
 
 void				check_builtin_again(t_command **command, t_env *_env, int y)
 {
+	char *new_str;
+	char *tmp;
+	char *y_space;
+
 	if ((*command)->builtin == builtin_no_com && y == 0)
 	{
-		// tester(NULL, *command);
-		while ((*command)->array && (*command)->array[y + 1])
+		new_str = ft_strdup("");
+		while ((*command)->array && (*command)->array[y])
 		{
-			(*command)->array[0] = ft_strjoin((*command)->array[y], " ");
-			(*command)->array[0] = ft_strjoin((*command)->array[0], (*command)->array[y + 1]);
+			y_space = ft_strjoin((*command)->array[y], " ");
+			tmp = ft_strjoin(new_str, y_space);
+			free(new_str);
+			new_str = ft_strdup(tmp);
+			free(y_space);
+			free(tmp);
 			y++;
 		}
-		if ((*command)->array[0] && (*command)->array[0][0] != '$')
-			lexer_parser_executer((*command)->array[0], 0, &_env);
-		 //? 		// && (*command)->array[0][0] != '$' toegevoegd v.w. $"poep"
+		if (new_str && new_str[0] != '$')
+		{
+			lexer_parser_executer(new_str, 0, &_env);
+			if (g_exit_status == 0)
+				g_own_exit= 999;
+			free(new_str);
+		}
 	}
 }
