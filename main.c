@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/20 16:03:57 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/21 13:52:02 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void			lexer_parser_executer(char *line, int i, t_env **_env)
 
 	// //FREE COMMAND
 	free_list_parser(&command_copy);		//LEAKS
-	// free_list_executer();
+	//  free_list_executer();
 }
 
 /*

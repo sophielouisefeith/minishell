@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:54:16 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/20 17:19:21 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/21 14:18:35 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ char			*search_node(t_env *_env, char *search)
 	{
 		if (!ft_strcmp(search, _env->name))
 		{
-			free(search);		//LEAKS gaat dit goed op andere plekken?
+			free(search);							//LEAKS gaat dit goed op andere plekken?
 			return (ft_strdup(_env->value));		//gaat dit goed?
 		}
 		_env = _env->next;
 	}
-	free(search);				//LEAKS
+	free(search);									//LEAKS
 	return (NULL);
 }
 int				is_special_char(char *str, int i)

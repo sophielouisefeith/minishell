@@ -719,11 +719,23 @@ echo $%maran		\\groep 2
 echo $?				\\groep4
 echo $USER*			\\groep 5
 echo "hallo$\aap"	\\groep 0 en quote
----------------------------
-
-
-Nog naar kijken:
-
-v	 
-command not foutmelding				Leak
-
+-----------cd----------------
+cd ..
+cd ~/
+cd
+cd desktop
+cd ./desktop/THE_minishell
+-----------export----------------
+export
+export Y=poep
+export Y=lief
+export Y
+export Y=
+export *=poep
+-----------redirection----------
+ls > x1
+cat < x1
+----------others----------------
+clear
+poep
+pwd

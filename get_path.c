@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/20 16:38:12 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/21 14:02:47 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ char			*check_path(t_env *_env, char *str)
 					///LEAKS
 					str = ft_strdup(patharray[i]);
 					free_array(patharray);
+					free(path);
 					///
 					return (str);
 				}
@@ -77,8 +78,9 @@ char			*check_path(t_env *_env, char *str)
 	}
 	///LEAKS
 	free_array(patharray);
+	free(path);
 	///	
-	if (str[0] != '$' && str[0] != '>' && str[0] != '<')										//LET OP: we mogen niet hier al erroren als $ nog niet expanded is //Ook niet bij > file
+	if (str[0] != '$' && str[0] != '>' && str[0] != '<')	//LET OP: we mogen niet hier al erroren als $ nog niet expanded is //Ook niet bij > file
 		return (error_command(str));
 	else 
 		return (str);

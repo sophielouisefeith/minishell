@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/14 11:55:11 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/21 16:16:27 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ static void             print_declare_x_env(t_env **_env)
 static int        not_present_in_env(char **array, t_env **_env, int equal)
 {
 	t_env   *tmp;
-	tmp = ll_new_node_env(array[0], array[1], equal);
+	tmp = ll_new_node_env(ft_strdup(array[0]), ft_strdup(array[1]), equal);
     ll_lstadd_back_env(_env, tmp);
 	return (0);
 }
@@ -169,7 +169,10 @@ static int        check_present_in_env(char **array, t_env **_env, int equal)
 					if (!array[1])
 						list->value = "";
 					else if (ft_strcmp(array[1], list->value))
-						list->value = array[1];
+					{
+						free(list->value);						//Leaks
+						list->value = ft_strdup(array[1]);		//Leaks
+					}
 			}
 			return (0);
 		}
@@ -206,11 +209,12 @@ int            execute_export(t_env **_env, t_command **command)
 			//printf("command-[%s]", (*command)->array[i]);
 			//printf(" export: `arg1': not a valid identifier\n");
 			//error((*command)->array[i]);  
+			free_array(array);
 			return(error(*command));				//new
 			//return (-1);                         //new
 		}
    		check_present_in_env(array, _env, equal);
-		free(array);
+		free_array(array);				//LEAKS
 		i++;
 	}
     return (0);
