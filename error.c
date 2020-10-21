@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/21 12:07:25 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/21 13:13:03 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ int 			malloc_fail(int er)
 void				*errno_error(char *str, t_command *command)
 {
 	int builtin_type;
-	if(executable)
+	if(executable)  // dirty executable solution 
 	{
 		errno = 21;
 		g_exit_status = 126;

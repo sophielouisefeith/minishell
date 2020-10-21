@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/21 12:00:42 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/21 13:12:04 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,16 @@ void			builtin_another_program(t_command **command, t_env **_env)
 			builtin_no && (*command)->builtin != executable)
 		execute_builtin(command, _env);
 	if ((*command)->builtin == builtin_no_com)
-		error_command((*command)->array[0]);
+	{
+		if(g_exit_status != 127)   // dirty $USER solution
+			error_command((*command)->array[0]);
+		else
+		{
+			//exit(0); // even oppassen of dit dan goed gaat met freen.
+			g_own_exit = 2; // dit even kijken als dit zo is dan execute freen 
+		}
+		
+	}
 }
 
 static void		determine_fdout(t_command **command, t_execute **exe,

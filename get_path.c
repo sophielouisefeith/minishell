@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/21 11:58:26 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/21 13:10:38 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ char			*check_path(t_env *_env, char *str)
 		}
 		i++;
 	}
-	if (str[0] != '$' && str[0] != '>' && str[0] != '<')										//LET OP: we mogen niet hier al erroren als $ nog niet expanded is //Ook niet bij > file
-		return (error_command(str));
+	if (str[0] != '$' && str[0] != '>' && str[0] != '<')
+		return (error_command(str)); //LET OP: we mogen niet hier al erroren als $ nog niet expanded is //Ook niet bij > file
 	else 
 		return (str);
 }
