@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/20 15:42:21 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/21 12:07:25 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void				set_exit_status(void)
 		g_exit_status = 127;
 		g_own_exit = 127;
 	}
-	if (errno == EACCES)
+	if (errno == EACCES)    //Permission denied. 
 	{
 		g_exit_status = 126;
 		g_own_exit = 126;
@@ -150,8 +150,15 @@ int 			malloc_fail(int er)
 	return(errno);
 }
 
-void				*errno_error(char *str)
+void				*errno_error(char *str, t_command *command)
 {
+	int builtin_type;
+	if(executable)
+	{
+		errno = 21;
+		g_exit_status = 126;
+		g_own_exit = 126;
+	}
 	write(1, "bash: ", 6 );
 	write(1, str, ft_strlen(str));
 	write(1, ": ", 2 );
