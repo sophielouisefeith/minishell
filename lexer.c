@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/09 12:31:06 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 13:55:36 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@ static void			check_quotation_complete(char quote, char *line, int *i, int *toke
 		return ;
 	else
 	{
-		printf(" No closing quotes\n");
+		
+		error_qoute(line);			///--- niet helemaal of het nodig is. 		
 		g_exit_status = 1; //eigen code want hij moet nog wel na andere foutmeldingen executen
-		g_own_exit = 1;
+		
 		return ;
 	}
 }
@@ -123,6 +124,8 @@ static void			save_operator(char *line, int *i, int type, t_lexer **sort)
 			type <= token_redirection_dgreater)
 		token[token_redirection]= check_redirections(line, *i, type);			//new
 	tmp = ll_new_node_lexer(str, token);
+	if(tmp == NULL)
+		malloc_fail(ENOMEM); //----malloc	
 	ll_lstadd_back_lexer(sort, tmp);
 	(*i)++;
 }

@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/20 13:51:41 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/21 16:32:17 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,10 @@ void         					free_env(t_env *_env);
 // int								error_free(int mistake);
 char							*error_command(char *str);
 int								error(t_command *command);
-
+char 							*error_qoute(char *str);
+void							set_exit_status(void);
+void							*errno_error(char *str, t_command *command);
+int								malloc_fail(int er);
 /*execute*/
 void            				*execute(t_command **command, t_env **env);
 void             				execute_builtin(t_command **command, t_env **_env);
@@ -257,7 +260,7 @@ void							lexer_parser_executer(char *line, int i, t_env **_env);
 int								check_redirections(char *line, int i, int type);
 int								error_redirections(char c, int error_num);
 // char							*error_no_path(char *str);
-void							*errno_error(char *str);
+void							*errno_error(char *str, t_command *command);
 void							set_exit_status(void);
 
 char							*error_parameter(char *str);

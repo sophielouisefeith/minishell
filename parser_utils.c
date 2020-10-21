@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/20 13:06:17 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/21 16:32:29 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int				count_node(t_lexer *sort, int type_builtin)
 	}
 	if (type_builtin >= builtin_echo && type_builtin <= builtin_exit)
 		i--;
-	// printf("i = %d \n", i);
 	return (i);
 }
 
@@ -138,7 +137,7 @@ char		*delete_quotes(char *src, char garbage)
 	return (dst);
 }
 
-	// printf("(*sort)->str = [%s]\n", (*sort)->str);
+
 /*
 ** Check path checks the env variable path for commands, and completes the path.
 ** For example "ls" --> "/bin/ls".
@@ -161,81 +160,12 @@ int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 	{
 		str_before = (*sort)->str;
 		(*sort)->str = check_path(*_env, (*sort)->str);
+		if((*sort)->str == NULL)
+			return(ENOMEM);
+			//return(malloc_fail(ENOMEM));
 		if (!ft_strcmp(str_before, (*sort)->str))
 			builtin_type = builtin_no_com;
 	}
 	return (builtin_type);
 }
 
-
-//OLD
-
-// int				count_node(t_lexer *sort)
-// {
-// 	int 	i;
-
-// 	i = -1;
-// 	while (sort && !sort->token[token_pipe] && !sort->token[token_semicolon])
-// 	{
-//         if (sort->token[token_general])
-// 		    i++;
-//         if (sort->token[token_redirection])
-// 		    sort = sort->next_sort;
-//         sort = sort->next_sort;
-// 	}
-// 	return (i);
-// }
-
-	// printf("(*sort)->str = [%s]\n", (*sort)->str);
-
-/*
-** Removes quotation and returns builtin_type
-**
-** Changelog:
-	- Bij if toegevoegd:
-		builtin_type = get_builtin_type(newstr);
-		free (newstr);									--> vanwege deze
-		*sort = (*sort)->next_sort;
-		return (builtin_type);
-** TO DO:
-	- Kan dit mooier deze toevoeging?
-*/
-
-// int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
-// {
-// 	char 	*newstr;
-// 	int 	builtin_type;
-// 	char *str_before;
-
-//     if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
-// 	{
-// 		newstr = trunc_quotes((*sort)->str);
-// 		builtin_type = get_builtin_type(newstr);
-// ///																			//new
-// 		if (builtin_type == 0)
-// 		{
-// 			(*sort)->str = check_path(*_env, (*sort)->str);
-// 			return (builtin_type);											//ga niet naar de volgende node
-// 		}
-// ///
-// 		free (newstr);
-// 		// *sort = (*sort)->next_sort;
-// 		return (builtin_type);
-// 	}
-// 	else
-// 		newstr = (*sort)->str;
-// 	builtin_type = get_builtin_type(newstr);
-// ///	
-// 																		//new
-// 	if (builtin_type == builtin_no)
-// 	{
-// 		str_before = (*sort)->str;
-// 		(*sort)->str = check_path(*_env, (*sort)->str);
-// 		if (!ft_strcmp(str_before, (*sort)->str))
-// 			builtin_type = builtin_no_com;
-// 		return (builtin_type);											//ga niet naar de volgende node
-// 	}
-// ///
-// 	// *sort = (*sort)->next_sort;
-// 	return (builtin_type);
-// }

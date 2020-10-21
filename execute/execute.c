@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/20 16:05:23 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/21 16:28:27 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,19 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 {
 	int		pid;
 	int 	status;
+	int 	builtin_type;
 
 	pid = fork();
 	if (pid == -1)
-		printf("[%s]", strerror(errno));
+		write(1, strerror(errno), ft_strlen(strerror(errno)));//printf("[%s]", strerror(errno));
 	if (pid == 0)
 	{
+		//printf("is pidd 0\n");
 		execve((*command)->array[0], (*command)->array,
 			env_ll_to_array(*_env));
-		errno_error((*command)->array[0]);
+		// if(builtin_type == executable) //lelijke oplssoing voor foutmelding
+		// 	errno = 21;
+		errno_error((*command)->array[0], *command);
 		exit(g_exit_status);
 	}
 	if (pid != 0)
@@ -58,7 +62,16 @@ void			builtin_another_program(t_command **command, t_env **_env)
 			builtin_no && (*command)->builtin != executable)
 		execute_builtin(command, _env);
 	if ((*command)->builtin == builtin_no_com)
-		error_command((*command)->array[0]);
+	{
+		if(g_exit_status != 127)   // dirty $USER solution
+			error_command((*command)->array[0]);
+		else
+		{
+			//exit(0); // even oppassen of dit dan goed gaat met freen.
+			g_own_exit = 2; // dit even kijken als dit zo is dan execute freen 
+		}
+		
+	}
 }
 
 static void		determine_fdout(t_command **command, t_execute **exe,
@@ -91,7 +104,7 @@ static void		*determine_fdin(t_command *command, t_execute **exe)
 	{
 		(*exe)->fdin = open(command->input->str_input, O_RDONLY);
 		if ((*exe)->fdin == -1)
-			return (errno = ENOENT, errno_error(command->input->str_input));
+			return (errno = ENOENT, (command->input->str_input));
 	}
 	dup2((*exe)->fdin, 0);
 	close((*exe)->fdin);
@@ -103,6 +116,8 @@ void			*execute(t_command **command, t_env **_env)
 	t_execute	*exe;
 
 	exe = (t_execute *)malloc(sizeof(t_execute));
+	if(!exe)
+		malloc_fail(errno = ENOMEM);
 	initialise_execute(*command, &exe);
 	while (exe->i < exe->len_list)
 	{

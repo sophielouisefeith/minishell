@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:30:21 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/08/20 15:02:04 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 14:04:04 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static t_output		*ll_new_node_output(char *str_output, int token)
 	t_output	*new;
 
 	new = (t_output *)malloc(sizeof(t_output));
-	// if (!new)
-	// 	error_free(errno);;
+	if (!new)
+		return(NULL);
 	new->str_output = str_output;
 	new->token = token;
 	new->next_output = NULL;
@@ -46,7 +46,11 @@ void				output_fill(t_lexer **sort, t_command **tmp, int token)
 	char 		*str;
 
     *sort = (*sort)->next_sort;
-	str = ft_strdup((*sort)->str);											//new
-	tmp_output = ll_new_node_output(str, token);							//new
+	str = ft_strdup((*sort)->str); //new		
+	if(str == NULL)
+		malloc_fail(errno = ENOMEM);					
+	tmp_output = ll_new_node_output(str, token);
+	if(tmp_output == NULL)
+		malloc_fail(errno = ENOMEM);			//new
 	ll_lstadd_back_output(&(*tmp)->output, tmp_output);
 }

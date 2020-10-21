@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/14 18:24:28 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/21 13:13:03 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void				set_exit_status(void)
 		g_exit_status = 127;
 		g_own_exit = 127;
 	}
-	if (errno == EACCES)
+	if (errno == EACCES)    //Permission denied. 
 	{
 		g_exit_status = 126;
 		g_own_exit = 126;
@@ -135,8 +135,30 @@ void				set_exit_status(void)
 	return ;
 }
 
-void				*errno_error(char *str)
+
+int 			malloc_fail(int er)
+{ 
+	if(errno == ENOMEM)
+	{
+		write(1, "bash: ", 6 );
+		write(1, strerror(errno), ft_strlen(strerror(errno)));
+		//write(1, "cannot allocate memory ", 32 ); // dit ook met eern strerrr opschrijvven
+		g_own_exit = 1;
+		//exit(-1);
+		
+	}
+	return(errno);
+}
+
+void				*errno_error(char *str, t_command *command)
 {
+	int builtin_type;
+	if(executable)  // dirty executable solution 
+	{
+		errno = 21;
+		g_exit_status = 126;
+		g_own_exit = 126;
+	}
 	write(1, "bash: ", 6 );
 	write(1, str, ft_strlen(str));
 	write(1, ": ", 2 );
@@ -144,6 +166,19 @@ void				*errno_error(char *str)
 	write(1, "\n", 1);
 	set_exit_status();
 	return (str);
+}
+
+
+
+char *error_qoute(char *str)
+{
+	write(1, "bash: ", 6 );
+	write(1,"unexpected EOF while looking for matching /"" ", 47);
+	write(1, "\n", 1);
+	write(1, "bash: syntax error: unexpected end of file", 43);
+	write(1, "\n", 1);
+	g_own_exit = 258;
+	return(NULL);
 }
 
 char			*error_parameter(char *str)

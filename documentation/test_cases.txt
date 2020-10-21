@@ -655,31 +655,19 @@ echo $*
 • 
 
 
-• $hallo>       deze lijkt te seggen voordat hij parameter expansion in gaat
-• echo $"rlwjkrw\\"
-• 
-• 
-• $USER9582309582529  segt.
-• hallo$USER
-bash: hallo$USER: command not found
-moet een andere foutmelding geven 
 
 
 
 
-------------------
 
+    •  ./
+    bash: ./: is a directory       -->>   Of tenminste dat zijn de 3 die ik bestempel als executable in get_builtin_type
 
-GEEFT EEN LEGE REGEL
+    •   hallo$USER
+    bash: hallo$USER: command not found
+    moet een andere foutmelding geven 
 
- echo $* 
-
-
- ------------------
-
-error placing and things who still dont work 
- --------------------
- ./
+    •
 
  Of tenminste dat zijn de 3 die ik bestempel als executable in get_builtin_type
 

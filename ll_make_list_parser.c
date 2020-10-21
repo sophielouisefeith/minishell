@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/13 10:17:35 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/08 21:23:02 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/20 12:40:23 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ t_command		*ll_new_node_command()
 	t_command	*new;
 
 	new = (t_command *)malloc(sizeof(t_command));
-	// if(!new)
-	// 	error_(12); 
+	if(!new)
+		return(NULL); // ik weet niet of dit kan 
 	new->array = NULL;
 	new->quote = NULL;
 	new->builtin = -1;	//-1 zetten misschien want 0 is een value;

@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/21 14:02:47 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/21 16:31:21 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ char			*check_path(t_env *_env, char *str)
 	i = 0;
 	path = search_node(_env, ft_strdup("PATH"));	//vanwege free in search node
 	if (!path)
-		return (errno = ENOENT, errno_error(str));
-	patharray = ft_split(path, ':');
+		return (errno = ENOENT, errno_error(str, 0));
+	patharray = ft_split(path, ':');			//FREE
+	if(!patharray)
+		return(NULL);
 	while (patharray && patharray[i])
 	{
 		folder = opendir(patharray[i]);
@@ -85,40 +87,3 @@ char			*check_path(t_env *_env, char *str)
 	else 
 		return (str);
 }
-
-/*
-** Methode met Stat:
-*/
-
-// char			*check_path(t_env *_env, char *str)
-// {
-// 	struct stat	buf;
-// 	char 		**patharray;
-// 	char		*current_dir;
-// 	char		*path;
-// 	int 		ret;
-// 	int			i;
-
-// 	i = 0;
-// 	path = search_node(_env, "PATH");
-// 	current_dir = search_node(_env, "PWD");
-// 	if (!path)
-// 		printf("No PATH in env");
-// 	patharray = ft_split(path, ':');
-// 	while (patharray && patharray[i])
-// 	{
-// 		ret = chdir(patharray[i]);
-// 		if (ret == 0)
-// 		{
-// 			patharray[i] = make_path_complete(patharray[i], str);
-// 			ret = stat(patharray[i], &buf);
-// 			if (ret == 0)
-// 			{
-// 				chdir(current_dir);
-// 				return (patharray[i]);
-// 			}
-// 		}
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
