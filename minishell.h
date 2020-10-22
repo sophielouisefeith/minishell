@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/21 18:50:56 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/22 12:25:12 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,7 @@ void							*errno_error(char *str, t_command *command);
 void							set_exit_status(void);
 
 char							*error_parameter(char *str);
+char 							*translate_builtin(int b);
 
 int				dollar_is_special_char(char *str, int i);
 void			initiate_dollar(t_dollar *dollar, int quote);
