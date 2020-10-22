@@ -6,13 +6,13 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/21 13:13:03 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/22 14:35:25 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char 			*translate_builtin(int b)
+char 			*translate_builtin(int b)
 {   
     if (b == builtin_echo)
 		return ("echo: ");
@@ -36,6 +36,7 @@ static char 			*translate_builtin(int b)
 
 char				*error_command(char *str)
 {
+	
 	write(1, "bash: ", 6 );
 	if(!strncmp(str, ";", 1))
 	{
@@ -48,14 +49,14 @@ char				*error_command(char *str)
 	write(1, "command not found\n", 18);			//No such file or directory (127)
 	g_exit_status = 127;
 	g_own_exit = 127;		//? Quick and dirty solution voor $POEP. Naar kijken als we errormeldignen fixen
-	return (str);
+		return (str);
 }
 
 int					error(t_command *command)
 {
 	char 	*str_built;
 
-	str_built= translate_builtin((command->builtin));
+	str_built = translate_builtin((command->builtin));
 	write(1, "bash: ", 6 );
 	write(1, str_built, ft_strlen(str_built));
 	write(1, "'", 1);
@@ -84,12 +85,14 @@ int					error(t_command *command)
 
 int				error_redirections(char c, int error_num)
 {
+	//int 	num;
+	//printf("kom je hier dan 1 \n");
 	write(1, "bash: ", 6 );
 	if (error_num == 1)
 	{
 		write(1, "syntax error near unexpected token '", 35);
 		if (c == '\n' || c == '\0' || c == '#')
-			write(1, "newline", 8);
+			write(1, "' newline", 8);
 		else
 			write(1, &c, 1);
 		write(1, "'\n", 2);
@@ -97,14 +100,15 @@ int				error_redirections(char c, int error_num)
 		g_own_exit = 258;
 		return (1);
 	}
+	write(1, &c, 1);
 	if (error_num == 2)
 	{
-		write(1, &c, 1);
+		// write(1, &c, 1);
 		write(1, ": ambiguous redirect\n", 21);
 	}
 	if (error_num == 3)
 	{
-		write(1, &c, 1);
+		//write(1, &c, 1);
 		write(1, ": Is a directory\n", 17);		//errno 	EISDIR --> omschrijven naar errno_error?
 	}
 	g_exit_status = 1;
@@ -144,7 +148,7 @@ int 			malloc_fail(int er)
 		write(1, strerror(errno), ft_strlen(strerror(errno)));
 		//write(1, "cannot allocate memory ", 32 ); // dit ook met eern strerrr opschrijvven
 		g_own_exit = 1;
-		//exit(-1);
+		exit(1);
 		
 	}
 	return(errno);

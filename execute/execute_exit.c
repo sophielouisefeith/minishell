@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/30 13:54:44 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/09 19:06:30 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/22 12:25:31 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,25 @@
 ** LET OP: volgorde van exit functie belangrijk.
 */
 
+
+static void 	error_exit(t_command *command, int i)
+{
+	char 	*str_built;
+
+	str_built = translate_builtin((command->builtin));
+	write(1, "bash: ", 6 );
+	write(1, str_built, ft_strlen(str_built));
+	write(1, command->array[0], ft_strlen(command->array[0]));
+	if ( i == 0)
+	{
+		write(1, ": numeric argument required\n", 28);
+		exit(255);
+	}
+	
+}
+
+
+
 int        execute_exit(t_command *command)
 {
 	int		argument_0;
@@ -56,10 +75,7 @@ int        execute_exit(t_command *command)
 		{
 			ret = ft_isdigit(command->array[0][i]);
 			if (ret == 0)
-			{
-				write(1, "exit\nbash: exit: numeric argument required\n", 44);		//Moet nog errormessage waarbij argument door wordt gegeven
-				exit(255);
-			}
+				error_exit(command, ret);	
 			i++;
 		}
 	}
