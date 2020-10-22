@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/10/20 15:22:56 by SophieLouis   ########   odam.nl          #
+#    Updated: 2020/10/22 14:47:12 by maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LIB = minishell.a
 
 LIBFT = libft
 
-SRC =  main.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
+SRC =  main.c signals.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		save_env.c\
 		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
 		ll_make_list_lexer.c parser.c parser_utils.c\

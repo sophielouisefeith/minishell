@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/21 18:50:56 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/22 17:10:55 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <signal.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <signal.h>
 
 /*
 ** Checken of later verwijderen:
@@ -235,8 +236,11 @@ char							*search_node(t_env *_env, char *search);
 int								is_special_char(char *str, int i);
 char							*join_strings(char *new_str1, char *parameter, char *new_str2);
 
-void 		sighandler(int signum);
-void 		sighandler2(int signum);
+/* Signals*/
+void							ctrl_d(void);
+void							signal_reset(int sig_num);
+void							sighandler_execve(int status);
+void 							sighandler(int signum);
 
 /*new*/
 void							check_specials(t_command **command, t_env *_env);

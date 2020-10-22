@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/21 18:59:14 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/22 17:08:38 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,72 +81,34 @@ void			lexer_parser_executer(char *line, int i, t_env **_env)
 **
 ** if (line[i] != '\0') --> checks if line is empty.
 ** If not execute, else new prompt.
-*/ 
-
-/*
-** CTRL C:
-	- The interrupt signal, sends SIGINT to the job running in the foreground. --> Dus stopt echt sleep, maar sluit niet heel de shell.
-	- exit_code 130
-** CTRL \:
-	- QUIT signal-  by default terminates an application
-	- lijkt hetzelfde als ctrl-c, behalve (^\Quit: 3)
-	- exit_code 131.
-** CTRL D (End of File):
-	- lijkt running proces af te ronden en sluit dan de shell
-	- exit_code 0
 */
 
-static void			ctrl_d(int ret)
-{
-	if (ret == 0)
-	{
-		printf("exit\n");
-		exit(0);
-	}
-}
-
-void 		sighandler(int signum)
-{
-	if (signum == SIGINT)
-	{
-		write(1, "\b\b  \n", 6);
-		write(1, COLOR_PROMPT, 24);
-	}
-	if (signum == SIGQUIT)
-		printf("Quit: 3\n");
-}
-
-
-//Waarom hebben wij een i in de loop?  ///--- denk dat dat wel weg mag die i 
 int					main(int argc, char **argv, char **env)
-{
-		
+{	
 	t_env		*_env;	
 	char		*line;
 	int			ret;
-	int 		i;
-
 
 	ret = 1;
 	_env = save_env(env);
-	signal(SIGQUIT, sighandler);	// CTRL backslash
- 	signal(SIGINT, sighandler);		// CTRL C
 	while (ret > 0)
 	{
-		i = 0;
-		write(1, COLOR_PROMPT, 24);
+		signal(SIGQUIT, sighandler);
+ 		signal(SIGINT, sighandler);
+		write(1, COLOR_PROMPT, 23);
 		ret = get_next_line(0, &line);
 		if (ret == 0)
-			ctrl_d(ret);
+			ctrl_d();
 		if (ret == -1)
-			set_exit_status(); ///-----new // gaat het hier nou mis met./ nee want het is een executable
-		if (line[i] != '\0')
-			lexer_parser_executer(line, i, &_env);
-		g_exit_status = (g_own_exit > 0 && g_own_exit != 999) ? g_own_exit : g_exit_status;
+			set_exit_status(); ///-----new // gaat het hier nou mis met./ nee want het is een executable 
+		if (line[0] != '\0')
+			lexer_parser_executer(line, 0, &_env);
+		g_exit_status = (g_own_exit > 0 && g_own_exit != 999) ?
+			g_own_exit : g_exit_status;
 		g_own_exit = 0;
 		free(line);
 		line = NULL;
 	}
-	free_env(_env);												//new
+	free_env(_env);
 	return (0);
 }

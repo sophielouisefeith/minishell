@@ -1,0 +1,44 @@
+***************************
+** 	General				**
+***************************
+- Hoofdlettes bij commands, bijv Echo hallo
+
+Echo ; echo \n ' \n this is the; "first line"' ; echo "and right here;;; 'We have the second'" ; echo and" a fe"'w 'here'; with some slash and quotes  .'  '\' ; echo '\\' ; echo "\\" ; echo   "\"" ; echo  \\ ; echo  \' ; echo  \" "\\"   "\""  \\  \'  \"
+pwd ; hoi ; echo doei
+cat | cat -e
+
+***************************
+** 	errors				**
+***************************
+
+Rpet:
+- Malloc error -> exit(1)
+- Andere errors-> helemaal terug returnen
+
+
+***************************
+** 	Main				**
+***************************
+
+- exit_status empty line 	--> exit status = 0
+- ./		 				--> exit status = 126
+
+***************************
+** 	Signals				**
+***************************
+
+<ctrl d>				exit_stats = 0 		Check
+echo hallo <ctrl d>		-					Check		
+sleep 5 <ctrl d>		exit_stats = 0		Check
+
+<ctrl c>				exit_stats = 1		Check
+echo hallo <ctrl c>		exit_stats = 1		Check
+sleep 5 <ctrl c>		exit_status = 130	Check
+
+<ctrl \>				-					Check
+echo hallo <ctrl \>							X		[Krijg ik niet gexit]
+sleep 5 <ctrl \>		exit_status = 131	Check
+
+
+
+

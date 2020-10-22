@@ -6,11 +6,12 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/08 16:37:30 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/20 12:45:57 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/22 15:47:35 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 size_t			ft_strlen_gnl(const char *s)
 {
@@ -86,7 +87,7 @@ static char		*ft_read(int fd, char *new_line, int ret)
 			flag = ret;						//
 		if (ret == 0 && flag)				//
 			ret = flag;						//
-		ft_putstr("  \b\b");				//new
+		ft_putstr("  \b\b");				//new [Waarom deze line?]
 		buf[ret] = '\0';
 		new_line = ft_strjoin_gnl(new_line, buf);
 		if (new_line == NULL)

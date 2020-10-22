@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/21 19:01:54 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/22 17:11:53 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 	int 	status;
 	int 	builtin_type;
 
+	signal(SIGINT, signal_reset);							//new vw signals
+	signal(SIGQUIT, signal_reset);
 	pid = fork();
 	if (pid == -1)
-		write(1, strerror(errno), ft_strlen(strerror(errno)));//printf("[%s]", strerror(errno));
+		write(1, strerror(errno), ft_strlen(strerror(errno)));
 	if (pid == 0)
 	{
-		//printf("is pidd 0\n");
 		execve((*command)->array[0], (*command)->array,
 			env_ll_to_array(*_env));
 		// if(builtin_type == executable) //lelijke oplssoing voor foutmelding
@@ -49,6 +50,8 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 	if (pid != 0)
 	{
 		waitpid(pid, &status, 0);
+		if (WIFSIGNALED(status)) 							///NEW vw signals
+			sighandler_execve(WTERMSIG(status));
 		if (WIFEXITED(status))
 			g_exit_status = WEXITSTATUS(status);
 	}
