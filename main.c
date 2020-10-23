@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/22 17:55:18 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/23 16:49:34 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void			lexer_parser_executer(char *line, int i, t_env **_env)
 	if (line[i] != '\0')
 		lexer(&sort, line);
 	sort_copy = sort;
-	while (sort && g_own_exit == 0)
+	while (sort) // && g_own_exit == 0)
 	{
 		pipe_status = parser(&sort, &command, pipe_status, _env);
 		//if(pipe_status == 12)// slaat nergens op even voor eigen dingen
@@ -63,8 +63,8 @@ void			lexer_parser_executer(char *line, int i, t_env **_env)
 	free_list_lexer(&sort_copy);
 
 	// //EXECUTOR
-		if (g_own_exit == 0)
-	execute(&command, _env);
+	// if (g_own_exit == 0)
+		execute(&command, _env);
 	// else
 	// {
 	// 	free(lexer);
@@ -103,12 +103,15 @@ int					main(int argc, char **argv, char **env)
 			set_exit_status(); ///-----new // gaat het hier nou mis met./ nee want het is een executable 
 		if (line[0] != '\0')
 			lexer_parser_executer(line, 0, &_env);
-		g_exit_status = (g_own_exit > 0 && g_own_exit != 999) ?
-			g_own_exit : g_exit_status;
-		g_own_exit = 0;
 		free(line);
 		line = NULL;
 	}
 	free_env(_env);
 	return (0);
 }
+
+/* Removed:
+		// g_exit_status = (g_own_exit > 0 && g_own_exit != 999) ?
+			// g_own_exit : g_exit_status;
+		// g_own_exit = 0;
+*/

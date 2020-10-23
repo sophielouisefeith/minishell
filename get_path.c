@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_path_new.c                                     :+:    :+:            */
+/*   get_path.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/23 13:52:59 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/23 16:47:41 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,12 @@ char			*check_path(t_env *_env, char *str)
 	free(tmp);
 	free_array(patharray);
 	free(path);
-	///	
-	if (str[0] != '$' && str[0] != '>' && str[0] != '<')	//LET OP: we mogen niet hier al erroren als $ nog niet expanded is //Ook niet bij > file
-		return (error_command(str));
-	else 
 		return (str);
 }
+
+/* Removed:
+	///	
+	// if (str[0] != '$' && str[0] != '>' && str[0] != '<')	//LET OP: we mogen niet hier al erroren als $ nog niet expanded is //Ook niet bij > file
+	// 	return (error_command(str));
+	// else 
+*/

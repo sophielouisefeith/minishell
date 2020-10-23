@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/23 13:48:43 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/23 17:21:49 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 	}
 }
 
-
 /*
 ** MOE:
 	if ((*command)->array && (*command)->array[0])
@@ -70,17 +69,6 @@ void			builtin_another_program(t_command **command, t_env **_env)
 	if ((*command)->builtin != builtin_no_com && (*command)->builtin !=
 			builtin_no && (*command)->builtin != executable)
 		execute_builtin(command, _env);
-	if ((*command)->builtin == builtin_no_com)
-	{
-		if (g_exit_status != 127)   // dirty $USER solution
-			error_command((*command)->array[0]);
-		else
-		{
-			//exit(0); // even oppassen of dit dan goed gaat met freen.
-			g_own_exit = 2; // dit even kijken als dit zo is dan execute freen 
-		}
-		
-	}
 }
 
 static void		determine_fdout(t_command **command, t_execute **exe,
@@ -123,11 +111,12 @@ static void		*determine_fdin(t_command *command, t_execute **exe)
 /*
 ** MOE:
 		g_own_exit = 0;				//Welke de g_own?
-		
 
 	// if (((*command)->builtin == builtin_no_com && 
 		// 		(!(*command)->array || !(*command)->array[0]) &&
 		// 			 (!(*command)->pipe_after && !(*command)->sem)) ||  g_own_exit != 0)		//uitgecomment
+
+LAATSTE VERSIE VOOR fixes 23/10 : ga dan terug naar ---> 23/10 fixed capital commands, removed MOE
 */
 
 void			*execute(t_command **command, t_env **_env)
@@ -142,14 +131,20 @@ void			*execute(t_command **command, t_env **_env)
 	{
 		determine_fdin(*command, &exe);
 		check_specials(command, *_env);
-		if (((*command)->builtin == builtin_no_com && (!(*command)->array || !(*command)->array[0])) || g_own_exit != 0)
+		if (g_own_exit != 999) 
 		{
-			free(exe);		//LEAKS
-			return (0);
+			if ((*command)->builtin == builtin_no_com && (!(*command)->array || !(*command)->array[0]))		//M: Welke case komt dit voor? anders liever verwijderen.
+			{
+				free(exe);
+				return (0);
+			}
+			if ((*command)->builtin == builtin_no_com)				//NEW
+				error_command((*command)->array[0]);
 		}
+		else			//reset g_own
+			g_own_exit = 0;										///new
 		determine_fdout(command, &exe, _env, exe->i);
-		if (!(((*command)->sem || (*command)->pipe_after) &&
-				(*command)->output))
+		if (!(((*command)->sem || (*command)->pipe_after) && (*command)->output))
 			builtin_another_program(command, _env);
 		if ((*command)->sem)
 			exe->fdin = dup(exe->tmpin);

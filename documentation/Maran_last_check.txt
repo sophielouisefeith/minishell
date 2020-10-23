@@ -4,23 +4,34 @@
 
 Echo ; echo \n ' \n this is the; "first line"' ; echo "and right here;;; 'We have the second'" ; echo and" a fe"'w 'here'; with some slash and quotes  .'  '\' ; echo '\\' ; echo "\\" ; echo   "\"" ; echo  \\ ; echo  \' ; echo  \" "\\"   "\""  \\  \'  \"
 
-pwd ; hoi ; echo doei
+pwd ; hoi ; echo doei			V
 pwd ; $POEP ; echo doei
 pwd ; $USER ; echo doei
 pwd | ekjeklj | echo hoi
 
+hallo < hallo 		X
+
+
 cat | cat -e
 
-
-
-hoi > ja			X
-pwd | hoi | echo ja	X
-$USER		(2x)	X
-
+---------------------
+pwd ; hoi ; echo doei				V
+hoi > ja			X				V
+pwd | hoi | echo ja	X				V
+$USER		(2x)	X				V		exit_code verpest
+echoooo maran (2x)					V
+------------------------
 
 > ZZZ				Check
 
 
+------------------------
+Deze gaat ver:						X
+
+bash-3.2$ export POEP="cat x1"
+bash-3.2$ ls > x1
+bash-3.2$ $POEP | grep main
+--------------------------
 MOE aanpassingen in:
 
 execute

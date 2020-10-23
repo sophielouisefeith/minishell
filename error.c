@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/22 18:48:14 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/23 16:51:27 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,27 @@ char 			*translate_builtin(int b)
 	return (NULL);
 }
 
+/*
+** error_command write to std_error fd[3]. 
+TO DO:
+bij andere errors ook doen?
+*/
+
 
 char				*error_command(char *str)
 {
-		write(1, "bash: ", 6 );
+		write(3, "bash: ", 6 );
 		if(!strncmp(str, ";", 1))
 		{
-			write(1, " syntax error near unexpected token `;'\n", 40);
+			write(3, " syntax error near unexpected token `;'\n", 40);
 			g_exit_status = 258;
 			return(str);
 		}
-		write(1, str, ft_strlen(str));
-		write(1, ": ", 2 );
-		write(1, "command not found\n", 18);			//No such file or directory (127)
+		write(3, str, ft_strlen(str));
+		write(3, ": ", 2 );
+		write(3, "command not found\n", 18);			//No such file or directory (127)
 		g_exit_status = 127;
-		g_own_exit = 127;		//? Quick and dirty solution voor $POEP. Naar kijken als we errormeldignen fixen
+		// g_own_exit = 127;		//? Quick and dirty solution voor $POEP. Naar kijken als we errormeldignen fixen
 			return (str);
 }
 
@@ -96,7 +102,7 @@ int				error_redirections(char c, int error_num)
 			write(1, &c, 1);
 		write(1, "'\n", 2);
 		g_exit_status = 258;
-		g_own_exit = 258;
+		// g_own_exit = 258;
 		return (1);
 	}
 	write(1, &c, 1);
@@ -111,7 +117,7 @@ int				error_redirections(char c, int error_num)
 		write(1, ": Is a directory\n", 17);		//errno 	EISDIR --> omschrijven naar errno_error?
 	}
 	g_exit_status = 1;
-	g_own_exit = 1;
+	// g_own_exit = 1;
 	return (1);
 }
 
@@ -123,17 +129,17 @@ void				set_exit_status(void)
 	if (errno == ENOENT)	// "No such file or directory\n"
 	{
 		g_exit_status = 127;
-		g_own_exit = 127;
+		// g_own_exit = 127;
 	}
 	if (errno == EACCES)    //Permission denied. 
 	{
 		g_exit_status = 126;
-		g_own_exit = 126;
+		// g_own_exit = 126;
 	}
 	else
 	{
 		g_exit_status = 1;
-		g_own_exit = 1;
+		// g_own_exit = 1;
 	}
 	return ;
 }
@@ -146,7 +152,7 @@ int 			malloc_fail(int er)
 		write(1, "bash: ", 6 );
 		write(1, strerror(errno), ft_strlen(strerror(errno)));
 		//write(1, "cannot allocate memory ", 32 ); // dit ook met eern strerrr opschrijvven
-		g_own_exit = 1;
+		// g_own_exit = 1;
 		exit(1);
 		
 	}
@@ -160,7 +166,7 @@ void				*errno_error(char *str, t_command *command)
 	{
 		errno = 21;
 		g_exit_status = 126;
-		g_own_exit = 126;
+		// g_own_exit = 126;
 	}
 	write(1, "bash: ", 6 );
 	write(1, str, ft_strlen(str));
@@ -180,7 +186,7 @@ char *error_qoute(char *str)
 	write(1, "\n", 1);
 	write(1, "bash: syntax error: unexpected end of file", 43);
 	write(1, "\n", 1);
-	g_own_exit = 258;
+	// g_own_exit = 258;
 	return(NULL);
 }
 

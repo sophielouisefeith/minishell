@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/07 17:31:13 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/23 13:51:00 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/23 17:04:22 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ void				check_builtin_again(t_command **command, t_env *_env, int y)
 		if (new_str && new_str[0] != '$')
 		{
 			lexer_parser_executer(new_str, 0, &_env);
-			if (g_exit_status == 0)
-				g_own_exit= 999;
+			g_own_exit= 999;
 			free(new_str);
 		}
 	}
