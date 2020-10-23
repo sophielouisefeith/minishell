@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/22 17:17:40 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/23 11:57:01 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,6 +243,7 @@ void							sighandler_execve(int status);
 void 							sighandler(int signum);
 
 /*new*/
+char							*tmp_tolower(char *str);
 void							check_specials(t_command **command, t_env *_env);
 char							*check_backslash_and_dollar(char *str, int *i, t_env *_env);
 char							*delete_double_quotes(char *src, int start, int end);

@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_path.c                                         :+:    :+:            */
+/*   get_path_new.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/22 17:18:58 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/23 13:52:59 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <dirent.h>
-
-static char		*make_path_complete(char *patharray, char *str)
+static char		*make_path_complete(char *patharray, char *tmp)
 {
 	char *new_str;
 	char *new_str2;
 
 	new_str = ft_strjoin(patharray, "/");
-	new_str2 = ft_strjoin(new_str, str);
+	new_str2 = ft_strjoin(new_str, tmp);
 ///LEAKS
-	free(str);
-	str = NULL;
+	free(tmp);
+	tmp = NULL;
 	free(new_str);
 	new_str = NULL;
-	free(patharray);
-	patharray = NULL;
 ///
 	return (new_str2);
 }
@@ -40,6 +37,30 @@ static char		*make_path_complete(char *patharray, char *str)
 ** 5. If entry is equal complete the entered path by adding the path of directory
 */
 
+
+char		*tmp_tolower(char *str)
+{
+	char	*tmp;
+	int 	i;
+
+	i = 0;
+	tmp = ft_strdup(str);
+	while (str[i] != '\0')
+	{
+		tmp[i] = ft_tolower(str[i]);
+		i++;
+	}
+	return (tmp);
+}
+
+/*
+** MOE:
+	///	
+	// if (str[0] != '$' && str[0] != '>' && str[0] != '<')	//LET OP: we mogen niet hier al erroren als $ nog niet expanded is //Ook niet bij > file
+	// 	return (error_command(str));
+	// else 
+*/
+
 char			*check_path(t_env *_env, char *str)
 {
 	struct dirent 	*next_entry;
@@ -47,14 +68,16 @@ char			*check_path(t_env *_env, char *str)
 	char			*path;
 	char 			**patharray;
 	int				i;
-	
+	char 			*tmp;
+
 	i = 0;
 	path = search_node(_env, ft_strdup("PATH"));	//vanwege free in search node
 	if (!path)
 		return (errno = ENOENT, errno_error(str, 0));
 	patharray = ft_split(path, ':');			//FREE
-	if(!patharray)
-		return(NULL);
+	if (!patharray)
+		return (NULL);
+	tmp = tmp_tolower(str);		//new
 	while (patharray && patharray[i])
 	{
 		folder = opendir(patharray[i]);
@@ -62,12 +85,13 @@ char			*check_path(t_env *_env, char *str)
 		{
 			while ((next_entry = readdir(folder)) != NULL)
 			{
-				if (ft_strcmp(next_entry->d_name, str) == 0)
+				if (ft_strcmp(next_entry->d_name, tmp) == 0) //was str
 				{
-					patharray[i] = make_path_complete(patharray[i], str);
+					free(str);
+					str = NULL;
+					str = make_path_complete(patharray[i], tmp); //was str
 					closedir(folder);
 					///LEAKS
-					str = ft_strdup(patharray[i]);
 					free_array(patharray);
 					free(path);
 					///
@@ -79,6 +103,7 @@ char			*check_path(t_env *_env, char *str)
 		i++;
 	}
 	///LEAKS
+	free(tmp);
 	free_array(patharray);
 	free(path);
 	///	

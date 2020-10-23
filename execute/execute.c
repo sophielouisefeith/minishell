@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/22 17:11:53 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/23 13:48:43 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,12 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 	}
 }
 
+
+/*
+** MOE:
+	if ((*command)->array && (*command)->array[0])
+*/
+
 void			builtin_another_program(t_command **command, t_env **_env)
 {
 	if ((*command)->builtin == builtin_no || (*command)->builtin == executable)
@@ -66,7 +72,7 @@ void			builtin_another_program(t_command **command, t_env **_env)
 		execute_builtin(command, _env);
 	if ((*command)->builtin == builtin_no_com)
 	{
-		if(g_exit_status != 127)   // dirty $USER solution
+		if (g_exit_status != 127)   // dirty $USER solution
 			error_command((*command)->array[0]);
 		else
 		{
@@ -113,6 +119,16 @@ static void		*determine_fdin(t_command *command, t_execute **exe)
 	close((*exe)->fdin);
 	return (0);
 }
+
+/*
+** MOE:
+		g_own_exit = 0;				//Welke de g_own?
+		
+
+	// if (((*command)->builtin == builtin_no_com && 
+		// 		(!(*command)->array || !(*command)->array[0]) &&
+		// 			 (!(*command)->pipe_after && !(*command)->sem)) ||  g_own_exit != 0)		//uitgecomment
+*/
 
 void			*execute(t_command **command, t_env **_env)
 {

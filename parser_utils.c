@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/21 16:32:29 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/23 13:53:46 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,27 +59,36 @@ char            *trunc_quotes(char *str)
 **	../ toevoeging bij executables beetjes spannend of dat goed is.
 */
 
+static int		return_type_and_free(char *tmp, int type)
+{
+	free(tmp);
+	return (type);		
+}
+
 int				get_builtin_type(char *str)
 {   
-    if (!ft_strcmp(str, "echo"))
-		return (builtin_echo);
-	else if (!ft_strcmp(str, "cd"))
-		return (builtin_cd);
-    else if (!ft_strcmp(str, "pwd"))
-		return (builtin_pwd);
-	else if (!ft_strcmp(str, "export"))
-		return (builtin_export);
-    else if (!ft_strcmp(str, "unset"))
-		return (builtin_unset);
-	else if (!ft_strcmp(str, "env"))
-		return (builtin_env);
-   else if (!ft_strcmp(str, "exit"))
-		return (builtin_exit);
-	else if (!ft_strncmp(str, "/", 1) || !ft_strncmp(str, "./", 2) ||
-				!ft_strncmp(str, "../", 3)) 			// New (na vak)
-		return (executable);
+	char 	*tmp;
+	tmp = tmp_tolower(str);
+
+    if (!ft_strcmp(tmp, "echo"))
+		return (return_type_and_free(tmp, builtin_echo));
+	else if (!ft_strcmp(tmp, "cd"))
+		return (return_type_and_free(tmp, builtin_cd));
+    else if (!ft_strcmp(tmp, "pwd"))
+		return (return_type_and_free(tmp, builtin_pwd));
+	else if (!ft_strcmp(tmp, "export"))
+		return (return_type_and_free(tmp, builtin_export));
+    else if (!ft_strcmp(tmp, "unset"))
+		return (return_type_and_free(tmp, builtin_unset));
+	else if (!ft_strcmp(tmp, "env"))
+		return (return_type_and_free(tmp, builtin_env));
+   else if (!ft_strcmp(tmp, "exit"))
+		return (return_type_and_free(tmp, builtin_exit));
+	else if (!ft_strncmp(tmp, "/", 1) || !ft_strncmp(tmp, "./", 2) ||
+				!ft_strncmp(tmp, "../", 3))
+		return (return_type_and_free(tmp, executable));
 	else
-		return (builtin_no);
+		return (return_type_and_free(tmp, builtin_no));
 }
 
 /* Waarom hadden we eerst:
@@ -137,7 +146,6 @@ char		*delete_quotes(char *src, char garbage)
 	return (dst);
 }
 
-
 /*
 ** Check path checks the env variable path for commands, and completes the path.
 ** For example "ls" --> "/bin/ls".
@@ -145,14 +153,14 @@ char		*delete_quotes(char *src, char garbage)
 ** it stays "builtin_no".
 */
 
-		// printf("(*sort)->str = [%s]\n", (*sort)->str);
+	// printf("(*sort)->str = [%s]\n", (*sort)->str);
+	// printf("(*sort)->str = [%s]\n", (*sort)->str);
 
 int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 {
 	int 	builtin_type;
 	char 	*str_before;
 
-	
 	if (is_single_quote((*sort)->str[0]) || is_double_quote((*sort)->str[0]))		//mag alleen bij het eerste woord worden getrunct (hoezo komt hij niet bij volgende woorden?)
 		(*sort)->str = delete_quotes((*sort)->str, (*sort)->str[0]);
 	builtin_type = get_builtin_type((*sort)->str);
@@ -164,7 +172,9 @@ int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
 			return(ENOMEM);
 			//return(malloc_fail(ENOMEM));
 		if (!ft_strcmp(str_before, (*sort)->str))
+		{
 			builtin_type = builtin_no_com;
+		}
 	}
 	return (builtin_type);
 }

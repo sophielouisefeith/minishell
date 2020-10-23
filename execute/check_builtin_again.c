@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/07 17:31:13 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/21 19:04:03 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/23 13:51:00 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,21 @@ PAS OP:
 //[0] != '$' toegevoegd v.w. $"poep"
 */
 
+
+
+/*
+** MOE:
+ && (*command)->array[y] != NULL toegevoegd
+*/
+
+
 void				check_builtin_again(t_command **command, t_env *_env, int y)
 {
 	char *new_str;
 	char *tmp;
 	char *y_space;
 
-	if ((*command)->builtin == builtin_no_com && y == 0)
+	if ((*command)->builtin == builtin_no_com && y == 0 && (*command)->array[y] != NULL)
 	{
 		new_str = ft_strdup("");
 		while ((*command)->array && (*command)->array[y])
