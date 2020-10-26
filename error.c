@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/23 16:51:27 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/26 11:17:40 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,9 @@ void				*errno_error(char *str, t_command *command)
 }
 
 
+/*
+** We willen g_own_exit hier behouden want we willen niet dat hij gaat executen.
+*/
 
 char *error_qoute(char *str)
 {
@@ -186,7 +189,7 @@ char *error_qoute(char *str)
 	write(1, "\n", 1);
 	write(1, "bash: syntax error: unexpected end of file", 43);
 	write(1, "\n", 1);
-	// g_own_exit = 258;
+	g_own_exit = 258;
 	return(NULL);
 }
 
