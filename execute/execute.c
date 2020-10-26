@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/23 17:21:49 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/26 11:13:58 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,10 @@ static void		*determine_fdin(t_command *command, t_execute **exe)
 	{
 		(*exe)->fdin = open(command->input->str_input, O_RDONLY);
 		if ((*exe)->fdin == -1)
-			return (errno = ENOENT, (command->input->str_input));
+		{
+			printf("je bent hier\n");
+			return (errno = ENOENT, no_file((command->input->str_input), command));
+		}
 	}
 	dup2((*exe)->fdin, 0);
 	close((*exe)->fdin);

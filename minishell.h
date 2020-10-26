@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/23 11:57:01 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/26 17:43:08 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,6 +265,7 @@ void							lexer_parser_executer(char *line, int i, t_env **_env);
 int								check_redirections(char *line, int i, int type);
 int								error_redirections(char c, int error_num);
 // char							*error_no_path(char *str);
+void							*no_file(char *str, t_command *command);
 void							*errno_error(char *str, t_command *command);
 void							set_exit_status(void);
 
@@ -274,5 +275,6 @@ char 							*translate_builtin(int b);
 int				dollar_is_special_char(char *str, int i);
 void			initiate_dollar(t_dollar *dollar, int quote);
 
-
+// ./ <h hebben een andere exit code, <<<<< doet het ineens nu ook niet meer daar naar kijken 
+//kijken met de fd[3] waar dat dan allemaal aangepast moet worden. 
 #endif

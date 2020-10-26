@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/23 16:51:27 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/26 12:06:14 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,15 +159,32 @@ int 			malloc_fail(int er)
 	return(errno);
 }
 
+void				*no_file(char *str, t_command *command)
+{
+	if(!strncmp(str, "./",1 ))
+		printf("je bent ./ \n");
+	printf("errno[%d]\n", errno);
+	write(1, "bash: ", 6 );
+	write(1, str, ft_strlen(str));
+	write(1, ": ", 2 );
+	write(1, strerror(errno), ft_strlen(strerror(errno)));
+	write(1, "\n", 1);
+	set_exit_status();
+	return (str);
+}
 void				*errno_error(char *str, t_command *command)
 {
+	//printf("errno[%d]\n", errno);
 	int builtin_type;
 	if(executable)  // dirty executable solution 
 	{
+		no_file(str, command);
+		printf("kom je hier\n");
 		errno = 21;
 		g_exit_status = 126;
 		// g_own_exit = 126;
 	}
+	//printf("hier ook ?\n");
 	write(1, "bash: ", 6 );
 	write(1, str, ft_strlen(str));
 	write(1, ": ", 2 );
@@ -179,16 +196,17 @@ void				*errno_error(char *str, t_command *command)
 
 
 
-char *error_qoute(char *str)
-{
-	write(1, "bash: ", 6 );
-	write(1,"unexpected EOF while looking for matching /"" ", 47);
-	write(1, "\n", 1);
-	write(1, "bash: syntax error: unexpected end of file", 43);
-	write(1, "\n", 1);
-	// g_own_exit = 258;
-	return(NULL);
-}
+// char *error_qoute(char *str)
+// {
+// 	// hier een andere foutmelding is not part of the subject
+// 	write(1, "bash: ", 6 );
+// 	write(1,"unexpected EOF while looking for matching /"" ", 47);
+// 	write(1, "\n", 1);
+// 	write(1, "bash: syntax error: unexpected end of file", 43);
+// 	write(1, "\n", 1);
+// 	// g_own_exit = 258;
+// 	return(NULL);
+// }
 
 char			*error_parameter(char *str)
 {
