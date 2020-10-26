@@ -11,6 +11,23 @@ pwd | ekjeklj | echo hoi
 
 hallo < hallo 		X
 
+echo '\\'						V
+echo "\\"						V
+echo   "\"" 					V
+echo  \\						V
+echo  \'						V
+
+
+echo  \" "\\"   "\""  \\  \'  \"
+\" "\\"   
+"\""
+\\
+\'
+\"
+
+
+echo  \" "\\"   "\""  \\
+echo "\""  \\					--> deze fixen
 
 cat | cat -e
 
@@ -23,6 +40,31 @@ echoooo maran (2x)					V
 ------------------------
 
 > ZZZ				Check
+
+
+
+***************************
+** 	g_own_exit behouden of niet? **
+***************************
+g_own 999 gebruiken we om te kijken of hij in Check_builtin_again is geweest.
+Als hij opnieuw heeft ge lexer_parser_execute dan g_own = 999.
+--> in execute slaat hij dan de error_command over en wordt g_own weer gereset naar 0
+--> Als niet 999 dan wel error_command
+
+Lexer: Check_quotation_complete ook g_own nodig. Want we willen niet executen.
+g_own op 1, dan moeten we ook resetten in de main. 
+
+
+
+
+
+echo hallo ; echo "Poe			--> Niet de eerste wel executen.
+
+
+
+
+
+
 
 
 ------------------------

@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/23 16:49:34 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/26 12:18:34 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void			lexer_parser_executer(char *line, int i, t_env **_env)
 	if (line[i] != '\0')
 		lexer(&sort, line);
 	sort_copy = sort;
-	while (sort) // && g_own_exit == 0)
+	while (sort) // && g_own_exit == 0)				//MOET DEZE DAN OOK WEER TERUG?
 	{
 		pipe_status = parser(&sort, &command, pipe_status, _env);
 		//if(pipe_status == 12)// slaat nergens op even voor eigen dingen
@@ -63,7 +63,7 @@ void			lexer_parser_executer(char *line, int i, t_env **_env)
 	free_list_lexer(&sort_copy);
 
 	// //EXECUTOR
-	// if (g_own_exit == 0)
+	if (g_own_exit == 0)						
 		execute(&command, _env);
 	// else
 	// {
@@ -81,6 +81,9 @@ void			lexer_parser_executer(char *line, int i, t_env **_env)
 **
 ** if (line[i] != '\0') --> checks if line is empty.
 ** If not execute, else new prompt.
+
+** g_own_exit = 0 --> has to be reset.
+	
 */
 
 int					main(int argc, char **argv, char **env)
@@ -103,6 +106,7 @@ int					main(int argc, char **argv, char **env)
 			set_exit_status(); ///-----new // gaat het hier nou mis met./ nee want het is een executable 
 		if (line[0] != '\0')
 			lexer_parser_executer(line, 0, &_env);
+		g_own_exit = 0;		//Na weghalen toch weer terug gezet vanwege echo "poe
 		free(line);
 		line = NULL;
 	}
@@ -113,5 +117,4 @@ int					main(int argc, char **argv, char **env)
 /* Removed:
 		// g_exit_status = (g_own_exit > 0 && g_own_exit != 999) ?
 			// g_own_exit : g_exit_status;
-		// g_own_exit = 0;
 */

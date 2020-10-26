@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/26 12:06:14 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/26 17:45:16 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,16 +195,18 @@ void				*errno_error(char *str, t_command *command)
 }
 
 
+/*
+** We willen g_own_exit hier behouden want we willen niet dat hij gaat executen.
+*/
 
 // char *error_qoute(char *str)
 // {
-// 	// hier een andere foutmelding is not part of the subject
 // 	write(1, "bash: ", 6 );
 // 	write(1,"unexpected EOF while looking for matching /"" ", 47);
 // 	write(1, "\n", 1);
 // 	write(1, "bash: syntax error: unexpected end of file", 43);
 // 	write(1, "\n", 1);
-// 	// g_own_exit = 258;
+// 	g_own_exit = 258;
 // 	return(NULL);
 // }
 

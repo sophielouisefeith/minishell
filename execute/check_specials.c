@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/22 18:50:57 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/26 12:11:55 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,18 @@ static char		*treat_single_quote(char *str, int *i, int *flag)
 
 static void		if_no_quote(t_command **command, t_env *_env, int y, int *i)
 {
+	char *tmp;
+	
 	if ((*command)->array[y][*i] == '\\')
 	{
-		(*command)->array[y] = delete_escape_char((*command)->array[y], *i);
+		tmp = ft_strdup((*command)->array[y]);
+		free((*command)->array[y]);
+		(*command)->array[y] = NULL;
+		(*command)->array[y] = delete_escape_char(tmp, *i);
 		(*i)++;
 	}
 	if ((*command)->array[y][*i] == '$' &&
-			(*command)->array[y][*i + 1] == '\\')							//Deze kan ik nog samenvoegen met die daarboven
+			(*command)->array[y][*i + 1] == '\\')							//Deze kan ik misschien nog samenvoegen met die daarboven 
 	{
 		(*command)->array[y] = delete_escape_char((*command)->array[y],
 													 (*i + 1));
@@ -124,7 +129,7 @@ void			check_specials(t_command **command, t_env *_env)
 				break;
 			}
 			i++;
-		}
+		}	
 		y++;
 	}
 }
