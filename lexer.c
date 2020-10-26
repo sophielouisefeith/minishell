@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/20 13:55:36 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/26 10:44:16 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void			check_quotation_complete(char quote, char *line, int *i, int *toke
 	(*i)++;
 	while (line[*i] != quote && line[*i])
 	{
-		if (line[*i] == '\\' && line[(*i) + 1] == '\"') 			// || line[(*i) + 1] == '\''))
+		if (line[*i] == '\\' && line[(*i) + 1] == '\"' && line[(*i) - 1] != '\\') 	//new  *i - 1
 			(*i)++;
 		(*i)++;
 	}
@@ -39,10 +39,8 @@ static void			check_quotation_complete(char quote, char *line, int *i, int *toke
 		return ;
 	else
 	{
-		
-		error_qoute(line);			///--- niet helemaal of het nodig is. 		
+		error_qoute(line);			///--- niet helemaal of het nodig is.
 		g_exit_status = 1; //eigen code want hij moet nog wel na andere foutmeldingen executen
-		
 		return ;
 	}
 }
