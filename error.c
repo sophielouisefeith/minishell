@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/26 17:45:16 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/27 10:20:33 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@ bij andere errors ook doen?
 
 char				*error_command(char *str)
 {
+	if(g_exit_status == 127)
+	{
+		set_exit_status();
+		return(str);
+	}
+	printf("command error\n");
 		write(3, "bash: ", 6 );
 		if(!strncmp(str, ";", 1))
 		{
@@ -90,8 +96,6 @@ int					error(t_command *command)
 
 int				error_redirections(char c, int error_num)
 {
-	//int 	num;
-	//printf("kom je hier dan 1 \n");
 	write(1, "bash: ", 6 );
 	if (error_num == 1)
 	{
@@ -129,7 +133,7 @@ void				set_exit_status(void)
 	if (errno == ENOENT)	// "No such file or directory\n"
 	{
 		g_exit_status = 127;
-		// g_own_exit = 127;
+		g_own_exit = 127;
 	}
 	if (errno == EACCES)    //Permission denied. 
 	{
@@ -161,36 +165,34 @@ int 			malloc_fail(int er)
 
 void				*no_file(char *str, t_command *command)
 {
-	if(!strncmp(str, "./",1 ))
-		printf("je bent ./ \n");
+	g_exit_status = 127;
+	if(!strncmp(str, "./", 5))
+	{
+		errno = 21;
+		g_exit_status = 126;
+	}
 	printf("errno[%d]\n", errno);
-	write(1, "bash: ", 6 );
-	write(1, str, ft_strlen(str));
-	write(1, ": ", 2 );
-	write(1, strerror(errno), ft_strlen(strerror(errno)));
-	write(1, "\n", 1);
-	set_exit_status();
+	write(3, "bash: ", 6 );
+	write(3, str, ft_strlen(str));
+	write(3, ": ", 2 );
+	write(3, strerror(errno), ft_strlen(strerror(errno)));
+	write(3, "\n", 1);
 	return (str);
 }
 void				*errno_error(char *str, t_command *command)
 {
-	//printf("errno[%d]\n", errno);
 	int builtin_type;
 	if(executable)  // dirty executable solution 
 	{
 		no_file(str, command);
-		printf("kom je hier\n");
-		errno = 21;
-		g_exit_status = 126;
-		// g_own_exit = 126;
+		return(str);
 	}
-	//printf("hier ook ?\n");
 	write(1, "bash: ", 6 );
 	write(1, str, ft_strlen(str));
 	write(1, ": ", 2 );
 	write(1, strerror(errno), ft_strlen(strerror(errno)));
 	write(1, "\n", 1);
-	set_exit_status();
+	//set_exit_status();
 	return (str);
 }
 
@@ -210,8 +212,9 @@ void				*errno_error(char *str, t_command *command)
 // 	return(NULL);
 // }
 
-char			*error_parameter(char *str)
+char			*error_parameter(char *str) // hier moet een andere naam voor komen behandeld ook de qoutes 
 {
+	printf("parameter error\n");
 	write(1, "bash: ", 6);
 	write(1, str, ft_strlen(str));
 	write(1, ": ", 2 );
