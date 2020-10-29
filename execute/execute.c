@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/29 13:22:24 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 13:32:30 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void			complete_path(t_command **command, t_env *_env)
 	char 		*tmp;
 
 	// printf("in complete path\n");
-	if ((*command)->builtin == builtin_no && (*command)->builtin && (*command)->array[0])
+	if ((*command)->builtin == builtin_no && (*command)->array)
 	{
 		// printf("in complete path1\n");
 		str_before = ft_strdup((*command)->array[0]);					//alleen 0?
