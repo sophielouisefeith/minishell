@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/07 17:31:13 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/29 12:58:38 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 17:07:48 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,6 @@ PAS OP:
 (*command)->array[0][0] != '$' toegevoegd v.w. $"poep" --> Kan niet overzien of dit alles dekt, te beperkt? 
 
 //[0] != '$' toegevoegd v.w. $"poep"
-*/
-
-
-
-/*
-** MOE:
- && (*command)->array[y] != NULL toegevoegd
 */
 
 
