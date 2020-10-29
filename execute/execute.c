@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/29 09:35:16 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 12:28:07 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 			env_ll_to_array(*_env));
 		// if(builtin_type == executable) //lelijke oplssoing voor foutmelding
 		// 	errno = 21;
-		errno_error((*command)->array[0]);
+		errno_error((*command)->array[0]);									// --> 1 van de foutmeldingen van unset PATH ; ls
 		exit(g_exit_status);
 	}
 	if (pid != 0)
@@ -121,6 +121,29 @@ LAATSTE VERSIE VOOR fixes 23/10 : ga dan terug naar ---> 23/10 fixed capital com
 		// printf("array[0] = [%p][%s] -> &[%p]\n", (*command)->array[0], (*command)->array[0], &(*command)->array[0]);
 */
 
+
+
+
+void			complete_path(t_command **command, t_env *_env)
+{
+	char		*str_before;
+	char 		*tmp;
+
+	if ((*command)->builtin == builtin_no)
+	{
+		str_before = (*command)->array[0];					//alleen 0?
+		tmp = ft_strdup((*command)->array[0]);
+		free((*command)->array[0]);
+		(*command)->array[0]= NULL;
+		(*command)->array[0] = check_path(_env, tmp);					
+		// if((*sort)->str == NULL)
+		// 	return(ENOMEM);
+		if (!ft_strcmp(str_before, (*command)->array[0]))
+			(*command)->builtin = builtin_no_com;
+	}
+}
+
+
 void			*execute(t_command **command, t_env **_env)
 {
 	t_execute	*exe;
@@ -131,6 +154,8 @@ void			*execute(t_command **command, t_env **_env)
 	initialise_execute(*command, &exe);
 	while (exe->i < exe->len_list)
 	{
+		complete_path(command, *_env);
+		// tester(NULL, *command);
 		determine_fdin(*command, &exe);
 		check_specials(command, *_env);
 		if (g_own_exit != 999) 

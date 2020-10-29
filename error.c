@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/29 09:30:45 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 10:08:28 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,6 @@ void				*errno_error(char *str)
 
 char			*error_parameter(char *str) // hier moet een andere naam voor komen behandeld ook de qoutes 
 {
-	printf("parameter error\n");
 	write(1, "bash: ", 6);
 	write(1, str, ft_strlen(str));
 	write(1, ": ", 2 );

@@ -303,9 +303,9 @@ echo 123"hallo$"456
 ***************************
 
 export kip=ei=koe===melk											Check
-echo $1234														    check								[Sop]
+echo $1234														    check				
 echo $_1234															Check
-export 1hello_world													Check	[Wel naar foutmelding kijken] 	[Sop] deze is check
+export 1hello_world													Check	
 echo "\""															Check
 echo "\"															Check
 exit 1 2 3															Check
@@ -314,12 +314,12 @@ exit 1 hello														Check
 export LS="ls -la";$LS												X Foutmelding is weer terug		-> bash: ls -la: command not found
 echo > file1 hello >file2 world! > file3 | cat -e					Check
 ls >> file3 | cat < file3											Check
-;																	X niet de juiste foutmelding			[Sop]
+;																	X niet de juiste foutmelding
 > file																Check
 ls >>>>>>>>>>> file													Semi-check (nu nog 5x foutmelding door niet bestaande error structuur)
 echo hoi -n															Check
 cd "\$HOME"															Check
-unset PATH;ls														Check
+unset PATH;ls														Check (door verplaatsing check_path)
 
 check exit status everywhere, for example try and chmod 000 an executable and then try to execute it and check the exit status.				Check [Nog niet everywhere getest, wel de chmod 000]
 try to type something after your prompt then sending EOF (ctrl-d)																			Check	

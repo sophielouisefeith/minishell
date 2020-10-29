@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/29 09:36:27 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 12:08:13 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ static void		if_no_quote(t_command **command, t_env *_env, int y, int *i)
 		free((*command)->array[y]);
 		(*command)->array[y] = NULL;
 		(*command)->array[y]  = if_dollar(tmp, i, _env, 0);
+		// printf("[%s]\n", (*command)->array[y]);
 		check_builtin_again(command, _env, y);
 	}
 }
