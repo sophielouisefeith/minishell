@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/29 13:32:30 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 13:50:11 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 	signal(SIGQUIT, signal_reset);
 	pid = fork();
 	if (pid == -1)
+	{
+		
 		write(1, strerror(errno), ft_strlen(strerror(errno)));
+	}
 	if (pid == 0)
 	{
 		execve((*command)->array[0], (*command)->array,
@@ -101,7 +104,7 @@ static void		*determine_fdin(t_command *command, t_execute **exe)
 		(*exe)->fdin = open(command->input->str_input, O_RDONLY);
 		if ((*exe)->fdin == -1)
 		{
-			return (errno = ENOENT, no_file(command->input->str_input));
+			return (errno = ENOENT, errno_error(command->input->str_input));
 		}
 	}
 	dup2((*exe)->fdin, 0);
@@ -154,7 +157,6 @@ void			complete_path(t_command **command, t_env *_env)
 void			*execute(t_command **command, t_env **_env)
 {
 	t_execute	*exe;
-
 	exe = (t_execute *)malloc(sizeof(t_execute));
 	if (!exe)
 		malloc_fail();
@@ -169,7 +171,7 @@ void			*execute(t_command **command, t_env **_env)
 		check_specials(command, *_env);
 		if (g_own_exit != 999) 
 		{
-			if ((*command)->builtin == builtin_no_com && (!(*command)->array || !(*command)->array[0]))		//M: Welke case komt dit voor? anders liever verwijderen.
+			if ((*command)->builtin == builtin_no_com && (!(*command)->array || !(*command)->array[0]))		//M: Welke case komt dit voor? anders liever verwijderen. S: $POEP komt het voor
 			{
 				free(exe);
 				return (0);
@@ -178,12 +180,15 @@ void			*execute(t_command **command, t_env **_env)
 				error_command((*command)->array[0]);
 		}
 		else			//reset g_own
-			g_own_exit = 0;											//new
+			g_own_exit = 0;										//new
 		determine_fdout(command, &exe, _env, exe->i);
 		if (!(((*command)->sem || (*command)->pipe_after) && (*command)->output))
 			builtin_another_program(command, _env);
 		if ((*command)->sem)
+		{
+			//printf("sem\n");
 			exe->fdin = dup(exe->tmpin);
+		}
 		*command = (*command)->next_command;
 		exe->i++;
 	}

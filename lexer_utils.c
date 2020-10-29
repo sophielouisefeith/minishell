@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 15:51:41 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/29 13:08:53 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 13:47:25 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,21 @@
 
 int				check_redirections(char *line, int i, int type)
 {
+	printf("redirections\n");
 	i++;
 	while (is_whitespace(line[i]))
 		i++;
 	if (type == token_redirection_greater || type == token_redirection_dgreater)
 	{
 		if (line[i] == '/' || line[i] == '.' || line[i] == '~')
-			return (error_redirections(line[i], 3));
+			return (error_redirections(line[i], 3, 0, NULL));
 	}
 	if (line[i] == '\n' || line[i] == '#' || line[i] == '&' ||
 		line[i] == '(' || line[i] == ')' || line[i] == ';' ||
 		line[i] == '>' || line[i] == '<' || line[i] == '|' || line[i] == '\0')
-			return (error_redirections(line[i], 1));
+		return (error_redirections(line[i], 1,i, line));
 	if (line[i] == '*')
-		return (error_redirections(line[i], 2));
+		return (error_redirections(line[i], 2, 0, NULL));
 	return (1);
 }
 

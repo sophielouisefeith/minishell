@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/28 18:23:25 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 12:28:33 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,13 +262,13 @@ void							lexer_parser_executer(char *line, int i, t_env **_env);
 
 /* >>>>>>>>>>> */
 int								check_redirections(char *line, int i, int type);
-int								error_redirections(char c, int error_num);
+int								error_redirections(char c, int error_num, int i, char *line);
 // char							*error_no_path(char *str);
-void							*no_file(char *str);
+// void							*no_file(char *str);
 void							*errno_error(char *str);
 void							set_exit_status(void);
 
-char							*error_parameter(char *str);
+char							*not_part(char *str);
 char 							*translate_builtin(int b);
 
 int				dollar_is_special_char(char *str, int i);
