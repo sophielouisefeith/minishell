@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/21 16:28:40 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 09:44:03 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void			parameter_not_exist(t_command **command, int *y)
 **	$ stays, remove first special char
 */
 
-static int		group_and_start_newstr2(char *str, char ret, int i, int *start)
+static int		group_and_start_newstr2(char *str, int ret, int i, int *start)
 {
 	int			group;
 
@@ -184,21 +184,28 @@ char			*if_dollar(char *str, int *i, t_env *_env, int quote)
 	dollar = (t_dollar *)malloc(sizeof(t_dollar));
 	initiate_dollar(dollar, quote);
 	if (*i > 0)
-		dollar->new_str1 = ft_substr(str, 0, *i);
+		dollar->new_str1 = ft_substr(str, 0, *i);							//STR MOET NOG FREE			/newstr mal
 	dollar->ret = dollar_is_special_char(str, (*i + 1));
 	if (dollar->ret == -1)
-		dollar->parameter = ft_strdup("$");
+		dollar->parameter = ft_strdup("$");									//							/param mal
 	if (dollar->ret == 0)
-		dollar->parameter = ft_substr(str, (*i + 1), ft_strlen(str));
+		dollar->parameter = ft_substr(str, (*i + 1), ft_strlen(str));									//param mal		
 	if (dollar->ret > 0)
-		special_char_found(&dollar, str, *i);
+		special_char_found(&dollar, str, *i);															//param + new_str2  mal
 	if (dollar->ret != -1 && dollar->parameter && !dollar->flag_qm)
-		dollar->parameter = search_node(_env, dollar->parameter);
+	{
+		char *tmp;
+		tmp = ft_strdup(dollar->parameter);
+		free(dollar->parameter);
+		dollar->parameter = NULL;
+		dollar->parameter = search_node(_env, tmp);							//tmp wordt gefreed
+	}
 	if (dollar->new_str2 && !dollar->flag_group2 && (dollar->new_str2[0] == '$'
 		|| dollar->new_str2[0] == '\'' || dollar->new_str2[0] == '\"'))
 		(*i)--;
 	/// LEAKS
 	free(str);
+	str = NULL;																//STR FREE CHECK
 	str = join_strings(dollar->new_str1, dollar->parameter,
 		dollar->new_str2);
 	free_if_dollar(&dollar);
@@ -206,6 +213,7 @@ char			*if_dollar(char *str, int *i, t_env *_env, int quote)
 	return (str);
 }
 
+	// 	dollar->parameter = search_node(_env, dollar->parameter);
 	// return (dollar->parameter);
 	// dollar->parameter = join_strings(dollar->new_str1, dollar->parameter,
 	// 	dollar->new_str2);

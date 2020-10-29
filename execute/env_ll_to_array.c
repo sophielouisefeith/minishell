@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 13:21:40 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/20 16:03:57 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/28 18:31:35 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ char			**env_ll_to_array(t_env *env)
 	len_list = lstsize_env(env);
 	array = (char **)malloc(sizeof(char *) * (len_list + 1));
 	if (array == NULL)
-		malloc_fail(errno = ENOMEM); ///---malloc return???
+	{
+		errno = ENOMEM;
+		malloc_fail(); ///---malloc return???
+	}
 	while (env)
 	{
 		array[y] = ft_strjoin(env->name, "=");

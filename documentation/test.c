@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   execute_pwd.c                                      :+:    :+:            */
+/*   test.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/07/24 12:46:44 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/28 18:14:51 by maran         ########   odam.nl         */
+/*   Created: 2020/10/28 12:31:03 by maran         #+#    #+#                 */
+/*   Updated: 2020/10/28 12:35:03 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-#include <limits.h>
+#include <stdio.h>
+#include <unistd.h>
 
-int				execute_pwd(void)
+
+int main()
 {
-	char	buf[PATH_MAX];
-	char	*path;
+	int i;
 
-	path = getcwd(buf, sizeof(buf));
-	if (path == NULL)
+	i = 0;
+	while(1)
 	{
-		strerror(errno);
-		return (-1);
+		sleep (5);
+		printf("***\n");
+		i++;
 	}
-	write(1, path, ft_strlen(path));
-	write(1, "\n", 1);
-	return (0);
 }

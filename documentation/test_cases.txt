@@ -1,4 +1,4 @@
-***************************
+red***************************
 ** 			cd 			**
 ***************************
 echo
@@ -466,7 +466,7 @@ echo $!$*						[$! is special, we don't treat this case]
 echo "$!$*"						[$! is special]
 echo $####jgklj					[$# is special, we don't treat this case]
 echo "$####jgklj"				[$# is special]
-echo "123$USER----"				--> MALLOC ERROR (Malloc errors alleen op comp maran?)
+echo "123$USER----"				--> MALLOC ERROR (Malloc errors alleen op comp maran?)		Op school niet
 echo "$####jgklj$USER"			--> MALLOC ERROR
 echo "$123456789$USER"			--> MALLOC ERROR
 echo "123$USER----$"			--> MALLOC ERROR

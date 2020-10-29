@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/22 14:34:10 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/22 17:10:24 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 09:28:41 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ void			ctrl_d(void)
 
 void			signal_reset(int sig_num) 
 {
+	(void)sig_num;
 	return ;
+	
 }
 
 void			sighandler_execve(int status)

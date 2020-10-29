@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/12 16:34:52 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/20 17:37:10 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 09:38:48 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void				free_env(t_env *_env)				//new
     - Beslissen of we de inidividuele arrays binnen **array ook gaan mallocen (net als in split).
     ZO niet, niet freeen. Zo wel freeen! [SOLVED].
 */
+		// printf("FREE array[y] = [%p][%s]\n", array[y], array[y]);
 
 void        free_array(char **array)
 {
@@ -83,8 +84,11 @@ void        free_array(char **array)
         array[y] = NULL;
         y++;
     }
-    free(array);
-	array = NULL;	//
+	if (array)					//TOEVOEGING TEST?
+	{
+   		free(array);
+		array = NULL;	//
+	}
 }
 
 /*
@@ -116,15 +120,15 @@ void        free_list_parser(t_command **command)
     {
         tmp = (*command)->next_command;
         if ((*command)->array)
-            free_array((*command)->array);
-		if ((*command)->quote)
-			free((*command)->quote);			//new
+			free_array((*command)->array);
+		// if ((*command)->quote)						
+		// 	free((*command)->quote);			//new		//GEBRUIKEN WE DIE WEL OF NIET?
         if ((*command)->output)
             free_output((*command)->output);
         if ((*command)->input)
             free_input((*command)->input);
         free(*command);
-            *command = tmp;
+        *command = tmp;
     } 
     *command = NULL;
 }
@@ -137,10 +141,10 @@ void        free_list_lexer(t_lexer **sort)
     while (*sort)
     {
         tmp = (*sort)->next_sort;
-        if((*sort)->str)
-            free((*sort)->str);
-        if((*sort)->token)
-            free((*sort)->token);
+        if ((*sort)->str)
+        	free((*sort)->str);
+        if ((*sort)->token)
+        	free((*sort)->token);
         free((*sort));
         *sort = tmp; 
     }

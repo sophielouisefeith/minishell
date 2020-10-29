@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/10/23 13:54:46 by maran         ########   odam.nl          #
+#    Updated: 2020/10/28 17:55:16 by maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,8 +47,14 @@ SRC =  main.c signals.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 
 OBJ = $(SRC:.c=.o)
 
+CFLAGS = -Wall -Wextra -Werror
+
 all: $(NAME)
-	
+
+# -fsanitize=address -g3
+# -ggdb3
+# -g -fsanitize=address -O1 -fno-omit-frame-pointer
+
 $(NAME): $(OBJ) lib_ft
 	@ar rcs $(LIB) $(OBJ)
 	@$(CC) $(CFLAGS) $(LIB)
@@ -62,7 +68,7 @@ lib_ft:
 
 %.o: %.c
 	@echo $@
-	@$(CC) $(CFLAGS) -c $< -o $@ -D BUFFER_SIZE=128
+	$(CC) $(CFLAGS) -c $< -o $@ -D BUFFER_SIZE=128
 
 clean:
 	$(RM) $(OBJ)

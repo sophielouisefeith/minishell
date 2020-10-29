@@ -4,6 +4,53 @@
 
 Echo ; echo \n ' \n this is the; "first line"' ; echo "and right here;;; 'We have the second'" ; echo and" a fe"'w 'here'; with some slash and quotes  .'  '\' ; echo '\\' ; echo "\\" ; echo   "\"" ; echo  \\ ; echo  \' ; echo  \" "\\"   "\""  \\  \'  \"
 
+---------
+echo \n ' \n this is the; "first line"' ; echo "and right here;;; 'We have the second'" 
+
+------------
+echo "and right here;;; 'We have the second'"  echo "and right here;;; 'We have the second'" 
+
+
+Strippen:
+echo "and right here 'We have the second'"  echo "and right here 'We have the second'" 
+echo "and right here 'We have the second'" "and right here 'We have the second'" 
+echo "Deel 1 'We have the second'" "and right here 'We have the second'" 
+echo "Deel 1 'We have the second'" "Deel 2'We have the second'"
+echo "Deel 1 '123'" "Deel 2 '123'"
+
+
+strippen2: 
+echo and" a fe"'w 'here'; with some slash and quotes  .'  '\'echo and" a fe"'w 'here'; with some slash and quotes  .'  '\'
+De spatie lijkt cruciaal tussn '\'echo !!!
+
+
+
+STRIPPEN 5:
+echo ' \n this is the; "first line"'echo \n ' \n this is the; "first line"'
+
+
+
+SCHONE START:
+echo \n ' \n this is the; "first line"'
+
+
+
+
+
+
+
+
+
+
+
+
+-------------
+
+echo \n ' \n this is the; "first line"' ; echo "and right here;;;			
+Echo ; 
+echo \n ' \n this is the; "first line"' 
+; echo "and right here;;; 'We have the second'" ;
+
 pwd ; hoi ; echo doei			V
 pwd ; $POEP ; echo doei
 pwd ; $USER ; echo doei

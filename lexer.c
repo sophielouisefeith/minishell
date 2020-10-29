@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/26 17:46:05 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/29 09:31:35 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 ** If the closing quotation is found return, otherwise error.
 */
 
-static void			check_quotation_complete(char quote, char *line, int *i, int *token)
+static void			check_quotation_complete(char quote, char *line, int *i)
 {
 
 	(*i)++;
@@ -52,12 +52,12 @@ static void			check_quotation_complete(char quote, char *line, int *i, int *toke
 ** would act as a multiple line command. This not part of the subject.
 */
 
-static int		check_meta_and_quote(char *line, int *i, int *token)
+static int		check_meta_and_quote(char *line, int *i)
 {
 	while ((!is_metachar(line[*i])) && line[*i])
 	{
 		if ((is_single_quote(line[*i]) || is_double_quote(line[*i])) && line[(*i) - 1] != '\\')
-			check_quotation_complete(line[*i], line, i, token);
+			check_quotation_complete(line[*i], line, i);
 		(*i)++;
 	}
 	return (0);
@@ -80,7 +80,7 @@ static void			save_word(char *line, int *i, t_lexer **sort)
 	start = *i;
 	token = allocate_memory_int_string(12);
 	token[token_general] = 1;
-	check_meta_and_quote(line, i, token);
+	check_meta_and_quote(line, i);
 	str = ft_substr(line, start, (*i - start));
 	tmp = ll_new_node_lexer(str, token);
 	ll_lstadd_back_lexer(sort, tmp);
@@ -123,7 +123,7 @@ static void			save_operator(char *line, int *i, int type, t_lexer **sort)
 		token[token_redirection]= check_redirections(line, *i, type);			//new
 	tmp = ll_new_node_lexer(str, token);
 	if(tmp == NULL)
-		malloc_fail(ENOMEM); //----malloc	
+		malloc_fail();
 	ll_lstadd_back_lexer(sort, tmp);
 	(*i)++;
 }

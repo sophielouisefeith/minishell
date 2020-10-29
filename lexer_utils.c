@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 15:51:41 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/12 15:42:23 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/28 14:14:04 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int				*allocate_memory_int_string(int i)
 {
 	int 	*int_str;
 
-	int_str = (int *)malloc(sizeof(int) * i);												
+	int_str = (int *)malloc(sizeof(int) * i);				//Calloc ipv bzero?								
 	ft_bzero(int_str, i * sizeof(int));
 	return (int_str);
 }

@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/27 10:20:33 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/10/29 09:30:45 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,9 @@ void				set_exit_status(void)
 }
 
 
-int 			malloc_fail(int er)
+int 			malloc_fail(void)		//stond int
 { 
+	errno = ENOMEM;
 	if(errno == ENOMEM)
 	{
 		write(1, "bash: ", 6 );
@@ -163,7 +164,7 @@ int 			malloc_fail(int er)
 	return(errno);
 }
 
-void				*no_file(char *str, t_command *command)
+void				*no_file(char *str)
 {
 	g_exit_status = 127;
 	if(!strncmp(str, "./", 5))
@@ -179,14 +180,13 @@ void				*no_file(char *str, t_command *command)
 	write(3, "\n", 1);
 	return (str);
 }
-void				*errno_error(char *str, t_command *command)
+void				*errno_error(char *str)
 {
-	int builtin_type;
-	if(executable)  // dirty executable solution 
-	{
-		no_file(str, command);
-		return(str);
-	}
+	// if(executable)  // dirty executable solution 	//EVEN UITGEZET. ER WERD OOK NIETS MEEGEGEVEN WAARUIT DIT MOEST BLIJKEN
+	// {
+	// 	no_file(str);
+	// 	return(str);
+	// }
 	write(1, "bash: ", 6 );
 	write(1, str, ft_strlen(str));
 	write(1, ": ", 2 );

@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:15 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/23 16:48:13 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 09:42:58 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ if (ret == -1)
 		g_exit_status = 1;
 	else
 		g_exit_status = 0;
+	// printf("In execute_builtin: [%p][%s]   [%p]\n", (*command)->array[0], (*command)->array[0], &(*command)->array[0]);
 */
 
 void			execute_builtin(t_command **command, t_env **_env)
@@ -58,7 +59,7 @@ void			execute_builtin(t_command **command, t_env **_env)
     if ((*command)->builtin == builtin_cd)
         ret = execute_cd(*command, _env);
     if ((*command)->builtin == builtin_pwd)
-        ret = execute_pwd(*command, *_env);
+        ret = execute_pwd();
 	if ((*command)->builtin == builtin_export)
 		ret = execute_export(_env, command);
 	if ((*command)->builtin == builtin_unset)

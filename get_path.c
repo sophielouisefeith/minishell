@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/23 16:47:41 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/28 18:32:19 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char			*check_path(t_env *_env, char *str)
 	i = 0;
 	path = search_node(_env, ft_strdup("PATH"));	//vanwege free in search node
 	if (!path)
-		return (errno = ENOENT, errno_error(str, 0));
+		return (errno = ENOENT, errno_error(str));
 	patharray = ft_split(path, ':');			//FREE
 	if (!patharray)
 		return (NULL);
@@ -106,7 +106,7 @@ char			*check_path(t_env *_env, char *str)
 	free(tmp);
 	free_array(patharray);
 	free(path);
-		return (str);
+	return (str);
 }
 
 /* Removed:

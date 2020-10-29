@@ -6,18 +6,18 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/20 13:51:48 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/29 09:37:10 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void 	close_and_save_array(t_command **tmp, char **array, int y, int *quote)
+static void 	close_and_save_array(t_command **tmp, char **array, int y)
 {
 	if (array != NULL)
 		array[y]= 0;
 	(*tmp)->array = array;
-	(*tmp)->quote = quote;
+	// (*tmp)->quote = quote;				//Twijfel waarvoor we dit gebruikten
 }
 
 static int		redirection(t_lexer **sort, t_command **tmp)
@@ -58,7 +58,7 @@ static int		redirection(t_lexer **sort, t_command **tmp)
 	
 */
 
-static int		general(t_lexer **sort, char **array, int *y, int *quote)
+static int		general(t_lexer **sort, char **array, int *y)
 {
     while (*sort && (*sort)->token[token_general]) 											//dit er nog bij?  && array != NULL)
 	{
@@ -69,10 +69,7 @@ static int		general(t_lexer **sort, char **array, int *y, int *quote)
 		// }
 		array[*y] = ft_strdup((*sort)->str);
 		if(array[*y] == NULL)
-		{
-			malloc_fail(errno = ENOMEM);
-			//return(malloc_fail(errno = ENOMEM));
-		}
+			malloc_fail();
 		(*y)++;
 		if ((*sort)->next_sort)
 			*sort = (*sort)->next_sort;
@@ -108,30 +105,28 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp, t_env *
 	quote = NULL;
 	num_nodes = 0;
 	y = 0;
-	(*tmp)->builtin = check_builtin_node(sort, _env, tmp);
+	(*tmp)->builtin = check_builtin_node(sort, _env);
 	num_nodes = count_node(*sort, (*tmp)->builtin);
 	if ((*tmp)->builtin >= builtin_echo && (*tmp)->builtin <= builtin_exit)			//dit kan evt ook in count_node
 		*sort = (*sort)->next_sort;
 	if (num_nodes > 0)
 	{
 		array = (char **)malloc((num_nodes + 1) * sizeof(char *));
-		if(array == NULL)
-			malloc_fail(errno = ENOMEM);
-			//return(malloc_fail(ENOMEM));   ///--free 
-			//return(ENOMEM);
-		quote = allocate_memory_int_string(num_nodes);							//new
+		if (array == NULL)
+			malloc_fail();
+		// quote = allocate_memory_int_string(num_nodes);							//GBERUIKEN WE DEZE NOG?
 	}
 	while (*sort && ((*sort)->token[token_general]
 				|| (*sort)->token[token_redirection]))
 	{
 		ret = redirection(sort, tmp);
 		if (ret == 1)
-			return (close_and_save_array(tmp, array, y, quote));
-		ret = general(sort, array, &y, quote);
+			return (close_and_save_array(tmp, array, y));
+		ret = general(sort, array, &y);
 		if (ret == 1)
-			return (close_and_save_array(tmp, array, y, quote));
+			return (close_and_save_array(tmp, array, y));
 	}
-	return (close_and_save_array(tmp, array, y, quote));
+	return (close_and_save_array(tmp, array, y));
 }
 
 /*
@@ -147,7 +142,7 @@ int				parser(t_lexer **sort, t_command **command, int pipe_status, t_env **_env
 	tmp = NULL;
 	tmp = ll_new_node_command();
 	if(tmp == NULL)
-		return(malloc_fail(ENOMEM)); //malloc
+		return(malloc_fail());
     fill_builtin_redirec_array(sort, &tmp, _env);
 	if (*sort && (*sort)->token[token_semicolon])
     	(tmp)->sem = 1;

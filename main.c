@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/26 12:18:34 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 09:29:04 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,9 @@ void			lexer_parser_executer(char *line, int i, t_env **_env)
 	// //EXECUTOR
 	if (g_own_exit == 0)						
 		execute(&command, _env);
-	// else
-	// {
-	// 	free(lexer);
-	// }
 
 	// //FREE COMMAND
 	free_list_parser(&command_copy);		//LEAKS
-	//  free_list_executer();
 }
 
 /*
@@ -94,6 +89,8 @@ int					main(int argc, char **argv, char **env)
 
 	ret = 1;
 	_env = save_env(env);
+	(void)argc;
+	(void)argv;
 	while (ret > 0)
 	{
 		signal(SIGQUIT, sighandler);

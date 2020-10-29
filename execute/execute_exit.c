@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/30 13:54:44 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/22 12:25:31 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/10/28 18:15:54 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static void 	error_exit(t_command *command, int i)
 
 int        execute_exit(t_command *command)
 {
-	int		argument_0;
 	int 	i;
 	int		ret;
 

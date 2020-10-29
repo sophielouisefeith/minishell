@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/27 09:45:49 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/10/28 18:23:25 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int								parser(t_lexer **sort, t_command **command, int count, t_env **_env);
 int								count_node(t_lexer *sort, int builtin);
 char            				*trunc_quotes(char *str);
 int         					get_builtin_type(char *str);
-int								check_builtin_node(t_lexer **head, t_env **_env, t_command **tmp);
+int								check_builtin_node(t_lexer **head, t_env **_env);
 
 
 /*Check path */
@@ -200,8 +200,7 @@ char							*error_command(char *str);
 int								error(t_command *command);
 char 							*error_qoute(char *str);
 void							set_exit_status(void);
-void							*errno_error(char *str, t_command *command);
-int								malloc_fail(int er);
+int								malloc_fail(void);
 /*execute*/
 void            				*execute(t_command **command, t_env **env);
 void             				execute_builtin(t_command **command, t_env **_env);
@@ -219,7 +218,7 @@ int								env(t_env *_env);
 char							**env_ll_to_array(t_env *env);
 
 int             				execute_cd(t_command *command, t_env **_env);
-int                 			execute_pwd(t_command *command, t_env *_env);
+int                 			execute_pwd(void);
 
 int            					execute_export(t_env **_env, t_command **command);
 char							**ft_split2(char const *s, char c);
@@ -265,8 +264,8 @@ void							lexer_parser_executer(char *line, int i, t_env **_env);
 int								check_redirections(char *line, int i, int type);
 int								error_redirections(char c, int error_num);
 // char							*error_no_path(char *str);
-void							*no_file(char *str, t_command *command);
-void							*errno_error(char *str, t_command *command);
+void							*no_file(char *str);
+void							*errno_error(char *str);
 void							set_exit_status(void);
 
 char							*error_parameter(char *str);
@@ -274,6 +273,10 @@ char 							*translate_builtin(int b);
 
 int				dollar_is_special_char(char *str, int i);
 void			initiate_dollar(t_dollar *dollar, int quote);
+
+
+char		*make_tmp(char **str);
+
 
 // ./ <h hebben een andere exit code, <<<<< doet het ineens nu ook niet meer daar naar kijken 
 //kijken met de fd[3] waar dat dan allemaal aangepast moet worden. 

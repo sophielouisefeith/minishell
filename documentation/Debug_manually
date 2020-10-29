@@ -1,0 +1,42 @@
+gcc -g main.c signals.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
+		save_env.c\
+		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
+		ll_make_list_lexer.c parser.c parser_utils.c\
+		ll_make_list_parser.c\
+		free_list.c \
+		tester.c\
+		output.c input.c\
+		execute/execute.c\
+		execute/execute_utils.c\
+		execute/check_specials.c\
+		execute/check_specials_utils.c\
+		execute/execute_builtin.c\
+		execute/echo.c\
+		execute/execute_cd.c  execute/execute_pwd.c\
+		execute/env_ll_to_array.c\
+		execute/env.c\
+		execute/execute_unset.c\
+		execute/execute_exit.c\
+		execute/parameter_expansion.c\
+		execute/parameter_expansion_utils.c\
+		execute/execute_export.c\
+		execute/ft_split2.c\
+		get_path.c\
+		error.c\
+		execute/check_builtin_again.c\
+		libft/ft_strlen.c\
+		libft/ft_substr.c\
+		libft/ft_split.c\
+		libft/ft_atoi.c\
+		libft/ft_bzero.c\
+		libft/ft_isalnum.c\
+		libft/ft_isdigit.c\
+		libft/ft_isprint.c\
+		libft/ft_strchr.c\
+		libft/ft_strdup.c\
+		libft/ft_strjoin.c\
+		libft/ft_strncmp.c\
+		libft/ft_strrchr.c\
+		libft/ft_isalpha.c\
+		libft/ft_itoa.c\
+		libft/ft_tolower.c -D BUFFER_SIZE=128

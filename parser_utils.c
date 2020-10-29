@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/23 13:53:46 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 09:40:20 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,10 @@ echohallo: command not found
 */
 
 
+	// printf("Delete quotes src = [%p][%s] .  [%p]\n", src, src, &src);
+	// printf("Delete quotes dst = [%p][%s] .  [%p]\n", dst, dst, &dst);
+	// dst = (char *)malloc(sizeof(char) * (len + 1));			//New: gaat dit goed, moet ik wel opnieuw mallocen. Let op bij freeen. 
+	// printf("Delete quotes dst = [%p][%s] .  [%p]\n", dst, dst, &dst);
 char		*delete_quotes(char *src, char garbage)
 {
 	char *dst;
@@ -128,7 +132,7 @@ char		*delete_quotes(char *src, char garbage)
 	dst_i = 0;
 	count = 0;
 	len = ft_strlen(src) - 2;
-	dst = (char *)malloc(sizeof(char) * (len + 1));			//New: gaat dit goed, moet ik wel opnieuw mallocen. Let op bij freeen. 
+	dst = (char *)calloc(len + 1, sizeof(char));	
 	while (src[src_i] != '\0')
 	{
 		if (src[src_i] == garbage && count < 2)
@@ -141,10 +145,11 @@ char		*delete_quotes(char *src, char garbage)
 		dst_i++;
 	}
     dst[len] = '\0';
-	free(src);		// gaat dit goed?
-	src = NULL;		//
+		free(src);
+		src = NULL;
 	return (dst);
 }
+	// printf("Delete quotes dst= [%p][%s] .  [%p]\n", dst, dst, &dst);
 
 /*
 ** Check path checks the env variable path for commands, and completes the path.
@@ -156,26 +161,40 @@ char		*delete_quotes(char *src, char garbage)
 	// printf("(*sort)->str = [%s]\n", (*sort)->str);
 	// printf("(*sort)->str = [%s]\n", (*sort)->str);
 
-int				check_builtin_node(t_lexer **sort, t_env **_env, t_command **tmp)
+int				check_builtin_node(t_lexer **sort, t_env **_env)
 {
 	int 	builtin_type;
 	char 	*str_before;
+	char 	*tmp;
 
 	if (is_single_quote((*sort)->str[0]) || is_double_quote((*sort)->str[0]))		//mag alleen bij het eerste woord worden getrunct (hoezo komt hij niet bij volgende woorden?)
-		(*sort)->str = delete_quotes((*sort)->str, (*sort)->str[0]);
+	{
+		//Wanhoop test
+		tmp = ft_strdup((*sort)->str);
+		free ((*sort)->str);
+		(*sort)->str = NULL;
+		//
+		(*sort)->str = delete_quotes(tmp, (*sort)->str[0]);
+	}	
 	builtin_type = get_builtin_type((*sort)->str);
 	if (builtin_type == builtin_no)
 	{
-		str_before = (*sort)->str;
-		(*sort)->str = check_path(*_env, (*sort)->str);
+		str_before = (*sort)->str;	//Wanhoop: mag dit want stack? of strdup?
+		//Wanhoop test
+		tmp = ft_strdup((*sort)->str);
+		free ((*sort)->str);
+		(*sort)->str = NULL;
+		(*sort)->str = check_path(*_env, tmp);
+		//							
 		if((*sort)->str == NULL)
 			return(ENOMEM);
 			//return(malloc_fail(ENOMEM));
 		if (!ft_strcmp(str_before, (*sort)->str))
-		{
 			builtin_type = builtin_no_com;
-		}
 	}
 	return (builtin_type);
 }
 
+
+		// (*sort)->str = check_path(*_env, (*sort)->str);
+		// (*sort)->str = delete_quotes((*sort)->str, (*sort)->str[0]);
