@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/10/29 12:25:48 by SophieLouis   ########   odam.nl          #
+#    Updated: 2020/10/29 21:23:41 by maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ LIBFT = libft
 
 SRC =  main.c signals.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		save_env.c\
-		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
+		libft/get_next_line/get_next_line.c\
+		libft/get_next_line/get_next_line_utils.c\
 		ll_make_list_lexer.c parser.c parser_utils.c\
 		ll_make_list_parser.c\
 		free_list.c \
@@ -70,7 +71,7 @@ lib_ft:
 
 %.o: %.c
 	@echo $@
-	$(CC) $(CFLAGS) -c $< -o $@ -D BUFFER_SIZE=128
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	$(RM) $(OBJ)

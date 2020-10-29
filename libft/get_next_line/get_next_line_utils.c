@@ -6,11 +6,12 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/08 16:37:28 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/20 12:45:39 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 21:49:25 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "../libft.h"
 
 char			*ft_strchr_gnl(const char *s, int c)
 {
@@ -30,24 +31,6 @@ char			*ft_strchr_gnl(const char *s, int c)
 	return (NULL);
 }
 
-char			*ft_strdup_gnl(const char *s1)
-{
-	char	*dest;
-	int		i;
-
-	i = 0;
-	dest = (char *)malloc((ft_strlen_gnl(s1) + 1) * (sizeof(char)));
-	if (dest == NULL)
-		return (NULL);
-	while (s1[i])
-	{
-		dest[i] = s1[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
 char			*ft_substr_gnl(char *s, unsigned int start, size_t len)
 {
 	char	*dest;
@@ -57,7 +40,7 @@ char			*ft_substr_gnl(char *s, unsigned int start, size_t len)
 	i = 0;
 	if (!s)
 		return (NULL);
-	strlen_s = ft_strlen_gnl(s);
+	strlen_s = ft_strlen(s);
 	dest = (char *)malloc(sizeof(char) * (len + 1));
 	if (dest == NULL)
 	{
@@ -107,7 +90,7 @@ char			*ft_strjoin_gnl(char *s1, char *s2)
 
 	if (!s1 || !s2)
 		return (NULL);
-	len = ft_strlen_gnl(s1) + ft_strlen_gnl(s2);
+	len = ft_strlen(s1) + ft_strlen(s2);
 	str = (char *)malloc((len + 1) * sizeof(char));
 	if (str == NULL)
 	{

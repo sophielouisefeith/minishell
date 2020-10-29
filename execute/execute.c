@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/29 17:41:59 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 19:58:55 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void			builtin_another_program(t_command **command, t_env **_env)
 static void		determine_fdout(t_command **command, t_execute **exe,
 									t_env **_env, int i)
 {
+	// printf("A\n");
 	if (i == (*exe)->len_list - 1)
 		(*exe)->fdout = fill_fdout((*command)->output, (*exe)->tmpout);
 	else if ((*command)->sem && (*command)->output)
@@ -89,11 +90,13 @@ static void		determine_fdout(t_command **command, t_execute **exe,
 		pipe((*exe)->fdpipe);
 		(*exe)->fdout = (*exe)->fdpipe[1];
 		(*exe)->fdin  = (*exe)->fdpipe[0];
+		// printf("B\n");
 	}
 	else
 		(*exe)->fdout = dup((*exe)->tmpout);
 	dup2((*exe)->fdout,1);
 	close((*exe)->fdout);
+	// printf("C\n");
 }
 
 static void		*determine_fdin(t_command *command, t_execute **exe)
@@ -166,14 +169,15 @@ void			*execute(t_command **command, t_env **_env)
 			error_command((*command)->array[0]);
 		else			//reset g_own
 			g_own_exit = 0;										//new
+		// printf("1\n");
 		determine_fdout(command, &exe, _env, exe->i);
+		// printf("2\n");
 		if (!(((*command)->sem || (*command)->pipe_after) && (*command)->output))
 			builtin_another_program(command, _env);
+		// printf("3\n");
 		if ((*command)->sem)
-		{
-			//printf("sem\n");
 			exe->fdin = dup(exe->tmpin);
-		}
+		// printf("-------------------------\n");
 		*command = (*command)->next_command;
 		exe->i++;
 	}
