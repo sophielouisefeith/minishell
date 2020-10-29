@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/29 12:28:07 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 13:22:24 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,18 +129,25 @@ void			complete_path(t_command **command, t_env *_env)
 	char		*str_before;
 	char 		*tmp;
 
-	if ((*command)->builtin == builtin_no)
+	// printf("in complete path\n");
+	if ((*command)->builtin == builtin_no && (*command)->builtin && (*command)->array[0])
 	{
-		str_before = (*command)->array[0];					//alleen 0?
+		// printf("in complete path1\n");
+		str_before = ft_strdup((*command)->array[0]);					//alleen 0?
 		tmp = ft_strdup((*command)->array[0]);
 		free((*command)->array[0]);
 		(*command)->array[0]= NULL;
+		// printf("in complete path2\n");
 		(*command)->array[0] = check_path(_env, tmp);					
+		// printf("in complete path3\n");
 		// if((*sort)->str == NULL)
 		// 	return(ENOMEM);
+		// printf("[%s] en [%s]\n", str_before, (*command)->array[0]);
 		if (!ft_strcmp(str_before, (*command)->array[0]))
 			(*command)->builtin = builtin_no_com;
+		free(str_before);
 	}
+	// printf("uit complete path\n");
 }
 
 
@@ -154,8 +161,10 @@ void			*execute(t_command **command, t_env **_env)
 	initialise_execute(*command, &exe);
 	while (exe->i < exe->len_list)
 	{
-		complete_path(command, *_env);
 		// tester(NULL, *command);
+		// printf("0\n");
+		complete_path(command, *_env);
+		// printf("1\n");
 		determine_fdin(*command, &exe);
 		check_specials(command, *_env);
 		if (g_own_exit != 999) 

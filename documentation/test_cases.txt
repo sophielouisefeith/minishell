@@ -311,7 +311,7 @@ echo "\"															Check
 exit 1 2 3															Check
 exit hello															Check
 exit 1 hello														Check
-export LS="ls -la";$LS												X Foutmelding is weer terug		-> bash: ls -la: command not found
+export LS="ls -la";$LS												Check
 echo > file1 hello >file2 world! > file3 | cat -e					Check
 ls >> file3 | cat < file3											Check
 ;																	X niet de juiste foutmelding
