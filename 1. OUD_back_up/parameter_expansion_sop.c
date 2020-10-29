@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parameter_expansion.c                              :+:    :+:            */
+/*   parameter_expansion_sop.c                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/13 15:16:18 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 12:28:00 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ static char			*exception(char *str, int ret, char *parameter)
 		return(parameter);
 	}
 	else
-		return(error_parameter(str));
+		return(not_part(str));
 	return(parameter);
 }
 
@@ -267,7 +267,7 @@ char			*expand(char *str, int i, t_env *_env)
 		parameter = join_strings(new_str1, parameter, new_str2);
 	else
 	{
-		error_parameter(str);
+		not_part(str);
 		//printf("not part of the subject");
 	}
 	

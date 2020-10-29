@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/29 09:31:35 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 12:27:47 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void			check_quotation_complete(char quote, char *line, int *i)
 		return ;
 	else
 	{
-		error_parameter(line);			///--- niet helemaal of het nodig is.
+		not_part(line);			///--- niet helemaal of het nodig is.
 		g_exit_status = 1; //eigen code want hij moet nog wel na andere foutmeldingen executen
 		return ;
 	}
