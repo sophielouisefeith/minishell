@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/29 13:46:49 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/29 13:57:29 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ int				error_redirections(char c, int error_num, int i, char *line)
 	line = "S";
 	printf("hier\n");
 	printf("i[%d]\n", i);
-	if(i > 1)
-		return(1);
+	// if(i > 1)
+	// 	return(1);
 	write(1, "bash: ", 9 );
-	printf("error[%d]", error_num);
+	printf("error[%d]\n", error_num);
 	printf("i[%d]\n", g_exit_status );
 	if (error_num == 1)
 	{

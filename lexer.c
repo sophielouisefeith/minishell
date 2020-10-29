@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/29 13:47:35 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/29 14:58:02 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ static void			save_operator(char *line, int *i, int type, t_lexer **sort)
 	if (type >= token_redirection_greater &&
 			type <= token_redirection_dgreater)
 	{
-		printf("1\n");
+		//printf("1\n");
 		token[token_redirection]= check_redirections(line, *i, type);			//new
 	}		
 	tmp = ll_new_node_lexer(str, token);

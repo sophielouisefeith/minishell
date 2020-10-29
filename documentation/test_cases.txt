@@ -453,7 +453,7 @@ Expand/if_dollar test:
 -----------------------
 echo $USERhallo
 echo $2$*
-echo $hallo"poep"
+echo $2$*
 echo /$"123$USER"
 echo $222
 echo hallo$USER****$USER$2$*
@@ -728,3 +728,112 @@ clear
 poep
 pwd
 $USER USER
+
+
+
+
+
+--------------------------TIM-------------
++++ SIMPLE COMMAND +++
+/bin/ls
+/bin/pwd
+ls -la
+pwd
+/bin/chmod
++++ ARGUMENTS +++
+/bin/ls -la
++++ ECHO +++
+Echo ; echo \n ' \n this is the; "first line"' ; echo "and right here;;; 'We have the second'" ; echo and" a fe"'w 'here'; with some slash and quotes   .'   '\' ; echo '\\' ; echo "\\" ; echo    "\"" ; echo   \\ ; echo   \' ; echo   \" "\\"    "\""   \\   \'   \"
+echo 00\\\'pp ; echo 00\\\\\'pp ; echo 00\\\\'pp' ; echo “./hello”. ; echo ./hello ; echo ello
++++ EXIT +++
+exit 123 123 123
+
+exiexit a b b c c ct a
+exit 1234
++++ RETURN VALUE OF A PROCESS +++
+echo $?
+/bin/ls
+echo $?
+/bin/ls doesnotexist
+echo $?
++++ SEMICOLONS +++
+echo hi ; echo ; echo ; echo ; export ; env ; echo ; echo ; echo ; echo working ; echo $PWD
++++ SIGNALS +++
+ctrl-C
+ctrl \
+ctrl-D
+asdf ctrl-C
+asdf ctrl-D
+cat ctrl-C
+asdf ctrl-\
+cat ctrl-D
++++ DOUBLE +++
+echo \"test\"
+echo"
+hoi
+"
+echo
+echo\
++++ ENV +++
+env
++++ EXPORT +++
+export ; export a="\\" ; export b='\\' ; export c="\b"
+export
+env
+export a=hijdoehet
+export
+export test=working
+export
+export test1
+export
+export test1=
+export
+export 1test
+emnv
+env ; echo ; export a=hijdoehet ; echo ; env ; echo ; export test=working;echo ;env ; echo ; export test1; export; echo ; env ; echo ; export test1= ; echo ; env
++++ UNSET +++
+unset a ; env ; unset test ; unset test1 ; env
++++ ENVIRONMENT +++
+echo $PWD ; echo $HOME ; echo "$PWD" ; echo '$PWD' ; echo "$HOME"
++++ CD +++
+cd ..
+pwd
+/bin/ls
+cd ..
+pwd
+/bin/ls
+cd notworking
+cd .
+cd .. ; pwd;/bin/ls;cd .. ;      pwd    ;/bin/ls;     cd notworking;     cd .
++++ PWD +++
+pwd
+pwd .
+pwd ..
++++ RELATIVE PATH +++
+cd ../Desktop
++++ ENVIRONMENT PATH +++
+ls -la
+echo > ilovewords.txt count me ; wc ilovewords.txt
+awk '{ print }' /etc/passwd
+unset PATH
+export PATH="test:working:multiplepath:directory1:directory2"
+export
++++ SIMPLE QUOTES +++
+echo 'how are you'
+echo '$PWD'
++++ REDIRECTION +++
+echo > doethet ; echo hoi >> doethet "of niet" ; echo clear > "doethet" ; echo test > working.txt ; echo > newfile.txt hardertest
+echo > "hardesttest.txt"
+echo adding stuff >> working.txt
+echo more stuff >> working.txt
+echo > working.txt
+echo dit > test1 gaat > test2 goed > test3
+echo dit > test1 gaat > test2 goed > test3 > test4
+cat < test4
+< test4 cat
++++ PIPES +++
+export | grep -e $HOME
+export | grep -e $PWD
+cat working.txt | grep stuff | echo tim
+ls filedoesnotexist | grep notme | echo "TEST"
+cat | cat -e
