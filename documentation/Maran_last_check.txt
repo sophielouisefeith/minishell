@@ -39,11 +39,6 @@ echo \n ' \n this is the; "first line"'
 
 
 
-
-
-
-
-
 -------------
 
 echo \n ' \n this is the; "first line"' ; echo "and right here;;;			
@@ -51,6 +46,7 @@ Echo ;
 echo \n ' \n this is the; "first line"' 
 ; echo "and right here;;; 'We have the second'" ;
 
+-------------
 pwd ; hoi ; echo doei			V
 pwd ; $POEP ; echo doei
 pwd ; $USER ; echo doei
@@ -71,10 +67,8 @@ echo  \" "\\"   "\""  \\  \'  \"
 \\
 \'
 \"
-
-
 echo  \" "\\"   "\""  \\
-echo "\""  \\					--> deze fixen
+echo "\""  \\
 
 cat | cat -e
 

@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/29 13:46:49 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/29 14:14:13 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ int				error_redirections(char c, int error_num, int i, char *line)
 
 void				*errno_error(char *str)
 {
-	printf("errno error\n");
 	//int builtin_type;
 	if(!strncmp(str, "<", ft_strlen(str)))   // dit is dus een andere exit status   test <jjy
 	{

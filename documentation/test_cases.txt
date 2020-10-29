@@ -1,5 +1,5 @@
-red***************************
-** 			cd 			**
+***************************
+** 			echo			**
 ***************************
 echo
 
@@ -38,18 +38,17 @@ cd
 cd ~/
 
 Absoluut pad:
-/Users/msiemons/Desktop/map_1
+/Users/maran/Desktop/map_1
 
 Relatief pad:
-cd ../Documents/Git_maran
-
+cd ../Documents/test
 
 ***************************
 **		export			**
 ***************************
 
 export
-export ZZZ
+export ZZZ			[Niet in env, wel in export]
 export ZZZ=
 export ZZZ=new_value
 export ZZZ======new
@@ -73,7 +72,7 @@ export 123$USER---
 ***************************
 
 echo $
-echo $USER              --> moet nog een foutmelding voor komen 
+echo $USER				
 echo $USER'				--> not complete
 echo $USER_				--> underscore is alphanummeriek
 echo 123$USER----
@@ -144,7 +143,6 @@ unset 3						--> 1
  echo | cd .. | pwd
 
  echo
-=======
 ***************************
 ** 		Maak helemaal kapot	**
 ***************************
@@ -167,7 +165,6 @@ exit a 1
 exit 99
 exit 3 a
 exit 55 99
-=======
 
 ***************************
 ** 		Executables		**
