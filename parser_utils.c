@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/29 09:40:20 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 12:10:00 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ char		*delete_quotes(char *src, char garbage)
 int				check_builtin_node(t_lexer **sort, t_env **_env)
 {
 	int 	builtin_type;
-	char 	*str_before;
+	// char 	*str_before;
 	char 	*tmp;
 
 	if (is_single_quote((*sort)->str[0]) || is_double_quote((*sort)->str[0]))		//mag alleen bij het eerste woord worden getrunct (hoezo komt hij niet bij volgende woorden?)
@@ -177,21 +177,23 @@ int				check_builtin_node(t_lexer **sort, t_env **_env)
 		(*sort)->str = delete_quotes(tmp, (*sort)->str[0]);
 	}	
 	builtin_type = get_builtin_type((*sort)->str);
-	if (builtin_type == builtin_no)
-	{
-		str_before = (*sort)->str;	//Wanhoop: mag dit want stack? of strdup?
-		//Wanhoop test
-		tmp = ft_strdup((*sort)->str);
-		free ((*sort)->str);
-		(*sort)->str = NULL;
-		(*sort)->str = check_path(*_env, tmp);
-		//							
-		if((*sort)->str == NULL)
-			return(ENOMEM);
-			//return(malloc_fail(ENOMEM));
-		if (!ft_strcmp(str_before, (*sort)->str))
-			builtin_type = builtin_no_com;
-	}
+
+	(void)_env;
+	// if (builtin_type == builtin_no)
+	// {
+	// 	str_before = (*sort)->str;	//Wanhoop: mag dit want stack? of strdup?
+	// 	//Wanhoop test
+	// 	tmp = ft_strdup((*sort)->str);
+	// 	free ((*sort)->str);
+	// 	(*sort)->str = NULL;
+	// 	(*sort)->str = check_path(*_env, tmp);
+	// 	//							
+	// 	if((*sort)->str == NULL)
+	// 		return(ENOMEM);
+	// 		//return(malloc_fail(ENOMEM));
+	// 	if (!ft_strcmp(str_before, (*sort)->str))
+	// 		builtin_type = builtin_no_com;
+	// }
 	return (builtin_type);
 }
 

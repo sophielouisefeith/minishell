@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/29 13:23:01 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/29 13:48:20 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 			env_ll_to_array(*_env));
 		// if(builtin_type == executable) //lelijke oplssoing voor foutmelding
 		// 	errno = 21;
-		errno_error((*command)->array[0]);
+		errno_error((*command)->array[0]);									// --> 1 van de foutmeldingen van unset PATH ; ls
 		exit(g_exit_status);
 	}
 	if (pid != 0)
@@ -124,6 +124,36 @@ LAATSTE VERSIE VOOR fixes 23/10 : ga dan terug naar ---> 23/10 fixed capital com
 		// printf("array[0] = [%p][%s] -> &[%p]\n", (*command)->array[0], (*command)->array[0], &(*command)->array[0]);
 */
 
+
+
+
+void			complete_path(t_command **command, t_env *_env)
+{
+	char		*str_before;
+	char 		*tmp;
+
+	// printf("in complete path\n");
+	if ((*command)->builtin == builtin_no && (*command)->builtin && (*command)->array[0])
+	{
+		// printf("in complete path1\n");
+		str_before = ft_strdup((*command)->array[0]);					//alleen 0?
+		tmp = ft_strdup((*command)->array[0]);
+		free((*command)->array[0]);
+		(*command)->array[0]= NULL;
+		// printf("in complete path2\n");
+		(*command)->array[0] = check_path(_env, tmp);					
+		// printf("in complete path3\n");
+		// if((*sort)->str == NULL)
+		// 	return(ENOMEM);
+		// printf("[%s] en [%s]\n", str_before, (*command)->array[0]);
+		if (!ft_strcmp(str_before, (*command)->array[0]))
+			(*command)->builtin = builtin_no_com;
+		free(str_before);
+	}
+	// printf("uit complete path\n");
+}
+
+
 void			*execute(t_command **command, t_env **_env)
 {
 	t_execute	*exe;
@@ -133,6 +163,10 @@ void			*execute(t_command **command, t_env **_env)
 	initialise_execute(*command, &exe);
 	while (exe->i < exe->len_list)
 	{
+		// tester(NULL, *command);
+		// printf("0\n");
+		complete_path(command, *_env);
+		// printf("1\n");
 		determine_fdin(*command, &exe);
 		check_specials(command, *_env);
 		if (g_own_exit != 999) 
