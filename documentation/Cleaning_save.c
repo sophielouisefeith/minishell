@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/29 20:44:43 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/30 20:05:53 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 20:12:19 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,6 +275,44 @@ Oude count_node:
 // 		i--;
 // 	return (i);
 // }
+
+
+
+Backup:
+static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp, t_env **_env)
+{
+	//printf("fill_builtin_redirec_array--------parser\n");
+	char 		**array;
+	int 		*quote;
+	int 		num_nodes;
+	int			ret;
+    int 		y;
+
+	array = NULL;
+	quote = NULL;
+	num_nodes = 0;
+	y = 0;
+	(*tmp)->builtin = check_builtin_node(sort, _env);
+	num_nodes = count_node(sort, (*tmp)->builtin);
+	if (num_nodes > 0)
+	{
+		array = (char **)malloc((num_nodes + 1) * sizeof(char *));
+		if (array == NULL)
+			malloc_fail();
+	}
+	while (*sort && ((*sort)->token[token_general]
+				|| (*sort)->token[token_redirection]))
+	{
+		ret = redirection(sort, tmp);
+		if (ret == 1)
+			return (close_and_save_array(tmp, array, y));
+		ret = general(sort, array, &y);
+		if (ret == 1)
+			return (close_and_save_array(tmp, array, y));
+	}
+	return (close_and_save_array(tmp, array, y));
+}
+
 
 
 /***********************

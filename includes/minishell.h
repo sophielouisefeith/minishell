@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/30 20:06:16 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 21:20:06 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void            				tester(t_lexer *sort, t_command *command);
 
 
 
-
+int				error_redi_one(char c, int i, char *line);
 
 
 int								ft_strcmp(const char *s1, const char *s2);

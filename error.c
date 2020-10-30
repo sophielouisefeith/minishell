@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/30 17:50:10 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 22:04:07 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,32 +98,85 @@ int					error(t_command *command)
 	- Nu komt hij bij ls >>>>>>>>>>> file nog 5 x in de foutmelding. Eigenlijk moet hij er naar 1 error al uitklappen.
 	Heeft met onze error structuur te maken die nog niet werkt.
 */
+	//printf("error[%d]\n", error_num);
+	// printf("i[%d]\n", g_exit_status );
+	// if(i > 1)
+	// 	return(1);
+	// line = "S";
+	// printf("error_redirections\n");
+	// printf("i[%d]\n", i);
+
+static int			check_input_redirection(int i, char *line)
+{
+	int 		count;
+
+	count = 0;
+	while (line[i] == '<')
+		i++;
+	if (i <= 3)
+		return (0);
+	else if (i == 4)
+		return (1);
+	else if (i == 5)
+		return (2);
+	else
+		return (3);
+		
+}
+
+
+int				error_redi_one(char c, int i, char *line)
+{
+	int flag;
+
+	flag = 1;
+	write(1, "bash: syntax error near unexpected token `", 42);
+	if (c == '<')
+		flag = check_input_redirection(i, line);				//M: ik vind wel ver gaan. Maar werkt wel.
+	if (c == ';' && line[i + 1] == ';')							//M: same ik vind ver gaan.
+		flag = 2;
+	if (c == '\n' || c == '\0' || c == '#')
+		flag = 0;
+	if (flag == 0)
+		write(1, "newline", 8);
+	else
+	{
+		while (flag)
+		{
+			write(1, &c, 1);
+			flag--; 
+		}
+	}
+	write(1, "'\n", 2);
+	// g_exit_status = 258;   	//	g_own_exit = 258; misschien nog er bij 			[SOP NAAR KIJKEN]
+	return (5);  			// dit is weer een herhaling geval 
+	// //g_own_exit = 3;
+}
+
+
 
 int				error_redirections(char c, int error_num, int i, char *line)
 {
-	line = "S";
-	// printf("error_redirections\n");
-	printf("i[%d]\n", i);
-	// if(i > 1)
-	// 	return(1);
+	(void)i;
+	(void)line;
 	write(1, "bash: ", 9 );
-	//printf("error[%d]\n", error_num);
-	printf("i[%d]\n", g_exit_status );
-	if (error_num == 1)
-	{
-		write(1, " syntax error near unexpected token  '", 35);
-		//g_own_exit = 3;
-		if (c == '\n' || c == '\0' || c == '#')
-			write(1, "`newline'", 8);
-		else
-		{
-			write(1, "`", 1);
-			write(1, &c, 1);
-		}
-		write(1, "'\n", 2);
-		g_exit_status = 258;   //	g_own_exit = 258; misschien nog er bij 
-		return (5);  // dit is weer een herhaling geval 
-	}
+	// if (error_num == 1)
+	// {
+	// 	write(1, " syntax error near unexpected token  '", 35);
+		
+		
+	// 	//g_own_exit = 3;
+	// 	if (c == '\n' || c == '\0' || c == '#')
+	// 		write(1, "`newline'", 8);
+	// 	else
+	// 	{
+	// 		write(1, "`", 1);
+	// 		write(1, &c, 1);
+	// 	}
+	// 	write(1, "'\n", 2);
+	// 	g_exit_status = 258;   //	g_own_exit = 258; misschien nog er bij 
+	// 	return (5);  // dit is weer een herhaling geval 
+	// }
 	write(1, &c, 1);
 	if (error_num == 2)
 		write(1, ": ambiguous redirect\n", 21);  // write(1, &c, 1); zat er eerst nog bij 

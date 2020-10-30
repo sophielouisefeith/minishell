@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 15:51:41 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/30 17:45:03 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 21:21:06 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int				check_redirections(char *line, int i, int type)
 	if (line[i] == '\n' || line[i] == '#' || line[i] == '&' ||
 		line[i] == '(' || line[i] == ')' || line[i] == ';' ||
 		line[i] == '>' || line[i] == '<' || line[i] == '|' || line[i] == '\0')
-		return (error_redirections(line[i], 1,i, line));
+			return (error_redi_one(line[i], i, line));
+			// return (error_redirections(line[i], 1,i, line));
 	if (line[i] == '*')
 		return (error_redirections(line[i], 2, 0, NULL));
 	return (1);

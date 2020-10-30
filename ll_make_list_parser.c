@@ -6,22 +6,30 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/13 10:17:35 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/30 16:59:41 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 22:23:58 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_command		*ll_new_node_command()
+	// new->quote = NULL;
+
+t_command		*ll_new_node_command(int num_nodes, int builtin)
 {
 	t_command	*new;
 
 	new = (t_command *)malloc(sizeof(t_command));
 	if (!new)
-		return (NULL); 
-	new->array = NULL;
-	// new->quote = NULL;
-	new->builtin = -1;
+		return (NULL);
+	if (num_nodes > 0)
+	{
+		new->array = (char **)malloc((num_nodes + 1) * sizeof(char *));
+		if (!new)
+			return (NULL);
+	}
+	else
+		new->array = NULL;
+	new->builtin = builtin;		// was -1
 	new->output = NULL;
 	new->input = NULL;
 	new->pipe_before = 0;
