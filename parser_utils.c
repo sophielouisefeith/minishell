@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/30 17:50:49 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 20:05:58 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,27 @@
 	- Big changes in check_builtin_node: quotes veel korter (gaat dit goed?), check_path toevoeging.
 */
 
-int				count_node(t_lexer *sort, int type_builtin)
+
+int				count_node(t_lexer **sort, int type_builtin)
 {
-	int 	i;
+	t_lexer		*list;
+	int 		i;
 
 	i = 0;
-	while (sort && !sort->token[token_pipe] && !sort->token[token_semicolon])
+	list = *sort;
+	while (list && !list->token[token_pipe] && !list->token[token_semicolon])
 	{
-        if (sort->token[token_general])
+        if (list->token[token_general])
 		    i++;
-        if (sort->token[token_redirection])
-		    sort = sort->next_sort;
-        sort = sort->next_sort;
+        if (list->token[token_redirection])
+		    list = list->next_sort;
+		list = list->next_sort;
 	}
 	if (type_builtin >= builtin_echo && type_builtin <= builtin_exit)
+	{
 		i--;
+		*sort = (*sort)->next_sort;
+	}
 	return (i);
 }
 
