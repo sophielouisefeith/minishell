@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/30 17:17:13 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/30 17:25:06 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char				*error_path(int i, char *str)
 
 char				*error_command(char *str, int i, t_command *command)
 {
-	printf("error_command\n");
+	//printf("error_command\n");
 	// printf("i[%d]\n", i);
 	// printf("str[%s]\n", str);
 	// if(g_exit_status == 127 || g_exit_status == 258 ||g_own_exit == 258  )  //wellicht nodig voor herhaling tegen gaan

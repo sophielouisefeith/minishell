@@ -6,42 +6,12 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/08 16:37:30 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/22 15:47:35 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/29 21:42:03 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-
-size_t			ft_strlen_gnl(const char *s)
-{
-	int i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-/// NEW VOOR CTRLD
-static int		ft_strlen(const char *s)
-{
-	int i;
-
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	return (i);
-}
-static void		ft_putstr(char *str)
-{
-	int len;
-
-	len = ft_strlen(str);
-	write(1, str, len);
-	return ;
-}
-///
+#include "../libft.h"
 
 static char		*ft_cut(char *new_line, char **line, int *r)
 {
@@ -55,11 +25,32 @@ static char		*ft_cut(char *new_line, char **line, int *r)
 	*line = ft_substr_gnl(new_line, 0, i);
 	if (*line == NULL)
 		return (NULL);
-	tmp = ft_substr_gnl(new_line, i + 1, (ft_strlen_gnl(new_line) - i));
+	tmp = ft_substr_gnl(new_line, i + 1, (ft_strlen(new_line) - i));
 	if (tmp == NULL)
 		return (NULL);
 	free(new_line);
 	return (tmp);
+}
+
+/*
+** Added for signals: 
+** (ret > 0), (ret == 0 && flag), ft_putstr("  \b\b");
+*/
+
+static int		check_return_read(int *flag, int ret, char *new_line, char *buf)
+{
+	if (ret == -1)
+	{
+		free(new_line);
+		free(buf);
+		return (0);
+	}
+	if (ret > 0)
+		*flag = ret;
+	if (ret == 0 && *flag)
+		ret = *flag;
+	ft_putstr("  \b\b");
+	return (1);
 }
 
 static char		*ft_read(int fd, char *new_line, int ret)
@@ -77,17 +68,8 @@ static char		*ft_read(int fd, char *new_line, int ret)
 			return (NULL);
 		}
 		ret = read(fd, buf, BUFFER_SIZE);
-		if (ret == -1)
-		{
-			free(new_line);
-			free(buf);
+		if (!check_return_read(&flag, ret, new_line, buf))
 			return (NULL);
-		}
-		if (ret > 0)						//new
-			flag = ret;						//
-		if (ret == 0 && flag)				//
-			ret = flag;						//
-		ft_putstr("  \b\b");				//new [Waarom deze line?]
 		buf[ret] = '\0';
 		new_line = ft_strjoin_gnl(new_line, buf);
 		if (new_line == NULL)
@@ -109,7 +91,7 @@ int				get_next_line(int fd, char **line)
 	ret = 1;
 	r = 1;
 	if (new_line == NULL)
-		new_line = ft_strdup_gnl("");
+		new_line = ft_strdup("");
 	if (new_line == NULL)
 		return (-1);
 	new_line = ft_read(fd, new_line, ret);

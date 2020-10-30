@@ -6,14 +6,13 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/30 17:13:14 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/30 17:22:29 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "get_next_line/get_next_line.h"
 #include "libft/libft.h"
 
 #include <errno.h>

@@ -6,11 +6,12 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/30 17:00:07 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/30 17:22:23 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft/get_next_line/get_next_line.h"
 #include <signal.h>
 
 #define COLOR_PROMPT	"\033[1;34mminishell-$ \033[0m"
@@ -78,9 +79,7 @@ void			lexer_parser_executer(char *line, int i, t_env **_env)
 **
 ** if (line[i] != '\0') --> checks if line is empty.
 ** If not execute, else new prompt.
-
 ** g_own_exit = 0 --> has to be reset.
-	
 */
 
 int					main(int argc, char **argv, char **env)
@@ -105,15 +104,10 @@ int					main(int argc, char **argv, char **env)
 			set_exit_status(); ///-----new // gaat het hier nou mis met./ nee want het is een executable 
 		if (line[0] != '\0')
 			lexer_parser_executer(line, 0, &_env);
-		g_own_exit = 0;		//Na weghalen toch weer terug gezet vanwege echo "poe
+		g_own_exit = 0;
 		free(line);
 		line = NULL;
 	}
 	free_env(_env);
 	return (0);
 }
-
-/* Removed:
-		// g_exit_status = (g_own_exit > 0 && g_own_exit != 999) ?
-			// g_own_exit : g_exit_status;
-*/
