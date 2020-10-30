@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/29 09:37:10 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 16:57:00 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void 	close_and_save_array(t_command **tmp, char **array, int y)
 {
+	//printf("close&safearray--------parser\n");
 	if (array != NULL)
 		array[y]= 0;
 	(*tmp)->array = array;
@@ -22,6 +23,7 @@ static void 	close_and_save_array(t_command **tmp, char **array, int y)
 
 static int		redirection(t_lexer **sort, t_command **tmp)
 {
+	//printf("redirectins--------parser\n");
     while ((*sort)->token[token_redirection])
     {
         if ((*sort)->token[token_redirection_greater])
@@ -60,6 +62,7 @@ static int		redirection(t_lexer **sort, t_command **tmp)
 
 static int		general(t_lexer **sort, char **array, int *y)
 {
+	//printf("-------------general_parser\n");
     while (*sort && (*sort)->token[token_general]) 											//dit er nog bij?  && array != NULL)
 	{
 		// if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
@@ -95,6 +98,7 @@ static int		general(t_lexer **sort, char **array, int *y)
 
 static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp, t_env **_env)
 {
+	//printf("fill_builtin_redirec_array--------parser\n");
 	char 		**array;
 	int 		*quote;
 	int 		num_nodes;
@@ -137,13 +141,17 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp, t_env *
 
 int				parser(t_lexer **sort, t_command **command, int pipe_status, t_env **_env)
 {
+	//printf("parser\n");
 	t_command 	*tmp;
 
+	g_own_exit = 0;
 	tmp = NULL;
 	tmp = ll_new_node_command();
 	if(tmp == NULL)
 		return(malloc_fail());
     fill_builtin_redirec_array(sort, &tmp, _env);
+	if(g_own_exit == 258)
+		return(3);   //hier exit status checken 
 	if (*sort && (*sort)->token[token_semicolon])
     	(tmp)->sem = 1;
     if (pipe_status == 1)

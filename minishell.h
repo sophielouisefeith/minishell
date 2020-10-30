@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/29 12:28:33 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/30 17:13:14 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ void         					free_env(t_env *_env);
 /*error */						
 // char                			*strerror_i(int errnum);
 // int								error_free(int mistake);
-char							*error_command(char *str);
+char							*error_command(char *str, int i, t_command *command);
 int								error(t_command *command);
 char 							*error_qoute(char *str);
 void							set_exit_status(void);
@@ -243,7 +243,7 @@ void 							sighandler(int signum);
 
 /*new*/
 char							*tmp_tolower(char *str);
-void							check_specials(t_command **command, t_env *_env);
+void								check_specials(t_command **command, t_env *_env);
 char							*check_backslash_and_dollar(char *str, int *i, t_env *_env);
 char							*delete_double_quotes(char *src, int start, int end);
 char							*delete_escape_char(char *src, int n);
@@ -265,17 +265,21 @@ int								check_redirections(char *line, int i, int type);
 int								error_redirections(char c, int error_num, int i, char *line);
 // char							*error_no_path(char *str);
 // void							*no_file(char *str);
-void							*errno_error(char *str);
+int								errno_error(char *str);
 void							set_exit_status(void);
 
 char							*not_part(char *str);
-char 							*translate_builtin(int b);
+char 							*translate_builtin(int b, char *str);
 
 int				dollar_is_special_char(char *str, int i);
 void			initiate_dollar(t_dollar *dollar, int quote);
 
 
 char		*make_tmp(char **str);
+
+/// new error for final version
+
+char				*error_path(int i, char *str);
 
 
 // ./ <h hebben een andere exit code, <<<<< doet het ineens nu ook niet meer daar naar kijken 

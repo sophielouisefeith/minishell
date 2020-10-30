@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/29 12:58:48 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 16:54:47 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ static void		if_no_quote(t_command **command, t_env *_env, int y, int *i)
 	
 	if ((*command)->array[y][*i] == '\\')
 	{
+	//	printf("ben je dan hier als bakslah \n");
 		tmp = ft_strdup((*command)->array[y]);
 		free((*command)->array[y]);
 		(*command)->array[y] = NULL;
@@ -222,16 +223,32 @@ static void		check_if_quotes(t_command **command, int *flag, int y, int *i,
 			// printf("CS2: i = [%d][%c]   [%p]\n", i, (*command)->array[y][i], (*command)->array[y]);
 			// printf("CS3: i = [%d][%c]   [%p]\n", i, (*command)->array[y][i], (*command)->array[y]);
 
-void			check_specials(t_command **command, t_env *_env)
+void			complete_path(t_command **command, t_env *_env);
+
+void		check_specials(t_command **command, t_env *_env)
 {
+	
+	//printf("------------checkspecials\n");
+	
 	int		y;
 	int		i;
 	int		flag;
 
 	y = 0;
+	//printf("command in checkspecials[%c]\n",(*command)->array[y][4]);
+	// if(executable)
+	// {
+	// 	error_command((*command)->array[y],3);
+	// 	return(1);
+	// }
+	// if((*command)->array[y][4] == '/')    //dirtysolotion for echo/
+	// {	error_command((*command)->array[y],3);
+	// 	//return(1);
+	// }
 	while ((*command)->array && (*command)->array[y])
 	{
 		i = 0;
+		//printf("command in checkspecials[%c]\n",(*command)->array[y][4]);
 		while ((*command)->array && (*command)->array[y] &&
 			(*command)->array[y][i])
 		{
@@ -249,4 +266,5 @@ void			check_specials(t_command **command, t_env *_env)
 		}	
 		y++;
 	}
+	//return(0);
 }

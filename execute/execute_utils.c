@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/20 11:24:12 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/20 15:26:31 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 16:54:31 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void			initialise_execute(t_command *command, t_execute **exe)
 
 void			close_execute(t_execute **exe)
 {
+	//printf("----------closeexecute\n");
 	dup2((*exe)->tmpin, 0);
 	dup2((*exe)->tmpout, 1);
 	close((*exe)->tmpin);

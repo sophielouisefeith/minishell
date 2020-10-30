@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/29 13:48:20 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/30 17:18:40 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 	pid = fork();
 	if (pid == -1)
 	{
-		
 		write(1, strerror(errno), ft_strlen(strerror(errno)));
 	}
 	if (pid == 0)
@@ -46,6 +45,7 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 			env_ll_to_array(*_env));
 		// if(builtin_type == executable) //lelijke oplssoing voor foutmelding
 		// 	errno = 21;
+		printf("pid == null\n");
 		errno_error((*command)->array[0]);									// --> 1 van de foutmeldingen van unset PATH ; ls
 		exit(g_exit_status);
 	}
@@ -66,6 +66,7 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 
 void			builtin_another_program(t_command **command, t_env **_env)
 {
+	//printf("--------------builtotgerprogram_exceute \n");
 	if ((*command)->builtin == builtin_no || (*command)->builtin == executable)
 		invoke_another_program(command, _env);
 	if ((*command)->builtin != builtin_no_com && (*command)->builtin !=
@@ -76,10 +77,12 @@ void			builtin_another_program(t_command **command, t_env **_env)
 static void		determine_fdout(t_command **command, t_execute **exe,
 									t_env **_env, int i)
 {
+	//printf("--------------determine_fdout, execute\n");
 	if (i == (*exe)->len_list - 1)
 		(*exe)->fdout = fill_fdout((*command)->output, (*exe)->tmpout);
 	else if ((*command)->sem && (*command)->output)
 	{
+	//	printf("output\n");
 		execute_output(command, exe, _env);
 		(*exe)->fdout = dup((*exe)->tmpout);
 	}
@@ -97,13 +100,15 @@ static void		determine_fdout(t_command **command, t_execute **exe,
 	close((*exe)->fdout);
 }
 
-static void		*determine_fdin(t_command *command, t_execute **exe)
+static int	determine_fdin(t_command *command, t_execute **exe)
 {
+	//printf("--------------determine_fdin, execute\n");
 	if (command->input)
 	{
 		(*exe)->fdin = open(command->input->str_input, O_RDONLY);
 		if ((*exe)->fdin == -1)
 		{
+		//	printf("determine_fdin\n");
 			return (errno = ENOENT, errno_error(command->input->str_input));
 		}
 	}
@@ -129,56 +134,68 @@ LAATSTE VERSIE VOOR fixes 23/10 : ga dan terug naar ---> 23/10 fixed capital com
 
 void			complete_path(t_command **command, t_env *_env)
 {
+	//printf("--------------complete_path_execute\n");
 	char		*str_before;
 	char 		*tmp;
 
-	// printf("in complete path\n");
-	if ((*command)->builtin == builtin_no && (*command)->builtin && (*command)->array[0])
+	if ((*command)->builtin == builtin_no && (*command)->array)
 	{
-		// printf("in complete path1\n");
+		
 		str_before = ft_strdup((*command)->array[0]);					//alleen 0?
 		tmp = ft_strdup((*command)->array[0]);
 		free((*command)->array[0]);
 		(*command)->array[0]= NULL;
-		// printf("in complete path2\n");
-		(*command)->array[0] = check_path(_env, tmp);					
-		// printf("in complete path3\n");
+		(*command)->array[0] = check_path(_env, tmp);
+	//	printf("command[%s]\n", (*command)->array[0]);
+		if((*command)->array[0]== NULL )
+			error_command((*command)->array[0], 1, *command);
 		// if((*sort)->str == NULL)
 		// 	return(ENOMEM);
-		// printf("[%s] en [%s]\n", str_before, (*command)->array[0]);
 		if (!ft_strcmp(str_before, (*command)->array[0]))
 			(*command)->builtin = builtin_no_com;
 		free(str_before);
 	}
-	// printf("uit complete path\n");
 }
 
 
 void			*execute(t_command **command, t_env **_env)
 {
+//	printf("------------execute_\n");
 	t_execute	*exe;
+	int 		res;
 	exe = (t_execute *)malloc(sizeof(t_execute));
 	if (!exe)
 		malloc_fail();
 	initialise_execute(*command, &exe);
 	while (exe->i < exe->len_list)
 	{
-		// tester(NULL, *command);
-		// printf("0\n");
 		complete_path(command, *_env);
-		// printf("1\n");
-		determine_fdin(*command, &exe);
-		check_specials(command, *_env);
-		if (g_own_exit != 999) 
-		{
-			if ((*command)->builtin == builtin_no_com && (!(*command)->array || !(*command)->array[0]))		//M: Welke case komt dit voor? anders liever verwijderen. S: $POEP komt het voor
-			{
-				free(exe);
-				return (0);
-			}
-			if ((*command)->builtin == builtin_no_com)				//new
-				error_command((*command)->array[0]);
+		
+		res = determine_fdin(*command, &exe);
+		if(res == 3) // 3 staast voor de return uit errno_error S: wel handig om dit voorbeeld nog even op te zoeken 
+		{	
+			//printf("res = 0 \n");
+			//close_execute(&exe);
+			//free(exe);	//LEAKS
+			return(0);    // or own exit status op 0 zodat hij eruit klapt 
 		}
+		check_specials(command, *_env);  //res = 
+		// if(!executable)
+		// {
+		// 	printf("executable is aan\n");
+		// 	error_command("/", 3);
+		// 	return(0);
+		// }
+		// else
+			
+		
+		// tester(NULL, *command);
+		if (g_own_exit != 999 && (*command)->builtin == builtin_no_com && (*command)->array)				//new		//(*command)->array voor pwd ; $POEP ; echo doei
+			{
+				//printf("execute_error_command welke foutmelding moet hier komen?\n");
+				//printf("commandarray_execut[%s]\n",(*command)->array[0]);
+				error_command((*command)->array[0], 1, *command);
+			}
 		else			//reset g_own
 			g_own_exit = 0;										//new
 		determine_fdout(command, &exe, _env, exe->i);
@@ -196,3 +213,14 @@ void			*execute(t_command **command, t_env **_env)
 	free(exe);	//LEAKS
 	return (0);
 }
+
+/*
+29/10: verwijderd ivm pwd ; $POEP ; echo doei
+
+			// if ((*command)->builtin == builtin_no_com && !((*command)->sem || (*command)->pipe_after) && (!(*command)->array || !(*command)->array[0]))		//M: Welke case komt dit voor? anders liever verwijderen. S: $POEP komt het voor
+			// {																																				// Sem en pipe toegevoegd voor pwd ; $POEP ; echo doei
+			// 	free(exe);
+			// 	return (0);
+			// }
+
+*/

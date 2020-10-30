@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/30 13:54:44 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/28 18:15:54 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 11:30:52 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,16 @@ static void 	error_exit(t_command *command, int i)
 {
 	char 	*str_built;
 
-	str_built = translate_builtin((command->builtin));
+	str_built = translate_builtin((command->builtin), NULL);			//Waarom zo moeilijk kan dit niet gehardcode?
+	write(1, "exit\n", 5);										//new
 	write(1, "bash: ", 6 );
 	write(1, str_built, ft_strlen(str_built));
 	write(1, command->array[0], ft_strlen(command->array[0]));
-	if ( i == 0)
+	if (i == 0)
 	{
 		write(1, ": numeric argument required\n", 28);
 		exit(255);
 	}
-	
 }
 
 

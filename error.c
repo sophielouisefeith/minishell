@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/29 13:57:29 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/30 17:17:13 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,34 +18,61 @@ TO DO:
 bij andere errors ook doen?
 */
 
-char				*error_command(char *str)
+
+char				*error_path(int i, char *str)
 {
-	if(g_exit_status == 127 || g_exit_status == 258)
+	i =0;
+		//printf("ik ben errno 2 en ik ben allene jrwekrjelj\n ");
+		write(1, "bash: ", 6 );
+		write(1, str, ft_strlen(str));
+		write(1, ": ", 2 );
+		write(1, strerror(errno), ft_strlen(strerror(errno)));
+		write(1, "\n", 1);
+	//	return(0);
+	return(str);
+	
+}
+
+char				*error_command(char *str, int i, t_command *command)
+{
+	printf("error_command\n");
+	// printf("i[%d]\n", i);
+	// printf("str[%s]\n", str);
+	// if(g_exit_status == 127 || g_exit_status == 258 ||g_own_exit == 258  )  //wellicht nodig voor herhaling tegen gaan
+	// {
+	// 	set_exit_status();
+	// 	return(str);
+	// }
+	write(1, "bash: ", 6 );
+	if(!strncmp(str, ";", 1))
 	{
-		set_exit_status();
+		write(1, " syntax error near unexpected token `;'\n", 40);
+		g_exit_status = 258;
+		g_own_exit = 258;
+		//i = 1;
 		return(str);
 	}
-		write(1, "bash: ", 6 );
-		if(!strncmp(str, ";", 1))
-		{
-			write(1, " syntax error near unexpected token `;'\n", 40);
-			g_exit_status = 258;
-			//i = 1;
-			return(str);
-		}
 		write(3, str, ft_strlen(str));
 		write(3, ": ", 2 );
-		write(3, "command not found\n", 18);			//No such file or directory (127)
+		if(i == 3 || ((*command).builtin == executable))
+		{
+			printf(" je mot toch hier in als echo/  \n");
+			write(1, "no such file or directory\n", 25);
+		}
+		else
+			write(1, "command not found\n", 25);			//command not found (127)
+		write(1, "\n", 1 );
 		g_exit_status = 127;
-		// g_own_exit = 127;		//? Quick and dirty solution voor $POEP. Naar kijken als we errormeldignen fixen
+		//g_own_exit = 127;		//? Quick and dirty solution voor $POEP. Naar kijken als we errormeldignen fixen
 			return (str);
 }
 
 int					error(t_command *command)
 {
+	//printf("error\n");
 	char 	*str_built;
 
-	str_built = translate_builtin((command->builtin));
+	str_built = translate_builtin((command->builtin), NULL);
 	write(1, "bash: ", 6 );
 	write(1, str_built, ft_strlen(str_built));
 	write(1, "'", 1);
@@ -75,16 +102,17 @@ int					error(t_command *command)
 int				error_redirections(char c, int error_num, int i, char *line)
 {
 	line = "S";
-	printf("hier\n");
+	// printf("error_redirections\n");
 	printf("i[%d]\n", i);
 	// if(i > 1)
 	// 	return(1);
 	write(1, "bash: ", 9 );
-	printf("error[%d]\n", error_num);
+	//printf("error[%d]\n", error_num);
 	printf("i[%d]\n", g_exit_status );
 	if (error_num == 1)
 	{
 		write(1, " syntax error near unexpected token  '", 35);
+		//g_own_exit = 3;
 		if (c == '\n' || c == '\0' || c == '#')
 			write(1, "`newline'", 8);
 		else
@@ -94,7 +122,7 @@ int				error_redirections(char c, int error_num, int i, char *line)
 		}
 		write(1, "'\n", 2);
 		g_exit_status = 258;   //	g_own_exit = 258; misschien nog er bij 
-		return (1);
+		return (5);  // dit is weer een herhaling geval 
 	}
 	write(1, &c, 1);
 	if (error_num == 2)
@@ -105,24 +133,38 @@ int				error_redirections(char c, int error_num, int i, char *line)
 	return (1);
 }
 
-void				*errno_error(char *str)
+int				errno_error(char *str)
 {
-	printf("errno error\n");
+	//char str_2;
+	// printf("ernno_error\n");
+	// printf("errno1[%d]\n", errno);
 	//int builtin_type;
+	if(errno == 2)
+	{
+		write(1, "bash: ", 6 );
+		write(1, str, ft_strlen(str));
+		write(1, ": ", 2 );
+		write(1, strerror(errno), ft_strlen(strerror(errno)));
+		write(1, "\n", 1);
+		return(3);
+	}
 	if(!strncmp(str, "<", ft_strlen(str)))   // dit is dus een andere exit status   test <jjy
 	{
 		g_exit_status = 1;
 		g_own_exit = 127;
 	}
+	//str_2 = translate_builtin(executable, str);
 	else if(executable)  // dirty executable solution 
 	{
+		printf("ex\n");
 		//if(strncmp(str, "./", ft_strlen(str)))   ./ heeft dus nu weeer niet de juiste 
 		errno = EISDIR;
 		if(g_exit_status == 258)
-			return(str);
+			return(0);
 		else
 			set_exit_status();			//	./ hier zou  moeten komen de juiste status mee moeten krijgen waarom ?
 	}
+	// printf("errno2[%d]\n", errno);
 	write(1, "bash: ", 6 );
 //	if(!strncmp(".", str, 1))								// dit hoeft niet 
 	//{
@@ -140,17 +182,20 @@ void				*errno_error(char *str)
 	}
 	write(1, "\n", 1);
 	set_exit_status(); // ok dit heb ik er nu uitgehaald //NEW
-	return (str);
+	return (0);
 }
 
 
 char			*not_part(char *str) // behandeld nu ook qoutes
 {
+	printf("------------notpartofsubject\n");
 	write(1, "bash: ", 6);
 	write(1, str, ft_strlen(str));
 	write(1, ": ", 2 );
-	write(1, "Not part of the subject\n", 24);
+	write(1, "multiline not part of subject\n", 29);
+	write(1, "\n", 1);
 	set_exit_status();
+	
 	return(NULL);
 }
 

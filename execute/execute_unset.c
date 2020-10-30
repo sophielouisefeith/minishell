@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 16:22:20 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/07 14:51:24 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 13:21:08 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ static int		compare_after_first_node(t_env **_env, char *array_str)
 
 int			execute_unset(t_command *command, t_env **_env)
 {
+	printf("unset\n");
 	int		first_node;
 	int		y;
 	int 	ret;

@@ -39,11 +39,6 @@ echo \n ' \n this is the; "first line"'
 
 
 
-
-
-
-
-
 -------------
 
 echo \n ' \n this is the; "first line"' ; echo "and right here;;;			
@@ -51,12 +46,32 @@ Echo ;
 echo \n ' \n this is the; "first line"' 
 ; echo "and right here;;; 'We have the second'" ;
 
+-------------
 pwd ; hoi ; echo doei			V
 pwd ; $POEP ; echo doei
 pwd ; $USER ; echo doei
 pwd | ekjeklj | echo hoi
 
 hallo < hallo 		X
+
+
+----------
+******************************************
+** pwd ; $POEP ; echo doei Uitgediept:****
+******************************************
+pwd ; $POEP ; echo doei
+pwd ; $POEP | echo doei
+--> Als ; of | dan moet hij doorgaan en niet erroren!
+
+$POEP meertekst					V
+$POEP echo kont					X			[---> laten zitten voor nu]
+
+
+
+
+--------------------
+
+
 
 echo '\\'						V
 echo "\\"						V
@@ -71,10 +86,8 @@ echo  \" "\\"   "\""  \\  \'  \"
 \\
 \'
 \"
-
-
 echo  \" "\\"   "\""  \\
-echo "\""  \\					--> deze fixen
+echo "\""  \\
 
 cat | cat -e
 

@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 12:46:44 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/28 18:14:51 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 16:54:56 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 int				execute_pwd(void)
 {
+	//printf("--------- we zijn in pwd\n");
 	char	buf[PATH_MAX];
 	char	*path;
 

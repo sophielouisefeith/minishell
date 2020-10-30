@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/29 12:10:00 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 17:12:53 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static int		return_type_and_free(char *tmp, int type)
 
 int				get_builtin_type(char *str)
 {   
+	//printf("---------------------get_builtin_type\n");
 	char 	*tmp;
 	tmp = tmp_tolower(str);
 
@@ -174,11 +175,21 @@ int				check_builtin_node(t_lexer **sort, t_env **_env)
 		free ((*sort)->str);
 		(*sort)->str = NULL;
 		//
-		(*sort)->str = delete_quotes(tmp, (*sort)->str[0]);
+		(*sort)->str = delete_quotes(tmp, tmp[0]);
 	}	
 	builtin_type = get_builtin_type((*sort)->str);
+	if(builtin_type == builtin_no && (*sort)->str[0] == ';')
+	{
+		error_command(";", 0, 0);  // NEWERROR
+		g_own_exit = 258;
+	}
+	
 
 	(void)_env;
+	return (builtin_type);
+}
+
+
 	// if (builtin_type == builtin_no)
 	// {
 	// 	str_before = (*sort)->str;	//Wanhoop: mag dit want stack? of strdup?
@@ -194,9 +205,6 @@ int				check_builtin_node(t_lexer **sort, t_env **_env)
 	// 	if (!ft_strcmp(str_before, (*sort)->str))
 	// 		builtin_type = builtin_no_com;
 	// }
-	return (builtin_type);
-}
-
-
+	
 		// (*sort)->str = check_path(*_env, (*sort)->str);
 		// (*sort)->str = delete_quotes((*sort)->str, (*sort)->str[0]);

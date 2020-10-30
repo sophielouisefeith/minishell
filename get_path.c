@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/29 13:47:04 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/30 17:19:04 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,14 @@ char			*check_path(t_env *_env, char *str)
 	char 			*tmp;
 
 	i = 0;
-	// printf("in check Path\n");
+	//printf("------------------------in check Path\n");
 	path = search_node(_env, ft_strdup("PATH"));	//vanwege free in search node
-	
+	//printf("str[%s]\n", path);
 	if (!path)
+	{
+		//printf("---------------------geen path\n");
 		return (str);			// was return (errno = ENOENT, errno_error(str));
+	}
 	patharray = ft_split(path, ':');			//FREE
 	if (!patharray)
 		return (NULL);
@@ -104,9 +107,18 @@ char			*check_path(t_env *_env, char *str)
 		}
 		i++;
 	}
-	
-	if (str[0] != '$' && str[0] != '>' && str[0] != '<')	//LET OP: we mogen niet hier al erroren als $ nog niet expanded is //Ook niet bij > file
-		return (error_command(str));
+	if(str[0] == ';')
+		printf(";\n");
+	//if(ft_isalpha(str[0] )|| str[0] == ';')    //waarom blijft die verekte ; het niet doen omdat get_path verplaats is?
+	//{	
+		//return(error_path(2,str));
+		//error_path(2,str);
+		//return(NULL);
+	//}
+		
+	// weer weg gehaald want anders gaat hij te vaak in error moet wel voor ; maar werkte nu ook niet meer waarschijnlijk door verplaatsing
+	// if (str[0] != '$' && str[0] != '>' && str[0] != '<')	//LET OP: we mogen niet hier al erroren als $ nog niet expanded is //Ook niet bij > file
+	// 	return (error_command(str));
 	///LEAKS
 	free(tmp);
 	free_array(patharray);
