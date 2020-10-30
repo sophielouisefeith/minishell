@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/30 17:12:13 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 17:50:49 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static int		return_type_and_free(char *tmp, int type)
 
 int				get_builtin_type(char *str)
 {   
+	//printf("---------------------get_builtin_type\n");
 	char 	*tmp;
 	tmp = tmp_tolower(str);
 
@@ -177,6 +178,12 @@ int				check_builtin_node(t_lexer **sort, t_env **_env)
 		(*sort)->str = delete_quotes(tmp, tmp[0]);
 	}	
 	builtin_type = get_builtin_type((*sort)->str);
+	if(builtin_type == builtin_no && (*sort)->str[0] == ';')
+	{
+		error_command(";", 0, 0);  // NEWERROR
+		g_own_exit = 258;
+	}
+	
 
 	(void)_env;
 	return (builtin_type);

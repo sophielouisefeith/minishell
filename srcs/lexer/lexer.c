@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/30 14:38:58 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 17:47:31 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ static void		check_quotation_complete(char quote, char *line, int *i)
 		return ;
 	else
 	{
-		not_part(line);			///Wacht op errorafhandeling--- niet helemaal of het nodig is.
-		g_exit_status = 1;		//eigen code want hij moet nog wel na andere foutmeldingen executen
+		not_part(line);			///Wacht op errorafhandeling--- --- niet helemaal of het nodig is.
+		g_own_exit = 3;
+		g_exit_status = 1; //eigen code want hij moet nog wel na andere foutmeldingen executen
 		return ;
 	}
 }
@@ -109,7 +110,11 @@ static void		save_operator(char *line, int *i, int type, t_lexer **sort)
 	}
 	if (type >= token_redirection_greater &&
 			type <= token_redirection_dgreater)
-		token[token_redirection]= check_redirections(line, *i, type);
+	{
+		token[token_redirection]= check_redirections(line, *i, type);			//new
+		if(token[token_redirection] == 5)										//NEW bij pull, nog niet cleaned
+			g_own_exit = 3;
+	}
 	tmp = ll_new_node_lexer(str, token);
 	if (tmp == NULL)
 		malloc_fail();
@@ -123,7 +128,7 @@ void			lexer(t_lexer **sort, char *line)
 	int 		i;
 
 	i = 0;
-	while (line[i])
+	while (line[i]  && g_own_exit != 3)
 	{
 		while (is_whitespace(line[i]))
 			i++;

@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/30 13:54:44 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/30 15:26:21 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 17:39:30 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void 	error_exit(t_command *command, int i)
 {
 	char 	*str_built;
 
-	str_built = translate_builtin((command->builtin));			//Waarom zo moeilijk kan dit niet gehardcode?
+	str_built = translate_builtin((command->builtin), NULL);			//Waarom zo moeilijk kan dit niet gehardcode?
 	write(1, "exit\n", 5);										//new
 	write(1, "bash: ", 6 );
 	write(1, str_built, ft_strlen(str_built));

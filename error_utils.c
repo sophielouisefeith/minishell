@@ -6,14 +6,25 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/27 14:45:39 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/29 12:26:10 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/30 11:40:11 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static char  *transelate_ex(char *str)
+{
+	if(!ft_strncmp(str, "/", 1))
+		return("/");
+	if(!ft_strncmp(str, "../", 3))
+		return("../");
+	if(!ft_strncmp(str, "./", 3))
+		return("./");
+	else
+		return(str);		
+}
 
-char 			*translate_builtin(int b)
+char 			*translate_builtin(int b, char *str)
 {   
     if (b == builtin_echo)
 		return ("echo: ");
@@ -29,6 +40,9 @@ char 			*translate_builtin(int b)
 		return ("env: ");
   	if (b == builtin_exit)
 		return ("exit: ");
+	if (b == executable)
+		return(transelate_ex(str));
+		
 	// else
     //     return (builtin_no);
 	return (NULL);

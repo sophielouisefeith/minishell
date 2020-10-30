@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/30 16:48:29 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 17:44:15 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 			env_ll_to_array(*_env));
 		// if(builtin_type == executable) //lelijke oplssoing voor foutmelding
 		// 	errno = 21;
+		printf("pid == null\n");
 		errno_error((*command)->array[0]);									// --> 1 van de foutmeldingen van unset PATH ; ls
 		exit(g_exit_status);
 	}
@@ -65,6 +66,7 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 
 void			builtin_another_program(t_command **command, t_env **_env)
 {
+	//printf("--------------builtotgerprogram_exceute \n");
 	if ((*command)->builtin == builtin_no || (*command)->builtin == executable)
 		invoke_another_program(command, _env);
 	if ((*command)->builtin != builtin_no_com && (*command)->builtin !=
@@ -80,6 +82,7 @@ static void		determine_fdout(t_command **command, t_execute **exe,
 		(*exe)->fdout = fill_fdout((*command)->output, (*exe)->tmpout);
 	else if ((*command)->sem && (*command)->output)
 	{
+	//	printf("output\n");
 		execute_output(command, exe, _env);
 		(*exe)->fdout = dup((*exe)->tmpout);
 	}
@@ -99,13 +102,15 @@ static void		determine_fdout(t_command **command, t_execute **exe,
 	// printf("C\n");
 }
 
-static void		*determine_fdin(t_command *command, t_execute **exe)
+static int	determine_fdin(t_command *command, t_execute **exe)
 {
+	//printf("--------------determine_fdin, execute\n");
 	if (command->input)
 	{
 		(*exe)->fdin = open(command->input->str_input, O_RDONLY);
 		if ((*exe)->fdin == -1)
 		{
+		//	printf("determine_fdin\n");
 			return (errno = ENOENT, errno_error(command->input->str_input));
 		}
 	}
@@ -131,6 +136,7 @@ LAATSTE VERSIE VOOR fixes 23/10 : ga dan terug naar ---> 23/10 fixed capital com
 
 void			complete_path(t_command **command, t_env *_env)
 {
+	//printf("--------------complete_path_execute\n");
 	char		*str_before;
 	char 		*tmp;
 	if ((*command)->builtin == builtin_no && (*command)->array)
@@ -140,8 +146,10 @@ void			complete_path(t_command **command, t_env *_env)
 		tmp = ft_strdup((*command)->array[0]);
 		free((*command)->array[0]);
 		(*command)->array[0]= NULL;
-		
-		(*command)->array[0] = check_path(_env, tmp);					
+		(*command)->array[0] = check_path(_env, tmp);
+	//	printf("command[%s]\n", (*command)->array[0]);
+		if((*command)->array[0]== NULL )
+			error_command((*command)->array[0], 1, *command);
 		// if((*sort)->str == NULL)
 		// 	return(ENOMEM);
 		if (!ft_strcmp(str_before, (*command)->array[0]))
@@ -153,7 +161,9 @@ void			complete_path(t_command **command, t_env *_env)
 
 void			*execute(t_command **command, t_env **_env)
 {
+//	printf("------------execute_\n");
 	t_execute	*exe;
+	int 		res;
 	exe = (t_execute *)malloc(sizeof(t_execute));
 	if (!exe)
 		malloc_fail();
@@ -162,10 +172,31 @@ void			*execute(t_command **command, t_env **_env)
 	{
 		// tester(NULL, *command);
 		complete_path(command, *_env);
-		determine_fdin(*command, &exe);
-		check_specials(command, *_env);
+		res = determine_fdin(*command, &exe);
+		if(res == 3) // 3 staast voor de return uit errno_error S: wel handig om dit voorbeeld nog even op te zoeken 
+		{	
+			//printf("res = 0 \n");
+			//close_execute(&exe);
+			//free(exe);	//LEAKS
+			return(0);    // or own exit status op 0 zodat hij eruit klapt 
+		}
+		check_specials(command, *_env);  //res = 
+		// if(!executable)
+		// {
+		// 	printf("executable is aan\n");
+		// 	error_command("/", 3);
+		// 	return(0);
+		// }
+		// else
+			
+		
+		// tester(NULL, *command);
 		if (g_own_exit != 999 && (*command)->builtin == builtin_no_com && (*command)->array)				//new		//(*command)->array voor pwd ; $POEP ; echo doei
-			error_command((*command)->array[0]);
+			{
+				//printf("execute_error_command welke foutmelding moet hier komen?\n");
+				//printf("commandarray_execut[%s]\n",(*command)->array[0]);
+				error_command((*command)->array[0], 1, *command);
+			}
 		else			//reset g_own
 			g_own_exit = 0;										//new
 		// printf("1\n");

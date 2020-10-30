@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/30 15:50:04 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 17:49:17 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,13 @@ void			lexer_parser_executer(char *line, t_env **_env)
 	command = NULL;
 	lexer(&sort, line);
 	sort_copy = sort;
-	while (sort) // && g_own_exit == 0)				//Moet deze dan ook weer terug? (Wacht op error afhandeling!)
+	while (sort && pipe_status != 3 && g_own_exit!= 3) // && g_own_exit == 0)				//MOET DEZE DAN OOK WEER TERUG?
 	{
 		pipe_status = parser(&sort, &command, pipe_status, _env);
+		//if(pipe_status == 3) /// nu voor de dubbele ;										//NEW na pull, niet gecleaned
+		//	printf("je mag er nu uit\n");
+		//if(pipe_status == 12)// slaat nergens op even voor eigen dingen
+			//printf("malloc failed\n"); /// dit is overbodig word al een error gegeven en gefreet omdat g_own_exit =1 
 		if (sort)
 			sort = sort->next_sort;
 	}
