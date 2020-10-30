@@ -6,35 +6,24 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 12:12:45 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/20 12:50:51 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/30 16:05:57 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-** Changelog:
-	//changed next to  next_sort
-*/
 t_lexer			*ll_new_node_lexer(char *str, int *token)
 {
 	t_lexer		*new;
 
 	new = (t_lexer *)malloc(sizeof(t_lexer));
-	if(!new)
+	if (!new)
 		return(NULL);
 	new->str = str;
 	new->token = token;
 	new->next_sort = NULL;
 	return (new);
 }
-
-/*
-** if (list): check if there is already an existing node/list
-** 		loop to the back of the list. And set last node->next to the new node
-**	No list yet. Set head to the new node.
-** We have to make a copy of **head, to not change where the initial head is pointing to: the first node of the list.
-*/
 
 void			ll_lstadd_back_lexer(t_lexer **sort, t_lexer *new)
 {

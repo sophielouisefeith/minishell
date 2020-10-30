@@ -6,11 +6,11 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/07 17:31:13 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/29 17:07:48 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 15:25:46 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 /*
 ** Scary;  gaat  dit in alle volgordes goed ? Ook eng met leaks. IF LEAKS KIJK ZEKER HIER!!
@@ -61,7 +61,7 @@ void				check_builtin_again(t_command **command, t_env *_env, int y)
 		}
 		if (new_str && new_str[0] != '$')
 		{
-			lexer_parser_executer(new_str, 0, &_env);
+			lexer_parser_executer(new_str, &_env);
 			g_own_exit= 999;
 			free(new_str);
 		}

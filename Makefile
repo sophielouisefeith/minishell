@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/10/29 21:23:41 by maran         ########   odam.nl          #
+#    Updated: 2020/10/30 16:07:19 by maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,11 +16,16 @@ LIB = minishell.a
 
 LIBFT = libft
 
-SRC =  main.c signals.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
-		save_env.c\
+SRC =  srcs/main.c\
+		srcs/utils/signals.c srcs/utils/save_env.c\
+		srcs/utils/character_check.c\
+		srcs/utils/character_check2.c\
+		srcs/lexer/lexer.c srcs/lexer/lexer_utils.c\
+		srcs/lexer/ll_make_list_lexer.c\
 		libft/get_next_line/get_next_line.c\
 		libft/get_next_line/get_next_line_utils.c\
-		ll_make_list_lexer.c parser.c parser_utils.c\
+		ft_strcmp.c\
+		parser.c parser_utils.c\
 		ll_make_list_parser.c\
 		free_list.c \
 		tester.c\
@@ -44,13 +49,13 @@ SRC =  main.c signals.c lexer.c lexer_utils.c character_check.c ft_strcmp.c\
 		error.c\
 		error_utils.c\
 		execute/check_builtin_again.c\
-		
-		
 		# free.c 
 
 OBJ = $(SRC:.c=.o)
 
 CFLAGS = -Wall -Wextra -Werror
+
+INCL = includes
 
 all: $(NAME)
 
@@ -71,7 +76,7 @@ lib_ft:
 
 %.o: %.c
 	@echo $@
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(INCL) -c $< -o $@
 
 clean:
 	$(RM) $(OBJ)

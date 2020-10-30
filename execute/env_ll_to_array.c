@@ -6,11 +6,11 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 13:21:40 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/28 18:31:35 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 15:26:06 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 static int		lstsize_env(t_env *env)
 {

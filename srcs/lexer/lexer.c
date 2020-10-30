@@ -6,32 +6,27 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/29 14:08:27 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 14:38:58 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-** >>>>>>> TO DO <<<<<<<<<<<<<< 
-** 3. Protecten, error-exit, free
-*/
-
-/*
 ** While the char is not equal to ' or ", keep looping.
 ** Meanwhile check for:
-** 	- dollar-signs between the quotations
-** 	- \"	--> not a closing quotation, keep looping.
+** 	- \"	--> not a closing quotation, keep looping. And no backslash before
+** the backslash \\"
 ** If the closing quotation is found return, otherwise error.
 */
 
-static void			check_quotation_complete(char quote, char *line, int *i)
+static void		check_quotation_complete(char quote, char *line, int *i)
 {
-
 	(*i)++;
 	while (line[*i] != quote && line[*i])
 	{
-		if (line[*i] == '\\' && line[(*i) + 1] == '\"' && line[(*i) - 1] != '\\') 	//new  *i - 1
+		if (is_backslash(line[*i]) && is_double_quote(line[(*i) + 1]) &&
+				!is_backslash(line[(*i) - 1]))
 			(*i)++;
 		(*i)++;
 	}
@@ -39,38 +34,38 @@ static void			check_quotation_complete(char quote, char *line, int *i)
 		return ;
 	else
 	{
-		not_part(line);			///--- niet helemaal of het nodig is.
-		g_exit_status = 1; //eigen code want hij moet nog wel na andere foutmeldingen executen
+		not_part(line);			///Wacht op errorafhandeling--- niet helemaal of het nodig is.
+		g_exit_status = 1;		//eigen code want hij moet nog wel na andere foutmeldingen executen
 		return ;
 	}
 }
 
 /*
 ** While it's not a separating character (metacharacter) it checks every char
-** for quotation marks and dollar-signs.
-** 	- quotation: check if there is a closing quotation. If not: the real bash shell
+** for quotation marks.
+** Check if there is a closing quotation. If not: the real bash shell
 ** would act as a multiple line command. This not part of the subject.
 */
 
-static int		check_meta_and_quote(char *line, int *i)
+static void		check_meta_and_quote(char *line, int *i)
 {
 	while ((!is_metachar(line[*i])) && line[*i])
 	{
-		if ((is_single_quote(line[*i]) || is_double_quote(line[*i])) && line[(*i) - 1] != '\\')
+		if ((is_single_quote(line[*i]) || is_double_quote(line[*i])) &&
+				line[(*i) - 1] != '\\')
 			check_quotation_complete(line[*i], line, i);
 		(*i)++;
 	}
-	return (0);
 }
 
 /*
 ** In int *token is saved what the token type is:
 ** - General (always)
-** - quote, dubbel quote, dollar (optional)
+** - quote, dubbel quote, dollar (optional) 						//DIT CHECKEN WE DENK IK NIET MEER. ACHTERKOMEN!
 ** The word and token type are saved in a linked list node.
 */
 
-static void			save_word(char *line, int *i, t_lexer **sort)
+static void		save_word(char *line, int *i, t_lexer **sort)
 {
 	t_lexer		*tmp;
 	char		*str;
@@ -92,15 +87,9 @@ static void			save_word(char *line, int *i, t_lexer **sort)
 ** pipe or semicolon.
 **	- If it's one of three redirections than also "redirection" in general.
 ** The operator and token type are saved in a linked list node.
-**
-** Changelog:
-** 	- Aangepast:
-	 11 -> 12. Was er een reden voor mallocen andere size (12) 
-	 voor int *token dan bij save_word (11)?
-	- New check_redirections v.w ls >>>>>>>>>>> file. De oude  token[token_redirection] = 1; wordt nu gereturned door de functie.
 */
 
-static void			save_operator(char *line, int *i, int type, t_lexer **sort)
+static void		save_operator(char *line, int *i, int type, t_lexer **sort)
 {
 	t_lexer		*tmp;
 	char		*str;
@@ -120,24 +109,15 @@ static void			save_operator(char *line, int *i, int type, t_lexer **sort)
 	}
 	if (type >= token_redirection_greater &&
 			type <= token_redirection_dgreater)
-		token[token_redirection]= check_redirections(line, *i, type);			//new
+		token[token_redirection]= check_redirections(line, *i, type);
 	tmp = ll_new_node_lexer(str, token);
-	if(tmp == NULL)
+	if (tmp == NULL)
 		malloc_fail();
 	ll_lstadd_back_lexer(sort, tmp);
 	(*i)++;
 }
 
-/*
-** Changelog:
-** - Getest:
-	Type meegeven aan save_word. Kan niet want je moet halverwege een word ook checken op " (bijv. Hoi"maran).
-	Type moet dus niet vast staan vooraf.
-** - Verwijderd:
-	type == token_quote || type == token_dquote
-*/
-
-void				lexer(t_lexer **sort, char *line)
+void			lexer(t_lexer **sort, char *line)
 {
 	int 		type;
 	int 		i;

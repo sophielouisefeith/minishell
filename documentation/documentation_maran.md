@@ -36,3 +36,17 @@
 5 XfdinX
 6
 
+# Color prompt
+
+#define COLOR_PROMPT	"\033[1;34mminishell-$ \033[0m"
+
+/*
+** \033				Octal value of ESC (escape sequence)
+** [1				Bold
+** ;				Divider
+** 34				Color code (blue)
+** m				Ending char
+** minishell-$		Text
+** \033				ESC
+** [0m				reset
+*/

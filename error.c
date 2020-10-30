@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/29 19:10:03 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 14:32:49 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,9 @@ int					error(t_command *command)
 int				error_redirections(char c, int error_num, int i, char *line)
 {
 	line = "S";
-	// printf("i[%d]\n", i);
 	if(i > 1)
 		return(1);
 	// write(1, "bash: ", 9 );
-	// printf("error[%d]", error_num);
-	// printf("i[%d]\n", g_exit_status );
 	if (error_num == 1)
 	{
 		write(1, " syntax error near unexpected token  '", 35);

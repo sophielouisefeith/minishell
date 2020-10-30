@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/29 09:37:10 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 17:12:24 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp, t_env *
 		array = (char **)malloc((num_nodes + 1) * sizeof(char *));
 		if (array == NULL)
 			malloc_fail();
-		// quote = allocate_memory_int_string(num_nodes);							//GBERUIKEN WE DEZE NOG?
 	}
 	while (*sort && ((*sort)->token[token_general]
 				|| (*sort)->token[token_redirection]))
@@ -131,17 +130,16 @@ static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp, t_env *
 
 /*
 ** Pipe_status == 1 --> Pipe_before
-** Changelog:
-	- Veel gereorganiseerd, check github < 13-08-2020 voor versie hiervoor.
 */
 
-int				parser(t_lexer **sort, t_command **command, int pipe_status, t_env **_env)
+int				parser(t_lexer **sort, t_command **command, int pipe_status,
+							t_env **_env)
 {
 	t_command 	*tmp;
 
 	tmp = NULL;
 	tmp = ll_new_node_command();
-	if(tmp == NULL)
+	if (tmp == NULL)
 		return(malloc_fail());
     fill_builtin_redirec_array(sort, &tmp, _env);
 	if (*sort && (*sort)->token[token_semicolon])

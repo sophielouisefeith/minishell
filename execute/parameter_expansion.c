@@ -6,11 +6,11 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/29 09:44:03 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 15:27:04 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+# include "minishell.h"
 
 /*
 ** TO DO:

@@ -6,11 +6,11 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/29 19:58:55 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 16:48:29 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 #include <fcntl.h>
 
 /*
@@ -133,7 +133,6 @@ void			complete_path(t_command **command, t_env *_env)
 {
 	char		*str_before;
 	char 		*tmp;
-
 	if ((*command)->builtin == builtin_no && (*command)->array)
 	{
 		
@@ -161,10 +160,10 @@ void			*execute(t_command **command, t_env **_env)
 	initialise_execute(*command, &exe);
 	while (exe->i < exe->len_list)
 	{
+		// tester(NULL, *command);
 		complete_path(command, *_env);
 		determine_fdin(*command, &exe);
 		check_specials(command, *_env);
-		// tester(NULL, *command);
 		if (g_own_exit != 999 && (*command)->builtin == builtin_no_com && (*command)->array)				//new		//(*command)->array voor pwd ; $POEP ; echo doei
 			error_command((*command)->array[0]);
 		else			//reset g_own

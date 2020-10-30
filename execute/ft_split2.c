@@ -6,11 +6,11 @@
 /*   By: msiemons <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/12 10:08:48 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/08/31 18:30:56 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 15:26:55 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 char			**ft_split2(char const *s, char c)
 {

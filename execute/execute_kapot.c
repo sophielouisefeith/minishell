@@ -6,11 +6,11 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/15 10:30:52 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/30 15:26:30 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 #include <fcntl.h>
 
 static int		lstsize(t_command *command)

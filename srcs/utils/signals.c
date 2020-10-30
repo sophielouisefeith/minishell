@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/22 14:34:10 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/29 09:28:41 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 13:15:57 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 /*
 ** End of File	--> CTRL D:
 */
+
 void			ctrl_d(void)
 {
 	write(1, "exit\n", 5);
@@ -30,8 +31,6 @@ void			ctrl_d(void)
 void			signal_reset(int sig_num) 
 {
 	(void)sig_num;
-	return ;
-	
 }
 
 void			sighandler_execve(int status)
@@ -46,7 +45,6 @@ void			sighandler_execve(int status)
 /*
 ** SIGINT	- interrupt signal	--> CTRL C
 ** SIGQUIT	- quit signal		--> CTRL backslash 
-** The Original sighandler:
 */
 
 void			sighandler(int signum)

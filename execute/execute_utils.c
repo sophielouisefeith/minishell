@@ -6,11 +6,11 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/20 11:24:12 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/20 15:26:31 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 15:26:48 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int				lstsize(t_command *command)
 {

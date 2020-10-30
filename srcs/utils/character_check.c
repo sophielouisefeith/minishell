@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/06 13:19:47 by maran         #+#    #+#                 */
-/*   Updated: 2020/08/06 15:06:16 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 15:44:27 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,40 +36,10 @@ int				is_double_quote(char c)
 		return (0);
 }
 
-/*
-** & and quotes are accepted characters in words.
-** To do:
-**  - \n nog toevoegen?
-*/
- 
-int				is_operator(char c)
+int				is_backslash(char c)
 {
-	if (c == ';')
-		return (token_semicolon);
-	if (c == '|')
-		return (token_pipe);
-	if (c == '>')
-		return (token_redirection_greater);
-	if (c == '<')
-		return (token_redirection_lesser);
-	else
-		return (0);
-}
-
-/*
-** A metacharacter:
-** 			- A character that, when unquoted, separates words.
-**			A metacharacter is a whitespace, or one of the following
-**			characters: | & ; ( ) < >
-** TO DO: 
-**  - & en () voor nu eruit gelaten? 
-*/
-
-int				is_metachar(char c)
-{
-	if (is_whitespace(c) || is_operator(c))
+	if (c == '\\')
 		return (1);
 	else
 		return (0);
-	
 }

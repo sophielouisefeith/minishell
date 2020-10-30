@@ -6,11 +6,11 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 10:31:32 by maran         #+#    #+#                 */
-/*   Updated: 2020/09/07 15:21:11 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 15:26:10 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+# include "minishell.h"
 
 // void				env(char **array)
 // {

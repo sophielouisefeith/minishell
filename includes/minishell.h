@@ -6,21 +6,20 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/29 21:18:46 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 17:12:36 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "libft/libft.h"
+#include "../libft/libft.h"
 
 #include <errno.h>
 #include <string.h>
 #include <signal.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <signal.h>
 
 /*
 ** Checken of later verwijderen:
@@ -34,7 +33,7 @@ int		g_exit_status;
 int		g_own_exit;
 
 enum	token_type{
-	token_null = 0,
+	token_null,
 	token_general,
 	token_whitespace,
 	token_quote,
@@ -88,7 +87,7 @@ typedef struct				s_input{
 typedef struct				s_command {
 	
 	char					**array;
-	int						*quote;						//new
+	// int						*quote;						//new //GEBRUIKEN WE DEZE NOG?
 	int						builtin;
 	struct s_output			*output;    
 	struct s_input			*input;    
@@ -127,34 +126,66 @@ typedef struct				s_execute{
 }							t_execute;
 
 
-void            				tester(t_lexer *sort, t_command *command);
+/*******Cleaning*********/
+/* main*/
+void						lexer_parser_executer(char *line, t_env **_env);
 
-t_env                 			*save_env(char **env);
-t_env							*ll_new_node_env(char *name, char *value, int equal);
-void							ll_lstadd_back_env(t_env **env, t_env *new);
+/* Save_env*/
+t_env                 		*save_env(char **env);
+t_env						*ll_new_node_env(char *name, char *value, int equal);
+void						ll_lstadd_back_env(t_env **env, t_env *new);
 
+/* Signals*/
+void 						sighandler(int signum);
+void						sighandler_execve(int status);
+void						ctrl_d(void);
+void						signal_reset(int sig_num);
 
-void							lexer(t_lexer **head, char *line);
+/* Lexer*/
+void						lexer(t_lexer **head, char *line);
 
-int								ft_strcmp(const char *s1, const char *s2);
-int								get_token_type(char *line, int *i);
-int								*allocate_memory_int_string(int i);
-char 							*str_from_char(char c);
-char 							*str_redirection_dgreater(void);
+/* Lexer_utils*/
+int							check_redirections(char *line, int i, int type);
+int							get_token_type(char *line, int *i);
+int							*allocate_memory_int_string(int i);
+char 						*str_from_char(char c);
+char 						*str_redirection_dgreater(void);
 
+/* Character_check*/
+int								is_whitespace(char c);
 int								is_single_quote(char c);
 int								is_double_quote(char c);
-int								is_whitespace(char c);
+int								is_backslash(char c);
+
+/* Character_check2*/
 int								is_operator(char c);
 int								is_metachar(char c);
 
+/* ll_make_list_lexer*/
 t_lexer							*ll_new_node_lexer(char *str, int *token);
 void							ll_lstadd_back_lexer(t_lexer **head, t_lexer *new);
+
+
+/*******End Cleaning*******/
+
+/*******Remove*********/
+void            				tester(t_lexer *sort, t_command *command);
+/*******End remove*******/
+
+
+
+
+
+
+
+
+int								ft_strcmp(const char *s1, const char *s2);
 
 /*parsing */
 int								parser(t_lexer **sort, t_command **command, int count, t_env **_env);
 // int								count_node(t_lexer *sort);
 int								count_node(t_lexer *sort, int builtin);
+// int								count_node(t_lexer **sort, int builtin);
 char            				*trunc_quotes(char *str);
 int         					get_builtin_type(char *str);
 int								check_builtin_node(t_lexer **head, t_env **_env);
@@ -234,11 +265,6 @@ char							*search_node(t_env *_env, char *search);
 int								is_special_char(char *str, int i);
 char							*join_strings(char *new_str1, char *parameter, char *new_str2);
 
-/* Signals*/
-void							ctrl_d(void);
-void							signal_reset(int sig_num);
-void							sighandler_execve(int status);
-void 							sighandler(int signum);
 
 /*new*/
 char							*tmp_tolower(char *str);
@@ -256,11 +282,9 @@ char							*delete_escape_char(char *src, int n);
 
 
 void							check_builtin_again(t_command **command, t_env *_env, int y);
-void							lexer_parser_executer(char *line, int i, t_env **_env);
 
 
 /* >>>>>>>>>>> */
-int								check_redirections(char *line, int i, int type);
 int								error_redirections(char c, int error_num, int i, char *line);
 // char							*error_no_path(char *str);
 // void							*no_file(char *str);

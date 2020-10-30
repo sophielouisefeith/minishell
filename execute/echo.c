@@ -6,12 +6,11 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:30 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/28 18:14:07 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 15:26:02 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <unistd.h>
-#include "../minishell.h"
+#include "minishell.h"
 
 static int		write_echo(char **array, int y)
 {

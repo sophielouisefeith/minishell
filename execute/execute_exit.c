@@ -6,11 +6,11 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/30 13:54:44 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/29 16:57:08 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 15:26:21 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+# include "minishell.h"
 
 /*
 ** Subject: exit without any options 

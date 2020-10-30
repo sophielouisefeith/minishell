@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/12 16:34:52 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/29 09:38:48 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 13:25:48 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void         free_output(t_output *output)
     output = NULL; 
 }
 
-void				free_env(t_env *_env)				//new
+void				free_env(t_env *_env)
 {
 	t_env		*tmp;
 
