@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/31 12:53:49 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/10/31 20:47:25 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char		*tmp_tolower(char *str)
 	// 	return (error_command(str));
 	// else 
 */
+
 
 char			*check_path(t_env *_env, char *str)
 {

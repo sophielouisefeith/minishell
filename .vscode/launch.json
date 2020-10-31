@@ -8,9 +8,9 @@
 			"type": "lldb",
 			"request": "launch",
 			"name": "Debug",
-			"program": "/Users/maran/Desktop/THE_minishell_codam/a.out",
+			"program": "//Users/sfeith/Desktop/minishelfinal/a.out",
 			"args": [],
-			"cwd": "/Users/maran/Desktop/THE_minishell_codam"
+			"cwd": "//Users/sfeith/Desktop/minishelfinal"
 		}
 	]
 }

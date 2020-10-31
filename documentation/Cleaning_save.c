@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/29 20:44:43 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/31 21:34:53 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/10/31 21:55:47 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -641,3 +641,27 @@ if_dollar
 //     if (command)
 //         free_list_parser(command);
 // }
+
+
+------------
+SOPHIES FREE ARRAY:
+ int     y;
+	int 	temp;
+    
+    y = 0;
+	while(array[y])
+		y++;
+	temp = y;
+	if (y == temp)
+	{
+		//printf("in array[%d]\n", y);
+		while (y > 0)
+		{
+			//printf("in while \n");
+			y--;
+			free(array[y]);
+		}
+		//free(array);
+		//array = NULL;
+		//return (NULL);
+		------------

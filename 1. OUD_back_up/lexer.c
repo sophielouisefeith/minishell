@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/15 17:04:54 by maran         #+#    #+#                 */
-/*   Updated: 2020/07/15 22:43:43 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/31 19:59:49 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,6 @@ int                lexer(char *str)
         pipe = 1;
     if ()
     
-
-    
-    
-    
-    printf("type = %d\n", type);
     
     // char **tokens;
     // tokens = {BUILTIN, {ARGUMENT}, QUOTING, OPERATOR, REDIRECTION, $};

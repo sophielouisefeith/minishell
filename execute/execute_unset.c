@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 16:22:20 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/30 17:42:44 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/31 19:54:39 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,21 @@ static int		compare_after_first_node(t_env **_env, char *array_str)
 */
 
 
-// 
+
+static void		error_unset(char *str) //new
+{
+		write(1, "bash: unset: ", 11);
+		write(1, str, ft_strlen(str));
+		write(1, " invalid option", 15);
+		write(1, "\n", 1);
+		write(1, "unset: usage: unset [-f] [-v]", 29);
+		write(1, "\n", 1);
+		g_exit_status = 2;
+		//return(0);
+} 
 
 int			execute_unset(t_command *command, t_env **_env)
 {
-	printf("unset\n");
 	int		first_node;
 	int		y;
 	int 	ret;
@@ -100,6 +110,13 @@ int			execute_unset(t_command *command, t_env **_env)
 	y = 0;
     if (!command->array)
 		return (0);
+	if((!ft_strncmp(command->array[y], "-", ft_strlen(command->array[y]))\
+	&& (*command).array[y][1] == '\0') || (*command).array[y][0] == '%')
+			error(command);
+	if(((*command).array[y][0] == '-' && (*command).array[y][1] != 'v' \
+	&& (*command).array[y][1] != 'f' && (*command).array[y][1] != '\0') && \
+	(*command).array[y][1] != '-' )
+		error_unset(command->array[y]);
 	while (command->array[y])
 	{
 		first_node = 0;

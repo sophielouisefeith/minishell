@@ -211,16 +211,15 @@ int             execute(t_command **command)
     int     i;
 
     i = lstsize(*command);
-    printf("i[%d]\n", i);
-    //pipe before and pipe after. 
-    // while(command)
-    // {
-    //     buf  = execute_builtin(command);
-    //     // command = command->next;
-    //     if ((*command)->pipe_after)
-    //         buf = execute_pipe(command);
-    // }
-    // //write(fd, buf,)
+   // pipe before and pipe after. 
+    while(command)
+    {
+        buf  = execute_builtin(command);
+        // command = command->next;
+        if ((*command)->pipe_after)
+            buf = execute_pipe(command);
+    }
+    //write(fd, buf,)
     return (0);
 }
 

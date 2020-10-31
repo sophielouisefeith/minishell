@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/31 20:10:41 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/10/31 20:54:38 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,12 +225,11 @@ static void		check_if_quotes(t_command **command, int *flag, int y, int *i,
 			// printf("CS2: i = [%d][%c]   [%p]\n", i, (*command)->array[y][i], (*command)->array[y]);
 			// printf("CS3: i = [%d][%c]   [%p]\n", i, (*command)->array[y][i], (*command)->array[y]);
 
-void			complete_path(t_command **command, t_env *_env);
+// void			complete_path(t_command **command, t_env *_env);
+
 
 void		check_specials(t_command **command, t_env *_env)
 {
-	
-	//printf("------------checkspecials\n");
 	
 	int		y;
 	int		i;

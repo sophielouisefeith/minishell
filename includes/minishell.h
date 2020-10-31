@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/31 21:51:35 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/10/31 21:53:56 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ int								env(t_env *_env);
 char							**env_ll_to_array(t_env *env);
 
 int             				execute_cd(t_command *command, t_env **_env);
-int                 			execute_pwd(void);
+int                 			execute_pwd(t_command *command);
 
 int            					execute_export(t_env **_env, t_command **command);
 char							**ft_split2(char const *s, char c);
@@ -265,7 +265,9 @@ void							check_builtin_again(t_command **command, t_env *_env, int y);
 
 /* >>>>>>>>>>> */
 int								error_redirections(char c, int error_num, int i, char *line);
-int								errno_error(char *str);
+// char							*error_no_path(char *str);
+// void							*no_file(char *str);
+int								errno_error(char *str, t_command *command);
 void							set_exit_status(void);
 
 char							*not_part(char *str);
@@ -273,7 +275,7 @@ char 							*translate_builtin(int b, char *str);
 
 int				dollar_is_special_char(char *str, int i);
 void			initiate_dollar(t_dollar *dollar, int quote);
-
+void	 		error_pwd_unset(char *str, char *path);
 
 char		*make_tmp(char **str);
 
