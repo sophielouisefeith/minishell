@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/12 16:34:52 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/30 13:25:48 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/31 20:18:41 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 static void         free_input(t_input *input)
 {
+	
     t_input       *tmp;
 
     while(input != NULL)
@@ -39,6 +40,7 @@ static void         free_input(t_input *input)
 
 static void         free_output(t_output *output)
 {
+
     t_output	   *tmp;
 
     while (output != NULL)
@@ -75,20 +77,72 @@ void				free_env(t_env *_env)
 
 void        free_array(char **array)
 {
+	//printf("-----------------array[Y][%p]\n", array);
+
+	// if (array)
+	// 	{
+	// 		int n = 0;
+	// 		printf("****************************************************array:\n");
+	// 		while (array[n])
+	// 		{
+	// 			printf("node-str[%d] = [%s]\n", n, array[n]);
+	// 			n++;
+	// 		}
+	// 		printf("***********************END**************************array:\n");
+	// 	}
+
+
+	
+	//printf("free_array\n");
     int     y;
+	int 	temp;
     
     y = 0;
-    while (array[y])
-    {
-        free(array[y]);                     //new
-        array[y] = NULL;
-        y++;
-    }
-	if (array)					//TOEVOEGING TEST?
+	while(array[y])
+		y++;
+	temp = y;
+	if (y == temp)
 	{
-   		free(array);
-		array = NULL;	//
+		//printf("in array[%d]\n", y);
+		while (y > 0)
+		{
+			//printf("in while \n");
+			y--;
+			free(array[y]);
+		}
+		//free(array);
+		//array = NULL;
+		//return (NULL);
 	}
+	//printf("backtofreelist\n");
+	
+	// while(array[y] && array)
+	// {
+	// 	free(array[y]);
+	// 	y++;
+	// }
+	// array = NULL;
+	// free(array);
+		
+    // while (array[y] && array)
+    // {
+		
+	// 	printf("-----------------array[Y][%p]\n", array[y]);
+    //    //free(array[y]);                     //new
+	//    printf("-----------------array[NA][%p]\n", array[y]);
+    //   // array[y] = NULL;
+	//    printf("----------------array[NANU][%p]\n", array[y]);
+    //     y++;
+    // }
+	//free(array);
+	//array = NULL;
+	// if (array)					//TOEVOEGING TEST?
+	// {
+	// 	printf("-----------------ARRAY\n");
+   	// 	free(array);
+	// 	array = NULL;	//
+	// }
+	
 }
 
 /*
@@ -113,23 +167,31 @@ Mallocs parser:
 
 void        free_list_parser(t_command **command)
 {
+	////printf("freelistparser\n");
     t_command   *tmp;
 
     tmp = NULL;
     while (*command)
     {
+		//printf("in while loop free list parser\n");
         tmp = (*command)->next_command;
-        if ((*command)->array)
+       if ((*command)->array != NULL)
+	   {
+		   	// tester(NULL, *command);
 			free_array((*command)->array);
+			free((*command)->array);
+			//printf("-------------------------uit-free-array\n");
+	   }
 		// if ((*command)->quote)						
 		// 	free((*command)->quote);			//new		//GEBRUIKEN WE DIE WEL OF NIET?
         if ((*command)->output)
             free_output((*command)->output);
         if ((*command)->input)
             free_input((*command)->input);
-        free(*command);
+       	free(*command);
         *command = tmp;
-    } 
+    }
+	//printf("after_free\n");
     *command = NULL;
 }
 

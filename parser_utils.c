@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/31 11:36:28 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/10/31 13:51:14 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ int				check_builtin_node(t_lexer **sort, t_env **_env)
 	builtin_type = get_builtin_type((*sort)->str);
 	if(builtin_type == builtin_no && (*sort)->str[0] == ';')
 	{
+		printf("check_builtin_node\n");
 		error_command(";", 0, 0);  // NEWERROR
 		g_own_exit = 258;
 	}
