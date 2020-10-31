@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/12 16:34:52 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/30 13:25:48 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/31 12:43:12 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,16 @@
     We hoefte idd niet te freeen omdat we de gemallocte str doorkregen vanuit sort. Consequentie na het freeen van lexer dat we deze gemallocte string dus wel kwijt waren.
     Oplossing: ft_strdup toegevoegd, lexer kan gefreet, str_input en str_output blijven wel bestaan, ze moeten nu ook gefreet worden. 
 */
+
+char			*strdup_and_free(char **str)
+{
+	char	*tmp;
+
+	tmp = ft_strdup(*str);
+	free (*str);
+	*str = NULL;
+	return (tmp);
+}
 
 static void         free_input(t_input *input)
 {

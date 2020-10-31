@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/10/30 16:07:19 by maran         ########   odam.nl          #
+#    Updated: 2020/10/31 16:44:25 by msiemons      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRC =  srcs/main.c\
 		libft/get_next_line/get_next_line.c\
 		libft/get_next_line/get_next_line_utils.c\
 		ft_strcmp.c\
-		parser.c parser_utils.c\
+		srcs/parser/parser.c\
+		parser_utils.c\
 		ll_make_list_parser.c\
 		free_list.c \
 		tester.c\
@@ -54,6 +55,7 @@ SRC =  srcs/main.c\
 OBJ = $(SRC:.c=.o)
 
 CFLAGS = -Wall -Wextra -Werror
+#-fsanitize=address -g
 
 INCL = includes
 

@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/30 23:08:56 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/31 20:18:08 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,15 @@ static void		determine_fdout(t_command **command, t_execute **exe,
 	{
 		if ((*command)->pipe_after && (*command)->output)
 			execute_output(command, exe, _env);
+		// printf("B\n");
 		pipe((*exe)->fdpipe);
 		(*exe)->fdout = (*exe)->fdpipe[1];
 		(*exe)->fdin  = (*exe)->fdpipe[0];
-		// printf("B\n");
+		// printf("Ba\n");
 	}
 	else
 		(*exe)->fdout = dup((*exe)->tmpout);
+	// printf("Ca\n");
 	dup2((*exe)->fdout,1);
 	close((*exe)->fdout);
 	// printf("C\n");
@@ -171,8 +173,9 @@ void			*execute(t_command **command, t_env **_env)
 	while (exe->i < exe->len_list)
 	{
 		complete_path(command, *_env);		// maakt van echo/ no --> no_com
-		// tester(NULL, *command);
+		// printf("--1--\n");
 		res = determine_fdin(*command, &exe);
+		// printf("--2--\n");
 		if(res == 3) // 3 staast voor de return uit errno_error S: wel handig om dit voorbeeld nog even op te zoeken 
 		{	
 			//printf("res = 0 \n");
@@ -180,7 +183,10 @@ void			*execute(t_command **command, t_env **_env)
 			//free(exe);	//LEAKS
 			return(0);    // or own exit status op 0 zodat hij eruit klapt 
 		}
+		// printf("--3--\n");
 		check_specials(command, *_env);  //res = 
+		// tester(NULL, *command);
+		// printf("--4--\n");
 		// if(!executable)
 		// {
 		// 	printf("executable is aan\n");
@@ -188,9 +194,6 @@ void			*execute(t_command **command, t_env **_env)
 		// 	return(0);
 		// }
 		// else
-			
-		
-		// tester(NULL, *command);
 		if (g_own_exit != 999 && (*command)->builtin == builtin_no_com && (*command)->array)				//new		//(*command)->array voor pwd ; $POEP ; echo doei
 			{
 				//printf("execute_error_command welke foutmelding moet hier komen?\n");
@@ -199,12 +202,13 @@ void			*execute(t_command **command, t_env **_env)
 			}
 		else			//reset g_own
 			g_own_exit = 0;										//new
-		// printf("1\n");
+		// printf("--5--\n");
+		// tester(NULL, *command);
 		determine_fdout(command, &exe, _env, exe->i);
-		// printf("2\n");
+		// printf("--6--\n");
 		if (!(((*command)->sem || (*command)->pipe_after) && (*command)->output))
 			builtin_another_program(command, _env);
-		// printf("3\n");
+		// printf("--7--\n");
 		if ((*command)->sem)
 			exe->fdin = dup(exe->tmpin);
 		// printf("-------------------------\n");
