@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/30 17:44:36 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 21:20:06 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,9 @@ int								is_metachar(char c);
 t_lexer							*ll_new_node_lexer(char *str, int *token);
 void							ll_lstadd_back_lexer(t_lexer **head, t_lexer *new);
 
+/*parser*/
+int								parser(t_lexer **sort, t_command **command, int pipe_status, t_env **_env);
+int								count_node(t_lexer **sort, int builtin);
 
 /*******End Cleaning*******/
 
@@ -176,16 +179,12 @@ void            				tester(t_lexer *sort, t_command *command);
 
 
 
-
+int				error_redi_one(char c, int i, char *line);
 
 
 int								ft_strcmp(const char *s1, const char *s2);
 
 /*parsing */
-int								parser(t_lexer **sort, t_command **command, int count, t_env **_env);
-// int								count_node(t_lexer *sort);
-int								count_node(t_lexer *sort, int builtin);
-// int								count_node(t_lexer **sort, int builtin);
 char            				*trunc_quotes(char *str);
 int         					get_builtin_type(char *str);
 int								check_builtin_node(t_lexer **head, t_env **_env);

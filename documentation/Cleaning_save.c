@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/29 20:44:43 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/30 17:13:37 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 20:12:19 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ Monitoren of dit goed gaat. Verwarrend stukje.
 
 10 Volgens mij gebruiken we Pipe_before nooit? Goed checken bij parser en execute.
 
+11. Gebruiken we command->quote voor iets?
+
+12
 
 -----
 MALLOC ERROR IDEAS:
@@ -253,7 +256,118 @@ MOET VEEL KORTER!
 	---------> Verplaatst naar count node zoals gesuggereerd.
 	Daarvoor van count_node( **sort, ...) moeten maken.
 
-	---------> Terug gedraaid, ging iets kapot. HIER GEBLEVEN VOOR PULL
+Oude count_node:
+
+// int				count_node(t_lexer *sort, int type_builtin)
+// {
+// 	int 	i;
+
+// 	i = 0;
+// 	while (sort && !sort->token[token_pipe] && !sort->token[token_semicolon])
+// 	{
+//         if (sort->token[token_general])
+// 		    i++;
+//         if (sort->token[token_redirection])
+// 		    sort = sort->next_sort;
+//         sort = sort->next_sort;
+// 	}
+// 	if (type_builtin >= builtin_echo && type_builtin <= builtin_exit)
+// 		i--;
+// 	return (i);
+// }
 
 
-		
+
+Backup:
+static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp, t_env **_env)
+{
+	//printf("fill_builtin_redirec_array--------parser\n");
+	char 		**array;
+	int 		*quote;
+	int 		num_nodes;
+	int			ret;
+    int 		y;
+
+	array = NULL;
+	quote = NULL;
+	num_nodes = 0;
+	y = 0;
+	(*tmp)->builtin = check_builtin_node(sort, _env);
+	num_nodes = count_node(sort, (*tmp)->builtin);
+	if (num_nodes > 0)
+	{
+		array = (char **)malloc((num_nodes + 1) * sizeof(char *));
+		if (array == NULL)
+			malloc_fail();
+	}
+	while (*sort && ((*sort)->token[token_general]
+				|| (*sort)->token[token_redirection]))
+	{
+		ret = redirection(sort, tmp);
+		if (ret == 1)
+			return (close_and_save_array(tmp, array, y));
+		ret = general(sort, array, &y);
+		if (ret == 1)
+			return (close_and_save_array(tmp, array, y));
+	}
+	return (close_and_save_array(tmp, array, y));
+}
+
+
+
+/***********************
+* Close_and_save_array
+************************/
+
+Verwijderd:
+	// (*tmp)->quote = quote;				//Twijfel waarvoor we dit gebruikten
+
+
+/***********************
+*  General
+************************/
+
+/*
+** Changelog:
+	- Changed:
+	array[*y] = (*sort)->str;
+	- Removed 08/09:
+			// newstr = trunc_quotes((*sort)->str);		--> worden nu al definitief verwijderd in check_builtin_node
+			// array[*y] = newstr;
+	- Added 29/09 (na vak): 
+			(*sort)->str = trunc_quotes((*sort)->str);	--> Kan niet al worden verwijderd in check_builtin_node,
+			want als een builtin dan gaat hij al naar de volgende node. Dus "hallo", komt nooit meer in check_builtin_node.
+			Lelijke structuur. Maar voor nu even weer hersteld naar soort van de oude variant.
+	- Remove vanwege new_trunc structure:
+		// if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
+		// {
+		// 	(*sort)->str = trunc_quotes((*sort)->str);
+		// 	quote[*y] = ((*sort)->token[token_quote]) ? token_quote : token_dquote;			//new //Weet niet meer waarvoor dit was, wel belangrijk denk ik?
+		// }
+	
+*/
+
+LET OP: Verwijderd: Is wel het quote mysterie.. gebruiken we het of niet?
+
+	// if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
+		// {
+		// 	(*sort)->str = trunc_quotes((*sort)->str);
+		// 	quote[*y] = ((*sort)->token[token_quote]) ? token_quote : token_dquote;			//new //Weet niet meer waarvoor dit was, wel belangrijk denk ik?
+		// }
+
+ while (*sort && (*sort)->token[token_general]) 			//dit er nog bij?  && array != NULL)
+
+/*
+** Changelog 09/09:
+	- Count node heringericht zoday we ? konden deleten.
+ 	-delete:  num_nodes = ((*tmp)->builtin == builtin_no_com || (*tmp)->builtin == builtin_no) ? (num_nodes + 1) : num_nodes;			//new	//in count_nodes fixen?
+** 	- Verplaatst van check_builtin_node naar fill_builtin.....: 
+	if ((*tmp)->builtin >= builtin_echo && (*tmp)->builtin <= builtin_exit)			//dit kan evt ook in count_node
+			*sort = (*sort)->next_sort;
+** OLD (fixed ls before) 
+** num_nodes + 1:
+** This is needed in cases of no builtin. The non-builtin needs to be saved in the array,
+** because execve needs this to read it out. The builtins are not saved in the array because
+** we use a builtin_type to save the type.
+*/
+

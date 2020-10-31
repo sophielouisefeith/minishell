@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/30 17:44:15 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 23:08:56 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void			complete_path(t_command **command, t_env *_env)
 		free((*command)->array[0]);
 		(*command)->array[0]= NULL;
 		(*command)->array[0] = check_path(_env, tmp);
-	//	printf("command[%s]\n", (*command)->array[0]);
+		// printf("command[%s]\n", (*command)->array[0]);
 		if((*command)->array[0]== NULL )
 			error_command((*command)->array[0], 1, *command);
 		// if((*sort)->str == NULL)
@@ -170,8 +170,8 @@ void			*execute(t_command **command, t_env **_env)
 	initialise_execute(*command, &exe);
 	while (exe->i < exe->len_list)
 	{
+		complete_path(command, *_env);		// maakt van echo/ no --> no_com
 		// tester(NULL, *command);
-		complete_path(command, *_env);
 		res = determine_fdin(*command, &exe);
 		if(res == 3) // 3 staast voor de return uit errno_error S: wel handig om dit voorbeeld nog even op te zoeken 
 		{	
