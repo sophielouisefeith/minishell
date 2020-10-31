@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/31 20:49:10 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/10/31 20:54:38 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,8 +230,6 @@ static void		check_if_quotes(t_command **command, int *flag, int y, int *i,
 
 void		check_specials(t_command **command, t_env *_env)
 {
-	
-	//printf("------------checkspecials\n");
 	
 	int		y;
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/31 20:51:20 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/10/31 21:23:05 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,8 +173,9 @@ void			*execute(t_command **command, t_env **_env)
 		// printf("--2--\n");
 		if(res == 3) // 3 staast voor de return uit errno_error S: wel handig om dit voorbeeld nog even op te zoeken 
 		{	
-			//close_execute(&exe);
-			//free(exe);	//LEAKS
+			printf("leak je hier\n");
+			close_execute(&exe);
+			free(exe);	//LEAKS
 			return(0);    // or own exit status op 0 zodat hij eruit klapt 
 		}
 		// printf("--3--\n");

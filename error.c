@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/31 20:46:57 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/10/31 21:16:36 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int				error_redi_one(char c, int i, char *line)
 {
 	int flag;
 
-	printf("HIER\n");
 	flag = 1;
 	write(1, "bash: syntax error near unexpected token `", 42);
 	if (c == '<' || c == '>')
