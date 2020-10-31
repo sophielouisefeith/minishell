@@ -6,7 +6,7 @@
 /*   By: msiemons <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/07 19:36:44 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/29 21:05:01 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/31 21:15:26 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ int					ft_lstsize(t_list *lst);
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 
 void				ft_putstr(char *str);
+int					ft_strcmp(const char *s1, const char *s2);
 
 #endif

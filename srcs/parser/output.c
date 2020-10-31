@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:30:21 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/31 14:01:27 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/10/31 21:30:02 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_output		*ll_new_node_output(char *str_output, int token)
 	new = (t_output *)malloc(sizeof(t_output));
 	if (!new)
 		return (NULL);
-	new->str_output = str_output;			//Gemalloct wordt deze gefreet?
+	new->str_output = str_output;
 	new->token = token;
 	new->next_output = NULL;
 	return (new);
@@ -43,10 +43,10 @@ static void			ll_lstadd_back_output(t_output **output, t_output *new)
 void				output_fill(t_lexer **sort, t_command **tmp, int token)
 {
 	t_output	*tmp_output;
-	char 		*str;
+	char		*str;
 
 	*sort = (*sort)->next_sort;
-	str = ft_strdup((*sort)->str);			//gemallocte str en gemallocte sort->str // Wat gebeurt er met gemallocte sort>str
+	str = ft_strdup((*sort)->str);
 	if (str == NULL)
 		malloc_fail();
 	tmp_output = ll_new_node_output(str, token);

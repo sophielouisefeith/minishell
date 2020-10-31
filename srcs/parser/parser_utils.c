@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/31 20:39:30 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/10/31 20:58:07 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,6 @@ char			*delete_quotes(char *src, char garbage)
 	return (dst);
 }
 
-
-/*
-** Check path checks the env variable path for commands, and completes the path.
-** For example "ls" --> "/bin/ls".
-** If there is no match the builtin type will be set to builtin_no_com. If there is a match
-** it stays "builtin_no".
-*/
-
 int				check_builtin_node(t_lexer **sort)
 {
 	int			builtin_type;
@@ -119,7 +111,7 @@ int				check_builtin_node(t_lexer **sort)
 	if (is_single_quote((*sort)->str[0]) || is_double_quote((*sort)->str[0]))
 	{
 		tmp = strdup_and_free(&(*sort)->str);
-		(*sort)->str = delete_quotes(tmp, tmp[0]);				//Tmp wordt gefreeet
+		(*sort)->str = delete_quotes(tmp, tmp[0]);
 	}
 	builtin_type = get_builtin_type((*sort)->str);
 	if (builtin_type == builtin_no && (*sort)->str[0] == ';')

@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/31 14:53:25 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/10/31 21:51:35 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,63 +172,46 @@ int								count_node(t_lexer **sort, int builtin);
 /*parser_utils*/
 int								check_builtin_node(t_lexer **sort);
 
-/*******End Cleaning*******/
+/* ll_make_list_lexer*/
+void							ll_lstadd_back_command(t_command **command, t_command *new);
+t_command						*ll_new_node_command(int num_nodes, int builtin);
+
+/*input.c*/
+void							input_fill(t_lexer **sort, t_command **tmp);
+
+/*output */
+void							output_fill(t_lexer **sort, t_command **tmp, int token);
+
+/*free_list */
+char							*strdup_and_free(char **str);
+void							free_env(t_env *_env);
+void							free_array(char **array);
+void							free_list_lexer(t_lexer **sort);
+
+/*free_parser */
+void							free_list_parser(t_command **command);
+
+/*******End Cleaning*******************************************/
 
 /*******Remove*********/
 void            				tester(t_lexer *sort, t_command *command);
 /*******End remove*******/
 
-/* free_list*/
-char							*strdup_and_free(char **str);
+
+
 
 
 
 
 int				error_redi_one(char c, int i, char *line);
 
-
-int								ft_strcmp(const char *s1, const char *s2);
-
 /*parsing */
 char            				*trunc_quotes(char *str);
 int         					get_builtin_type(char *str);
 
-
 /*Check path */
 char							*check_path(t_env *env, char *str);
 
-
-
-
-t_command	    				*ll_new_node_command();
-void		    				ll_lstadd_back_command(t_command **command, t_command *new);
-
-
-/*output */
-void            				output_fill(t_lexer **sort, t_command **tmp, int token);
-
-/* input */
-void            				input_fill(t_lexer **head, t_command **tmp);
-
-
-
-/*test */
-void     						tester_pars(t_lexer *lexer, t_command *command);
-
-/*free */				
-void           					free_array(char **array);
-void        					free_list(t_lexer **sort, t_command **command);
-void        					free_list_lexer(t_lexer **sort);
-void							free_list_parser(t_command **command);
-void         					free_env(t_env *_env);
-
-// void      						free_str(char *str);
-// void            				free_complete(int mistake);
-// void        				    free_list_command(t_command **command);
-
-/*error */						
-// char                			*strerror_i(int errnum);
-// int								error_free(int mistake);
 char							*error_command(char *str, int i, t_command *command);
 int								error(t_command *command);
 char 							*error_qoute(char *str);
@@ -261,13 +244,11 @@ int      						execute_exit(t_command *command);
 
 /* parameter expansion */
 void							parameter_expansion(t_command **command, t_env *_env);
-// char							*expand(char *str, int i, t_env *_env);
 char							*if_dollar(char *str, int *i, t_env *_env, int quote);
 
 char							*search_node(t_env *_env, char *search);
 int								is_special_char(char *str, int i);
 char							*join_strings(char *new_str1, char *parameter, char *new_str2);
-
 
 /*new*/
 char							*tmp_tolower(char *str);
@@ -276,21 +257,14 @@ char							*check_backslash_and_dollar(char *str, int *i, t_env *_env);
 char							*delete_double_quotes(char *src, int start, int end);
 char							*delete_escape_char(char *src, int n);
 
-
-
-
 char							*delete_quotes(char *src, char garbage);
 void							parameter_not_exist(t_command **command, int *y);
 char							*delete_escape_char(char *src, int n);
 
-
 void							check_builtin_again(t_command **command, t_env *_env, int y);
-
 
 /* >>>>>>>>>>> */
 int								error_redirections(char c, int error_num, int i, char *line);
-// char							*error_no_path(char *str);
-// void							*no_file(char *str);
 int								errno_error(char *str);
 void							set_exit_status(void);
 

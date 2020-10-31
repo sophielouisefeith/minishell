@@ -6,13 +6,11 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/13 10:17:35 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/30 22:23:58 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/31 21:10:22 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-	// new->quote = NULL;
 
 t_command		*ll_new_node_command(int num_nodes, int builtin)
 {
@@ -29,11 +27,11 @@ t_command		*ll_new_node_command(int num_nodes, int builtin)
 	}
 	else
 		new->array = NULL;
-	new->builtin = builtin;		// was -1
+	new->builtin = builtin;
 	new->output = NULL;
 	new->input = NULL;
 	new->pipe_before = 0;
-   	new->pipe_after = 0;
+	new->pipe_after = 0;
 	new->sem = 0;
 	new->next_command = NULL;
 	return (new);
