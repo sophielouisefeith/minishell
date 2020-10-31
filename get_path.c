@@ -6,12 +6,13 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/31 20:47:25 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/10/31 22:19:03 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <dirent.h>
+#include <dirent.h>		//Waar is deze voor?
+
 static char		*make_path_complete(char *patharray, char *tmp)
 {
 	char *new_str;
@@ -19,17 +20,14 @@ static char		*make_path_complete(char *patharray, char *tmp)
 
 	new_str = ft_strjoin(patharray, "/");
 	new_str2 = ft_strjoin(new_str, tmp);
-///LEAKS
 	free(tmp);
 	tmp = NULL;
 	free(new_str);
 	new_str = NULL;
-///
 	return (new_str2);
 }
 
 /*
-** Methode met open, read en closedir:
 ** 1. Get the PATH variable out of _env
 ** 2. Save the PATH values in seperate strings
 ** 3. Try to open every individual directory
@@ -37,7 +35,7 @@ static char		*make_path_complete(char *patharray, char *tmp)
 ** 5. If entry is equal complete the entered path by adding the path of directory
 */
 
-char		*tmp_tolower(char *str)
+char			*tmp_tolower(char *str)
 {
 	char	*tmp;
 	int 	i;
@@ -52,15 +50,6 @@ char		*tmp_tolower(char *str)
 	return (tmp);
 }
 
-/*
-** MOE:
-	///	
-	// if (str[0] != '$' && str[0] != '>' && str[0] != '<')	//LET OP: we mogen niet hier al erroren als $ nog niet expanded is //Ook niet bij > file
-	// 	return (error_command(str));
-	// else 
-*/
-
-
 char			*check_path(t_env *_env, char *str)
 {
 	struct dirent 	*next_entry;
@@ -71,18 +60,13 @@ char			*check_path(t_env *_env, char *str)
 	char 			*tmp;
 
 	i = 0;
-	//printf("------------------------in check Path\n");
-	path = search_node(_env, ft_strdup("PATH"));	//vanwege free in search node
-	//printf("str[%s]\n", path);
+	path = search_node(_env, ft_strdup("PATH"));
 	if (!path)
-	{
-		//printf("---------------------geen path\n");
-		return (str);			// was return (errno = ENOENT, errno_error(str));
-	}
-	patharray = ft_split(path, ':');			//FREE
+		return (str);
+	patharray = ft_split(path, ':');
 	if (!patharray)
 		return (NULL);
-	tmp = tmp_tolower(str);		//new
+	tmp = tmp_tolower(str);
 	while (patharray && patharray[i])
 	{
 		folder = opendir(patharray[i]);
@@ -90,16 +74,14 @@ char			*check_path(t_env *_env, char *str)
 		{
 			while ((next_entry = readdir(folder)) != NULL)
 			{
-				if (ft_strcmp(next_entry->d_name, tmp) == 0) //was str
+				if (ft_strcmp(next_entry->d_name, tmp) == 0)
 				{
 					free(str);
 					str = NULL;
-					str = make_path_complete(patharray[i], tmp); //was str
+					str = make_path_complete(patharray[i], tmp);
 					closedir(folder);
-					///LEAKS
 					free_array(patharray);
 					free(path);
-					///
 					return (str);
 				}
 			}
@@ -115,7 +97,6 @@ char			*check_path(t_env *_env, char *str)
 		//error_path(2,str);
 		//return(NULL);
 	//}
-		
 	// weer weg gehaald want anders gaat hij te vaak in error moet wel voor ; maar werkte nu ook niet meer waarschijnlijk door verplaatsing
 	// if (str[0] != '$' && str[0] != '>' && str[0] != '<')	//LET OP: we mogen niet hier al erroren als $ nog niet expanded is //Ook niet bij > file
 	// 	return (error_command(str));
@@ -125,10 +106,3 @@ char			*check_path(t_env *_env, char *str)
 	free(path);
 	return (str);
 }
-
-/* Removed:
-	///	
-	// if (str[0] != '$' && str[0] != '>' && str[0] != '<')	//LET OP: we mogen niet hier al erroren als $ nog niet expanded is //Ook niet bij > file
-	// 	return (error_command(str));
-	// else 
-*/

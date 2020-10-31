@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/29 20:44:43 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/31 21:55:47 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/10/31 22:18:02 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -665,3 +665,99 @@ SOPHIES FREE ARRAY:
 		//array = NULL;
 		//return (NULL);
 		------------
+
+
+----------------------------------------------------------------------------------------
+EXECUTE
+=========================================================================================
+
+---------------
+execute.c
+---------------
+
+/***************/
+execute
+/***************/
+complete_path(command, *_env);		// maakt van echo/ no --> no_com
+
+	if (g_own_exit != 999 && (*command)->builtin == builtin_no_com && (*command)->array)				//new		//(*command)->array voor pwd ; $POEP ; echo doei
+
+	else			//reset g_own
+			g_own_exit = 0;										//new
+/*
+29/10: verwijderd ivm pwd ; $POEP ; echo doei
+
+			// if ((*command)->builtin == builtin_no_com && !((*command)->sem || (*command)->pipe_after) && (!(*command)->array || !(*command)->array[0]))		//M: Welke case komt dit voor? anders liever verwijderen. S: $POEP komt het voor
+			// {																																				// Sem en pipe toegevoegd voor pwd ; $POEP ; echo doei
+			// 	free(exe);
+			// 	return (0);
+			// }
+
+*/
+
+/***************/
+complete_path
+/***************/
+
+str_before = ft_strdup((*command)->array[0]);					//alleen 0?
+
+/*
+** MOE:
+		g_own_exit = 0;				//Welke de g_own?
+
+	// if (((*command)->builtin == builtin_no_com && 
+		// 		(!(*command)->array || !(*command)->array[0]) &&
+		// 			 (!(*command)->pipe_after && !(*command)->sem)) ||  g_own_exit != 0)		//uitgecomment
+
+LAATSTE VERSIE VOOR fixes 23/10 : ga dan terug naar ---> 23/10 fixed capital commands, removed MOE
+		// printf("array[0] = [%p][%s] -> &[%p]\n", (*command)->array[0], (*command)->array[0], &(*command)->array[0]);
+*/
+
+
+/***************/
+Builtin_another_program
+/***************/
+/*
+** MOE:
+	if ((*command)->array && (*command)->array[0])
+*/
+
+
+/***************/
+invoke_another_program
+/***************/
+	signal(SIGINT, signal_reset);							//new vw signals
+	errno_error((*command)->array[0], *command);								// --> 1 van de foutmeldingen van unset PATH ; ls
+	if (WIFSIGNALED(status)) 							///NEW vw signals
+
+
+
+
+---------------
+get_path.c
+---------------
+/***************/
+check_path
+/***************/
+path = search_node(_env, ft_strdup("PATH"));	//vanwege free in search node
+
+	if (!path)
+		return (str);			// was return (errno = ENOENT, errno_error(str));
+
+		if (ft_strcmp(next_entry->d_name, tmp) == 0) //was str
+			str = make_path_complete(patharray[i], tmp); //was str
+
+/* Removed:
+	///	
+	// if (str[0] != '$' && str[0] != '>' && str[0] != '<')	//LET OP: we mogen niet hier al erroren als $ nog niet expanded is //Ook niet bij > file
+	// 	return (error_command(str));
+	// else 
+*/
+
+/*
+** MOE:
+	///	
+	// if (str[0] != '$' && str[0] != '>' && str[0] != '<')	//LET OP: we mogen niet hier al erroren als $ nog niet expanded is //Ook niet bij > file
+	// 	return (error_command(str));
+	// else 
+*/
