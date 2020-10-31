@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/31 20:37:53 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/10/31 20:51:20 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,15 @@ static void		determine_fdout(t_command **command, t_execute **exe,
 	{
 		if ((*command)->pipe_after && (*command)->output)
 			execute_output(command, exe, _env);
+		// printf("B\n");
 		pipe((*exe)->fdpipe);
 		(*exe)->fdout = (*exe)->fdpipe[1];
 		(*exe)->fdin  = (*exe)->fdpipe[0];
+		// printf("Ba\n");
 	}
 	else
 		(*exe)->fdout = dup((*exe)->tmpout);
+	// printf("Ca\n");
 	dup2((*exe)->fdout,1);
 	close((*exe)->fdout);
 }
@@ -165,14 +168,16 @@ void			*execute(t_command **command, t_env **_env)
 	while (exe->i < exe->len_list)
 	{
 		complete_path(command, *_env);		// maakt van echo/ no --> no_com
-		// tester(NULL, *command);
+		// printf("--1--\n");
 		res = determine_fdin(*command, &exe);
+		// printf("--2--\n");
 		if(res == 3) // 3 staast voor de return uit errno_error S: wel handig om dit voorbeeld nog even op te zoeken 
 		{	
 			//close_execute(&exe);
 			//free(exe);	//LEAKS
 			return(0);    // or own exit status op 0 zodat hij eruit klapt 
 		}
+		// printf("--3--\n");
 		check_specials(command, *_env);  //res = 
 		if (g_own_exit != 999 && (*command)->builtin == builtin_no_com && (*command)->array)				//new		//(*command)->array voor pwd ; $POEP ; echo doei
 		{

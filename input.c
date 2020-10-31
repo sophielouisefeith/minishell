@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:38:34 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/29 09:31:15 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/31 14:03:12 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ static void			ll_lstadd_back_input(t_input **input, t_input *new)
 
 void				input_fill(t_lexer **sort, t_command **tmp)
 {
-    t_input		*tmp_input;
+	t_input		*tmp_input;
 	char 		*str;
 
-    *sort = (*sort)->next_sort;
+	*sort = (*sort)->next_sort;
 	str = ft_strdup((*sort)->str);
-	if (str == NULL)				//new
+	if (str == NULL)
 		malloc_fail();
-    tmp_input = ll_new_node_input(str);			//new
-	if (tmp_input == NULL)
-		malloc_fail();
+	tmp_input = ll_new_node_input(str);
+	if (tmp_input == NULL)						//M: Deze is nooit NULL, want je returnt geen NULL
+		malloc_fail();					
 	ll_lstadd_back_input(&(*tmp)->input, tmp_input);
 }

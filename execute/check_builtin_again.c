@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/07 17:31:13 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/31 20:39:18 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/10/31 20:48:59 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,13 @@ PAS OP:
 //[0] != '$' toegevoegd v.w. $"poep"
 */
 
+	// printf("In CBA\n");
+	// tester(NULL, *command);
+	// if ((*command)->array[y] == NULL && (*command)->array[y + 1] != NULL)		//Scary
+	// {
+	// 	// printf("in cba y+1 [%s]\n", (*command)->array[y + 1]);
+	// 	y++;
+	// }
 
 void				check_builtin_again(t_command **command, t_env *_env, int y)
 {
@@ -46,7 +53,7 @@ void				check_builtin_again(t_command **command, t_env *_env, int y)
 	char *tmp;
 	char *y_space;
 
-	if ((*command)->builtin == builtin_no_com && y == 0 && (*command)->array[y] != NULL)
+	if ((*command)->builtin == builtin_no_com && (*command)->array[y] != NULL && y == 0)
 	{
 		new_str = ft_strdup("");
 		while ((*command)->array && (*command)->array[y])

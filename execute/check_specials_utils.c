@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/30 15:25:51 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/31 20:33:34 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ char			*delete_escape_char(char *src, int n)
 }
 
 	// dst = (char *)malloc(sizeof(char) * (len + 1));
+	// printf("len - 2 = %d\n", len); 
+	// printf("src len = %zu --> [%s]\n", ft_strlen(src), src); 
+		// printf("dst_i[%d] wordt  src[%d][%c]\n", dst_i, src_i, src[src_i]); 
+	// printf("dst_i = %d en len = %d\n", dst_i, len); 
 char			*delete_double_quotes(char *src, int start, int end)
 {
 	char	*dst;
@@ -62,6 +66,8 @@ char			*delete_double_quotes(char *src, int start, int end)
 			src_i++;
 			if (src_i == end)
 				src_i++;
+			if (!src[src_i])
+				break;
 		}
 		dst[dst_i] = src[src_i];
 		src_i++;

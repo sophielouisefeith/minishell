@@ -185,5 +185,11 @@ CAT -e
 LS
 LS -L
 
+***************************
+** 			Check Builtin Again tests			**
+***************************
+$POEP echo hallo
+$POEP $POEP echo hallo
 
+echo $POEP hallo
 

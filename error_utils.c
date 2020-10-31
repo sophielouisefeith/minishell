@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/27 14:45:39 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/31 20:45:57 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/10/31 20:46:53 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,11 @@ char 			*translate_builtin(int b, char *str)
 }
 
 int 			malloc_fail()
-{ 
-	if(errno == ENOMEM)
-	{
-		write(1, "bash: ", 6 );
-		write(1, strerror(errno), ft_strlen(strerror(errno)));
-		exit(1);	
-	}
-	return(errno);
+{
+	write(1, "bash: ", 6 );
+	write(1, strerror(errno), ft_strlen(strerror(errno)));
+	exit(1);
+	return(errno);				//M: Is deze return nodig? Vanuit input.c gebruik je niet in een return, ergens anders wel?
 }
 
 void				set_exit_status(void)

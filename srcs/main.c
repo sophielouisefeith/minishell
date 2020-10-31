@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/31 18:45:07 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/10/31 20:50:12 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void			lexer_parser_executer(char *line, t_env **_env)
 	sort_copy = sort;
 	while (sort && pipe_status != 3 && g_own_exit!= 3) // && g_own_exit == 0)				//MOET DEZE DAN OOK WEER TERUG?
 	{
-		pipe_status = parser(&sort, &command, pipe_status, _env);
+		pipe_status = parser(&sort, &command, pipe_status);
 		if(pipe_status == 3) /// nu voor de dubbele ;
 		{										//NEW na pull, niet gecleaned
 			g_own_exit = 0;

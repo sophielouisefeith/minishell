@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/29 20:44:43 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/30 20:12:19 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/31 20:24:16 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,30 @@ Monitoren of dit goed gaat. Verwarrend stukje.
 
 11. Gebruiken we command->quote voor iets?
 
-12
+12 Gaat het goed met doorpassen van adres van tmp->array naar general?
 
------
+------------------
 MALLOC ERROR IDEAS:
 - Grotere GNL buf [Werkt niet]
 - Iemand anders GNL?
 - Bij is_operator staat de vraag "\n" toevoegen?. Zitten er \n in de zin? Zo ja wat doet dat, is dat een operator? 
 			Valt wel onder metachar, want metachar is operator + whitespace.
+
+-----------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /***********************
@@ -370,4 +386,157 @@ LET OP: Verwijderd: Is wel het quote mysterie.. gebruiken we het of niet?
 ** because execve needs this to read it out. The builtins are not saved in the array because
 ** we use a builtin_type to save the type.
 */
+
+-----------------------
+Parser_utils.c
+------------------------
+
+/***********************
+* check_builtin_node
+************************/
+
+	// printf("(*sort)->str = [%s]\n", (*sort)->str);
+	// printf("(*sort)->str = [%s]\n", (*sort)->str);
+
+
+	if (is_single_quote((*sort)->str[0]) || is_double_quote((*sort)->str[0]))		//mag alleen bij het eerste woord worden getrunct (hoezo komt hij niet bij volgende woorden?)
+
+	Voor verplaatsen check path:
+	// char 	*str_before;
+	
+	// if (builtin_type == builtin_no)
+	// {
+	// 	str_before = (*sort)->str;	//Wanhoop: mag dit want stack? of strdup?
+	// 	//Wanhoop test
+	// 	tmp = ft_strdup((*sort)->str);
+	// 	free ((*sort)->str);
+	// 	(*sort)->str = NULL;
+	// 	(*sort)->str = check_path(*_env, tmp);
+	// 	//							
+	// 	if((*sort)->str == NULL)
+	// 		return(ENOMEM);
+	// 		//return(malloc_fail(ENOMEM));
+	// 	if (!ft_strcmp(str_before, (*sort)->str))
+	// 		builtin_type = builtin_no_com;
+	// }
+	
+		// (*sort)->str = check_path(*_env, (*sort)->str);
+		// (*sort)->str = delete_quotes((*sort)->str, (*sort)->str[0]);
+
+
+// tmp = ft_strdup((*sort)->str);
+		// free ((*sort)->str);
+		// (*sort)->str = NULL;
+
+----
+		printf("VOOR:[%p] [%s]\n", (*sort)->str, (*sort)->str);
+		printf("VOOR TMP:[%p] [%s]\n", tmp, tmp);
+		printf("NA: [%p] [%s]\n", (*sort)->str, (*sort)->str);
+		printf("TMP2:[%p] [%s]\n", tmp, tmp);
+		printf("NA DQ: [%p] [%s]\n", (*sort)->str, (*sort)->str); 
+		
+		printf("FREE:[%p] [%s]\n", *str, *str);
+		printf("TMP1:[%p] [%s]\n", tmp, tmp);  
+----
+
+/***********************
+* count_node
+************************/
+
+** Changelog 08/09:
+	- Count_node aangepast zodat we van ? af zijn in fill_builtin_redirec_array
+	- Big changes in check_builtin_node: quotes veel korter (gaat dit goed?), check_path toevoeging.
+
+/***********************
+* trunc quotes											---> Gebruiken we volgens mij niet
+************************/
+
+/*
+** Changelog:
+	- Added 29/09(na vak):
+	free(str);				//freet dit de (*sort)->str) goed?
+*/
+
+// char            *trunc_quotes(char *str)
+// {
+//     int     len;
+//     char     *newstr;
+
+//     len = ft_strlen(str);
+//     len = len - 2;
+// 	newstr = ft_substr(str, 1, len);
+// 	free(str);
+//     return (newstr);
+// }
+
+/***********************
+return_type_and_free
+************************/
+/*
+**	../ toevoeging bij executables beetjes spannend of dat goed is.
+*/
+
+
+/***********************
+get_builtin_type
+************************/
+
+Verwijderd:
+// else if (!ft_strncmp(tmp, "/", 1) || !ft_strncmp(tmp, "./", 2) ||
+	// 			!ft_strncmp(tmp, "../", 3))
+
+else if (ft_strchr(tmp, '/'))							//Voor echo/
+
+
+/***********************
+delete_quotes
+************************/
+
+/* Waarom hadden we eerst:
+if ((*sort)->token[token_quote] || (*sort)->token[token_dquote])
+	{
+		newstr = trunc_quotes((*sort)->str);
+		builtin_type = get_builtin_type(newstr);
+		printf("(*sort)->str = [%s]\n", (*sort)->str);
+		free (newstr);
+		return (builtin_type);
+	}
+	--> Waarom niet direct sort->str ontdoen van quotes? Hier was vast een reden voor.
+** TO DO:
+	- We moeten nu 2x quotes truncen (general en hieronder). Kunnen we structuur aanpassen zodat dit maar 1x hoeft?
+*/
+
+/*
+"\echo" hallo
+bash: \echo: command not found
+
+echohallo: command not found
+"echo"hallo
+
+*/
+
+	// printf("Delete quotes src = [%p][%s] .  [%p]\n", src, src, &src);
+	// printf("Delete quotes dst = [%p][%s] .  [%p]\n", dst, dst, &dst);
+	// dst = (char *)malloc(sizeof(char) * (len + 1));			//New: gaat dit goed, moet ik wel opnieuw mallocen. Let op bij freeen. 
+	// printf("Delete quotes dst = [%p][%s]\n", dst, dst);
+
+		// printf("Delete quotes dst= [%p][%s] .  [%p]\n", dst, dst, &dst);
+
+			printf("dst_i = %d\n", dst_i); 
+
+
+	// printf("src len = %zu --> [%s]\n", ft_strlen(src), src); 
+	// printf("dst_i = %d en len = %d\n", dst_i, len); 
+	// printf("len - 2 = %d\n", len); 
+		// printf("dst_i[%d] wordt  src[%d][%c]\n", dst_i, src_i, src[src_i]);
+			// printf("dst_i[%d] = [%c]\n", dst_i, dst[dst_i]);  
+
+--------
+IN DELETE QUOTES ZAT EEN GROTE FOUT QUA LOOPEN, OPGELOST. ZIE VERSIE VOIR 31/10 voor oude.
+-------
+Na aanpassing:
+dst[dst_i] = '\0'; 			//kan dit ipv len?
+
+
+
 

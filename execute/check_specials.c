@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/31 13:25:54 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/10/31 20:49:10 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,12 @@ static char		*treat_double_quote(char *str, int *i, t_env *_env, int *flag)
 	if (str[*i - 1] == '$')
 		dollar = 1;
 			
-		tmp = ft_strdup(str);
-		free(str);
-		str = NULL;
-		str = check_backslash_and_dollar(tmp, i, _env);
+	tmp = ft_strdup(str);
+	free(str);
+	str = NULL;
+	str = check_backslash_and_dollar(tmp, i, _env);
 	end = *i;
+	// printf("str[] =  [%c] | str[end] =  [%c]\n", str[start], str[end]);
 		tmp = ft_strdup(str);
 		free(str);								
 		str = NULL;
@@ -153,7 +154,7 @@ static void		if_no_quote(t_command **command, t_env *_env, int y, int *i)
 		free((*command)->array[y]);
 		(*command)->array[y] = NULL;
 		(*command)->array[y] = delete_escape_char(tmp, *i);				//tmp wordt gefreeeet
-		(*i)++;
+		(*i)++; 			// Peeeert test --> UITZETTEN
 	}
 	if ((*command)->array[y][*i] == '$' &&
 			(*command)->array[y][*i + 1] == '\\')						//Deze kan ik misschien nog samenvoegen met die daarboven 
@@ -170,6 +171,7 @@ static void		if_no_quote(t_command **command, t_env *_env, int y, int *i)
 		free((*command)->array[y]);
 		(*command)->array[y] = NULL;
 		(*command)->array[y]  = if_dollar(tmp, i, _env, 0);
+		// printf("Na if_dollar [%s]\n", (*command)->array[y]);
 		check_builtin_again(command, _env, y);
 	}
 }
@@ -223,7 +225,7 @@ static void		check_if_quotes(t_command **command, int *flag, int y, int *i,
 			// printf("CS2: i = [%d][%c]   [%p]\n", i, (*command)->array[y][i], (*command)->array[y]);
 			// printf("CS3: i = [%d][%c]   [%p]\n", i, (*command)->array[y][i], (*command)->array[y]);
 
-void			complete_path(t_command **command, t_env *_env);
+// void			complete_path(t_command **command, t_env *_env);
 
 
 void		check_specials(t_command **command, t_env *_env)
@@ -253,6 +255,7 @@ void		check_specials(t_command **command, t_env *_env)
 		while ((*command)->array && (*command)->array[y] &&
 			(*command)->array[y][i])
 		{
+			// printf("[%d][%c] --> [%s]\n",i, (*command)->array[y][i], (*command)->array[y]);
 			flag = 0;
 			check_if_quotes(command, &flag, y, &i, _env);
 			if (!is_single_quote((*command)->array[y][i]) &&
@@ -260,12 +263,15 @@ void		check_specials(t_command **command, t_env *_env)
 				if_no_quote(command, _env, y, &i);
 			if ((*command)->array[y] == NULL)
 			{
+				// printf("PNE\n");
 				parameter_not_exist(command, &y);
 				break;
 			}
 			i++;
-		}	
+			// printf("[%d][%c] --> [%s]\n",i, (*command)->array[y][i -1], (*command)->array[y]);
+		}
 		y++;
+		// printf("y = %d\n", y);
 	}
 	//return(0);
 }

@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/31 11:46:19 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/10/31 20:47:25 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static char		*make_path_complete(char *patharray, char *tmp)
 ** 4. Read every entry of the directory and compare to entered string
 ** 5. If entry is equal complete the entered path by adding the path of directory
 */
-
 
 char		*tmp_tolower(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/30 22:53:18 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/31 20:35:59 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static int		redirection(t_lexer **sort, t_command **tmp)
 {
-	//printf("redirectins--------parser\n");
 	while ((*sort)->token[token_redirection])
 	{
 		if ((*sort)->token[token_redirection_greater])
@@ -33,7 +32,6 @@ static int		redirection(t_lexer **sort, t_command **tmp)
 
 static int		general(t_lexer **sort, char **array, int *y)
 {
-	//printf("-------------general_parser\n");
 	while (*sort && (*sort)->token[token_general])
 	{
 		array[*y] = ft_strdup((*sort)->str);
@@ -51,14 +49,14 @@ static int		general(t_lexer **sort, char **array, int *y)
 static void		fill_pipe_and_semicolon(t_lexer *sort, t_command **tmp, int *pipe_status)
 {
 	if (sort && sort->token[token_semicolon])
-    	(*tmp)->sem = 1;
-    if (*pipe_status == 1)
+		(*tmp)->sem = 1;
+	if (*pipe_status == 1)
 	{
 		(*tmp)->pipe_before = 1;
 		*pipe_status = 0;
 	}
 	if (sort && sort->token[token_pipe])
-    {
+	{
 		(*tmp)->pipe_after = 1;
 		*pipe_status = 1;
 	}
@@ -67,123 +65,45 @@ static void		fill_pipe_and_semicolon(t_lexer *sort, t_command **tmp, int *pipe_s
 static void		fill_array(t_lexer **sort, t_command **tmp)
 {
 	int			ret;
-    int 		y;
-	
+	int 		y;
+
 	y = 0;
 	while (*sort && ((*sort)->token[token_general]
 				|| (*sort)->token[token_redirection]))
 	{
 		ret = redirection(sort, tmp);
 		if (ret == 1)
-			break;
+			break ;
 		ret = general(sort, (*tmp)->array, &y);
 		if (ret == 1)
-			break;
+			break ;
 	}
 	if ((*tmp)->array != NULL)
 		(*tmp)->array[y]= 0;
-	
 }
 
 /*
 ** Pipe_status == 1 --> Pipe_before
 */
 
-int				parser(t_lexer **sort, t_command **command, int pipe_status,
-							t_env **_env)
+int				parser(t_lexer **sort, t_command **command, int pipe_status)
 {
-	//printf("parser\n");
-	t_command 	*tmp;
-	int 		num_nodes;
+	t_command	*tmp;
+	int			num_nodes;
 	int			builtin;
 
-	g_own_exit = 0;
+	g_own_exit = 0;									//M: Is dit voor de error-afhandeling?
 	tmp = NULL;
 	num_nodes = 0;
-	builtin = check_builtin_node(sort, _env);
+	builtin = check_builtin_node(sort);
 	num_nodes = count_node(sort, builtin);
 	tmp = ll_new_node_command(num_nodes, builtin);
 	if (tmp == NULL)
 		return (malloc_fail());
 	fill_array(sort, &tmp);
-	if (g_own_exit == 258)
-		return (3);   //hier exit status checken
+	if (g_own_exit == 258)							//M: vragen aan Sop
+		return (3);									//hier exit status checken
 	fill_pipe_and_semicolon(*sort, &tmp, &pipe_status);
 	ll_lstadd_back_command(command, tmp);
 	return (pipe_status);
 }
-
-
-//----------------------BACKUP------------------------:
-
-// static void 	close_and_save_array(t_command **tmp, char **array, int y)
-// {
-// 	//printf("close&safearray--------parser\n");
-// 	if (array != NULL)
-// 		array[y]= 0;
-// 	(*tmp)->array = array;
-// }
-
-// static void		fill_builtin_redirec_array(t_lexer **sort, t_command **tmp, t_env **_env)
-// {
-// 	//printf("fill_builtin_redirec_array--------parser\n");
-// 	char 		**array;
-// 	int 		*quote;
-// 	int 		num_nodes;
-// 	int			ret;
-//     int 		y;
-
-// 	array = NULL;
-// 	quote = NULL;
-// 	num_nodes = 0;
-// 	y = 0;
-// 	(*tmp)->builtin = check_builtin_node(sort, _env);
-// 	num_nodes = count_node(sort, (*tmp)->builtin);
-// 	if (num_nodes > 0)
-// 	{
-// 		array = (char **)malloc((num_nodes + 1) * sizeof(char *));
-// 		if (array == NULL)
-// 			malloc_fail();
-// 	}
-// 	while (*sort && ((*sort)->token[token_general]
-// 				|| (*sort)->token[token_redirection]))
-// 	{
-// 		ret = redirection(sort, tmp);
-// 		if (ret == 1)
-// 			return (close_and_save_array(tmp, array, y));
-// 		ret = general(sort, array, &y);
-// 		if (ret == 1)
-// 			return (close_and_save_array(tmp, array, y));
-// 	}
-// 	return (close_and_save_array(tmp, array, y));
-// }
-
-// int				parser(t_lexer **sort, t_command **command, int pipe_status,
-// 							t_env **_env)
-// {
-// 	//printf("parser\n");
-// 	t_command 	*tmp;
-
-// 	g_own_exit = 0;
-// 	tmp = NULL;
-// 	tmp = ll_new_node_command();
-// 	if (tmp == NULL)
-// 		return (malloc_fail());
-//     fill_builtin_redirec_array(sort, &tmp, _env);
-// 	if (g_own_exit == 258)
-// 		return (3);   //hier exit status checken 
-// 	if (*sort && (*sort)->token[token_semicolon])
-//     	(tmp)->sem = 1;
-//     if (pipe_status == 1)
-// 	{
-// 		(tmp)->pipe_before = 1;
-// 		pipe_status = 0;
-// 	}
-// 	if (*sort && (*sort)->token[token_pipe])
-//     {
-// 		(tmp)->pipe_after = 1;
-// 		pipe_status = 1;
-// 	}
-// 	ll_lstadd_back_command(command, tmp);
-// 	return (pipe_status);
-// }
