@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/30 17:50:49 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 20:59:26 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,9 @@ int				get_builtin_type(char *str)
 		return (return_type_and_free(tmp, builtin_env));
    else if (!ft_strcmp(tmp, "exit"))
 		return (return_type_and_free(tmp, builtin_exit));
-	else if (!ft_strncmp(tmp, "/", 1) || !ft_strncmp(tmp, "./", 2) ||
-				!ft_strncmp(tmp, "../", 3))
+	// else if (!ft_strncmp(tmp, "/", 1) || !ft_strncmp(tmp, "./", 2) ||
+	// 			!ft_strncmp(tmp, "../", 3))
+	else if(strchr(tmp,'/'))
 		return (return_type_and_free(tmp, executable));
 	else
 		return (return_type_and_free(tmp, builtin_no));
