@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/30 20:41:18 by maran         ########   odam.nl         */
+/*   Updated: 2020/10/30 23:08:56 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,8 @@ void			*execute(t_command **command, t_env **_env)
 	initialise_execute(*command, &exe);
 	while (exe->i < exe->len_list)
 	{
-		// tester(NULL, *command);
 		complete_path(command, *_env);		// maakt van echo/ no --> no_com
+		// tester(NULL, *command);
 		res = determine_fdin(*command, &exe);
 		if(res == 3) // 3 staast voor de return uit errno_error S: wel handig om dit voorbeeld nog even op te zoeken 
 		{	
