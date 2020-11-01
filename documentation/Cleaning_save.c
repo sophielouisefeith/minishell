@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/29 20:44:43 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 14:14:52 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 17:02:24 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -901,3 +901,61 @@ if_no_quote
 ** Ex. export LS="ls -la" 
 */
 
+
+
+
+
+---------------
+GET PATH.c
+---------------
+
+char			*check_path(t_env *_env, char *str)
+{
+	struct dirent 	*next_entry;
+	DIR				*folder;
+	char			*path;
+	char 			**patharray;
+	int				i;
+	char 			*tmp;
+
+	i = 0;
+	path = search_node(_env, ft_strdup("PATH"));
+	if (!path)
+		return (str);
+	patharray = ft_split(path, ':');
+	if (!patharray)
+		return (NULL);
+	tmp = tmp_tolower(str);
+	while (patharray && patharray[i])
+	{
+		folder = opendir(patharray[i]);
+		if (folder != 0)
+		{
+			while ((next_entry = readdir(folder)) != NULL)
+			{
+				if (ft_strcmp(next_entry->d_name, tmp) == 0)
+				{
+					free(str);
+					str = NULL;
+					str = make_path_complete(patharray[i], tmp);
+					closedir(folder);
+					free_array(patharray);
+					free(path);
+					return (str);
+				}
+			}
+			closedir(folder);
+		}
+		i++;
+	}
+	free(tmp);
+	free_array(patharray);
+	free(path);
+	return (str);
+}
+
+	if (!patharray)
+		return (NULL); 								//Gaat dit goed? path returnde old str
+		
+
+error_command((*command)->array[0], 1, *command);			//NOG EVEN CHECKEN OF NULL GOED GAAT

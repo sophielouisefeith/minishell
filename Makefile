@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/11/01 14:18:40 by msiemons      ########   odam.nl          #
+#    Updated: 2020/11/01 17:08:27 by msiemons      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC =  srcs/main.c\
 		srcs/utils/character_check.c\
 		srcs/utils/character_check2.c\
 		srcs/utils/free.c\
+		srcs/utils/utils_general.c\
 		srcs/lexer/lexer.c srcs/lexer/lexer_utils.c\
 		srcs/lexer/ll_make_list_lexer.c\
 		libft/get_next_line/get_next_line.c\
@@ -46,7 +47,7 @@ SRC =  srcs/main.c\
 		execute/parameter_expansion_utils.c\
 		execute/execute_export.c\
 		execute/ft_split2.c\
-		get_path.c\
+		srcs/execute/get_path.c\
 		error.c\
 		error_utils.c\
 		srcs/execute/check_builtin_again.c\

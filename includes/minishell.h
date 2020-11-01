@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 13:37:03 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 17:08:04 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,8 @@ void							complete_path(t_command **command, t_env *_env);
 /*check_specials*/
 void							check_specials(t_command **command, t_env *_env);
 
+/*utils_general */
+char							*tmp_tolower(char *str);
 
 /*******End Cleaning*******************************************/
 
@@ -226,9 +228,6 @@ int				error_redi_one(char c, int i, char *line);
 /*parsing */
 char            				*trunc_quotes(char *str);
 int         					get_builtin_type(char *str);
-
-/*Check path */
-char							*check_path(t_env *env, char *str);
 
 char							*error_command(char *str, int i, t_command *command);
 int								error(t_command *command);
@@ -262,7 +261,6 @@ int								is_special_char(char *str, int i);
 char							*join_strings(char *new_str1, char *parameter, char *new_str2);
 
 /*new*/
-char							*tmp_tolower(char *str);
 char							*check_backslash_and_dollar(char *str, int *i, t_env *_env);
 char							*delete_double_quotes(char *src, int start, int end);
 char							*delete_escape_char(char *src, int n);
