@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/11/01 17:36:52 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 20:00:33 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,17 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 {
 	int			pid;
 	int			status;
+	char		**array;
 
 	signal(SIGINT, signal_reset);
 	signal(SIGQUIT, signal_reset);
+	array =  env_ll_to_array(*_env);
 	pid = fork();
 	if (pid == -1)
 		write(1, strerror(errno), ft_strlen(strerror(errno)));
 	if (pid == 0)
 	{
-		execve((*command)->array[0], (*command)->array,
-			env_ll_to_array(*_env));
+		execve((*command)->array[0], (*command)->array, array);
 		errno_error((*command)->array[0], *command);
 		exit(g_exit_status);
 	}
@@ -38,6 +39,7 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 			sighandler_execve(WTERMSIG(status));
 		if (WIFEXITED(status))
 			g_exit_status = WEXITSTATUS(status);
+		free_array(array);
 	}
 }
 

@@ -6,21 +6,18 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 18:02:08 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 20:02:20 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
 # include "../libft/libft.h"
-
 # include <errno.h>
 # include <string.h>
 # include <signal.h>
 # include <sys/stat.h>
 # include <unistd.h>
-# include <stdio.h>
 # include <fcntl.h>
 # include <stdlib.h>
 
@@ -41,10 +38,6 @@ enum	token_type{
 	token_redirection_dgreater,
 	token_dollar,
 };
-
-/*
-** TO DO: beschrijven wanneer no_com en no
-*/
 
 enum	builtin_type{
 	builtin_no_com,
@@ -115,7 +108,6 @@ typedef struct				s_execute{
 	int						fdpipe[2];
 }							t_execute;
 
-/*******Cleaning*********/
 /* main*/
 void							lexer_parser_executer(char *line, t_env **_env);
 
@@ -178,9 +170,9 @@ void							input_fill(t_lexer **sort, t_command **tmp);
 void							output_fill(t_lexer **sort,
 								t_command **tmp, int token);
 
-/*builtins */
 /*echo */
 int								echo(char **array);
+
 /*free_list */
 char							*strdup_and_free(char **str);
 void							free_env(t_env *_env);
@@ -189,6 +181,7 @@ void							free_list_lexer(t_lexer **sort);
 
 /*free_parser */
 void							free_list_parser(t_command **command);
+
 /*execute */
 void							*execute(t_command **command, t_env **_env);
 void							builtin_another_program(t_command **command,
@@ -204,6 +197,7 @@ void             				execute_builtin(t_command **command,
 char							**ft_split2(char const *s, char c);
 int								env(t_env *_env);
 char							**env_ll_to_array(t_env *env);
+
 /*execute_utils */
 int								fill_fdout(t_output *output, int tmpout);
 void							execute_output(t_command **command,
@@ -217,12 +211,15 @@ int								execute_fail(t_command *command, char **array);
 void							swap(char **s1, char **s2);
 void							swap_int(int *s1, int *s2);
 void							alpha_env_list(t_env *alpha_env);
+
 /*check builtin_again*/
 void							free_if_dollar(t_dollar **dollar);
 void							check_builtin_again(t_command **command,
 								t_env *_env, int y);
+
 /* execute_utils */
 void	 						error_pwd_unset(char *str, char *path);
+
 /*parameter expension */
 int								check_for_other_parameters(char **array, int y);
 void							initiate_dollar(t_dollar *dollar, int quote);
@@ -237,6 +234,7 @@ char							*join_strings(char *new_str1, char *parameter,
 								char *new_str2);
 void							parameter_not_exist(t_command
 								**command, int *y);
+
 /*get_path */
 void							complete_path(t_command **command, t_env *_env);
 
@@ -254,6 +252,7 @@ char							*check_backslash_and_dollar(char *str,
 
 /*utils_general */
 char							*tmp_tolower(char *str);
+
 /*error */
 char							*error_command(char *str, int i,
 								t_command *command);

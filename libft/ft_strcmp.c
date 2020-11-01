@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:43:28 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/31 21:17:29 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 17:53:23 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int				ft_strcmp(const char *s1, const char *s2)
 {
-	size_t 		i;
+	size_t		i;
 
 	i = 0;
 	while (s1[i] == s2[i] && s1[i] && s2[i])

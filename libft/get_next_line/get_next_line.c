@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/08 16:37:30 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/29 21:42:03 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/01 17:55:11 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char		*ft_cut(char *new_line, char **line, int *r)
 }
 
 /*
-** Added for signals: 
+** Added for signals:
 ** (ret > 0), (ret == 0 && flag), ft_putstr("  \b\b");
 */
 
@@ -56,7 +56,7 @@ static int		check_return_read(int *flag, int ret, char *new_line, char *buf)
 static char		*ft_read(int fd, char *new_line, int ret)
 {
 	char			*buf;
-	int 			flag;
+	int				flag;
 
 	flag = 0;
 	while (ret > 0)
