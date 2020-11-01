@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/01 18:01:58 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/11/01 20:22:34 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 20:45:46 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,20 +103,16 @@ int				errno_error(char *str, t_command *command)
 	if ((*command).builtin == executable)
 	{
 		if (!ft_isalpha(str[i - 1]))
-		{
-			g_exit_status = 126;
 			errno = EISDIR;
-		}
 		if (g_exit_status == 258)
 			return (0);
-		else
-			g_exit_status = 127;
 	}
 	write(1, "bash: ", 6);
 	write(1, str, ft_strlen(str));
 	write(1, ": ", 2);
 	write(1, strerror(errno), ft_strlen(strerror(errno)));
 	write(1, "\n", 1);
+	set_exit_status();
 	if (errno == 2 && (*command).builtin != executable)
 	{
 		g_exit_status = 1;
