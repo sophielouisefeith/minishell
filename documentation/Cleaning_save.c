@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/29 20:44:43 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 12:27:45 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 14:14:52 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ MALLOC ERROR IDEAS:
 
 
 
-
+13. CBA: moet die nog andere if_dollar?
 
 
 
@@ -680,22 +680,6 @@ execute.c
 	- if ((*command)->builtin == builtin_no_com)		//Twijfel of dit goed gaat. Toegevoegd vanwege $echo hallo
 */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /***************/
 execute
 /***************/
@@ -803,4 +787,117 @@ path = search_node(_env, ft_strdup("PATH"));	//vanwege free in search node
 	// else 
 */
 
+---------------
+execute_utils.c
+---------------
+X
+
+---------------
+check_specials.c
+---------------
+/*
+** TO DO:
+	- Single quotes: //Freeen oude malloc?
+	!!! - Check_builtin_again:  Misschien in if_dollar zetten. Zo niet ook onder andere if_dollars zetten! (wacht op andere aanpassingen).	
+*/
+if (is_single_quote((*command)->array[y][*i]) && !(*flag))
+	{
+		tmp = ft_strdup((*command)->array[y]);
+		free((*command)->array[y]);
+		(*command)->array[y] = NULL;
+
+if (is_double_quote((*command)->array[y][*i]) && !(*flag))
+	{
+		tmp = ft_strdup((*command)->array[y]);
+		free((*command)->array[y]);
+		(*command)->array[y] = NULL;
+
+
+Save:
+// check_if_quotes(command, &flag, y, &i, _env);
+--> 
+// static void		check_if_quotes(t_command **command, int *flag, int y, int *i, t_env *_env)
+// {
+// 	char	*tmp;
+
+// 	if (is_single_quote((*command)->array[y][*i]) && !(*flag))
+// 	{
+// 		tmp = strdup_and_free(&(*command)->array[y]);
+// 		(*command)->array[y] = treat_single_quote(tmp, i, flag);
+// 	}
+// 	if (is_double_quote((*command)->array[y][*i]) && !(*flag))
+// 	{
+// 		tmp = strdup_and_free(&(*command)->array[y]);
+// 		(*command)->array[y] = treat_double_quote(tmp, i, _env, flag);
+// 	}
+// 	// printf("str =  [%s]\n", *str);
+// 	return ;
+// }
+
+
+--------
+
+if ((*command)->array[y][*i] == '\\')
+	{
+		// tmp = ft_strdup((*command)->array[y]);
+		// free((*command)->array[y]);
+		// (*command)->array[y] = NULL;
+
+if ((*command)->array[y][*i] == '$' &&
+			(*command)->array[y][*i + 1] == '\\')
+	{
+		tmp = ft_strdup((*command)->array[y]);
+		free((*command)->array[y]);
+		(*command)->array[y] = NULL;
+
+			if ((*command)->array[y][*i] == '$')
+	{
+		tmp = ft_strdup((*command)->array[y]);
+		free((*command)->array[y]);
+		(*command)->array[y] = NULL;
+
+
+		// printf("BEFORE: [%p][%s]\n", (*command)->array[y], (*command)->array[y]);
+		// printf("AFTER:  [%p][%s] --> tmp [%s]\n", (*command)->array[y], (*command)->array[y], tmp);
+
+
+---------------
+treat_double_quote
+---------------
+	tmp = ft_strdup(str);
+	free(str);
+	str = check_backslash_and_dollar(tmp, i, _env);
+
+	tmp = ft_strdup(str);
+	free(str);
+	str = delete_double_quotes(tmp, start, end);
+
+	if (dollar == 1)
+	{
+		tmp = ft_strdup(str);
+		free(str);
+
+---------------
+treat_double_quote
+---------------
+end = *i;
+	tmp = ft_strdup(str);
+	free(str);
+	str = delete_quotes(tmp, '\'');
+
+
+if (dollar == 1)
+	{
+		tmp = ft_strdup(str);
+		free(str);
+		str = ft_substr(tmp, 1, ft_strlen(tmp));
+
+
+---------------
+if_no_quote
+---------------
+/*
+** Check_builtin_again: checks if there are commands in the _env variables ($)
+** Ex. export LS="ls -la" 
+*/
 

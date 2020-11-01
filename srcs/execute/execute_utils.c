@@ -6,15 +6,15 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/20 11:24:12 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 12:47:48 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 13:11:41 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int				lstsize(t_command *command)
+static int		lstsize(t_command *command)
 {
-	int		c;
+	int			c;
 
 	c = 0;
 	while (command)
@@ -27,16 +27,18 @@ static int				lstsize(t_command *command)
 
 int				fill_fdout(t_output *output, int tmpout)
 {
-	int		fdout;
+	int			fdout;
 
 	if (output)
 	{
-		while(output)
+		while (output)
 		{
 			if (output && output->token == token_redirection_greater)
-				fdout = open(output->str_output,  O_RDWR | O_CREAT | O_TRUNC, 0644);
+				fdout = open(output->str_output, 
+					O_RDWR | O_CREAT | O_TRUNC, 0644);
 			else if (output && output->token ==  token_redirection_dgreater)
-				fdout = open(output->str_output, O_RDWR | O_CREAT | O_APPEND, 0644);
+				fdout = open(output->str_output,
+					O_RDWR | O_CREAT | O_APPEND, 0644);
 			output = output->next_output;
 		}
 	}

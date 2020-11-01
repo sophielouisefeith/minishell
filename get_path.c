@@ -6,13 +6,34 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/11/01 12:54:32 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 12:59:35 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <dirent.h>		//Waar is deze voor?
 #include <sys/stat.h>		//STAT TEST
+
+
+void			complete_path(t_command **command, t_env *_env)
+{
+	char		*str_before;
+	char		*tmp;
+
+	if ((*command)->builtin == builtin_no && (*command)->array)
+	{
+		str_before = ft_strdup((*command)->array[0]);
+		tmp = ft_strdup((*command)->array[0]);
+		free((*command)->array[0]);
+		(*command)->array[0]= NULL;
+		(*command)->array[0] = check_path(_env, tmp);
+		if ((*command)->array[0]== NULL)
+			error_command((*command)->array[0], 1, *command);
+		if (!ft_strcmp(str_before, (*command)->array[0]))
+			(*command)->builtin = builtin_no_com;
+		free(str_before);
+	}
+}
 
 static char		*make_path_complete(char *patharray, char *tmp)
 {

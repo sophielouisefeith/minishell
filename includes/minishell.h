@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 12:50:19 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 13:37:03 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,12 +197,16 @@ void							*execute(t_command **command, t_env **_env);
 void							builtin_another_program(t_command **command, t_env **_env);
 
 /*execute_utils */
-// int								lstsize(t_command *command);
-void							initialise_execute(t_command *command, t_execute **exe);
-void							*clean_exit_execute(t_execute **exe);
-void							execute_output(t_command **command, t_execute **exe, t_env **_env);
 int								fill_fdout(t_output *output, int tmpout);
+void							execute_output(t_command **command, t_execute **exe, t_env **_env);
+void							*clean_exit_execute(t_execute **exe);
+void							initialise_execute(t_command *command, t_execute **exe);
 
+/*get_path */
+void							complete_path(t_command **command, t_env *_env);
+
+/*check_specials*/
+void							check_specials(t_command **command, t_env *_env);
 
 
 /*******End Cleaning*******************************************/
@@ -231,11 +235,9 @@ int								error(t_command *command);
 char 							*error_qoute(char *str);
 void							set_exit_status(void);
 int								malloc_fail(void);
-/*execute*/
-// void            				*execute(t_command **command, t_env **env);
 void             				execute_builtin(t_command **command, t_env **_env);
-void            				execute_command(t_command **command, t_env **_env);
-// void							close_execute(t_execute **exe);
+
+
 
 int								echo(char **array);
 // void							env(char **array);
@@ -261,7 +263,6 @@ char							*join_strings(char *new_str1, char *parameter, char *new_str2);
 
 /*new*/
 char							*tmp_tolower(char *str);
-void								check_specials(t_command **command, t_env *_env);
 char							*check_backslash_and_dollar(char *str, int *i, t_env *_env);
 char							*delete_double_quotes(char *src, int start, int end);
 char							*delete_escape_char(char *src, int n);

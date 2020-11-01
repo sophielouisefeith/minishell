@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/11/01 12:49:26 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 13:06:29 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 	}
 }
 
-void		builtin_another_program(t_command **command, t_env **_env)
+void			builtin_another_program(t_command **command, t_env **_env)
 {
 	if ((*command)->builtin == builtin_no || (*command)->builtin == executable)
 		invoke_another_program(command, _env);
@@ -75,11 +75,11 @@ static void		determine_fdout(t_command **command, t_execute **exe,
 			execute_output(command, exe, _env);
 		pipe((*exe)->fdpipe);
 		(*exe)->fdout = (*exe)->fdpipe[1];
-		(*exe)->fdin  = (*exe)->fdpipe[0];
+		(*exe)->fdin = (*exe)->fdpipe[0];
 	}
 	else
 		(*exe)->fdout = dup((*exe)->tmpout);
-	dup2((*exe)->fdout,1);
+	dup2((*exe)->fdout, 1);
 	close((*exe)->fdout);
 }
 
@@ -99,26 +99,6 @@ static int		determine_fdin(t_command *command, t_execute **exe)
 	return (0);
 }
 
-static void			complete_path(t_command **command, t_env *_env)
-{
-	char		*str_before;
-	char		*tmp;
-
-	if ((*command)->builtin == builtin_no && (*command)->array)
-	{
-		str_before = ft_strdup((*command)->array[0]);
-		tmp = ft_strdup((*command)->array[0]);
-		free((*command)->array[0]);
-		(*command)->array[0]= NULL;
-		(*command)->array[0] = check_path(_env, tmp);
-		if ((*command)->array[0]== NULL)
-			error_command((*command)->array[0], 1, *command);
-		if (!ft_strcmp(str_before, (*command)->array[0]))
-			(*command)->builtin = builtin_no_com;
-		free(str_before);
-	}
-}
-
 void			*execute(t_command **command, t_env **_env)
 {
 	t_execute	*exe;
@@ -130,7 +110,7 @@ void			*execute(t_command **command, t_env **_env)
 		complete_path(command, *_env);
 		res = determine_fdin(*command, &exe);
 		if (res == 3)
-			return(clean_exit_execute(&exe));
+			return (clean_exit_execute(&exe));
 		check_specials(command, *_env);
 		if (g_own_exit != 999 && (*command)->builtin == 0 && (*command)->array)
 			error_command((*command)->array[0], 1, *command);
@@ -145,5 +125,5 @@ void			*execute(t_command **command, t_env **_env)
 		*command = (*command)->next_command;
 		exe->i++;
 	}
-	return(clean_exit_execute(&exe));
+	return (clean_exit_execute(&exe));
 }

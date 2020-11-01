@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/11/01 12:43:44 by sfeith        ########   odam.nl          #
+#    Updated: 2020/11/01 14:18:40 by msiemons      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,9 +31,9 @@ SRC =  srcs/main.c\
 		srcs/parser/input.c\
 		srcs/parser/output.c\
 		srcs/parser/free_parser.c\
-		execute/execute.c\
-		execute/execute_utils.c\
-		execute/check_specials.c\
+		srcs/execute/execute.c\
+		srcs/execute/execute_utils.c\
+		srcs/execute/check_specials.c\
 		srcs/execute/check_specials_utils.c\
 		execute/execute_builtin.c\
 		execute/echo.c\
