@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/11/01 17:17:21 by sfeith        ########   odam.nl          #
+#    Updated: 2020/11/01 18:07:04 by sfeith        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ SRC =  srcs/main.c\
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS =  -fsanitize=address -g3   #-Wall -Wextra -Werror -fsanitize=address
 #-fsanitize=address -g
 
 INCL = includes
