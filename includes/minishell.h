@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 20:10:28 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 20:30:48 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 int		g_exit_status;
 int		g_own_exit;
 
-enum	token_type{
+enum	e_token_type{
 	token_null,
 	token_general,
 	token_whitespace,
@@ -37,9 +37,9 @@ enum	token_type{
 	token_redirection_lesser,
 	token_redirection_dgreater,
 	token_dollar,
-};
+}		t_token_type;
 
-enum	builtin_type{
+enum	e_builtin_type{
 	builtin_no_com,
 	builtin_no,
 	builtin_echo,
@@ -50,7 +50,7 @@ enum	builtin_type{
 	builtin_env,
 	builtin_exit,
 	executable
-};
+}		t_builtin_type;
 
 typedef struct				s_lexer{
 	char					*str;
@@ -108,165 +108,111 @@ typedef struct				s_execute{
 	int						fdpipe[2];
 }							t_execute;
 
-/* main*/
-void							lexer_parser_executer(char *line, t_env **_env);
-
-/* Save_env*/
-t_env							*save_env(char **env);
-t_env							*ll_new_node_env(char *name,
-								char *value, int equal);
-void							ll_lstadd_back_env(t_env **env, t_env *new);
-
-/* Signals*/
-void 							sighandler(int signum);
-void							sighandler_execve(int status);
-void							ctrl_d(void);
-void							signal_reset(int sig_num);
-
-/* Lexer*/
-void							lexer(t_lexer **head, char *line);
-
-/* Lexer_utils*/
-int								check_redirections(char *line, int i, int type);
-int								get_token_type(char *line, int *i);
-int								*allocate_memory_int_string(int i);
-char 							*str_from_char(char c);
-char 							*str_redirection_dgreater(void);
-
-/* Character_check*/
-int								is_whitespace(char c);
-int								is_single_quote(char c);
-int								is_double_quote(char c);
-int								is_backslash(char c);
-
-/* Character_check2*/
-int								is_operator(char c);
-int								is_metachar(char c);
-
-/* ll_make_list_lexer*/
-t_lexer							*ll_new_node_lexer(char *str, int *token);
-void							ll_lstadd_back_lexer(t_lexer **head,
-								t_lexer *new);
-
-/*parser*/
-int								parser(t_lexer **sort,
-								t_command **command, int pipe_status);
-int								count_node(t_lexer **sort, int builtin);
-int								get_builtin_type(char *str);
-
-/*parser_utils*/
-int								check_builtin_node(t_lexer **sort);
-
-/* ll_make_list_lexer*/
-void							ll_lstadd_back_command(t_command **command,
-								t_command *new);
-t_command						*ll_new_node_command(int num_nodes,
-								int builtin);
-
-/*input.c*/
-void							input_fill(t_lexer **sort, t_command **tmp);
-
-/*output */
-void							output_fill(t_lexer **sort,
-								t_command **tmp, int token);
-
-/*echo */
-int								echo(char **array);
-
-/*free_list */
-char							*strdup_and_free(char **str);
-void							free_env(t_env *_env);
-void							free_array(char **array);
-void							free_list_lexer(t_lexer **sort);
-
-/*free_parser */
-void							free_list_parser(t_command **command);
-
-/*execute */
-void							*execute(t_command **command, t_env **_env);
-void							builtin_another_program(t_command **command,
-								t_env **_env);
-int             				execute_cd(t_command *command, t_env **_env);
-int                 			execute_pwd(t_command *command);
-int            					execute_export(t_env **_env,
-								t_command **command);
-int    	    					execute_unset(t_command *command, t_env **_env);
-int      						execute_exit(t_command *command);
-void             				execute_builtin(t_command **command,
-								t_env **_env);
-char							**ft_split2(char const *s, char c);
-int								env(t_env *_env);
-char							**env_ll_to_array(t_env *env);
-
-/*execute_utils */
-int								fill_fdout(t_output *output, int tmpout);
-void							execute_output(t_command **command,
-								t_execute **exe, t_env **_env);
-void							*clean_exit_execute(t_execute **exe);
-void							initialise_execute(t_command *command,
-								t_execute **exe);
-
-/*execute_export_utils */
-int								execute_fail(t_command *command, char **array);
-void							swap(char **s1, char **s2);
-void							swap_int(int *s1, int *s2);
-void							alpha_env_list(t_env *alpha_env);
-
-/*check builtin_again*/
-void							free_if_dollar(t_dollar **dollar);
-void							check_builtin_again(t_command **command,
-								t_env *_env, int y);
-
-/* execute_utils */
-void	 						error_pwd_unset(char *str, char *path);
-
-/*parameter expension */
-int								check_for_other_parameters(char **array, int y);
-void							initiate_dollar(t_dollar *dollar, int quote);
-int								dollar_is_special_char(char *str, int i);
-void							parameter_expansion(t_command **command,
-								t_env *_env);
-char							*if_dollar(char *str, int *i,
-								t_env *_env, int quote);
-char							*search_node(t_env *_env, char *search);
-int								is_special_char(char *str, int i);
-char							*join_strings(char *new_str1, char *parameter,
-								char *new_str2);
-void							parameter_not_exist(t_command
-								**command, int *y);
-
-/*get_path */
-void							complete_path(t_command **command, t_env *_env);
-
-/*check_specials*/
-void							check_specials(t_command **command,
-								t_env *_env);
-char							*delete_double_quotes(char *src,
-								int start, int end);
-char							*delete_escape_char(char *src, int n);
-char							*delete_quotes(char *src, char garbage);
-char							*delete_escape_char(char *src,
-								int n);
-char							*check_backslash_and_dollar(char *str,
-								int *i, t_env *_env);
-
-/*utils_general */
-char							*tmp_tolower(char *str);
-
-/*error */
-char							*error_command(char *str, int i,
-								t_command *command);
-int								error(t_command *command);
-char							*error_path(int i, char *str);
-char							*error_qoute(char *str);
-void							set_exit_status(void);
-int								malloc_fail(void);
-char							*translate_builtin(int b, char *str);
-int								error_redirections(char c, int error_num,
-								int i, char *line);
-int								errno_error(char *str, t_command *command);
-void							set_exit_status(void);
-char							*not_part(char *str);
-int								error_redi_one(char c, int i, char *line);
+void						lexer_parser_executer(char *line, t_env **envb);
+t_env						*save_env(char **env);
+t_env						*ll_new_node_env(char *name,
+							char *value, int equal);
+void						ll_lstadd_back_env(t_env **env, t_env *new);
+void						sighandler(int signum);
+void						sighandler_execve(int status);
+void						ctrl_d(void);
+void						signal_reset(int sig_num);
+void						lexer(t_lexer **head, char *line);
+int							check_redirections(char *line, int i, int type);
+int							get_token_type(char *line, int *i);
+int							*allocate_memory_int_string(int i);
+char						*str_from_char(char c);
+char						*str_redirection_dgreater(void);
+int							is_whitespace(char c);
+int							is_single_quote(char c);
+int							is_double_quote(char c);
+int							is_backslash(char c);
+int							is_operator(char c);
+int							is_metachar(char c);
+t_lexer						*ll_new_node_lexer(char *str, int *token);
+void						ll_lstadd_back_lexer(t_lexer **head, t_lexer *new);
+int							parser(t_lexer **sort,
+							t_command **command, int pipe_status);
+int							count_node(t_lexer **sort, int builtin);
+int							get_builtin_type(char *str);
+int							check_builtin_node(t_lexer **sort);
+void						ll_lstadd_back_command(t_command **command,
+							t_command *new);
+t_command					*ll_new_node_command(int num_nodes, int builtin);
+void						input_fill(t_lexer **sort, t_command **tmp);
+void						output_fill(t_lexer **sort,
+							t_command **tmp, int token);
+int							echo(char **array);
+char						*strdup_and_free(char **str);
+void						free_env(t_env *envb);
+void						free_array(char **array);
+void						free_list_lexer(t_lexer **sort);
+void						free_list_parser(t_command **command);
+void						*execute(t_command **command, t_env **envb);
+void						builtin_another_program(t_command **command,
+							t_env **envb);
+int							execute_cd(t_command *command, t_env **envb);
+int							execute_pwd(t_command *command);
+int							execute_export(t_env **envb,
+							t_command **command);
+int							execute_unset(t_command *command, t_env **envb);
+int							execute_exit(t_command *command);
+void						execute_builtin(t_command **command,
+							t_env **envb);
+char						**ft_split2(char const *s, char c);
+int							env(t_env *envb);
+char						**env_ll_to_array(t_env *env);
+int							fill_fdout(t_output *output, int tmpout);
+void						execute_output(t_command **command,
+							t_execute **exe, t_env **envb);
+void						*clean_exit_execute(t_execute **exe);
+void						initialise_execute(t_command *command,
+							t_execute **exe);
+int							execute_fail(t_command *command, char **array);
+void						swap(char **s1, char **s2);
+void						swap_int(int *s1, int *s2);
+void						alpha_env_list(t_env *alpha_env);
+void						free_if_dollar(t_dollar **dollar);
+void						check_builtin_again(t_command **command,
+							t_env *envb, int y);
+void						error_pwd_unset(char *str, char *path);
+int							check_for_other_parameters(char **array, int y);
+void						initiate_dollar(t_dollar *dollar, int quote);
+int							dollar_is_special_char(char *str, int i);
+void						parameter_expansion(t_command **command,
+							t_env *envb);
+char						*if_dollar(char *str, int *i,
+							t_env *envb, int quote);
+char						*search_node(t_env *envb, char *search);
+int							is_special_char(char *str, int i);
+char						*join_strings(char *new_str1, char *parameter,
+							char *new_str2);
+void						parameter_not_exist(t_command
+							**command, int *y);
+void						complete_path(t_command **command, t_env *envb);
+void						check_specials(t_command **command,
+							t_env *envb);
+char						*delete_double_quotes(char *src,
+							int start, int end);
+char						*delete_escape_char(char *src, int n);
+char						*delete_quotes(char *src, char garbage);
+char						*delete_escape_char(char *src, int n);
+char						*check_backslash_and_dollar(char *str,
+							int *i, t_env *envb);
+char						*tmp_tolower(char *str);
+char						*error_command(char *str, int i,
+							t_command *command);
+int							error(t_command *command);
+char						*error_path(int i, char *str);
+char						*error_qoute(char *str);
+void						set_exit_status(void);
+int							malloc_fail(void);
+char						*translate_builtin(int b, char *str);
+int							error_redirections(char c, int error_num,
+							int i, char *line);
+int							errno_error(char *str, t_command *command);
+void						set_exit_status(void);
+char						*not_part(char *str);
+int							error_redi_one(char c, int i, char *line);
 
 #endif
