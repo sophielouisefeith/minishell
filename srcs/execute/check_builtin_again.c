@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/07 17:31:13 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 14:24:11 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 17:57:29 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void			free_if_dollar(t_dollar **dollar)
 	free(*dollar);
 }
 
-void				check_builtin_again(t_command **command, t_env *_env, int y)
+void			check_builtin_again(t_command **command, t_env *_env, int y)
 {
 	char *new_str;
 	char *tmp;

@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   parser_utils.c                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
+/*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/11/01 12:53:26 by msiemons      ########   odam.nl         */
+/*   Created: 2020/11/01 18:00:44 by msiemons      #+#    #+#                 */
+/*   Updated: 2020/11/01 18:00:47 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

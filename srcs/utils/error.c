@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   error.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
+/*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/11/01 17:19:31 by sfeith        ########   odam.nl         */
+/*   Created: 2020/11/01 18:01:58 by msiemons      #+#    #+#                 */
+/*   Updated: 2020/11/01 18:02:01 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
