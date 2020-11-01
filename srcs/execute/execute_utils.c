@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/20 11:24:12 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 17:58:12 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 20:36:48 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ int				fill_fdout(t_output *output, int tmpout)
 }
 
 void			execute_output(t_command **command, t_execute **exe,
-								t_env **_env)
+								t_env **envb)
 {
 	(*exe)->fdout = fill_fdout((*command)->output, (*exe)->tmpout);
 	dup2((*exe)->fdout, 1);
 	close((*exe)->fdout);
-	builtin_another_program(command, _env);
+	builtin_another_program(command, envb);
 }
 
 void			*clean_exit_execute(t_execute **exe)

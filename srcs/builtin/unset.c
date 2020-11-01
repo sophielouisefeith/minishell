@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   execute_unset.c                                    :+:    :+:            */
+/*   unset.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/29 16:22:20 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 17:09:21 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 20:30:28 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ static void		ll_remove_next_node(t_env *list)
 	tmp = NULL;
 }
 
-static int		compare_first_node(t_env **_env, char *array_str)
+static int		compare_first_node(t_env **envb, char *array_str)
 {
 	t_env	*tmp;
 
-	tmp = *_env;
-	if (!ft_strcmp((*_env)->name, array_str))
+	tmp = *envb;
+	if (!ft_strcmp((*envb)->name, array_str))
 	{
-		(*_env) = (*_env)->next;
+		(*envb) = (*envb)->next;
 		free(tmp);
 		free(tmp->name);
 		free(tmp->value);
@@ -42,11 +42,11 @@ static int		compare_first_node(t_env **_env, char *array_str)
 	return (0);
 }
 
-static int		compare_after_first_node(t_env **_env, char *array_str)
+static int		compare_after_first_node(t_env **envb, char *array_str)
 {
 	t_env	*tmp;
 
-	tmp = *_env;
+	tmp = *envb;
 	while (tmp->next)
 	{
 		if (!ft_strcmp(tmp->next->name, array_str))
@@ -79,7 +79,7 @@ static void		error_unset(t_command *command)
 		return ;
 }
 
-int				execute_unset(t_command *command, t_env **_env)
+int				execute_unset(t_command *command, t_env **envb)
 {
 	int		first_node;
 	int		y;
@@ -99,9 +99,9 @@ int				execute_unset(t_command *command, t_env **_env)
 		ret = is_special_char(command->array[y], 0);
 		if (ret > 0)
 			return (-1);
-		first_node = compare_first_node(_env, command->array[y]);
+		first_node = compare_first_node(envb, command->array[y]);
 		if (!first_node)
-			compare_after_first_node(_env, command->array[y]);
+			compare_after_first_node(envb, command->array[y]);
 		y++;
 	}
 	return (0);

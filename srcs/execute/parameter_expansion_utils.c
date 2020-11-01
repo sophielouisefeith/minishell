@@ -6,22 +6,22 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:54:16 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/11/01 16:28:43 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 20:32:51 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char			*search_node(t_env *_env, char *search)
+char			*search_node(t_env *envb, char *search)
 {
-	while (_env)
+	while (envb)
 	{
-		if (!ft_strcmp(search, _env->name))
+		if (!ft_strcmp(search, envb->name))
 		{
 			free(search);
-			return (ft_strdup(_env->value));
+			return (ft_strdup(envb->value));
 		}
-		_env = _env->next;
+		envb = envb->next;
 	}
 	free(search);
 	return (NULL);

@@ -6,15 +6,11 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/01 18:00:44 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/11/01 18:00:47 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 20:24:56 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-** Counts number of general nodes untill pipe, semicolon or end of lexer-list.
-*/
 
 int				count_node(t_lexer **sort, int type_builtin)
 {

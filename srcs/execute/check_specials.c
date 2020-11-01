@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 17:58:54 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 20:35:35 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** 	- Inner single quotes are considered as text, don't have to be complete.
 */
 
-static char		*treat_double_quote(char *str, int *i, t_env *_env, int *flag)
+static char		*treat_double_quote(char *str, int *i, t_env *envb, int *flag)
 {
 	int			dollar;
 	int			start;
@@ -30,7 +30,7 @@ static char		*treat_double_quote(char *str, int *i, t_env *_env, int *flag)
 	if (str[*i - 1] == '$')
 		dollar = 1;
 	tmp = strdup_and_free(&str);
-	str = check_backslash_and_dollar(tmp, i, _env);
+	str = check_backslash_and_dollar(tmp, i, envb);
 	end = *i;
 	tmp = strdup_and_free(&str);
 	str = delete_double_quotes(tmp, start, end);
@@ -70,7 +70,7 @@ static char		*treat_single_quote(char *str, int *i, int *flag)
 	return (str);
 }
 
-static void		if_no_quote(t_command **command, t_env *_env, int y, int *i)
+static void		if_no_quote(t_command **command, t_env *envb, int y, int *i)
 {
 	char		*tmp;
 
@@ -90,12 +90,12 @@ static void		if_no_quote(t_command **command, t_env *_env, int y, int *i)
 	if ((*command)->array[y][*i] == '$')
 	{
 		tmp = strdup_and_free(&(*command)->array[y]);
-		(*command)->array[y] = if_dollar(tmp, i, _env, 0);
-		check_builtin_again(command, _env, y);
+		(*command)->array[y] = if_dollar(tmp, i, envb, 0);
+		check_builtin_again(command, envb, y);
 	}
 }
 
-static void		check_if_quotes(char **str, int *flag, int *i, t_env *_env)
+static void		check_if_quotes(char **str, int *flag, int *i, t_env *envb)
 {
 	char		*tmp;
 
@@ -107,12 +107,12 @@ static void		check_if_quotes(char **str, int *flag, int *i, t_env *_env)
 	if (is_double_quote((*str)[*i]) && !(*flag))
 	{
 		tmp = strdup_and_free(str);
-		*str = treat_double_quote(tmp, i, _env, flag);
+		*str = treat_double_quote(tmp, i, envb, flag);
 	}
 	return ;
 }
 
-void			check_specials(t_command **command, t_env *_env)
+void			check_specials(t_command **command, t_env *envb)
 {
 	int			y;
 	int			i;
@@ -126,10 +126,10 @@ void			check_specials(t_command **command, t_env *_env)
 			(*command)->array[y][i])
 		{
 			flag = 0;
-			check_if_quotes(&(*command)->array[y], &flag, &i, _env);
+			check_if_quotes(&(*command)->array[y], &flag, &i, envb);
 			if (!is_single_quote((*command)->array[y][i]) &&
 				!is_double_quote((*command)->array[y][i]) && !flag)
-				if_no_quote(command, _env, y, &i);
+				if_no_quote(command, envb, y, &i);
 			if ((*command)->array[y] == NULL)
 			{
 				parameter_not_exist(command, &y);

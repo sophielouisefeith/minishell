@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 20:13:57 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 20:18:55 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int				main(int argc, char **argv, char **env)
 	int			ret;
 
 	ret = 1;
-	envb = saveenvb(env);
+	envb = save_env(env);
 	(void)argc;
 	(void)argv;
 	while (ret > 0)
@@ -74,6 +74,6 @@ int				main(int argc, char **argv, char **env)
 		free(line);
 		line = NULL;
 	}
-	freeenvb(envb);
+	free_env(envb);
 	return (0);
 }

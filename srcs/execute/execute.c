@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/11/01 20:09:08 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 20:34:15 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 
-static void		invoke_another_program(t_command **command, t_env **_env)
+static void		invoke_another_program(t_command **command, t_env **envb)
 {
 	int			pid;
 	int			status;
@@ -22,7 +22,7 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 
 	signal(SIGINT, signal_reset);
 	signal(SIGQUIT, signal_reset);
-	array = env_ll_to_array(*_env);
+	array = env_ll_to_array(*envb);
 	pid = fork();
 	if (pid == -1)
 		write(1, strerror(errno), ft_strlen(strerror(errno)));
@@ -43,29 +43,29 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 	}
 }
 
-void			builtin_another_program(t_command **command, t_env **_env)
+void			builtin_another_program(t_command **command, t_env **envb)
 {
 	if ((*command)->builtin == builtin_no || (*command)->builtin == executable)
-		invoke_another_program(command, _env);
+		invoke_another_program(command, envb);
 	if ((*command)->builtin != builtin_no_com && (*command)->builtin !=
 			builtin_no && (*command)->builtin != executable)
-		execute_builtin(command, _env);
+		execute_builtin(command, envb);
 }
 
 static void		determine_fdout(t_command **command, t_execute **exe,
-									t_env **_env, int i)
+									t_env **envb, int i)
 {
 	if (i == (*exe)->len_list - 1)
 		(*exe)->fdout = fill_fdout((*command)->output, (*exe)->tmpout);
 	else if ((*command)->sem && (*command)->output)
 	{
-		execute_output(command, exe, _env);
+		execute_output(command, exe, envb);
 		(*exe)->fdout = dup((*exe)->tmpout);
 	}
 	else if ((*command)->pipe_after)
 	{
 		if ((*command)->pipe_after && (*command)->output)
-			execute_output(command, exe, _env);
+			execute_output(command, exe, envb);
 		pipe((*exe)->fdpipe);
 		(*exe)->fdout = (*exe)->fdpipe[1];
 		(*exe)->fdin = (*exe)->fdpipe[0];
@@ -92,7 +92,7 @@ static int		determine_fdin(t_command *command, t_execute **exe)
 	return (0);
 }
 
-void			*execute(t_command **command, t_env **_env)
+void			*execute(t_command **command, t_env **envb)
 {
 	t_execute	*exe;
 	int			res;
@@ -100,19 +100,19 @@ void			*execute(t_command **command, t_env **_env)
 	initialise_execute(*command, &exe);
 	while (exe->i < exe->len_list)
 	{
-		complete_path(command, *_env);
+		complete_path(command, *envb);
 		res = determine_fdin(*command, &exe);
 		if (res == 3)
 			return (clean_exit_execute(&exe));
-		check_specials(command, *_env);
+		check_specials(command, *envb);
 		if (g_own_exit != 999 && (*command)->builtin == 0 && (*command)->array)
 			error_command((*command)->array[0], 1, *command);
 		else
 			g_own_exit = 0;
-		determine_fdout(command, &exe, _env, exe->i);
+		determine_fdout(command, &exe, envb, exe->i);
 		if (!(((*command)->sem || (*command)->pipe_after) &&
 				(*command)->output))
-			builtin_another_program(command, _env);
+			builtin_another_program(command, envb);
 		if ((*command)->sem)
 			exe->fdin = dup(exe->tmpin);
 		*command = (*command)->next_command;

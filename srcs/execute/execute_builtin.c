@@ -6,13 +6,13 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:15 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/11/01 13:37:49 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 20:37:14 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void			execute_builtin(t_command **command, t_env **_env)
+void			execute_builtin(t_command **command, t_env **envb)
 {
 	int ret;
 
@@ -20,15 +20,15 @@ void			execute_builtin(t_command **command, t_env **_env)
 	if ((*command)->builtin == builtin_echo)
 		ret = echo((*command)->array);
 	if ((*command)->builtin == builtin_cd)
-		ret = execute_cd(*command, _env);
+		ret = execute_cd(*command, envb);
 	if ((*command)->builtin == builtin_pwd)
 		ret = execute_pwd(*command);
 	if ((*command)->builtin == builtin_export)
-		ret = execute_export(_env, command);
+		ret = execute_export(envb, command);
 	if ((*command)->builtin == builtin_unset)
-		ret = execute_unset(*command, _env);
+		ret = execute_unset(*command, envb);
 	if ((*command)->builtin == builtin_env)
-		ret = env(*_env);
+		ret = env(*envb);
 	if ((*command)->builtin == builtin_exit)
 		execute_exit(*command);
 	if (ret == -1 && (*command)->builtin != builtin_exit)

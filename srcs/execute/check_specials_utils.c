@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 17:11:42 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 20:36:15 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static void		if_dollar_back(char *str, char *tmp, int *i)
 	}
 }
 
-char			*check_backslash_and_dollar(char *str, int *i, t_env *_env)
+char			*check_backslash_and_dollar(char *str, int *i, t_env *envb)
 {
 	char	*tmp;
 
@@ -103,7 +103,7 @@ char			*check_backslash_and_dollar(char *str, int *i, t_env *_env)
 			tmp = ft_strdup(str);
 			free(str);
 			str = NULL;
-			str = if_dollar(tmp, i, _env, 1);
+			str = if_dollar(tmp, i, envb, 1);
 		}
 		(*i)++;
 	}

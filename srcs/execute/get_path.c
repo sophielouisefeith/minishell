@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/11/01 17:10:31 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 20:37:55 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static char		*check_path(char *str, char *path)
 	return (clean_exit_check_path(tmp, new_str, str));
 }
 
-void			complete_path(t_command **command, t_env *_env)
+void			complete_path(t_command **command, t_env *envb)
 {
 	char		*str_before;
 	char		*tmp;
@@ -101,7 +101,7 @@ void			complete_path(t_command **command, t_env *_env)
 	str_before = NULL;
 	if ((*command)->builtin == builtin_no && (*command)->array)
 	{
-		path = search_node(_env, ft_strdup("PATH"));
+		path = search_node(envb, ft_strdup("PATH"));
 		if (path)
 		{
 			str_before = ft_strdup((*command)->array[0]);

@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 17:45:06 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 20:31:54 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static char		*ret_parammeter(char *str, t_dollar *dollar)
 	return (str);
 }
 
-char			*if_dollar(char *str, int *i, t_env *_env, int quote)
+char			*if_dollar(char *str, int *i, t_env *envb, int quote)
 {
 	t_dollar	*dollar;
 	char		*tmp;
@@ -120,7 +120,7 @@ char			*if_dollar(char *str, int *i, t_env *_env, int quote)
 		tmp = ft_strdup(dollar->parameter);
 		free(dollar->parameter);
 		dollar->parameter = NULL;
-		dollar->parameter = search_node(_env, tmp);
+		dollar->parameter = search_node(envb, tmp);
 	}
 	if (dollar->new_str2 && !dollar->flag_group2 && (dollar->new_str2[0] == '$'
 		|| dollar->new_str2[0] == '\'' || dollar->new_str2[0] == '\"'))

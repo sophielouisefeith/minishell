@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/01 18:01:40 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/11/01 18:01:43 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 20:24:28 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,21 @@ char			*strdup_and_free(char **str)
 	return (tmp);
 }
 
-void			free_env(t_env *_env)
+void			free_env(t_env *envb)
 {
 	t_env		*tmp;
 
-	while (_env)
+	while (envb)
 	{
-		tmp = (_env)->next;
-		free(_env->name);
-		_env->name = NULL;
-		free(_env->value);
-		_env->value = NULL;
-		free(_env);
-		_env = tmp;
+		tmp = (envb)->next;
+		free(envb->name);
+		envb->name = NULL;
+		free(envb->value);
+		envb->value = NULL;
+		free(envb);
+		envb = tmp;
 	}
-	_env = NULL;
+	envb = NULL;
 }
 
 void			free_array(char **array)
