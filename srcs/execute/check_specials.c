@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 14:15:12 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 17:58:54 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void		if_no_quote(t_command **command, t_env *_env, int y, int *i)
 	{
 		tmp = strdup_and_free(&(*command)->array[y]);
 		(*command)->array[y] = delete_escape_char(tmp, *i);
-		(*i)++; 																// PEER sanitizer test --> UITZETTEN
+		(*i)++;
 	}
 	if ((*command)->array[y][*i] == '$' &&
 			(*command)->array[y][*i + 1] == '\\')

@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   input.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
+/*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/07/31 09:38:34 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/11/01 16:28:35 by sfeith        ########   odam.nl         */
+/*   Created: 2020/11/01 18:00:12 by msiemons      #+#    #+#                 */
+/*   Updated: 2020/11/01 18:00:16 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

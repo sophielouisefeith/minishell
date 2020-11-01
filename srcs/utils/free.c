@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   free.c                                             :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
+/*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/08/12 16:34:52 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/11/01 16:29:32 by sfeith        ########   odam.nl         */
+/*   Created: 2020/11/01 18:01:40 by msiemons      #+#    #+#                 */
+/*   Updated: 2020/11/01 18:01:43 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

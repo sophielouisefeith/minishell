@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   output.c                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
+/*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/07/31 09:30:21 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/31 21:30:02 by msiemons      ########   odam.nl         */
+/*   Created: 2020/11/01 18:00:23 by msiemons      #+#    #+#                 */
+/*   Updated: 2020/11/01 18:00:26 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

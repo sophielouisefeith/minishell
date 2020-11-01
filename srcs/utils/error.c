@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   error.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
+/*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/11/01 17:19:31 by sfeith        ########   odam.nl         */
+/*   Created: 2020/11/01 18:01:58 by msiemons      #+#    #+#                 */
+/*   Updated: 2020/11/01 19:50:47 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,21 +96,24 @@ int				error_redirections(char c, int error_num, int i, char *line)
 
 int				errno_error(char *str, t_command *command)
 {
+	int i;
+
+	i = ft_strlen(str);
 	if ((*command).builtin == executable)
 	{
-		errno = EISDIR;
+		if (!ft_isalpha(str[i - 1]))
+			errno = EISDIR;
 		if (g_exit_status == 258)
 			return (0);
 		else
-			set_exit_status();
+			g_exit_status = 127;
 	}
 	write(1, "bash: ", 6);
 	write(1, str, ft_strlen(str));
 	write(1, ": ", 2);
 	write(1, strerror(errno), ft_strlen(strerror(errno)));
 	write(1, "\n", 1);
-	set_exit_status();
-	if (errno == 2)
+	if (errno == 2 && (*command).builtin != executable)
 	{
 		g_exit_status = 1;
 		return (3);
