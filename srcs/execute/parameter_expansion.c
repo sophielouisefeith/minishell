@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/27 15:09:52 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 16:31:39 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 17:45:06 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,10 @@ static void		special_char_found(t_dollar **dollar, char *str, int i)
 
 static char		*ret_parammeter(char *str, t_dollar *dollar)
 {
-	printf("str voor[%s][%p]\n", str, str);
 	free(str);
 	str = NULL;
 	str = join_strings(dollar->new_str1, dollar->parameter,
 		dollar->new_str2);
-	printf("str naa[%s][%p]\n", str, str);
 	free_if_dollar(&dollar);
 	return (str);
 }
