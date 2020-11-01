@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/07 17:31:13 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/31 20:48:59 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 12:05:24 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void				check_builtin_again(t_command **command, t_env *_env, int y)
 	char *tmp;
 	char *y_space;
 
-	if ((*command)->builtin == builtin_no_com && (*command)->array[y] != NULL && y == 0)
+	if ((*command)->builtin == builtin_no_com && \
+	(*command)->array[y] != NULL && y == 0)
 	{
 		new_str = ft_strdup("");
 		while ((*command)->array && (*command)->array[y])
@@ -69,7 +70,7 @@ void				check_builtin_again(t_command **command, t_env *_env, int y)
 		if (new_str && new_str[0] != '$')
 		{
 			lexer_parser_executer(new_str, &_env);
-			g_own_exit= 999;
+			g_own_exit = 999;
 			free(new_str);
 		}
 	}

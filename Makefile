@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/10/31 21:49:04 by msiemons      ########   odam.nl          #
+#    Updated: 2020/11/01 12:43:44 by sfeith        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRC =  srcs/main.c\
 		execute/execute.c\
 		execute/execute_utils.c\
 		execute/check_specials.c\
-		execute/check_specials_utils.c\
+		srcs/execute/check_specials_utils.c\
 		execute/execute_builtin.c\
 		execute/echo.c\
 		execute/execute_cd.c  execute/execute_pwd.c\
@@ -49,7 +49,7 @@ SRC =  srcs/main.c\
 		get_path.c\
 		error.c\
 		error_utils.c\
-		execute/check_builtin_again.c\
+		srcs/execute/check_builtin_again.c\
 		tester.c\
 
 OBJ = $(SRC:.c=.o)

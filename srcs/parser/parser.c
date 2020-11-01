@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/31 20:35:59 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 10:36:29 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ static int		general(t_lexer **sort, char **array, int *y)
 	return (0);
 }
 
-static void		fill_pipe_and_semicolon(t_lexer *sort, t_command **tmp, int *pipe_status)
+static void		fill_pipe_and_sem(t_lexer *sort, \
+t_command **tmp, int *pipe_status)
 {
 	if (sort && sort->token[token_semicolon])
 		(*tmp)->sem = 1;
@@ -79,7 +80,7 @@ static void		fill_array(t_lexer **sort, t_command **tmp)
 			break ;
 	}
 	if ((*tmp)->array != NULL)
-		(*tmp)->array[y]= 0;
+		(*tmp)->array[y] = 0;
 }
 
 /*
@@ -102,8 +103,8 @@ int				parser(t_lexer **sort, t_command **command, int pipe_status)
 		return (malloc_fail());
 	fill_array(sort, &tmp);
 	if (g_own_exit == 258)							//M: vragen aan Sop
-		return (3);									//hier exit status checken
-	fill_pipe_and_semicolon(*sort, &tmp, &pipe_status);
+		return (3);									//hier exit status checken dit is dat hij 
+	fill_pipe_and_sem(*sort, &tmp, &pipe_status);
 	ll_lstadd_back_command(command, tmp);
 	return (pipe_status);
 }

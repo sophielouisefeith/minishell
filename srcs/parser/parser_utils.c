@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 14:33:18 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/31 21:54:06 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 10:42:12 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int				count_node(t_lexer **sort, int type_builtin)
 	return (i);
 }
 
-static int		return_type_and_free(char *tmp, int type)
+static int		return_type_and_free(char **tmp, int type)
 {
-	free(tmp);
-	tmp = NULL;
+	free(*tmp);
+	*tmp = NULL;
 	return (type);
 }
 
@@ -53,23 +53,23 @@ int				get_builtin_type(char *str)
 	tmp = NULL;
 	tmp = tmp_tolower(str);
 	if (!ft_strcmp(tmp, "echo"))
-		return (return_type_and_free(tmp, builtin_echo));
+		return (return_type_and_free(&tmp, builtin_echo));
 	else if (!ft_strcmp(tmp, "cd"))
-		return (return_type_and_free(tmp, builtin_cd));
+		return (return_type_and_free(&tmp, builtin_cd));
 	else if (!ft_strcmp(tmp, "pwd"))
-		return (return_type_and_free(tmp, builtin_pwd));
+		return (return_type_and_free(&tmp, builtin_pwd));
 	else if (!ft_strcmp(tmp, "export"))
-		return (return_type_and_free(tmp, builtin_export));
+		return (return_type_and_free(&tmp, builtin_export));
 	else if (!ft_strcmp(tmp, "unset"))
-		return (return_type_and_free(tmp, builtin_unset));
+		return (return_type_and_free(&tmp, builtin_unset));
 	else if (!ft_strcmp(tmp, "env"))
-		return (return_type_and_free(tmp, builtin_env));
+		return (return_type_and_free(&tmp, builtin_env));
 	else if (!ft_strcmp(tmp, "exit"))
-		return (return_type_and_free(tmp, builtin_exit));
+		return (return_type_and_free(&tmp, builtin_exit));
 	else if (ft_strchr(tmp, '/'))
-		return (return_type_and_free(tmp, executable));
+		return (return_type_and_free(&tmp, executable));
 	else
-		return (return_type_and_free(tmp, builtin_no));
+		return (return_type_and_free(&tmp, builtin_no));
 }
 
 char			*delete_quotes(char *src, char garbage)
@@ -84,21 +84,20 @@ char			*delete_quotes(char *src, char garbage)
 	count = 0;
 	dst = (char *)calloc(((ft_strlen(src) - 2) + 1), sizeof(char));
 	while (src[src_i] != '\0')
-	{ 
+	{
 		if (src[src_i] == garbage && count < 2)
 		{
 			src_i++;
 			count++;
 			if (!src[src_i])
-				break;
+				break ;
 		}
 		dst[dst_i] = src[src_i];
 		src_i++;
 		dst_i++;
 	}
 	dst[dst_i] = '\0';
-	free(src);
-	src = NULL;
+	return_type_and_free(&src, 0);
 	return (dst);
 }
 

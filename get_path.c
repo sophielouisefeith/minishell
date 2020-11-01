@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/31 22:19:03 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 12:04:26 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char		*make_path_complete(char *patharray, char *tmp)
 char			*tmp_tolower(char *str)
 {
 	char	*tmp;
-	int 	i;
+	int		i;
 
 	i = 0;
 	tmp = ft_strdup(str);
@@ -49,6 +49,51 @@ char			*tmp_tolower(char *str)
 	}
 	return (tmp);
 }
+
+// static char			*proceed_path(DIR *folder, int i, char *patharray,
+// char *tmp, char *str)
+// {
+// 	free(str);
+// 	str = NULL;
+// 	str = make_path_complete(&patharray[i], tmp);
+// 	closedir(folder);
+// 	// free(tmp);
+// 	free_array(&patharray);
+// 	// free(path);
+// 	free(tmp);
+// 	return (str);
+// }
+
+// static char 		*while_path(char **patharray, int i, char *tmp, char *str, char *path)
+// {
+// 	DIR				*folder;
+// 	struct dirent	*next_entry;
+
+// 	while (*patharray && *patharray[i])
+// 	{
+// 		folder = opendir(patharray[i]);
+// 		if (folder != 0)
+// 		{
+// 			while ((next_entry = readdir(folder)) != NULL)
+// 			{
+// 				if (ft_strcmp(next_entry->d_name, tmp) == 0)
+// 				{
+// 					str = proceed_path(folder, i, *patharray, tmp, str);
+// 					free(path);
+// 					free(tmp);
+// 					return (str);
+// 				}
+// 			}
+// 			closedir(folder);
+// 		}
+// 		i++;
+// 	}
+// 	free(tmp);
+// 	free_array(patharray);
+// 	free(path);
+// 	return (str);
+// }
+
 
 char			*check_path(t_env *_env, char *str)
 {
@@ -89,18 +134,6 @@ char			*check_path(t_env *_env, char *str)
 		}
 		i++;
 	}
-	if(str[0] == ';')
-		printf(";\n");
-	//if(ft_isalpha(str[0] )|| str[0] == ';')    //waarom blijft die verekte ; het niet doen omdat get_path verplaats is?
-	//{	
-		//return(error_path(2,str));
-		//error_path(2,str);
-		//return(NULL);
-	//}
-	// weer weg gehaald want anders gaat hij te vaak in error moet wel voor ; maar werkte nu ook niet meer waarschijnlijk door verplaatsing
-	// if (str[0] != '$' && str[0] != '>' && str[0] != '<')	//LET OP: we mogen niet hier al erroren als $ nog niet expanded is //Ook niet bij > file
-	// 	return (error_command(str));
-	///LEAKS
 	free(tmp);
 	free_array(patharray);
 	free(path);
