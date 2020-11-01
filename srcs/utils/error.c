@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 12:28:48 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/11/01 16:47:44 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 17:19:31 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ int				errno_error(char *str, t_command *command)
 {
 	if ((*command).builtin == executable)
 	{
-		printf("ex\n");
 		errno = EISDIR;
 		if (g_exit_status == 258)
 			return (0);

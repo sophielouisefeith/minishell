@@ -6,15 +6,15 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/20 11:24:12 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 14:33:12 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 17:16:01 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int				lstsize(t_command *command)
+static int		lstsize(t_command *command)
 {
-	int		c;
+	int			c;
 
 	c = 0;
 	while (command)
@@ -27,7 +27,7 @@ static int				lstsize(t_command *command)
 
 int				fill_fdout(t_output *output, int tmpout)
 {
-	int		fdout;
+	int			fdout;
 
 	if (output)
 	{

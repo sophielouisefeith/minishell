@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/11/01 14:00:59 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 17:18:53 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 	}
 }
 
-void		builtin_another_program(t_command **command, t_env **_env)
+void			builtin_another_program(t_command **command, t_env **_env)
 {
 	if ((*command)->builtin == builtin_no || (*command)->builtin == executable)
 		invoke_another_program(command, _env);
@@ -69,7 +69,7 @@ static void		determine_fdout(t_command **command, t_execute **exe,
 	}
 	else
 		(*exe)->fdout = dup((*exe)->tmpout);
-	dup2((*exe)->fdout,1);
+	dup2((*exe)->fdout, 1);
 	close((*exe)->fdout);
 }
 
@@ -87,26 +87,6 @@ static int		determine_fdin(t_command *command, t_execute **exe)
 	dup2((*exe)->fdin, 0);
 	close((*exe)->fdin);
 	return (0);
-}
-
-static void			complete_path(t_command **command, t_env *_env)
-{
-	char		*str_before;
-	char		*tmp;
-
-	if ((*command)->builtin == builtin_no && (*command)->array)
-	{
-		str_before = ft_strdup((*command)->array[0]);
-		tmp = ft_strdup((*command)->array[0]);
-		free((*command)->array[0]);
-		(*command)->array[0] = NULL;
-		(*command)->array[0] = check_path(_env, tmp);
-		if ((*command)->array[0] == NULL)
-			error_command((*command)->array[0], 1, *command);
-		if (!ft_strcmp(str_before, (*command)->array[0]))
-			(*command)->builtin = builtin_no_com;
-		free(str_before);
-	}
 }
 
 void			*execute(t_command **command, t_env **_env)

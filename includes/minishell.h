@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 16:24:25 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 17:18:12 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,11 +197,10 @@ void							*execute(t_command **command, t_env **_env);
 void							builtin_another_program(t_command **command, t_env **_env);
 
 /*execute_utils */
-// int								lstsize(t_command *command);
-void							initialise_execute(t_command *command, t_execute **exe);
-void							*clean_exit_execute(t_execute **exe);
-void							execute_output(t_command **command, t_execute **exe, t_env **_env);
 int								fill_fdout(t_output *output, int tmpout);
+void							execute_output(t_command **command, t_execute **exe, t_env **_env);
+void							*clean_exit_execute(t_execute **exe);
+void							initialise_execute(t_command *command, t_execute **exe);
 
 /*execute_export_utils */
 int								execute_fail(t_command *command, char **array);
@@ -213,6 +212,14 @@ void							free_if_dollar(t_dollar **dollar);
 
 /*parameter expension */
 int								check_for_other_parameters(char **array, int y);
+/*get_path */
+void							complete_path(t_command **command, t_env *_env);
+
+/*check_specials*/
+void							check_specials(t_command **command, t_env *_env);
+
+/*utils_general */
+char							*tmp_tolower(char *str);
 
 /*******End Cleaning*******************************************/
 
@@ -232,19 +239,14 @@ int				error_redi_one(char c, int i, char *line);
 char            				*trunc_quotes(char *str);
 int         					get_builtin_type(char *str);
 
-/*Check path */
-char							*check_path(t_env *env, char *str);
-
 char							*error_command(char *str, int i, t_command *command);
 int								error(t_command *command);
 char 							*error_qoute(char *str);
 void							set_exit_status(void);
 int								malloc_fail(void);
-/*execute*/
-// void            				*execute(t_command **command, t_env **env);
 void             				execute_builtin(t_command **command, t_env **_env);
-void            				execute_command(t_command **command, t_env **_env);
-// void							close_execute(t_execute **exe);
+
+
 
 int								echo(char **array);
 // void							env(char **array);
@@ -269,8 +271,6 @@ int								is_special_char(char *str, int i);
 char							*join_strings(char *new_str1, char *parameter, char *new_str2);
 
 /*new*/
-char							*tmp_tolower(char *str);
-void								check_specials(t_command **command, t_env *_env);
 char							*check_backslash_and_dollar(char *str, int *i, t_env *_env);
 char							*delete_double_quotes(char *src, int start, int end);
 char							*delete_escape_char(char *src, int n);
