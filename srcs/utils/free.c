@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/12 16:34:52 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/10/31 21:50:20 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 12:13:15 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void			free_env(t_env *_env)
 		free(_env->value);
 		_env->value = NULL;
 		free(_env);
-		_env = tmp; 
+		_env = tmp;
 	}
 	_env = NULL;
 }
@@ -77,7 +77,7 @@ void			free_list_lexer(t_lexer **sort)
 			(*sort)->token = NULL;
 		}
 		free((*sort));
-		*sort = tmp; 
+		*sort = tmp;
 	}
 	*sort = NULL;
 }
