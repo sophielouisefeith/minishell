@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/11/01 20:06:30 by sfeith        ########   odam.nl          #
+#    Updated: 2020/11/01 20:08:45 by sfeith        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ) lib_ft
 	@ar rcs $(LIB) $(OBJ)
-	@$(CC) $(CFLAGS) $(LIB) -o $(NAME)
+	@gcc $(CFLAGS) $(LIB) -o $(NAME)
 	@echo "\n>>>>>Finished making<<<<<"
 
 lib_ft:
@@ -77,14 +77,14 @@ lib_ft:
 
 %.o: %.c
 	@echo $@
-	$(CC) $(CFLAGS) -I$(INCL) -c $< -o $@
+	gcc $(CFLAGS) -I$(INCL) -c $< -o $@
 
 clean:
 	$(RM) $(OBJ)
 	@make clean -C $(LIBFT)
 
 fclean: clean
-	@$(RM) $(LIB) a.out
+	@$(RM) $(LIB) $(NAME)
 	@make fclean -C $(LIBFT)
 
 re: fclean all

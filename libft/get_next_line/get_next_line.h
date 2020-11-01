@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/08 16:37:25 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/29 21:27:08 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/01 17:53:57 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 128
 # endif
+
 /*
 ** Read includes: types, uio, unistd.
 ** Malloc include: stdlib

@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 16:08:16 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 20:13:57 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <signal.h>
 #define COLOR_PROMPT	"\033[1;34mminishell-$ \033[0m"
 
-void			lexer_parser_executer(char *line, t_env **_env)
+void			lexer_parser_executer(char *line, t_env **envb)
 {
 	t_lexer		*sort;
 	t_lexer		*sort_copy;
@@ -39,7 +39,7 @@ void			lexer_parser_executer(char *line, t_env **_env)
 	command_copy = command;
 	free_list_lexer(&sort_copy);
 	if (g_own_exit == 0)
-		execute(&command, _env);
+		execute(&command, envb);
 	free_list_parser(&command_copy);
 }
 
@@ -52,12 +52,12 @@ static void		prep_start(void)
 
 int				main(int argc, char **argv, char **env)
 {
-	t_env		*_env;
+	t_env		*envb;
 	char		*line;
 	int			ret;
 
 	ret = 1;
-	_env = save_env(env);
+	envb = saveenvb(env);
 	(void)argc;
 	(void)argv;
 	while (ret > 0)
@@ -69,11 +69,11 @@ int				main(int argc, char **argv, char **env)
 		if (ret == -1)
 			set_exit_status();
 		if (line[0] != '\0')
-			lexer_parser_executer(line, &_env);
+			lexer_parser_executer(line, &envb);
 		g_own_exit = 0;
 		free(line);
 		line = NULL;
 	}
-	free_env(_env);
+	freeenvb(envb);
 	return (0);
 }
