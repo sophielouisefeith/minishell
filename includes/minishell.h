@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 12:50:19 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 16:24:25 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,16 @@ void							*clean_exit_execute(t_execute **exe);
 void							execute_output(t_command **command, t_execute **exe, t_env **_env);
 int								fill_fdout(t_output *output, int tmpout);
 
+/*execute_export_utils */
+int								execute_fail(t_command *command, char **array);
+void							swap(char **s1, char **s2);
+void							swap_int(int *s1, int *s2);
+void							alpha_env_list(t_env *alpha_env);
+/*check builtin_again*/
+void							free_if_dollar(t_dollar **dollar);
 
+/*parameter expension */
+int								check_for_other_parameters(char **array, int y);
 
 /*******End Cleaning*******************************************/
 
@@ -282,9 +291,9 @@ void							set_exit_status(void);
 char							*not_part(char *str);
 char 							*translate_builtin(int b, char *str);
 
-int				dollar_is_special_char(char *str, int i);
-void			initiate_dollar(t_dollar *dollar, int quote);
-void	 		error_pwd_unset(char *str, char *path);
+int								dollar_is_special_char(char *str, int i);
+void							initiate_dollar(t_dollar *dollar, int quote);
+void	 						error_pwd_unset(char *str, char *path);
 
 char		*make_tmp(char **str);
 

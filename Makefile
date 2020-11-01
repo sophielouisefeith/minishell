@@ -6,7 +6,7 @@
 #    By: sfeith <sfeith@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/11/01 12:43:44 by sfeith        ########   odam.nl          #
+#    Updated: 2020/11/01 17:05:42 by sfeith        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,30 +31,30 @@ SRC =  srcs/main.c\
 		srcs/parser/input.c\
 		srcs/parser/output.c\
 		srcs/parser/free_parser.c\
-		execute/execute.c\
-		execute/execute_utils.c\
+		srcs/execute/execute.c\
+		srcs/execute/execute_utils.c\
 		execute/check_specials.c\
 		srcs/execute/check_specials_utils.c\
-		execute/execute_builtin.c\
-		execute/echo.c\
-		execute/execute_cd.c  execute/execute_pwd.c\
-		execute/env_ll_to_array.c\
-		execute/env.c\
-		execute/execute_unset.c\
-		execute/execute_exit.c\
-		execute/parameter_expansion.c\
-		execute/parameter_expansion_utils.c\
-		execute/execute_export.c\
-		execute/ft_split2.c\
+		srcs/execute/execute_builtin.c\
+		srcs/builtin/echo.c\
+		srcs/execute/execute_cd.c  srcs/execute/execute_pwd.c\
+		srcs/execute/env_ll_to_array.c\
+		srcs/execute/env.c\
+		srcs/execute/execute_unset.c\
+		srcs/execute/execute_exit.c\
+		srcs/execute/parameter_expansion.c\
+		srcs/execute/parameter_expansion_utils.c\
+		srcs/execute/execute_export.c\
+		srcs/execute/ft_split2.c\
 		get_path.c\
-		error.c\
-		error_utils.c\
+		srcs/utils/error.c\
+		srcs/utils/error_utils.c\
 		srcs/execute/check_builtin_again.c\
-		tester.c\
+		srcs/execute/execute_export_utils.c\
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 #-fsanitize=address -g
 
 INCL = includes

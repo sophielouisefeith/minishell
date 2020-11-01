@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/31 20:50:12 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 16:08:16 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,31 @@ void			lexer_parser_executer(char *line, t_env **_env)
 	command = NULL;
 	lexer(&sort, line);
 	sort_copy = sort;
-	while (sort && pipe_status != 3 && g_own_exit!= 3) // && g_own_exit == 0)				//MOET DEZE DAN OOK WEER TERUG?
+	while (sort && pipe_status != 3 && g_own_exit != 3)
 	{
 		pipe_status = parser(&sort, &command, pipe_status);
-		if(pipe_status == 3) /// nu voor de dubbele ;
-		{										//NEW na pull, niet gecleaned
+		if (pipe_status == 3)
 			g_own_exit = 0;
-		}
-		//if(pipe_status == 12)// slaat nergens op even voor eigen dingen
-			//printf("malloc failed\n"); /// dit is overbodig word al een error gegeven en gefreet omdat g_own_exit =1 
 		if (sort)
 			sort = sort->next_sort;
 	}
 	command_copy = command;
 	free_list_lexer(&sort_copy);
-	if (g_own_exit == 0)						
+	if (g_own_exit == 0)
 		execute(&command, _env);
 	free_list_parser(&command_copy);
 }
 
-//Nog te lang. Wacht op error afhandeling.
+static void		prep_start(void)
+{
+	signal(SIGQUIT, sighandler);
+	signal(SIGINT, sighandler);
+	write(1, COLOR_PROMPT, 23);
+}
 
 int				main(int argc, char **argv, char **env)
 {
-	t_env		*_env;	
+	t_env		*_env;
 	char		*line;
 	int			ret;
 
@@ -61,14 +62,12 @@ int				main(int argc, char **argv, char **env)
 	(void)argv;
 	while (ret > 0)
 	{
-		signal(SIGQUIT, sighandler);
- 		signal(SIGINT, sighandler);
-		write(1, COLOR_PROMPT, 23);
+		prep_start();
 		ret = get_next_line(0, &line);
 		if (ret == 0)
 			ctrl_d();
 		if (ret == -1)
-			set_exit_status();						// M: ik denk dat we kunnen breaken hier instead.
+			set_exit_status();
 		if (line[0] != '\0')
 			lexer_parser_executer(line, &_env);
 		g_own_exit = 0;

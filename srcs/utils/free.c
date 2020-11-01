@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/12 16:34:52 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/11/01 12:13:15 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 16:29:32 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char			*strdup_and_free(char **str)
 
 	tmp = NULL;
 	tmp = ft_strdup(*str);
-	free (*str);
+	free(*str);
 	*str = NULL;
 	return (tmp);
 }

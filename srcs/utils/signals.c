@@ -6,16 +6,12 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/22 14:34:10 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/30 13:15:57 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/01 16:29:37 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #define COLOR_PROMPT	"\033[1;34mminishell-$ \033[0m"
-
-/*
-** End of File	--> CTRL D:
-*/
 
 void			ctrl_d(void)
 {
@@ -23,12 +19,7 @@ void			ctrl_d(void)
 	exit(0);
 }
 
-/*
-** When invoking another program with execve the original sighandler has to be reset:
-** Don't print a prompt en no backspaces anymore
-*/
-
-void			signal_reset(int sig_num) 
+void			signal_reset(int sig_num)
 {
 	(void)sig_num;
 }
@@ -41,11 +32,6 @@ void			sighandler_execve(int status)
 		write(1, "Quit: 3\n", 8);
 	g_exit_status = status + 128;
 }
-
-/*
-** SIGINT	- interrupt signal	--> CTRL C
-** SIGQUIT	- quit signal		--> CTRL backslash 
-*/
 
 void			sighandler(int signum)
 {

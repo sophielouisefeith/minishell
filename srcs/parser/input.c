@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 09:38:34 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/11/01 10:43:03 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 16:28:35 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,5 @@ void				input_fill(t_lexer **sort, t_command **tmp)
 	if (str == NULL)
 		malloc_fail();
 	tmp_input = ll_new_node_input(str);
-	if (tmp_input == NULL)								//M: Deze is nooit NULL, want je returnt geen NULL
-		malloc_fail();
 	ll_lstadd_back_input(&(*tmp)->input, tmp_input);
 }

@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/31 21:44:18 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/31 21:47:23 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 16:32:56 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ static void		free_input(t_input *input)
 {
 	t_input		*tmp;
 
-	while(input != NULL)
+	while (input != NULL)
 	{
 		tmp = input->next_input;
 		free(input->str_input);
 		input->str_input = NULL;
 		free(input);
-		input = tmp; 
+		input = tmp;
 	}
 	input = NULL;
 }
@@ -44,7 +44,7 @@ static void		free_output(t_output *output)
 
 void			free_list_parser(t_command **command)
 {
-	t_command   *tmp;
+	t_command	*tmp;
 
 	tmp = NULL;
 	while (*command)
@@ -58,6 +58,6 @@ void			free_list_parser(t_command **command)
 			free_input((*command)->input);
 		free(*command);
 		*command = tmp;
-	} 
+	}
 	*command = NULL;
 }

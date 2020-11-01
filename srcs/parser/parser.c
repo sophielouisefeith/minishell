@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/31 08:13:15 by SophieLouis   #+#    #+#                 */
-/*   Updated: 2020/11/01 10:36:29 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 16:19:22 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int		redirection(t_lexer **sort, t_command **tmp)
 		if ((*sort)->token[token_redirection_dgreater])
 			output_fill(sort, tmp, token_redirection_dgreater);
 		if ((*sort)->token[token_redirection_lesser])
-			input_fill(sort,tmp);
+			input_fill(sort, tmp);
 		if ((*sort)->next_sort)
 			*sort = (*sort)->next_sort;
 		else
@@ -66,7 +66,7 @@ t_command **tmp, int *pipe_status)
 static void		fill_array(t_lexer **sort, t_command **tmp)
 {
 	int			ret;
-	int 		y;
+	int			y;
 
 	y = 0;
 	while (*sort && ((*sort)->token[token_general]
@@ -83,17 +83,13 @@ static void		fill_array(t_lexer **sort, t_command **tmp)
 		(*tmp)->array[y] = 0;
 }
 
-/*
-** Pipe_status == 1 --> Pipe_before
-*/
-
 int				parser(t_lexer **sort, t_command **command, int pipe_status)
 {
 	t_command	*tmp;
 	int			num_nodes;
 	int			builtin;
 
-	g_own_exit = 0;									//M: Is dit voor de error-afhandeling?
+	g_own_exit = 0;
 	tmp = NULL;
 	num_nodes = 0;
 	builtin = check_builtin_node(sort);
@@ -102,8 +98,8 @@ int				parser(t_lexer **sort, t_command **command, int pipe_status)
 	if (tmp == NULL)
 		return (malloc_fail());
 	fill_array(sort, &tmp);
-	if (g_own_exit == 258)							//M: vragen aan Sop
-		return (3);									//hier exit status checken dit is dat hij 
+	if (g_own_exit == 258)
+		return (3);
 	fill_pipe_and_sem(*sort, &tmp, &pipe_status);
 	ll_lstadd_back_command(command, tmp);
 	return (pipe_status);

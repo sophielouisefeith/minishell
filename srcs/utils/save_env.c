@@ -6,15 +6,16 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 13:14:37 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/10/30 13:22:59 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/01 16:17:57 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 t_env			*ll_new_node_env(char *name, char *value, int equal)
 {
 	t_env	*new;
+
 	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)
 		return (0);

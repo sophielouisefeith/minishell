@@ -6,16 +6,11 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 12:40:47 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 17:11:42 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-** TO DO:
-** 	- Moet er wel gemalloct worden bij delete_escape_char en delete_double_quotes?
-*/// dst = (char *)malloc(sizeof(char) * (len + 1));
 
 char			*delete_escape_char(char *src, int n)
 {
@@ -77,13 +72,6 @@ char			*delete_double_quotes(char *src, int start, int end)
 	}
 	return (final_delete(dst, src, len));
 }
-
-/*
-**	- Escape character stills work in case of $ and \": 
-**		* $: Operation of $ is gone and \ will be deleted.
-**		* \":  the \ will be deleted. And " doesn't count as "has to be complete"
-**		* Other: the \ will not be deleted.
-*/
 
 static void		if_dollar_back(char *str, char *tmp, int *i)
 {
