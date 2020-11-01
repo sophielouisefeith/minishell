@@ -6,12 +6,13 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/11/01 17:18:53 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 17:36:52 by sfeith        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <fcntl.h>
+#include <sys/wait.h>
 
 static void		invoke_another_program(t_command **command, t_env **_env)
 {
