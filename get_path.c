@@ -6,12 +6,13 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/31 22:19:03 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 10:19:56 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <dirent.h>		//Waar is deze voor?
+#include <sys/stat.h>		//STAT TEST
 
 static char		*make_path_complete(char *patharray, char *tmp)
 {

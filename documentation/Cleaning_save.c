@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/29 20:44:43 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/31 22:18:02 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 12:27:45 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -674,6 +674,27 @@ EXECUTE
 ---------------
 execute.c
 ---------------
+/*
+** TO DO:
+	- //welke exit code? bij errno_error
+	- if ((*command)->builtin == builtin_no_com)		//Twijfel of dit goed gaat. Toegevoegd vanwege $echo hallo
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /***************/
 execute
@@ -694,6 +715,26 @@ complete_path(command, *_env);		// maakt van echo/ no --> no_com
 			// }
 
 */
+
+		if(res == 3) 													// 3 staast voor de return uit errno_error S: wel handig om dit voorbeeld nog even op te zoeken
+
+
+Delete:
+	// exe = (t_execute *)malloc(sizeof(t_execute));
+	// if (!exe)
+	// 	malloc_fail();
+		// {
+		// 	close_execute(&exe);
+		// 	free(exe);
+		// 	return(0);    // or own exit status op 0 zodat hij eruit klapt 
+		// }
+	// close_execute(&exe);
+	// free(exe);
+	// return (0);
+
+
+
+
 
 /***************/
 complete_path
@@ -761,3 +802,5 @@ path = search_node(_env, ft_strdup("PATH"));	//vanwege free in search node
 	// 	return (error_command(str));
 	// else 
 */
+
+

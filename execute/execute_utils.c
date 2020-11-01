@@ -6,13 +6,13 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/20 11:24:12 by maran         #+#    #+#                 */
-/*   Updated: 2020/10/31 18:46:39 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/01 12:47:48 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int				lstsize(t_command *command)
+static int				lstsize(t_command *command)
 {
 	int		c;
 
@@ -29,7 +29,7 @@ int				fill_fdout(t_output *output, int tmpout)
 {
 	int		fdout;
 
-	if(output)
+	if (output)
 	{
 		while(output)
 		{
@@ -54,20 +54,24 @@ void			execute_output(t_command **command, t_execute **exe,
 	builtin_another_program(command, _env);
 }
 
-void			initialise_execute(t_command *command, t_execute **exe)
-{
-	(*exe)->len_list = lstsize(command);
-	(*exe)->tmpin = dup(0);
-	(*exe)->tmpout = dup(1);
-	(*exe)->fdin = dup((*exe)->tmpin);
-	(*exe)->i = 0;
-}
-
-void			close_execute(t_execute **exe)
+void			*clean_exit_execute(t_execute **exe)
 {
 	dup2((*exe)->tmpin, 0);
 	dup2((*exe)->tmpout, 1);
 	close((*exe)->tmpin);
 	close((*exe)->tmpout);
-	//free(exe);
+	free(*exe);
+	return (0);
+}
+
+void			initialise_execute(t_command *command, t_execute **exe)
+{
+	*exe = (t_execute *)malloc(sizeof(t_execute));
+	if (!(*exe))
+		malloc_fail();
+	(*exe)->len_list = lstsize(command);
+	(*exe)->tmpin = dup(0);
+	(*exe)->tmpout = dup(1);
+	(*exe)->fdin = dup((*exe)->tmpin);
+	(*exe)->i = 0;
 }

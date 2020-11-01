@@ -6,7 +6,7 @@
 /*   By: Maran <Maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/10/31 21:53:56 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 12:50:19 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ typedef struct				s_execute{
 void						lexer_parser_executer(char *line, t_env **_env);
 
 /* Save_env*/
-t_env                 		*save_env(char **env);
+t_env						*save_env(char **env);
 t_env						*ll_new_node_env(char *name, char *value, int equal);
 void						ll_lstadd_back_env(t_env **env, t_env *new);
 
@@ -191,6 +191,20 @@ void							free_list_lexer(t_lexer **sort);
 /*free_parser */
 void							free_list_parser(t_command **command);
 
+
+/*execute */
+void							*execute(t_command **command, t_env **_env);
+void							builtin_another_program(t_command **command, t_env **_env);
+
+/*execute_utils */
+// int								lstsize(t_command *command);
+void							initialise_execute(t_command *command, t_execute **exe);
+void							*clean_exit_execute(t_execute **exe);
+void							execute_output(t_command **command, t_execute **exe, t_env **_env);
+int								fill_fdout(t_output *output, int tmpout);
+
+
+
 /*******End Cleaning*******************************************/
 
 /*******Remove*********/
@@ -218,15 +232,10 @@ char 							*error_qoute(char *str);
 void							set_exit_status(void);
 int								malloc_fail(void);
 /*execute*/
-void            				*execute(t_command **command, t_env **env);
+// void            				*execute(t_command **command, t_env **env);
 void             				execute_builtin(t_command **command, t_env **_env);
 void            				execute_command(t_command **command, t_env **_env);
-int								lstsize(t_command *command);
-void							initialise_execute(t_command *command, t_execute **exe);
-void							close_execute(t_execute **exe);
-void							execute_output(t_command **command, t_execute **exe,t_env **_env);
-int								fill_fdout(t_output *output, int tmpout);
-void							builtin_another_program(t_command **command, t_env **_env);
+// void							close_execute(t_execute **exe);
 
 int								echo(char **array);
 // void							env(char **array);

@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/10/31 22:12:50 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/01 12:49:26 by msiemons      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,10 @@
 #include <fcntl.h>
 
 /*
-** TO DO:
-	- //welke exit code? bij errno_error
-	- if ((*command)->builtin == builtin_no_com)		//Twijfel of dit goed gaat. Toegevoegd vanwege $echo hallo
-*/
-
-/*
 ** Waitpid: suspends execution of the calling process until a child specified
 ** by pid argument has changed state.
+** WIFSIGNALED(status): returns true if the child process terminated because it
+** received a signal that was not handled.
 ** WIFEXITED(status): returns true if the child terminated normally.
 ** WEXITSTATUS(status): returns the exit status of the child. This macro should
 ** be employed only if WIFEXITED returned true.
@@ -41,8 +37,6 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 	{
 		execve((*command)->array[0], (*command)->array,
 			env_ll_to_array(*_env));
-		// if(builtin_type == executable) //lelijke oplssoing voor foutmelding
-		// 	errno = 21;
 		errno_error((*command)->array[0], *command);
 		exit(g_exit_status);
 	}
@@ -56,7 +50,7 @@ static void		invoke_another_program(t_command **command, t_env **_env)
 	}
 }
 
-void			builtin_another_program(t_command **command, t_env **_env)
+void		builtin_another_program(t_command **command, t_env **_env)
 {
 	if ((*command)->builtin == builtin_no || (*command)->builtin == executable)
 		invoke_another_program(command, _env);
@@ -95,14 +89,17 @@ static int		determine_fdin(t_command *command, t_execute **exe)
 	{
 		(*exe)->fdin = open(command->input->str_input, O_RDONLY);
 		if ((*exe)->fdin == -1)
-			return (errno = ENOENT, errno_error(command->input->str_input, command));
+		{
+			errno = ENOENT;
+			errno_error(command->input->str_input, command);
+		}
 	}
 	dup2((*exe)->fdin, 0);
 	close((*exe)->fdin);
 	return (0);
 }
 
-void			complete_path(t_command **command, t_env *_env)
+static void			complete_path(t_command **command, t_env *_env)
 {
 	char		*str_before;
 	char		*tmp;
@@ -116,8 +113,6 @@ void			complete_path(t_command **command, t_env *_env)
 		(*command)->array[0] = check_path(_env, tmp);
 		if ((*command)->array[0]== NULL)
 			error_command((*command)->array[0], 1, *command);
-		// if((*sort)->str == NULL)
-		// 	return(ENOMEM);
 		if (!ft_strcmp(str_before, (*command)->array[0]))
 			(*command)->builtin = builtin_no_com;
 		free(str_before);
@@ -127,36 +122,28 @@ void			complete_path(t_command **command, t_env *_env)
 void			*execute(t_command **command, t_env **_env)
 {
 	t_execute	*exe;
-	int 		res;
+	int			res;
 
-	exe = (t_execute *)malloc(sizeof(t_execute));
-	if (!exe)
-		malloc_fail();
 	initialise_execute(*command, &exe);
 	while (exe->i < exe->len_list)
 	{
 		complete_path(command, *_env);
 		res = determine_fdin(*command, &exe);
-		if(res == 3) // 3 staast voor de return uit errno_error S: wel handig om dit voorbeeld nog even op te zoeken 
-		{
-			close_execute(&exe);
-			free(exe);
-			return(0);    // or own exit status op 0 zodat hij eruit klapt 
-		}
-		check_specials(command, *_env);  //res = 
-		if (g_own_exit != 999 && (*command)->builtin == builtin_no_com && (*command)->array)
+		if (res == 3)
+			return(clean_exit_execute(&exe));
+		check_specials(command, *_env);
+		if (g_own_exit != 999 && (*command)->builtin == 0 && (*command)->array)
 			error_command((*command)->array[0], 1, *command);
 		else
 			g_own_exit = 0;
 		determine_fdout(command, &exe, _env, exe->i);
-		if (!(((*command)->sem || (*command)->pipe_after) && (*command)->output))
+		if (!(((*command)->sem || (*command)->pipe_after) &&
+				(*command)->output))
 			builtin_another_program(command, _env);
 		if ((*command)->sem)
 			exe->fdin = dup(exe->tmpin);
 		*command = (*command)->next_command;
 		exe->i++;
 	}
-	close_execute(&exe);
-	free(exe);
-	return (0);
+	return(clean_exit_execute(&exe));
 }
