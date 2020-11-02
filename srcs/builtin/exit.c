@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exit.c                                             :+:    :+:            */
+/*   exit_old.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/30 13:54:44 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 19:50:26 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/02 11:50:20 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,33 @@ static void		error_exit(t_command *command, int i)
 	}
 }
 
-static int		exit_2(t_command *command)
+static void		exit_part1(t_command *command)
 {
+	int			i;
+	int			ret;
+
+	i = 0;
+	while (command->array[0][i])
+	{
+		ret = ft_isdigit(command->array[0][i]);
+		if (ret == 0)
+			error_exit(command, ret);
+		i++;
+	}
+}
+
+int        execute_exit(t_command *command)
+{
+	if (!command->array)
+	{
+		write(1, "exit\n", 6);
+		exit(g_exit_status);
+	}
+	if (command->array[0])
+		exit_part1(command);
 	if (command->array[1])
 	{
-		write(1, "exit: exit: too many arguments\n", 37);
+		write(1, "exit\nbash: exit: too many arguments\n", 37);
 		return (g_exit_status = 1);
 	}
 	else
@@ -41,28 +63,4 @@ static int		exit_2(t_command *command)
 		write(1, "exit\n", 6);
 		exit(g_exit_status);
 	}
-}
-
-int				execute_exit(t_command *command)
-{
-	int		i;
-	int		ret;
-
-	i = 0;
-	if (!command->array)
-	{
-		write(1, "exit\n", 6);
-		exit(g_exit_status);
-	}
-	if (command->array[0])
-	{
-		while (command->array[0][i])
-		{
-			ret = ft_isdigit(command->array[0][i]);
-			if (ret == 0)
-				error_exit(command, ret);
-			i++;
-		}
-	}
-	return (exit_2(command));
 }
