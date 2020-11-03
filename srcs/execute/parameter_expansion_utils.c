@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:54:16 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/11/01 20:32:51 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/03 22:14:11 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@ char			*search_node(t_env *envb, char *search)
 
 int				is_special_char(char *str, int i)
 {
-	int		save_i;
-
-	save_i = i;
 	if (!str[i])
 		return (-1);
 	while (str[i])

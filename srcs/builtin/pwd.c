@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   execute_pwd.c                                      :+:    :+:            */
+/*   pwd.c                                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/24 12:46:44 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 14:41:12 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/03 22:11:31 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,9 @@ void			error_pwd_unset(char *str, char *path)
 
 int				execute_pwd(t_command *command)
 {
-	int		y;
 	char	buf[PATH_MAX];
 	char	*path;
 
-	y = 0;
 	path = getcwd(buf, sizeof(buf));
 	if (path == NULL)
 	{

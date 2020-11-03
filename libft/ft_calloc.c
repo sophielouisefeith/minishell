@@ -6,7 +6,7 @@
 /*   By: msiemons <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/01 18:51:06 by msiemons      #+#    #+#                 */
-/*   Updated: 2019/11/18 21:16:06 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/03 22:28:03 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 void	*ft_calloc(size_t count, size_t size)
 {
 	char	*str;
-	size_t	i;
 
-	i = 0;
 	str = (char *)malloc(count * size);
 	if (!str)
 		return (0);

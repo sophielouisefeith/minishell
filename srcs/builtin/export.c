@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 20:27:25 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/03 22:03:08 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ int				execute_export(t_env **envb, t_command **command)
 	char	**array;
 	int		equal;
 	int		ret;
-	int		i;
+	int 	y;
 
 	equal = 0;
-	i = 0;
+	y = 0;
 	if (!(*command)->array)
 	{
 		print_declare_x_env(envb);
@@ -105,15 +105,15 @@ int				execute_export(t_env **envb, t_command **command)
 	}
 	if (ft_strrchr((*command)->array[0], '='))
 		equal = 1;
-	while ((*command)->array[i] && (*command)->array[i] != '\0')
+	while ((*command)->array[y]) //aanpassing
 	{
-		array = ft_split2((*command)->array[i], '=');
+		array = ft_split2((*command)->array[y], '=');
 		ret = check_format(array[0]);
 		if (ret == -1)
 			return (execute_fail(*command, array));
 		check_present_in_env(array, envb, equal);
 		free_array(array);
-		i++;
+		y++;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/01 18:01:58 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/11/01 20:45:46 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/03 22:16:00 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@ int				error(t_command *command)
 
 static int		check_input_redirection(int i, char *line)
 {
-	int		count;
-
-	count = 0;
 	while (line[i] == '<')
 		i++;
 	if (i <= 3)
