@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: maran <maran@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/06 18:26:32 by Maran             #+#    #+#             */
-/*   Updated: 2020/11/04 18:19:11 by maran            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: maran <maran@student.42.fr>                  +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
+/*   Updated: 2020/11/05 16:19:23 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,10 +196,9 @@ void						check_specials(t_command **command,
 							t_env *envb);
 char						*delete_double_quotes(char *src,
 							int start, int end);
-char						*delete_escape_char(char *src, int n);
+char						*delete_escape_char(char **src, int n); //NEW
 char						*delete_quotes(char *src, char garbage);
-char						*delete_escape_char(char *src, int n);
-char						*check_backslash_and_dollar(char *str,
+char						*check_backslash_and_dollar(char **str,
 							int *i, t_env *envb);
 char						*tmp_tolower(char *str);
 char						*error_command(char *str, int i,

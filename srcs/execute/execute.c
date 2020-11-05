@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   execute.c                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
+/*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/11/01 20:34:15 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/05 14:23:21 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ void			*execute(t_command **command, t_env **envb)
 			g_own_exit = 0;
 		determine_fdout(command, &exe, envb, exe->i);
 		if (!(((*command)->sem || (*command)->pipe_after) &&
-				(*command)->output))
-			builtin_another_program(command, envb);
+			(*command)->output))
+		builtin_another_program(command, envb);
 		if ((*command)->sem)
 			exe->fdin = dup(exe->tmpin);
 		*command = (*command)->next_command;

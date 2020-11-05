@@ -6,7 +6,6 @@ invalid reads are fine
 
 Bij exitten					LEAKS
 
-
 TESTS:
 - [v] echo
 	- [x] echo ""			Invalid reads
@@ -59,18 +58,18 @@ TESTS:
 																								// if (g_own_exit == 258)		//als deze returnt wordt command struct nooit gemaakt, tmp is al wel gemalloct DIT LEAKT!
 																									// return (3);
 
-	- [x] >> out
-	- [x] ls >> file3 | cat < file3
-	- [x] ls >>>>>>>>>> file
+	- [x] >> out				Still reachable leaks + andere problemen
+	- [v] ls >> file3 | cat < file3
+	- [v] ls >>>>>>>>>> file
 - [x] |
-	- [x] up to 20 (??)
-- [x] $?
+	- [v] up to 20 (??)
+- [v] $?						[In combi met foutmeldingen testen]
 - [x] signals
-	- [x] ctrl-C SIG_INT		-> print nothing
+	- [v] ctrl-C SIG_INT		-> print nothing
 	- [x] ctrl-D EOF			-> print "exit\n"
-	- [x] ctrl-\ SIG_QUIT 		-> print "Quit\n" (ignore in parent, only for child)
-- [x] echo hey > yes; cat yes; echo bye < yes | cat -e > lol; cat lol
-- [x] chmod 000 on an executable and try to use it with minishell (check exit status)
+	- [v] ctrl-\ SIG_QUIT 		-> print "Quit\n" (ignore in parent, only for child)
+- [v] echo hey > yes; cat yes; echo bye < yes | cat -e > lol; cat lol
+- [] chmod 000 on an executable and try to use it with minishell (check exit status)
 - [x] try to type something and then sending and EOF
-- [x] memory leak when unterminated quoted string with an env (echo "$TEST )
+- [v] memory leak when unterminated quoted string with an env (echo "$TEST )			Invalid read
 - [x] REDO ALL THE TESTS IN VALGRIND

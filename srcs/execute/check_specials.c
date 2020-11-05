@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   check_specials.c                                   :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: maran <maran@student.codam.nl>               +#+                     */
+/*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 20:35:35 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/05 16:31:04 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,15 @@ static char		*treat_double_quote(char *str, int *i, t_env *envb, int *flag)
 	int			end;
 	char		*tmp;
 
+	printf("--treat double quote-\n");
 	start = *i;
 	dollar = 0;
 	if (str[*i - 1] == '$')
 		dollar = 1;
 	tmp = strdup_and_free(&str);
-	str = check_backslash_and_dollar(tmp, i, envb);
+	str = check_backslash_and_dollar(&tmp, i, envb);
+	// printf("TDQ: tmp = [%s] [%p]\n", tmp, tmp);
+	// printf("TDQ: str = [%s] [%p]\n", str, str);
 	end = *i;
 	tmp = strdup_and_free(&str);
 	str = delete_double_quotes(tmp, start, end);
@@ -77,14 +80,14 @@ static void		if_no_quote(t_command **command, t_env *envb, int y, int *i)
 	if ((*command)->array[y][*i] == '\\')
 	{
 		tmp = strdup_and_free(&(*command)->array[y]);
-		(*command)->array[y] = delete_escape_char(tmp, *i);
+		(*command)->array[y] = delete_escape_char(&tmp, *i);
 		(*i)++;
 	}
 	if ((*command)->array[y][*i] == '$' &&
 			(*command)->array[y][*i + 1] == '\\')
 	{
 		tmp = strdup_and_free(&(*command)->array[y]);
-		(*command)->array[y] = delete_escape_char(tmp, (*i + 1));
+		(*command)->array[y] = delete_escape_char(&tmp, (*i + 1));
 		(*i)++;
 	}
 	if ((*command)->array[y][*i] == '$')
@@ -118,6 +121,7 @@ void			check_specials(t_command **command, t_env *envb)
 	int			i;
 	int			flag;
 
+	// printf("--check specials--\n");
 	y = 0;
 	while ((*command)->array && (*command)->array[y])
 	{

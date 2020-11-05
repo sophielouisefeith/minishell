@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: maran <maran@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/07 16:04:32 by Maran             #+#    #+#             */
-/*   Updated: 2020/11/04 21:22:17 by maran            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: maran <maran@student.42.fr>                  +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
+/*   Updated: 2020/11/05 12:10:45 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,10 @@ void			lexer_parser_executer(char *line, t_env **envb)
 	while (sort && pipe_status != 3 && g_own_exit != 3 && g_own_exit != 258)  //258 new test voor leak.
 	{
 		pipe_status = parser(&sort, &command, pipe_status);
-		if (pipe_status == 3 || g_own_exit == 258)
+		if (pipe_status == 3 || g_own_exit == 258)			//new
 			g_own_exit = 0;
 		if (sort)
 			sort = sort->next_sort;
-		printf("pipe_status= [%d] | g_own_exit = [%d] | g_exit_status = [%d]\n", pipe_status, g_own_exit, g_exit_status);
 	}
 	// tester(NULL, command);
 	command_copy = command;
