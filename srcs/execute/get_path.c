@@ -6,7 +6,7 @@
 /*   By: sfeith <sfeith@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/11/01 20:37:55 by sfeith        ########   odam.nl         */
+/*   Updated: 2020/11/03 22:41:23 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,6 @@ void			complete_path(t_command **command, t_env *envb)
 			free(str_before);
 			return ;
 		}
-		(*command)->builtin = builtin_no_com;
+		(*command)->builtin = executable;
 	}
 }

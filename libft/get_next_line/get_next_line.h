@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   get_next_line.h                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
+/*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/08 16:37:25 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/11/01 17:53:57 by msiemons      ########   odam.nl         */
+/*   Updated: 2020/11/05 11:47:10 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   free_parser.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2020/10/31 21:44:18 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/11/01 16:32:56 by sfeith        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   free_parser.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maran <maran@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/31 21:44:18 by msiemons          #+#    #+#             */
+/*   Updated: 2020/11/04 17:00:12 by maran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void		free_output(t_output *output)
 
 	while (output != NULL)
 	{
+		printf("In here\n");
 		tmp = (output)->next_output;
 		free(output->str_output);
 		output->str_output = NULL;
@@ -49,6 +50,7 @@ void			free_list_parser(t_command **command)
 	tmp = NULL;
 	while (*command)
 	{
+		printf("Free command\n");
 		tmp = (*command)->next_command;
 		if ((*command)->array)
 			free_array((*command)->array);

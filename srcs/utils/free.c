@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   free.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2020/11/01 18:01:40 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/11/01 20:24:28 by sfeith        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maran <maran@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/01 18:01:40 by msiemons          #+#    #+#             */
+/*   Updated: 2020/11/04 16:59:34 by maran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,13 @@ void			free_list_lexer(t_lexer **sort)
 	{
 		tmp = (*sort)->next_sort;
 		if ((*sort)->str)
-		{
+		{	printf("Free sort_str\n");
 			free((*sort)->str);
 			(*sort)->str = NULL;
 		}
 		if ((*sort)->token)
 		{
+			printf("Free sort_*token\n");
 			free((*sort)->token);
 			(*sort)->token = NULL;
 		}

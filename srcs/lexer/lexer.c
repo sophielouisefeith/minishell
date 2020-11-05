@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   lexer.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2020/07/16 12:52:49 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/11/01 16:49:58 by sfeith        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maran <maran@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/16 12:52:49 by msiemons          #+#    #+#             */
+/*   Updated: 2020/11/04 13:51:07 by maran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,7 @@ void			lexer(t_lexer **sort, char *line)
 		if (type == token_general)
 			save_word(line, &i, sort);
 		if (type >= token_pipe && type <= token_redirection_lesser)
-		{
 			save_operator(line, &i, type, sort);
-		}
 		type = 0;
 	}
 }

@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: msiemons <marvin@codam.nl>                   +#+                      #
-#                                                    +#+                       #
-#    Created: 2019/10/28 13:34:09 by msiemons      #+#    #+#                  #
-#    Updated: 2020/10/31 21:16:22 by msiemons      ########   odam.nl          #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: maran <maran@student.42.fr>                +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/10/28 13:34:09 by msiemons          #+#    #+#              #
+#    Updated: 2020/11/04 21:05:00 by maran            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,31 +20,25 @@ SRC =	ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c \
 		ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c \
 		ft_strmapi.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c \
 		ft_putnbr_fd.c\
+		ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
+		ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c \
+		ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c\
 		ft_putstr.c ft_strcmp.c\
 
-BONUS_SRC = ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
-			ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c \
-			ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c
-
 OFILE = $(SRC:.c=.o)
-BONUS_OFILE = $(BONUS_SRC:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OFILE)
 	ar rcs $@ $^
 
-bonus: $(BONUS_OFILE)
-	ar rcs $(NAME) $^
-
 %.o: %.c
-	@gcc -I . -Wall -Wextra -Werror -c $< -o $@
+	gcc -I . -Wall -Wextra -Werror -c $< -o $@
 
 clean:
-	@$(RM) $(OFILE)
-	@$(RM) $(BONUS_OFILE)
+	$(RM) $(OFILE)
 
 fclean: clean
-	@$(RM) $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all

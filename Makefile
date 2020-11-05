@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: sfeith <sfeith@student.codam.nl>             +#+                      #
-#                                                    +#+                       #
-#    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/11/01 20:37:04 by msiemons      ########   odam.nl          #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: maran <maran@student.42.fr>                +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2020/08/24 16:17:15 by sfeith            #+#    #+#              #
+#    Updated: 2020/11/04 21:44:03 by maran            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,7 @@ SRC =  srcs/main.c\
 		srcs/utils/utils_general.c\
 		libft/get_next_line/get_next_line.c\
 		libft/get_next_line/get_next_line_utils.c\
+		Docs/tester.c\
 
 OBJ = $(SRC:.c=.o)
 
@@ -72,12 +73,11 @@ $(NAME): $(OBJ) lib_ft
 lib_ft:
 	@echo "\n>>>>>Making lib_ft<<<<<"
 	@make -C $(LIBFT)
-	@make bonus -C $(LIBFT)
 	@cp libft/libft.a ./$(LIB)
 
 %.o: %.c
 	@echo $@
-	gcc $(CFLAGS) -I$(INCL) -c $< -o $@
+	gcc -g $(CFLAGS) -I$(INCL) -c $< -o $@
 
 clean:
 	$(RM) $(OBJ)

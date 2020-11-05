@@ -1,0 +1,76 @@
+==========================
+Prmerku:
+no still reachable are fine
+invalid reads are fine
+===========================
+
+Bij exitten					LEAKS
+
+
+TESTS:
+- [v] echo
+	- [x] echo ""			Invalid reads
+	- [v] echo "yesy"
+	- [v] echo test test
+	- [x] "echo" test		Invalid reads
+	- [v] 'echo' "test"
+	- [v] echo -n
+	- [x] echo "\""			Veel problemen
+	- [x] echo "\"			Invalid read
+	- [v] echo hoi -n
+- [] cd
+	- [] relative path
+	- [] absolute path
+	- [] cd "\$HOME"
+- [v] pwd
+- [v] export
+	- [v] export test=hello
+	- [v] export TEST=hello
+	- [v] export kip=ei===melk
+	- [v] export 1hello_world
+	- [v] export LS="ls -la";$LS
+- [x] env
+	- [x] echo $TEST			Invalid write (als hij niet bestaat)
+	- [x] echo "$TEST"			Invalid read (als hij niet bestaat)
+	- [v] echo ${TEST}													[Wij behandelen geen {}]
+    - [v] echo "${TEST}"
+    - [v] echo $1234
+    - [v] echo $_1234
+- [x] unset
+	- [v] unset test
+	- [v] unset TEST
+	- [v] unset $TEST (??)
+	- [x] unset PATH;ls			Still reachable leaks
+- [x] exit
+	- [x] exit 42				Still reachable leaks
+	- [x] exit prints "exit\n"	Still reachable leaks + invalid read
+	- [v] exit 1 2 3
+	- [x] exit hello			Still reachable leaks
+- [v] ;
+- [x] ''						Invalid reads							[Foute foutmelding ?]
+- [x] ""						Invalid write and read
+- [x] <, >, >>
+	- [v] < in
+	- [x] > out						Andere problemen		 [Leak kwam door calloc, solved]--> of misschien toch niet. Ligt aan volgorde van testen?
+																Deze volgorde leakt: [SOLVED --> ] . 
+																- [v] ;
+																- [x] > out	
+
+																								// if (g_own_exit == 258)		//als deze returnt wordt command struct nooit gemaakt, tmp is al wel gemalloct DIT LEAKT!
+																									// return (3);
+
+	- [x] >> out
+	- [x] ls >> file3 | cat < file3
+	- [x] ls >>>>>>>>>> file
+- [x] |
+	- [x] up to 20 (??)
+- [x] $?
+- [x] signals
+	- [x] ctrl-C SIG_INT		-> print nothing
+	- [x] ctrl-D EOF			-> print "exit\n"
+	- [x] ctrl-\ SIG_QUIT 		-> print "Quit\n" (ignore in parent, only for child)
+- [x] echo hey > yes; cat yes; echo bye < yes | cat -e > lol; cat lol
+- [x] chmod 000 on an executable and try to use it with minishell (check exit status)
+- [x] try to type something and then sending and EOF
+- [x] memory leak when unterminated quoted string with an env (echo "$TEST )
+- [x] REDO ALL THE TESTS IN VALGRIND

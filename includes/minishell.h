@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: Maran <Maran@student.codam.nl>               +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/11/01 20:30:48 by msiemons      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maran <maran@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/06 18:26:32 by Maran             #+#    #+#             */
+/*   Updated: 2020/11/04 18:19:11 by maran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
+
+# include <stdio.h>
 
 int		g_exit_status;
 int		g_own_exit;
@@ -214,5 +216,8 @@ int							errno_error(char *str, t_command *command);
 void						set_exit_status(void);
 char						*not_part(char *str);
 int							error_redi_one(char c, int i, char *line);
+
+/*verwijderen*/
+void            tester(t_lexer *sort, t_command *command);
 
 #endif
