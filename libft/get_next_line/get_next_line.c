@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: maran <maran@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/08 16:37:30 by msiemons          #+#    #+#             */
-/*   Updated: 2020/11/04 21:59:05 by maran            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   get_next_line.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: maran <maran@student.42.fr>                  +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/01/08 16:37:30 by msiemons      #+#    #+#                 */
+/*   Updated: 2020/11/05 17:30:40 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ int				get_next_line(int fd, char **line)
 		new_line = ft_strdup("");
 	if (new_line == NULL)
 		return (-1);
+	// if (new_line[fd] == NULL)			//
+	// 	ret = ft_read_line(fd, new_line, ret); //
 	new_line = ft_read(fd, new_line, ret);
 	if (new_line == NULL)
 		return (-1);

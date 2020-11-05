@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser_utils.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: maran <maran@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/01 18:00:44 by msiemons          #+#    #+#             */
-/*   Updated: 2020/11/04 13:53:34 by maran            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parser_utils.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: maran <maran@student.42.fr>                  +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/11/01 18:00:44 by msiemons      #+#    #+#                 */
+/*   Updated: 2020/11/05 17:33:00 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ int				check_builtin_node(t_lexer **sort)
 	builtin_type = get_builtin_type((*sort)->str);
 	if (builtin_type == builtin_no && (*sort)->str[0] == ';')
 	{
-		printf("HIER NAAR ERROR?");
 		error_command(";", 0, 0);
 		g_own_exit = 258;
 	}

@@ -826,7 +826,8 @@ pwd .
 pwd ..
 +++ RELATIVE PATH +++
 cd ../Desktop
-+++ ENVIRONMENT PATH +++
+
++++ ENVIRONMENT PATH +++ HIEEEER
 ls -la
 echo > ilovewords.txt count me ; wc ilovewords.txt
 awk '{ print }' /etc/passwd
