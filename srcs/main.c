@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/11/06 11:54:01 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/06 17:46:08 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,12 @@ void			lexer_parser_executer(char *line, t_env **envb)
 	command = NULL;
 	lexer(&sort, line);
 	sort_copy = sort;
-	// tester(sort, NULL);
-	while (sort && g_own_exit != 258 && g_own_exit != 3)  //258 new test voor leak. // pipe_status != 3 && g_own_exit != 3 
+	while (sort && g_own_exit != 258 && g_own_exit != 3)
 	{
 		pipe_status = parser(&sort, &command, pipe_status);
-		// if (pipe_status == 3 || g_own_exit == 258)			//new
-		// 	g_own_exit = 0;
 		if (sort)
 			sort = sort->next_sort;
 	}
-	// tester(NULL, command);
 	command_copy = command;
 	free_list_lexer(&sort_copy);
 	if (g_own_exit == 0)

@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/11/05 14:24:29 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/06 18:09:22 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ static char		*check_path(char *str, char *path)
 		folder = opendir(patharray[i]);
 		if (folder != 0)
 		{
-			if ((new_str = check_directories(tmp, patharray[i], folder)))
+			new_str = check_directories(tmp, patharray[i], folder);
+			if (new_str)
 				break ;
 			closedir(folder);
 		}
@@ -98,7 +99,6 @@ void			complete_path(t_command **command, t_env *envb)
 	char		*tmp;
 	char		*path;
 
-	// printf("--complete path--\n");
 	str_before = NULL;
 	if ((*command)->builtin == builtin_no && (*command)->array)
 	{

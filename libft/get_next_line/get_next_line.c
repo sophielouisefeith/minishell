@@ -6,13 +6,12 @@
 /*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/08 16:37:30 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/11/06 15:16:08 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/06 17:44:31 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "../libft.h"
-
 
 static char		*ft_cut(char *new_line, char **line, int *r)
 {
@@ -33,10 +32,10 @@ static char		*ft_cut(char *new_line, char **line, int *r)
 	return (tmp);
 }
 
-// /*
-// ** Added for signals:
-// ** (ret > 0), (ret == 0 && flag), ft_putstr("  \b\b");
-// */
+/*
+** Added for signals:
+** (ret > 0), (ret == 0 && flag), ft_putstr("  \b\b");
+*/
 
 static int		check_return_read(int *flag, int ret, char *new_line, char *buf)
 {

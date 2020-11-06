@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: maran <maran@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/01 18:00:34 by msiemons          #+#    #+#             */
-/*   Updated: 2020/11/04 18:32:27 by maran            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parser.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: maran <maran@student.42.fr>                  +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/11/01 18:00:34 by msiemons      #+#    #+#                 */
+/*   Updated: 2020/11/06 17:45:19 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,6 @@ int				parser(t_lexer **sort, t_command **command, int pipe_status)
 	if (tmp == NULL)
 		return (malloc_fail());
 	fill_array(sort, &tmp);
-	// if (g_own_exit == 258)		//als deze returnt wordt command struct nooit gemaakt, tmp is al wel gemalloct DIT LEAKT!
-		// return (3);
 	fill_pipe_and_sem(*sort, &tmp, &pipe_status);
 	ll_lstadd_back_command(command, tmp);
 	return (pipe_status);

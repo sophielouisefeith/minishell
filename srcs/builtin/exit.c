@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/30 13:54:44 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/06 15:56:16 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/06 18:12:07 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int				execute_exit(t_command *command)
 	if (command->array[1])
 	{
 		write(1, "exit\nbash: exit: too many arguments\n", 37);
-		return (g_exit_status = 1);
+		g_exit_status = 1;
+		return (g_exit_status);
 	}
 	else
 	{

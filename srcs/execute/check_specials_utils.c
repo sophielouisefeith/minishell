@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/05 16:31:33 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/06 17:48:47 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,13 @@ char			*check_backslash_and_dollar(char **str, int *i, t_env *envb)
 	(*i)++;
 	while ((*str)[*i] && (*str)[*i] != '\"')
 	{
-		if_dollar_back(str, i);	//was &
+		if_dollar_back(str, i);
 		if ((*str)[*i] == '$')
 		{
 			tmp = ft_strdup(*str);
 			free(*str);
 			*str = NULL;
-			*str = if_dollar(tmp, i, envb, 1); //HIER WSS OOK FOUT &tmp?
+			*str = if_dollar(tmp, i, envb, 1);
 		}
 		(*i)++;
 	}

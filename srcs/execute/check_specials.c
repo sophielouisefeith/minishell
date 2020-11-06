@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/06 10:33:42 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/06 17:49:42 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,12 @@ static char		*treat_double_quote(char *str, int *i, t_env *envb, int *flag)
 	int			end;
 	char		*tmp;
 
-	// printf("--treat double quote-\n");
 	start = *i;
 	dollar = 0;
 	if (str[*i - 1] == '$')
 		dollar = 1;
 	tmp = strdup_and_free(&str);
 	str = check_backslash_and_dollar(&tmp, i, envb);
-	// printf("TDQ: tmp = [%s] [%p]\n", tmp, tmp);
-	// printf("TDQ: str = [%s] [%p]\n", str, str);
 	end = *i;
 	tmp = strdup_and_free(&str);
 	str = delete_double_quotes(tmp, start, end);
@@ -121,7 +118,6 @@ void			check_specials(t_command **command, t_env *envb)
 	int			i;
 	int			flag;
 
-	// printf("--check specials--\n");
 	y = 0;
 	while ((*command)->array && (*command)->array[y])
 	{

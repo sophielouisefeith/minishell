@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/06 11:39:59 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/06 17:50:24 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int				execute_export(t_env **envb, t_command **command)
 	char	**array;
 	int		equal;
 	int		ret;
-	int 	y;
+	int		y;
 
 	equal = 0;
 	y = 0;

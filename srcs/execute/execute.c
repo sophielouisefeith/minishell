@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/11/06 17:17:43 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/06 17:52:14 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void			*execute(t_command **command, t_env **envb)
 		determine_fdout(command, &exe, envb, exe->i);
 		if (!(((*command)->sem || (*command)->pipe_after) &&
 			(*command)->output))
-		builtin_another_program(command, envb);
+			builtin_another_program(command, envb);
 		if ((*command)->sem)
 			exe->fdin = dup(exe->tmpin);
 		*command = (*command)->next_command;
