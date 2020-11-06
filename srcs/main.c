@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   main.c                                             :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: maran <maran@student.42.fr>                  +#+                     */
+/*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/07 16:04:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/11/05 12:10:45 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/06 15:01:59 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void			lexer_parser_executer(char *line, t_env **envb)
 	lexer(&sort, line);
 	sort_copy = sort;
 	// tester(sort, NULL);
-	while (sort && pipe_status != 3 && g_own_exit != 3 && g_own_exit != 258)  //258 new test voor leak.
+	while (sort  && g_own_exit != 3 && g_own_exit != 258)  //258 new test voor leak.
 	{
 		pipe_status = parser(&sort, &command, pipe_status);
 		if (pipe_status == 3 || g_own_exit == 258)			//new
@@ -41,7 +41,10 @@ void			lexer_parser_executer(char *line, t_env **envb)
 	command_copy = command;
 	free_list_lexer(&sort_copy);
 	if (g_own_exit == 0)
+	{
+		printf("kom je in execute\n");
 		execute(&command, envb);
+	}
 	free_list_parser(&command_copy);
 }
 
