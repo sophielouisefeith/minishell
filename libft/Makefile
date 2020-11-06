@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: maran <maran@student.42.fr>                +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/10/28 13:34:09 by msiemons          #+#    #+#              #
-#    Updated: 2020/11/04 21:05:00 by maran            ###   ########.fr        #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: maran <maran@student.42.fr>                  +#+                      #
+#                                                    +#+                       #
+#    Created: 2019/10/28 13:34:09 by msiemons      #+#    #+#                  #
+#    Updated: 2020/11/06 16:34:04 by maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,10 +30,10 @@ OFILE = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OFILE)
-	ar rcs $@ $^
+	@ar rcs $@ $^
 
 %.o: %.c
-	gcc -I . -Wall -Wextra -Werror -c $< -o $@
+	@gcc -I . -Wall -Wextra -Werror -c $< -o $@
 
 clean:
 	$(RM) $(OFILE)
