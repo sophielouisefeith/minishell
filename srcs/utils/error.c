@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   error.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: msiemons <msiemons@student.codam.nl>         +#+                     */
+/*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/01 18:01:58 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/11/03 22:16:00 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/06 11:57:22 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int				error_redi_one(char c, int i, char *line)
 
 	flag = 1;
 	write(1, "bash: syntax error near unexpected token `", 42);
-	if (c == '<' || c == '>')
+	if (c == '<')
 		flag = check_input_redirection(i, line);
 	if (c == ';' && line[i + 1] == ';')
 		flag = 2;

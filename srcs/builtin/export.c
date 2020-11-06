@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   export.c                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: maran <maran@student.codam.nl>               +#+                     */
+/*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 14:20:02 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/03 22:03:08 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/06 11:39:59 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int				execute_export(t_env **envb, t_command **command)
 	}
 	if (ft_strrchr((*command)->array[0], '='))
 		equal = 1;
-	while ((*command)->array[y]) //aanpassing
+	while ((*command)->array[y])
 	{
 		array = ft_split2((*command)->array[y], '=');
 		ret = check_format(array[0]);

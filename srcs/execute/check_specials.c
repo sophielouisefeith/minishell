@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/01 17:40:26 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/05 16:31:04 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/06 10:33:42 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char		*treat_double_quote(char *str, int *i, t_env *envb, int *flag)
 	int			end;
 	char		*tmp;
 
-	printf("--treat double quote-\n");
+	// printf("--treat double quote-\n");
 	start = *i;
 	dollar = 0;
 	if (str[*i - 1] == '$')

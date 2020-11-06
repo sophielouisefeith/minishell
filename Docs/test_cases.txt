@@ -781,7 +781,7 @@ cat ctrl-D
 echo \"test\"
 echo"
 hoi
-"
+"					[Veel: Invalid reads]
 echo
 echo\
 
@@ -820,20 +820,23 @@ pwd
 cd notworking
 cd .
 cd .. ; pwd;/bin/ls;cd .. ;      pwd    ;/bin/ls;     cd notworking;     cd .
+
 +++ PWD +++
 pwd
 pwd .
 pwd ..
+
 +++ RELATIVE PATH +++
 cd ../Desktop
 
-+++ ENVIRONMENT PATH +++ HIEEEER
++++ ENVIRONMENT PATH +++
 ls -la
 echo > ilovewords.txt count me ; wc ilovewords.txt
 awk '{ print }' /etc/passwd
 unset PATH
 export PATH="test:working:multiplepath:directory1:directory2"
 export
+
 +++ SIMPLE QUOTES +++
 echo 'how are you'
 echo '$PWD'

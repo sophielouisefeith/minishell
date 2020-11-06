@@ -6,12 +6,13 @@
 /*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/08 16:37:30 by msiemons      #+#    #+#                 */
-/*   Updated: 2020/11/05 17:30:40 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/06 10:10:57 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "../libft.h"
+
 
 static char		*ft_cut(char *new_line, char **line, int *r)
 {
@@ -94,8 +95,6 @@ int				get_next_line(int fd, char **line)
 		new_line = ft_strdup("");
 	if (new_line == NULL)
 		return (-1);
-	// if (new_line[fd] == NULL)			//
-	// 	ret = ft_read_line(fd, new_line, ret); //
 	new_line = ft_read(fd, new_line, ret);
 	if (new_line == NULL)
 		return (-1);
