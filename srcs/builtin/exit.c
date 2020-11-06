@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exit_old.c                                         :+:    :+:            */
+/*   exit.c                                             :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: maran <maran@student.codam.nl>               +#+                     */
+/*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/30 13:54:44 by maran         #+#    #+#                 */
-/*   Updated: 2020/11/02 11:50:20 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/06 15:56:16 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void		exit_part1(t_command *command)
 	}
 }
 
-int        execute_exit(t_command *command)
+int				execute_exit(t_command *command)
 {
 	if (!command->array)
 	{

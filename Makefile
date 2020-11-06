@@ -6,7 +6,7 @@
 #    By: maran <maran@student.42.fr>                  +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/08/24 16:17:15 by sfeith        #+#    #+#                  #
-#    Updated: 2020/11/05 12:57:33 by maran         ########   odam.nl          #
+#    Updated: 2020/11/06 17:39:22 by maran         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,6 @@ SRC =  srcs/main.c\
 		srcs/utils/utils_general.c\
 		libft/get_next_line/get_next_line.c\
 		libft/get_next_line/get_next_line_utils.c\
-		Docs/tester.c\
 
 OBJ = $(SRC:.c=.o)
 
@@ -77,7 +76,7 @@ lib_ft:
 
 %.o: %.c
 	@echo $@
-	gcc -g $(CFLAGS) -I$(INCL) -c $< -o $@
+	@gcc $(CFLAGS) -I$(INCL) -c $< -o $@
 
 clean:
 	$(RM) $(OBJ)

@@ -6,7 +6,7 @@
 /*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/06 18:26:32 by Maran         #+#    #+#                 */
-/*   Updated: 2020/11/05 16:19:23 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/06 17:39:47 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
-
-# include <stdio.h>
 
 int		g_exit_status;
 int		g_own_exit;
@@ -196,7 +194,7 @@ void						check_specials(t_command **command,
 							t_env *envb);
 char						*delete_double_quotes(char *src,
 							int start, int end);
-char						*delete_escape_char(char **src, int n); //NEW
+char						*delete_escape_char(char **src, int n);
 char						*delete_quotes(char *src, char garbage);
 char						*check_backslash_and_dollar(char **str,
 							int *i, t_env *envb);
@@ -215,8 +213,5 @@ int							errno_error(char *str, t_command *command);
 void						set_exit_status(void);
 char						*not_part(char *str);
 int							error_redi_one(char c, int i, char *line);
-
-/*verwijderen*/
-void            tester(t_lexer *sort, t_command *command);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/24 14:13:18 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/11/06 17:46:03 by SophieLouis   ########   odam.nl         */
+/*   Updated: 2020/11/06 17:48:31 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,12 @@ static void		invoke_another_program(t_command **command, t_env **envb)
 		write(1, strerror(errno), ft_strlen(strerror(errno)));
 	if (pid == 0)
 	{
-		printf("0\n");
 		execve((*command)->array[0], (*command)->array, array);
 		errno_error((*command)->array[0], *command);
 		exit(g_exit_status);
 	}
 	if (pid != 0)
 	{
-		printf("1\n");
 		waitpid(pid, &status, 0);
 		if (WIFSIGNALED(status))
 			sighandler_execve(WTERMSIG(status));
@@ -57,7 +55,6 @@ void			builtin_another_program(t_command **command, t_env **envb)
 static void		determine_fdout(t_command **command, t_execute **exe,
 									t_env **envb, int i)
 {
-	printf("hal\n");
 	if (i == (*exe)->len_list - 1)
 		(*exe)->fdout = fill_fdout((*command)->output, (*exe)->tmpout);
 	else if ((*command)->sem && (*command)->output)
@@ -100,11 +97,9 @@ void			*execute(t_command **command, t_env **envb)
 	t_execute	*exe;
 	int			res;
 
-	printf("hal\n");
 	initialise_execute(*command, &exe);
 	while (exe->i < exe->len_list)
 	{
-		printf("hoi\n");
 		complete_path(command, *envb);
 		res = determine_fdin(*command, &exe);
 		if (res == 3)

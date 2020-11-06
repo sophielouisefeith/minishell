@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   get_path.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: maran <maran@student.42.fr>                  +#+                     */
+/*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-/*   Updated: 2020/11/05 14:24:29 by maran         ########   odam.nl         */
+/*   Updated: 2020/11/06 17:49:28 by SophieLouis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void			complete_path(t_command **command, t_env *envb)
 	char		*tmp;
 	char		*path;
 
-	// printf("--complete path--\n");
+	// f("--complete path--\n");
 	str_before = NULL;
 	if ((*command)->builtin == builtin_no && (*command)->array)
 	{
