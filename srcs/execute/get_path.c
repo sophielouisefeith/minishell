@@ -3,14 +3,10 @@
 /*                                                        ::::::::            */
 /*   get_path.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: SophieLouiseFeith <SophieLouiseFeith@st      +#+                     */
+/*   By: maran <maran@student.42.fr>                  +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/02 11:52:10 by sfeith        #+#    #+#                 */
-<<<<<<< HEAD
-/*   Updated: 2020/11/06 18:09:22 by maran         ########   odam.nl         */
-=======
-/*   Updated: 2020/11/06 17:49:28 by SophieLouis   ########   odam.nl         */
->>>>>>> 4446ef3a468b0f869ac66051a33877d20492ff3b
+/*   Updated: 2020/11/06 18:23:53 by maran         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
